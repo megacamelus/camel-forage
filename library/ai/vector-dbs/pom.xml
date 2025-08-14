@@ -10,7 +10,16 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>vector-dbs</artifactId>
+    <artifactId>vectordbs</artifactId>
+    <packaging>pom</packaging>
     <name>Camel Forage :: Library :: AI :: Vector Databases</name>
+
+    <modules>
+        <module>forage-vectordb-milvus</module>
+        <module>forage-vectordb-pgvector</module>
+        <module>forage-vectordb-pinecone</module>
+        <module>forage-vectordb-qdrant</module>
+        <module>forage-vectordb-weaviate</module>
+    </modules>
 
 </project>
