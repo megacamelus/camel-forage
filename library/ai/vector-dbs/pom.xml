@@ -15,6 +15,7 @@
     <name>Camel Forage :: Library :: AI :: Vector Databases</name>
 
     <modules>
+        <module>forage-vectordb-default</module>
         <module>forage-vectordb-milvus</module>
         <module>forage-vectordb-pgvector</module>
         <module>forage-vectordb-pinecone</module>

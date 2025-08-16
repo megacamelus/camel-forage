@@ -10,10 +10,14 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>forage-vectordb-weaviate</artifactId>
-    <name>Camel Forage :: Library :: AI :: Vector Databases :: Weaviate</name>
+    <artifactId>forage-vectordb-default</artifactId>
+    <name>Camel Forage :: Library :: AI :: Vector Databases :: Default</name>
 
     <dependencies>
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-langchain4j-embeddingstore</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.apache.camel.forage</groupId>
             <artifactId>forage-core-common</artifactId>
@@ -32,11 +36,6 @@
         <dependency>
             <groupId>dev.langchain4j</groupId>
             <artifactId>langchain4j</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>dev.langchain4j</groupId>
-            <artifactId>langchain4j-weaviate</artifactId>
-            <version>${langchain4j-beta-version}</version>
         </dependency>
     </dependencies>
 

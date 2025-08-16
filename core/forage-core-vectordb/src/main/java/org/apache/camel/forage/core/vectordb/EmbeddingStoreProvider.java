@@ -9,7 +9,7 @@ import dev.langchain4j.store.embedding.EmbeddingStore;
 public interface EmbeddingStoreProvider {
 
     /**
-     * Creates a new model instance
+     * Creates a new EmbeddingStore instance
      * @return the created model
      */
     EmbeddingStore<TextSegment> newEmbeddingStore();
