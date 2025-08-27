@@ -20,7 +20,7 @@
         <slf4j.version>2.0.17</slf4j.version>
         <log4j.version>2.21.1</log4j.version>
         <spotless.version>2.43.0</spotless.version>
-        <junit-jupiter.version>5.10.1</junit-jupiter.version>
+        <junit-jupiter.version>5.13.4</junit-jupiter.version>
         <assertj-core.version>3.24.2</assertj-core.version>
     </properties>
 
