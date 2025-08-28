@@ -17,6 +17,7 @@
     <modules>
         <module>forage-memory-message-window</module>
         <module>forage-memory-redis</module>
+        <module>forage-memory-tck</module>
     </modules>
 
 </project>
