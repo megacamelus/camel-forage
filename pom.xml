@@ -21,7 +21,7 @@
         <log4j.version>2.21.1</log4j.version>
         <spotless.version>2.43.0</spotless.version>
         <junit-jupiter.version>5.13.4</junit-jupiter.version>
-        <assertj-core.version>3.24.2</assertj-core.version>
+        <assertj-core.version>3.27.4</assertj-core.version>
     </properties>
 
     <dependencyManagement>
