@@ -3,16 +3,15 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <parent>
         <groupId>org.apache.camel.forage</groupId>
-        <artifactId>chat-memory</artifactId>
+        <artifactId>tests</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>forage-memory-tck</artifactId>
+    <artifactId>forage-memory-tests-tck</artifactId>
     <packaging>jar</packaging>
-    <name>Camel Forage :: Library :: AI :: Chat Memory :: TCK</name>
+    <name>Camel Forage :: Library :: AI :: Chat Memory :: Tests :: TCK</name>
     <description>Technology Compatibility Kit for testing chat memory implementations</description>
 
     <dependencies>

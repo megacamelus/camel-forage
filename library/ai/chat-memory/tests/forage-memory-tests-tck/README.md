@@ -30,7 +30,7 @@ Add the TCK as a test dependency in your memory implementation module:
 ```xml
 <dependency>
     <groupId>org.apache.camel.forage</groupId>
-    <artifactId>forage-memory-tck</artifactId>
+    <artifactId>forage-memory-tests-tck</artifactId>
     <version>${project.version}</version>
     <scope>test</scope>
 </dependency>
@@ -69,16 +69,16 @@ Tests the `RedisMemoryFactory` implementation using Redis with testcontainers. T
 
 To run all memory implementation tests:
 ```bash
-mvn test -pl library/ai/chat-memory/forage-memory-tck
+mvn test -pl library/ai/chat-memory/tests/forage-memory-tests-tck
 ```
 
 To run specific implementation tests:
 ```bash
 # Test MessageWindow implementation only
-mvn test -pl library/ai/chat-memory/forage-memory-tck -Dtest=MessageWindowChatMemoryTCKTest
+mvn test -pl library/ai/chat-memory/tests/forage-memory-tests-tck -Dtest=MessageWindowChatMemoryTCKTest
 
 # Test Redis implementation only  
-mvn test -pl library/ai/chat-memory/forage-memory-tck -Dtest=RedisMemoryTCKTest
+mvn test -pl library/ai/chat-memory/tests/forage-memory-tests-tck -Dtest=RedisMemoryTCKTest
 ```
 
 ## Test Coverage
