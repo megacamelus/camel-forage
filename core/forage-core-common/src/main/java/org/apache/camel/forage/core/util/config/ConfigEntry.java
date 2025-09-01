@@ -85,6 +85,16 @@ public class ConfigEntry {
         return new ConfigEntry(envName, envName.replace("_", ".").toLowerCase());
     }
 
+    public static ConfigEntry fromModule(ConfigModule module, String envName) {
+        Objects.requireNonNull(module, "module");
+
+        if (envName == null || envName.isEmpty()) {
+            envName = envName.replace(".", "_").toUpperCase();
+        }
+
+        return new ConfigEntry(envName, module.name());
+    }
+
     /**
      * Creates a ConfigEntry from a system property name.
      *
