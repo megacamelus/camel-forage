@@ -28,19 +28,25 @@ public class WeaviateConfig implements Config {
             ConfigModule.of(WeaviateConfig.class, "metadata-field-name");
 
     public WeaviateConfig() {
-        ConfigStore.getInstance().add(API_KEY, ConfigEntry.fromEnv("WEAVIATE_API_KEY"));
-        ConfigStore.getInstance().add(SCHEME, ConfigEntry.fromEnv("WEAVIATE_SCHEME"));
-        ConfigStore.getInstance().add(HOST, ConfigEntry.fromEnv("WEAVIATE_HOST"));
-        ConfigStore.getInstance().add(PORT, ConfigEntry.fromEnv("WEAVIATE_PORT"));
-        ConfigStore.getInstance().add(USE_GRPC_FOR_INSERTS, ConfigEntry.fromEnv("WEAVIATE_USE_GRPC_FOR_INSERTS"));
-        ConfigStore.getInstance().add(SECURED_GRPC, ConfigEntry.fromEnv("WEAVIATE_SECURED_GRPC"));
-        ConfigStore.getInstance().add(GRPC_PORT, ConfigEntry.fromEnv("WEAVIATE_GRPC_PORT"));
-        ConfigStore.getInstance().add(OBJECT_CLASS, ConfigEntry.fromEnv("WEAVIATE_OBJECT_CLASS"));
-        ConfigStore.getInstance().add(AVOID_DUPS, ConfigEntry.fromEnv("WEAVIATE_AVOID_DUPS"));
-        ConfigStore.getInstance().add(CONSISTENCY_LEVEL, ConfigEntry.fromEnv("WEAVIATE_CONSISTENCY_LEVEL"));
-        ConfigStore.getInstance().add(METADATA_KEYS, ConfigEntry.fromEnv("WEAVIATE_METADATA_KEYS"));
-        ConfigStore.getInstance().add(TEXT_FIELD_NAME, ConfigEntry.fromEnv("WEAVIATE_TEXT_FIELD_NAME"));
-        ConfigStore.getInstance().add(METADATA_FIELD_NAME, ConfigEntry.fromEnv("WEAVIATE_METADATA_FIELD_NAME"));
+        ConfigStore.getInstance().add(API_KEY, ConfigEntry.fromModule(API_KEY, "WEAVIATE_API_KEY"));
+        ConfigStore.getInstance().add(SCHEME, ConfigEntry.fromModule(SCHEME, "WEAVIATE_SCHEME"));
+        ConfigStore.getInstance().add(HOST, ConfigEntry.fromModule(HOST, "WEAVIATE_HOST"));
+        ConfigStore.getInstance().add(PORT, ConfigEntry.fromModule(PORT, "WEAVIATE_PORT"));
+        ConfigStore.getInstance()
+                .add(
+                        USE_GRPC_FOR_INSERTS,
+                        ConfigEntry.fromModule(USE_GRPC_FOR_INSERTS, "WEAVIATE_USE_GRPC_FOR_INSERTS"));
+        ConfigStore.getInstance().add(SECURED_GRPC, ConfigEntry.fromModule(SECURED_GRPC, "WEAVIATE_SECURED_GRPC"));
+        ConfigStore.getInstance().add(GRPC_PORT, ConfigEntry.fromModule(GRPC_PORT, "WEAVIATE_GRPC_PORT"));
+        ConfigStore.getInstance().add(OBJECT_CLASS, ConfigEntry.fromModule(OBJECT_CLASS, "WEAVIATE_OBJECT_CLASS"));
+        ConfigStore.getInstance().add(AVOID_DUPS, ConfigEntry.fromModule(AVOID_DUPS, "WEAVIATE_AVOID_DUPS"));
+        ConfigStore.getInstance()
+                .add(CONSISTENCY_LEVEL, ConfigEntry.fromModule(CONSISTENCY_LEVEL, "WEAVIATE_CONSISTENCY_LEVEL"));
+        ConfigStore.getInstance().add(METADATA_KEYS, ConfigEntry.fromModule(METADATA_KEYS, "WEAVIATE_METADATA_KEYS"));
+        ConfigStore.getInstance()
+                .add(TEXT_FIELD_NAME, ConfigEntry.fromModule(TEXT_FIELD_NAME, "WEAVIATE_TEXT_FIELD_NAME"));
+        ConfigStore.getInstance()
+                .add(METADATA_FIELD_NAME, ConfigEntry.fromModule(METADATA_FIELD_NAME, "WEAVIATE_METADATA_FIELD_NAME"));
         ConfigStore.getInstance().add(WeaviateConfig.class, this, this::register);
     }
 

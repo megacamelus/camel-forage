@@ -25,18 +25,23 @@ public class PgVectorConfig implements Config {
             ConfigModule.of(PgVectorConfig.class, "metadata-storage-config");
 
     public PgVectorConfig() {
-        ConfigStore.getInstance().add(HOST, ConfigEntry.fromEnv("PGVECTOR_HOST"));
-        ConfigStore.getInstance().add(PORT, ConfigEntry.fromEnv("PGVECTOR_PORT"));
-        ConfigStore.getInstance().add(USER, ConfigEntry.fromEnv("PGVECTOR_USER"));
-        ConfigStore.getInstance().add(PASSWORD, ConfigEntry.fromEnv("PGVECTOR_PASSWORD"));
-        ConfigStore.getInstance().add(DATABASE, ConfigEntry.fromEnv("PGVECTOR_DATABASE"));
-        ConfigStore.getInstance().add(TABLE, ConfigEntry.fromEnv("PGVECTOR_TABLE"));
-        ConfigStore.getInstance().add(DIMENSION, ConfigEntry.fromEnv("PGVECTOR_DIMENSION"));
-        ConfigStore.getInstance().add(USE_INDEX, ConfigEntry.fromEnv("PGVECTOR_USE_INDEX"));
-        ConfigStore.getInstance().add(INDEX_LIST_SIZE, ConfigEntry.fromEnv("PGVECTOR_INDEX_LIST_SIZE"));
-        ConfigStore.getInstance().add(CREATE_TABLE, ConfigEntry.fromEnv("PGVECTOR_CREATE_TABLE"));
-        ConfigStore.getInstance().add(DROP_TABLE_FIRST, ConfigEntry.fromEnv("PGVECTOR_DROP_TABLE_FIRST"));
-        ConfigStore.getInstance().add(METADATA_STORAGE_CONFIG, ConfigEntry.fromEnv("PGVECTOR_METADATA_STORAGE_CONFIG"));
+        ConfigStore.getInstance().add(HOST, ConfigEntry.fromModule(HOST, "PGVECTOR_HOST"));
+        ConfigStore.getInstance().add(PORT, ConfigEntry.fromModule(PORT, "PGVECTOR_PORT"));
+        ConfigStore.getInstance().add(USER, ConfigEntry.fromModule(USER, "PGVECTOR_USER"));
+        ConfigStore.getInstance().add(PASSWORD, ConfigEntry.fromModule(PASSWORD, "PGVECTOR_PASSWORD"));
+        ConfigStore.getInstance().add(DATABASE, ConfigEntry.fromModule(DATABASE, "PGVECTOR_DATABASE"));
+        ConfigStore.getInstance().add(TABLE, ConfigEntry.fromModule(TABLE, "PGVECTOR_TABLE"));
+        ConfigStore.getInstance().add(DIMENSION, ConfigEntry.fromModule(DIMENSION, "PGVECTOR_DIMENSION"));
+        ConfigStore.getInstance().add(USE_INDEX, ConfigEntry.fromModule(USE_INDEX, "PGVECTOR_USE_INDEX"));
+        ConfigStore.getInstance()
+                .add(INDEX_LIST_SIZE, ConfigEntry.fromModule(INDEX_LIST_SIZE, "PGVECTOR_INDEX_LIST_SIZE"));
+        ConfigStore.getInstance().add(CREATE_TABLE, ConfigEntry.fromModule(CREATE_TABLE, "PGVECTOR_CREATE_TABLE"));
+        ConfigStore.getInstance()
+                .add(DROP_TABLE_FIRST, ConfigEntry.fromModule(DROP_TABLE_FIRST, "PGVECTOR_DROP_TABLE_FIRST"));
+        ConfigStore.getInstance()
+                .add(
+                        METADATA_STORAGE_CONFIG,
+                        ConfigEntry.fromModule(METADATA_STORAGE_CONFIG, "PGVECTOR_METADATA_STORAGE_CONFIG"));
         ConfigStore.getInstance().add(PgVectorConfig.class, this, this::register);
     }
 

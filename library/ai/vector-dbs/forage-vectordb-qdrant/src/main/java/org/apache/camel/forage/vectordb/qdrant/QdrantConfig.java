@@ -16,12 +16,14 @@ public class QdrantConfig implements Config {
     private static final ConfigModule API_KEY = ConfigModule.of(QdrantConfig.class, "api-key");
 
     public QdrantConfig() {
-        ConfigStore.getInstance().add(COLLECTION_NAME, ConfigEntry.fromEnv("QDRANT_COLLECTION_NAME"));
-        ConfigStore.getInstance().add(HOST, ConfigEntry.fromEnv("QDRANT_HOST"));
-        ConfigStore.getInstance().add(PORT, ConfigEntry.fromEnv("QDRANT_PORT"));
-        ConfigStore.getInstance().add(USE_TLS, ConfigEntry.fromEnv("QDRANT_USE_TLS"));
-        ConfigStore.getInstance().add(PAYLOAD_TEXT_KEY, ConfigEntry.fromEnv("QDRANT_PAYLOAD_TEXT_KEY"));
-        ConfigStore.getInstance().add(API_KEY, ConfigEntry.fromEnv("QDRANT_API_KEY"));
+        ConfigStore.getInstance()
+                .add(COLLECTION_NAME, ConfigEntry.fromModule(COLLECTION_NAME, "QDRANT_COLLECTION_NAME"));
+        ConfigStore.getInstance().add(HOST, ConfigEntry.fromModule(HOST, "QDRANT_HOST"));
+        ConfigStore.getInstance().add(PORT, ConfigEntry.fromModule(PORT, "QDRANT_PORT"));
+        ConfigStore.getInstance().add(USE_TLS, ConfigEntry.fromModule(USE_TLS, "QDRANT_USE_TLS"));
+        ConfigStore.getInstance()
+                .add(PAYLOAD_TEXT_KEY, ConfigEntry.fromModule(PAYLOAD_TEXT_KEY, "QDRANT_PAYLOAD_TEXT_KEY"));
+        ConfigStore.getInstance().add(API_KEY, ConfigEntry.fromModule(API_KEY, "QDRANT_API_KEY"));
         ConfigStore.getInstance().add(QdrantConfig.class, this, this::register);
     }
 

@@ -73,8 +73,8 @@ public class GoogleConfig implements Config {
      * when the getter methods are called, not during construction.
      */
     public GoogleConfig() {
-        ConfigStore.getInstance().add(API_KEY, ConfigEntry.fromEnv("GOOGLE_API_KEY"));
-        ConfigStore.getInstance().add(MODEL_NAME, ConfigEntry.fromEnv("GOOGLE_MODEL_NAME"));
+        ConfigStore.getInstance().add(API_KEY, ConfigEntry.fromModule(API_KEY, "GOOGLE_API_KEY"));
+        ConfigStore.getInstance().add(MODEL_NAME, ConfigEntry.fromModule(MODEL_NAME, "GOOGLE_MODEL_NAME"));
         ConfigStore.getInstance().add(GoogleConfig.class, this, this::register);
     }
 

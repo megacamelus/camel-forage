@@ -101,16 +101,18 @@ public class OpenAIConfig implements Config {
      * or configuration files (only for model name).
      */
     public OpenAIConfig() {
-        ConfigStore.getInstance().add(API_KEY, ConfigEntry.fromEnv("OPENAI_API_KEY"));
-        ConfigStore.getInstance().add(MODEL_NAME, ConfigEntry.fromEnv("OPENAI_MODEL_NAME"));
-        ConfigStore.getInstance().add(BASE_URL, ConfigEntry.fromEnv("OPENAI_BASE_URL"));
-        ConfigStore.getInstance().add(TEMPERATURE, ConfigEntry.fromEnv("OPENAI_TEMPERATURE"));
-        ConfigStore.getInstance().add(MAX_TOKENS, ConfigEntry.fromEnv("OPENAI_MAX_TOKENS"));
-        ConfigStore.getInstance().add(TOP_P, ConfigEntry.fromEnv("OPENAI_TOP_P"));
-        ConfigStore.getInstance().add(FREQUENCY_PENALTY, ConfigEntry.fromEnv("OPENAI_FREQUENCY_PENALTY"));
-        ConfigStore.getInstance().add(PRESENCE_PENALTY, ConfigEntry.fromEnv("OPENAI_PRESENCE_PENALTY"));
-        ConfigStore.getInstance().add(LOG_REQUESTS, ConfigEntry.fromEnv("OPENAI_LOG_REQUESTS"));
-        ConfigStore.getInstance().add(LOG_RESPONSES, ConfigEntry.fromEnv("OPENAI_LOG_RESPONSES"));
+        ConfigStore.getInstance().add(API_KEY, ConfigEntry.fromModule(API_KEY, "OPENAI_API_KEY"));
+        ConfigStore.getInstance().add(MODEL_NAME, ConfigEntry.fromModule(MODEL_NAME, "OPENAI_MODEL_NAME"));
+        ConfigStore.getInstance().add(BASE_URL, ConfigEntry.fromModule(BASE_URL, "OPENAI_BASE_URL"));
+        ConfigStore.getInstance().add(TEMPERATURE, ConfigEntry.fromModule(TEMPERATURE, "OPENAI_TEMPERATURE"));
+        ConfigStore.getInstance().add(MAX_TOKENS, ConfigEntry.fromModule(MAX_TOKENS, "OPENAI_MAX_TOKENS"));
+        ConfigStore.getInstance().add(TOP_P, ConfigEntry.fromModule(TOP_P, "OPENAI_TOP_P"));
+        ConfigStore.getInstance()
+                .add(FREQUENCY_PENALTY, ConfigEntry.fromModule(FREQUENCY_PENALTY, "OPENAI_FREQUENCY_PENALTY"));
+        ConfigStore.getInstance()
+                .add(PRESENCE_PENALTY, ConfigEntry.fromModule(PRESENCE_PENALTY, "OPENAI_PRESENCE_PENALTY"));
+        ConfigStore.getInstance().add(LOG_REQUESTS, ConfigEntry.fromModule(LOG_REQUESTS, "OPENAI_LOG_REQUESTS"));
+        ConfigStore.getInstance().add(LOG_RESPONSES, ConfigEntry.fromModule(LOG_RESPONSES, "OPENAI_LOG_RESPONSES"));
         ConfigStore.getInstance().add(OpenAIConfig.class, this, this::register);
     }
 

@@ -105,20 +105,24 @@ public class RedisConfig implements Config {
      * configuration loader to process property files if they exist.
      */
     public RedisConfig() {
-        ConfigStore.getInstance().add(HOST, ConfigEntry.fromEnv("REDIS_HOST"));
-        ConfigStore.getInstance().add(PORT, ConfigEntry.fromEnv("REDIS_PORT"));
-        ConfigStore.getInstance().add(PASSWORD, ConfigEntry.fromEnv("REDIS_PASSWORD"));
-        ConfigStore.getInstance().add(DATABASE, ConfigEntry.fromEnv("REDIS_DATABASE"));
-        ConfigStore.getInstance().add(TIMEOUT, ConfigEntry.fromEnv("REDIS_TIMEOUT"));
+        ConfigStore.getInstance().add(HOST, ConfigEntry.fromModule(HOST, "REDIS_HOST"));
+        ConfigStore.getInstance().add(PORT, ConfigEntry.fromModule(PORT, "REDIS_PORT"));
+        ConfigStore.getInstance().add(PASSWORD, ConfigEntry.fromModule(PASSWORD, "REDIS_PASSWORD"));
+        ConfigStore.getInstance().add(DATABASE, ConfigEntry.fromModule(DATABASE, "REDIS_DATABASE"));
+        ConfigStore.getInstance().add(TIMEOUT, ConfigEntry.fromModule(TIMEOUT, "REDIS_TIMEOUT"));
 
         // Pool configuration
-        ConfigStore.getInstance().add(POOL_MAX_TOTAL, ConfigEntry.fromEnv("REDIS_POOL_MAX_TOTAL"));
-        ConfigStore.getInstance().add(POOL_MAX_IDLE, ConfigEntry.fromEnv("REDIS_POOL_MAX_IDLE"));
-        ConfigStore.getInstance().add(POOL_MIN_IDLE, ConfigEntry.fromEnv("REDIS_POOL_MIN_IDLE"));
-        ConfigStore.getInstance().add(POOL_TEST_ON_BORROW, ConfigEntry.fromEnv("REDIS_POOL_TEST_ON_BORROW"));
-        ConfigStore.getInstance().add(POOL_TEST_ON_RETURN, ConfigEntry.fromEnv("REDIS_POOL_TEST_ON_RETURN"));
-        ConfigStore.getInstance().add(POOL_TEST_WHILE_IDLE, ConfigEntry.fromEnv("REDIS_POOL_TEST_WHILE_IDLE"));
-        ConfigStore.getInstance().add(POOL_MAX_WAIT_MILLIS, ConfigEntry.fromEnv("REDIS_POOL_MAX_WAIT_MILLIS"));
+        ConfigStore.getInstance().add(POOL_MAX_TOTAL, ConfigEntry.fromModule(POOL_MAX_TOTAL, "REDIS_POOL_MAX_TOTAL"));
+        ConfigStore.getInstance().add(POOL_MAX_IDLE, ConfigEntry.fromModule(POOL_MAX_IDLE, "REDIS_POOL_MAX_IDLE"));
+        ConfigStore.getInstance().add(POOL_MIN_IDLE, ConfigEntry.fromModule(POOL_MIN_IDLE, "REDIS_POOL_MIN_IDLE"));
+        ConfigStore.getInstance()
+                .add(POOL_TEST_ON_BORROW, ConfigEntry.fromModule(POOL_TEST_ON_BORROW, "REDIS_POOL_TEST_ON_BORROW"));
+        ConfigStore.getInstance()
+                .add(POOL_TEST_ON_RETURN, ConfigEntry.fromModule(POOL_TEST_ON_RETURN, "REDIS_POOL_TEST_ON_RETURN"));
+        ConfigStore.getInstance()
+                .add(POOL_TEST_WHILE_IDLE, ConfigEntry.fromModule(POOL_TEST_WHILE_IDLE, "REDIS_POOL_TEST_WHILE_IDLE"));
+        ConfigStore.getInstance()
+                .add(POOL_MAX_WAIT_MILLIS, ConfigEntry.fromModule(POOL_MAX_WAIT_MILLIS, "REDIS_POOL_MAX_WAIT_MILLIS"));
 
         ConfigStore.getInstance().add(RedisConfig.class, this, this::register);
     }

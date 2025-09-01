@@ -101,15 +101,15 @@ public class OllamaConfig implements Config {
      * or configuration files.
      */
     public OllamaConfig() {
-        ConfigStore.getInstance().add(BASE_URL, ConfigEntry.fromEnv("OLLAMA_BASE_URL"));
-        ConfigStore.getInstance().add(MODEL_NAME, ConfigEntry.fromEnv("OLLAMA_MODEL_NAME"));
-        ConfigStore.getInstance().add(TEMPERATURE, ConfigEntry.fromEnv("OLLAMA_TEMPERATURE"));
-        ConfigStore.getInstance().add(TOP_K, ConfigEntry.fromEnv("OLLAMA_TOP_K"));
-        ConfigStore.getInstance().add(TOP_P, ConfigEntry.fromEnv("OLLAMA_TOP_P"));
-        ConfigStore.getInstance().add(MIN_P, ConfigEntry.fromEnv("OLLAMA_MIN_P"));
-        ConfigStore.getInstance().add(NUM_CTX, ConfigEntry.fromEnv("OLLAMA_NUM_CTX"));
-        ConfigStore.getInstance().add(LOG_REQUESTS, ConfigEntry.fromEnv("OLLAMA_LOG_REQUESTS"));
-        ConfigStore.getInstance().add(LOG_RESPONSES, ConfigEntry.fromEnv("OLLAMA_LOG_RESPONSES"));
+        ConfigStore.getInstance().add(BASE_URL, ConfigEntry.fromModule(BASE_URL, "OLLAMA_BASE_URL"));
+        ConfigStore.getInstance().add(MODEL_NAME, ConfigEntry.fromModule(MODEL_NAME, "OLLAMA_MODEL_NAME"));
+        ConfigStore.getInstance().add(TEMPERATURE, ConfigEntry.fromModule(TEMPERATURE, "OLLAMA_TEMPERATURE"));
+        ConfigStore.getInstance().add(TOP_K, ConfigEntry.fromModule(TOP_K, "OLLAMA_TOP_K"));
+        ConfigStore.getInstance().add(TOP_P, ConfigEntry.fromModule(TOP_P, "OLLAMA_TOP_P"));
+        ConfigStore.getInstance().add(MIN_P, ConfigEntry.fromModule(MIN_P, "OLLAMA_MIN_P"));
+        ConfigStore.getInstance().add(NUM_CTX, ConfigEntry.fromModule(NUM_CTX, "OLLAMA_NUM_CTX"));
+        ConfigStore.getInstance().add(LOG_REQUESTS, ConfigEntry.fromModule(LOG_REQUESTS, "OLLAMA_LOG_REQUESTS"));
+        ConfigStore.getInstance().add(LOG_RESPONSES, ConfigEntry.fromModule(LOG_RESPONSES, "OLLAMA_LOG_RESPONSES"));
         ConfigStore.getInstance().add(OllamaConfig.class, this, this::register);
     }
 

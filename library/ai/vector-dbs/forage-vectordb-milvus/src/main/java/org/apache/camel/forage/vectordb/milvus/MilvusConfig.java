@@ -34,24 +34,33 @@ public class MilvusConfig implements Config {
     private static final ConfigModule VECTOR_FIELD_NAME = ConfigModule.of(MilvusConfig.class, "vector-field-name");
 
     public MilvusConfig() {
-        ConfigStore.getInstance().add(HOST, ConfigEntry.fromEnv("MILVUS_HOST"));
-        ConfigStore.getInstance().add(PORT, ConfigEntry.fromEnv("MILVUS_PORT"));
-        ConfigStore.getInstance().add(COLLECTION_NAME, ConfigEntry.fromEnv("MILVUS_COLLECTION_NAME"));
-        ConfigStore.getInstance().add(DIMENSION, ConfigEntry.fromEnv("MILVUS_DIMENSION"));
-        ConfigStore.getInstance().add(INDEX_TYPE, ConfigEntry.fromEnv("MILVUS_INDEX_TYPE"));
-        ConfigStore.getInstance().add(METRIC_TYPE, ConfigEntry.fromEnv("MILVUS_METRIC_TYPE"));
-        ConfigStore.getInstance().add(URI, ConfigEntry.fromEnv("MILVUS_URI"));
-        ConfigStore.getInstance().add(TOKEN, ConfigEntry.fromEnv("MILVUS_TOKEN"));
-        ConfigStore.getInstance().add(USERNAME, ConfigEntry.fromEnv("MILVUS_USERNAME"));
-        ConfigStore.getInstance().add(PASSWORD, ConfigEntry.fromEnv("MILVUS_PASSWORD"));
-        ConfigStore.getInstance().add(CONSISTENCY_LEVEL, ConfigEntry.fromEnv("MILVUS_CONSISTENCY_LEVEL"));
+        ConfigStore.getInstance().add(HOST, ConfigEntry.fromModule(HOST, "MILVUS_HOST"));
+        ConfigStore.getInstance().add(PORT, ConfigEntry.fromModule(PORT, "MILVUS_PORT"));
         ConfigStore.getInstance()
-                .add(RETRIEVE_EMBEDDINGS_ON_SEARCH, ConfigEntry.fromEnv("MILVUS_RETRIEVE_EMBEDDINGS_ON_SEARCH"));
-        ConfigStore.getInstance().add(AUTO_FLUSH_ON_INSERT, ConfigEntry.fromEnv("MILVUS_AUTO_FLUSH_ON_INSERT"));
-        ConfigStore.getInstance().add(VECTOR_FIELD_NAME, ConfigEntry.fromEnv("MILVUS_ID_FIELD_NAME"));
-        ConfigStore.getInstance().add(VECTOR_FIELD_NAME, ConfigEntry.fromEnv("MILVUS_TEXT_FIELD_NAME"));
-        ConfigStore.getInstance().add(VECTOR_FIELD_NAME, ConfigEntry.fromEnv("MILVUS_METADATA_FIELD_NAME"));
-        ConfigStore.getInstance().add(VECTOR_FIELD_NAME, ConfigEntry.fromEnv("MILVUS_VECTOR_FIELD_NAME"));
+                .add(COLLECTION_NAME, ConfigEntry.fromModule(COLLECTION_NAME, "MILVUS_COLLECTION_NAME"));
+        ConfigStore.getInstance().add(DIMENSION, ConfigEntry.fromModule(DIMENSION, "MILVUS_DIMENSION"));
+        ConfigStore.getInstance().add(INDEX_TYPE, ConfigEntry.fromModule(INDEX_TYPE, "MILVUS_INDEX_TYPE"));
+        ConfigStore.getInstance().add(METRIC_TYPE, ConfigEntry.fromModule(METRIC_TYPE, "MILVUS_METRIC_TYPE"));
+        ConfigStore.getInstance().add(URI, ConfigEntry.fromModule(URI, "MILVUS_URI"));
+        ConfigStore.getInstance().add(TOKEN, ConfigEntry.fromModule(TOKEN, "MILVUS_TOKEN"));
+        ConfigStore.getInstance().add(USERNAME, ConfigEntry.fromModule(USERNAME, "MILVUS_USERNAME"));
+        ConfigStore.getInstance().add(PASSWORD, ConfigEntry.fromModule(PASSWORD, "MILVUS_PASSWORD"));
+        ConfigStore.getInstance()
+                .add(CONSISTENCY_LEVEL, ConfigEntry.fromModule(CONSISTENCY_LEVEL, "MILVUS_CONSISTENCY_LEVEL"));
+        ConfigStore.getInstance()
+                .add(
+                        RETRIEVE_EMBEDDINGS_ON_SEARCH,
+                        ConfigEntry.fromModule(RETRIEVE_EMBEDDINGS_ON_SEARCH, "MILVUS_RETRIEVE_EMBEDDINGS_ON_SEARCH"));
+        ConfigStore.getInstance()
+                .add(AUTO_FLUSH_ON_INSERT, ConfigEntry.fromModule(AUTO_FLUSH_ON_INSERT, "MILVUS_AUTO_FLUSH_ON_INSERT"));
+        ConfigStore.getInstance().add(DATABASE_NAME, ConfigEntry.fromModule(DATABASE_NAME, "MILVUS_DATABASE_NAME"));
+        ConfigStore.getInstance().add(ID_FIELD_NAME, ConfigEntry.fromModule(ID_FIELD_NAME, "MILVUS_ID_FIELD_NAME"));
+        ConfigStore.getInstance()
+                .add(TEXT_FIELD_NAME, ConfigEntry.fromModule(TEXT_FIELD_NAME, "MILVUS_TEXT_FIELD_NAME"));
+        ConfigStore.getInstance()
+                .add(METADATA_FIELD_NAME, ConfigEntry.fromModule(METADATA_FIELD_NAME, "MILVUS_METADATA_FIELD_NAME"));
+        ConfigStore.getInstance()
+                .add(VECTOR_FIELD_NAME, ConfigEntry.fromModule(VECTOR_FIELD_NAME, "MILVUS_VECTOR_FIELD_NAME"));
         ConfigStore.getInstance().add(MilvusConfig.class, this, this::register);
     }
 

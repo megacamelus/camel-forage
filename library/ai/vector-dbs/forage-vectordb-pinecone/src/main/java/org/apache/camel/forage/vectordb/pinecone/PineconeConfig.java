@@ -23,17 +23,19 @@ public class PineconeConfig implements Config {
             ConfigModule.of(PineconeConfig.class, "deletion-protection");
 
     public PineconeConfig() {
-        ConfigStore.getInstance().add(API_KEY, ConfigEntry.fromEnv("PINECONE_API_KEY"));
-        ConfigStore.getInstance().add(INDEX, ConfigEntry.fromEnv("PINECONE_INDEX"));
-        ConfigStore.getInstance().add(NAME_SPACE, ConfigEntry.fromEnv("PINECONE_NAME_SPACE"));
-        ConfigStore.getInstance().add(METADATA_TEXT_KEY, ConfigEntry.fromEnv("PINECONE_METADATA_TEXT_KEY"));
-        ConfigStore.getInstance().add(CREATE_INDEX, ConfigEntry.fromEnv("PINECONE_CREATE_INDEX"));
-        ConfigStore.getInstance().add(ENVIRONMENT, ConfigEntry.fromEnv("PINECONE_ENVIRONMENT"));
-        ConfigStore.getInstance().add(PROJECT_ID, ConfigEntry.fromEnv("PINECONE_PROJECT_ID"));
-        ConfigStore.getInstance().add(DIMENSION, ConfigEntry.fromEnv("PINECONE_DIMENSION"));
-        ConfigStore.getInstance().add(CLOUD, ConfigEntry.fromEnv("PINECONE_CLOUD"));
-        ConfigStore.getInstance().add(REGION, ConfigEntry.fromEnv("PINECONE_REGION"));
-        ConfigStore.getInstance().add(DELETION_PROTECTION, ConfigEntry.fromEnv("PINECONE_DELETION_PROTECTION"));
+        ConfigStore.getInstance().add(API_KEY, ConfigEntry.fromModule(API_KEY, "PINECONE_API_KEY"));
+        ConfigStore.getInstance().add(INDEX, ConfigEntry.fromModule(INDEX, "PINECONE_INDEX"));
+        ConfigStore.getInstance().add(NAME_SPACE, ConfigEntry.fromModule(NAME_SPACE, "PINECONE_NAME_SPACE"));
+        ConfigStore.getInstance()
+                .add(METADATA_TEXT_KEY, ConfigEntry.fromModule(METADATA_TEXT_KEY, "PINECONE_METADATA_TEXT_KEY"));
+        ConfigStore.getInstance().add(CREATE_INDEX, ConfigEntry.fromModule(CREATE_INDEX, "PINECONE_CREATE_INDEX"));
+        ConfigStore.getInstance().add(ENVIRONMENT, ConfigEntry.fromModule(ENVIRONMENT, "PINECONE_ENVIRONMENT"));
+        ConfigStore.getInstance().add(PROJECT_ID, ConfigEntry.fromModule(PROJECT_ID, "PINECONE_PROJECT_ID"));
+        ConfigStore.getInstance().add(DIMENSION, ConfigEntry.fromModule(DIMENSION, "PINECONE_DIMENSION"));
+        ConfigStore.getInstance().add(CLOUD, ConfigEntry.fromModule(CLOUD, "PINECONE_CLOUD"));
+        ConfigStore.getInstance().add(REGION, ConfigEntry.fromModule(REGION, "PINECONE_REGION"));
+        ConfigStore.getInstance()
+                .add(DELETION_PROTECTION, ConfigEntry.fromModule(DELETION_PROTECTION, "PINECONE_DELETION_PROTECTION"));
         ConfigStore.getInstance().add(PineconeConfig.class, this, this::register);
     }
 
