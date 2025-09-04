@@ -28,6 +28,53 @@ import org.apache.camel.forage.core.util.config.ConfigModule;
 import org.apache.camel.forage.core.util.config.ConfigStore;
 import org.apache.camel.forage.core.util.config.MissingConfigException;
 
+/**
+ * Configuration class for Milvus vector database connections within the Camel Forage framework.
+ * 
+ * <p>This configuration class manages all settings required to connect to and operate with Milvus,
+ * an open-source vector database built for scalable similarity search and AI applications.</p>
+ * 
+ * <p>Configuration properties are loaded from multiple sources in order of precedence:</p>
+ * <ol>
+ *   <li>Environment variables (highest precedence)</li>
+ *   <li>System properties</li>
+ *   <li>Configuration files (forage-vectordb-milvus.properties)</li>
+ *   <li>Default values (lowest precedence)</li>
+ * </ol>
+ * 
+ * <p>The configuration supports ID-scoped properties using the pattern {@code milvus.<id>.<property>}
+ * which allows multiple Milvus configurations within the same application.</p>
+ * 
+ * <p>Example configuration properties:</p>
+ * <pre>
+ * # Connection settings
+ * milvus.host=localhost
+ * milvus.port=19530
+ * milvus.uri=http://localhost:19530
+ * 
+ * # Authentication (choose one method)
+ * milvus.token=your-api-token
+ * # OR
+ * milvus.username=user
+ * milvus.password=pass
+ * 
+ * # Collection settings
+ * milvus.collection.name=my_vectors
+ * milvus.dimension=1536
+ * milvus.index.type=IVF_FLAT
+ * milvus.metric.type=COSINE
+ * 
+ * # Performance settings
+ * milvus.consistency.level=EVENTUALLY
+ * milvus.auto.flush.on.insert=false
+ * milvus.retrieve.embeddings.on.search=false
+ * </pre>
+ * 
+ * @see MilvusProvider
+ * @see MilvusConfigEntries
+ * 
+ * @since 1.0
+ */
 public class MilvusConfig implements Config {
 
     private final String prefix;
