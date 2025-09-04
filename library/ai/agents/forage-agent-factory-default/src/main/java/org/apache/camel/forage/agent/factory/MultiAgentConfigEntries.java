@@ -10,11 +10,11 @@ import org.apache.camel.forage.core.util.config.ConfigModule;
 
 /**
  * Configuration entries definition for multi-agent orchestration configurations.
- * 
+ *
  * <p>This class defines all configuration modules and entries used by {@link MultiAgentConfig}
  * to manage multi-agent scenarios and agent ID extraction strategies. It provides the
  * configuration infrastructure for sophisticated multi-agent routing and coordination.
- * 
+ *
  * <p>These configuration entries enable flexible agent routing strategies, supporting extraction
  * of agent identifiers from various exchange sources (route ID, headers, properties, variables).
  * Each configuration entry supports both default and named/prefixed configurations for

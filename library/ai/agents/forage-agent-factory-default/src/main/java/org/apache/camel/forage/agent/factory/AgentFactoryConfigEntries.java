@@ -10,7 +10,7 @@ import org.apache.camel.forage.core.util.config.ConfigModule;
 
 /**
  * Configuration entries definition for individual agent factory configurations.
- * 
+ *
  * <p>This class defines all configuration modules and entries used by {@link AgentFactoryConfig}
  * to manage individual agent settings. It provides the configuration infrastructure for
  * single-agent scenarios and individual agent instances within multi-agent setups.

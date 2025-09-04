@@ -2,7 +2,7 @@ package org.apache.camel.forage.core.exceptions;
 
 /**
  * Base exception class for all Camel Forage framework-specific errors.
- * 
+ *
  * <p>This exception serves as the root of the Camel Forage exception hierarchy,
  * providing a common base for all framework-related exceptions. It extends
  * {@code Exception} to represent checked exceptions that must be handled

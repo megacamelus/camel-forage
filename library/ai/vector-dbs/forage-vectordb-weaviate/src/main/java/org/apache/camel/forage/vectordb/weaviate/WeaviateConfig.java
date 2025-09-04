@@ -50,9 +50,7 @@ public class WeaviateConfig implements Config {
     }
 
     public String apiKey() {
-        return ConfigStore.getInstance()
-                .get(API_KEY.asNamed(prefix))
-                .orElseThrow(() -> new MissingConfigException("Missing Weaviate API key"));
+        return ConfigStore.getInstance().get(API_KEY).orElse(null);
     }
 
     public String scheme() {
@@ -105,13 +103,11 @@ public class WeaviateConfig implements Config {
         return ConfigStore.getInstance()
                 .get(AVOID_DUPS.asNamed(prefix))
                 .map(Boolean::parseBoolean)
-                .orElseThrow(() -> new MissingConfigException("Missing Weaviate avoid dups"));
+                .orElse(true);
     }
 
     public String consistencyLevel() {
-        return ConfigStore.getInstance()
-                .get(CONSISTENCY_LEVEL.asNamed(prefix))
-                .orElseThrow(() -> new MissingConfigException("Missing Weaviate consistency level"));
+        return ConfigStore.getInstance().get(CONSISTENCY_LEVEL).orElse("ALL");
     }
 
     public Collection<String> metadataKeys() {

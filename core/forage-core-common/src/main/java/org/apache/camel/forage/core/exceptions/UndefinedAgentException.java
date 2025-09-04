@@ -2,7 +2,7 @@ package org.apache.camel.forage.core.exceptions;
 
 /**
  * Exception thrown when no suitable agent can be found for handling a request.
- * 
+ *
  * <p>This exception is raised when the agent discovery mechanism cannot locate
  * an appropriate agent implementation based on the provided criteria (route ID,
  * header value, property value, or variable value). It includes factory methods

@@ -14,6 +14,42 @@
     <packaging>pom</packaging>
     <name>Camel Forage :: Library :: AI :: Vector Databases</name>
 
+    <properties>
+        <skipITs>true</skipITs>
+    </properties>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <configuration>
+                        <excludes>
+                            <exclude>**/*IntegrationTest.java</exclude>
+                        </excludes>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>integration-tests</id>
+                            <phase>integration-test</phase>
+                            <goals>
+                                <goal>test</goal>
+                            </goals>
+                            <configuration>
+                                <skip>${skipITs}</skip>
+                                <includes>
+                                    <include>**/*IntegrationTest.java</include>
+                                </includes>
+                                <excludes combine.self="override"/>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
     <modules>
         <module>forage-vectordb-default</module>
         <module>forage-vectordb-milvus</module>

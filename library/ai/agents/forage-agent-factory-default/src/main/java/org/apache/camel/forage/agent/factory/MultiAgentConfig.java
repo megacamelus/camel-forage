@@ -15,11 +15,11 @@ import org.apache.camel.forage.core.util.config.ConfigStore;
 
 /**
  * Configuration class for multi-agent orchestration within the Camel Forage framework.
- * 
+ *
  * <p>This class manages configuration settings for multi-agent scenarios, including agent
  * discovery, naming, and agent ID extraction strategies. It provides the foundation for
  * sophisticated multi-agent routing and coordination.
- * 
+ *
  * <p>This configuration is used by the MultiAgentFactory for dynamic agent selection and routing
  * based on various extraction strategies, enabling flexible multi-agent architectures.
  */

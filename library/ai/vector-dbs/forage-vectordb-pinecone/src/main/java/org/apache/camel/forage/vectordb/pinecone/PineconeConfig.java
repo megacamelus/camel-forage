@@ -4,11 +4,9 @@ import static org.apache.camel.forage.vectordb.pinecone.PineconeConfigEntries.AP
 import static org.apache.camel.forage.vectordb.pinecone.PineconeConfigEntries.CLOUD;
 import static org.apache.camel.forage.vectordb.pinecone.PineconeConfigEntries.DELETION_PROTECTION;
 import static org.apache.camel.forage.vectordb.pinecone.PineconeConfigEntries.DIMENSION;
-import static org.apache.camel.forage.vectordb.pinecone.PineconeConfigEntries.ENVIRONMENT;
 import static org.apache.camel.forage.vectordb.pinecone.PineconeConfigEntries.INDEX;
 import static org.apache.camel.forage.vectordb.pinecone.PineconeConfigEntries.METADATA_TEXT_KEY;
 import static org.apache.camel.forage.vectordb.pinecone.PineconeConfigEntries.NAME_SPACE;
-import static org.apache.camel.forage.vectordb.pinecone.PineconeConfigEntries.PROJECT_ID;
 import static org.apache.camel.forage.vectordb.pinecone.PineconeConfigEntries.REGION;
 
 import java.util.Optional;
@@ -47,7 +45,7 @@ public class PineconeConfig implements Config {
     public String apiKey() {
         return ConfigStore.getInstance()
                 .get(API_KEY.asNamed(prefix))
-                .orElseThrow(() -> new MissingConfigException("Missing Google API key"));
+                .orElseThrow(() -> new MissingConfigException("Missing Pinecone API key"));
     }
 
     public String index() {
@@ -62,18 +60,6 @@ public class PineconeConfig implements Config {
 
     public String metadataTextKey() {
         return ConfigStore.getInstance().get(METADATA_TEXT_KEY.asNamed(prefix)).orElse("text_segment");
-    }
-
-    public String environment() {
-        return ConfigStore.getInstance()
-                .get(ENVIRONMENT.asNamed(prefix))
-                .orElseThrow(() -> new MissingConfigException("Missing Pinecone environment"));
-    }
-
-    public String projectId() {
-        return ConfigStore.getInstance()
-                .get(PROJECT_ID.asNamed(prefix))
-                .orElseThrow(() -> new MissingConfigException("Missing Pinecone project ID"));
     }
 
     public Integer dimension() {

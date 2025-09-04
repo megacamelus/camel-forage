@@ -1,0 +1,27 @@
+# Weaviate Vector Database Configuration
+# This file demonstrates file-based configuration for Weaviate integration tests
+# 
+# IMPORTANT: Property names should NOT include the "weaviate." prefix
+# The WeaviateConfig class expects simple property names like "host", not "weaviate.host"
+
+# Authentication
+api-key=test_api_key
+
+# Connection settings
+scheme=http
+host=localhost
+port=8080
+
+# gRPC configuration
+use-grpc-for-inserts=false
+secured-grpc=false
+grpc-port=50051
+
+# Object configuration
+object-class=TestVectors
+avoid-dups=true
+consistency-level=ONE
+
+# Field configuration
+text-field-name=text
+metadata-field-name=_metadata

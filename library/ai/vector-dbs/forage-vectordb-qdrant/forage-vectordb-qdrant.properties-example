@@ -1,0 +1,19 @@
+# Qdrant Vector Database Configuration
+# This file demonstrates file-based configuration for Qdrant integration tests
+# 
+# IMPORTANT: Property names should NOT include the "qdrant." prefix
+# The QdrantConfig class expects simple property names like "host", not "qdrant.host"
+
+# Connection settings
+host=localhost
+port=6334
+use-tls=false
+
+# Collection configuration
+collection-name=test_collection_from_file
+
+# API configuration
+api-key=test_api_key
+
+# Payload configuration
+payload-text-key=text_segment

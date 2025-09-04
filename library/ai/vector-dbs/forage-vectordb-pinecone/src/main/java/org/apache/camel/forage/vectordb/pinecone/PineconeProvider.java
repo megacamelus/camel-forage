@@ -23,8 +23,6 @@ public class PineconeProvider implements EmbeddingStoreProvider {
                 .nameSpace(config.nameSpace())
                 .createIndex(null)
                 .metadataTextKey(config.metadataTextKey())
-                .environment(config.environment())
-                .projectId(config.projectId())
                 .build();
     }
 }
