@@ -32,7 +32,7 @@ public class PgVectorFileConfigTest {
 
     private static void copyPropertiesFile() {
         try {
-            Path sourceFile = Paths.get("forage-vectordb-pgvector.properties-example");
+            Path sourceFile = Paths.get("forage-vectordb-pgvector.properties");
             Path targetDir = Paths.get("src/test/resources");
             Path targetFile = targetDir.resolve("forage-vectordb-pgvector.properties");
 
@@ -48,7 +48,20 @@ public class PgVectorFileConfigTest {
     public static void teardownPgVectorFileConfiguration() {
         LOG.info("Cleaning up PgVector file-based configuration");
         clearPgVectorSystemProperties();
+        removePropertiesFile();
         LOG.info("PgVector file-based configuration cleanup complete");
+    }
+
+    private static void removePropertiesFile() {
+        try {
+            Path targetFile = Paths.get("src/test/resources/forage-vectordb-pgvector.properties");
+            if (Files.exists(targetFile)) {
+                Files.delete(targetFile);
+                LOG.info("Removed properties file: {}", targetFile);
+            }
+        } catch (IOException e) {
+            LOG.warn("Failed to remove properties file: {}", e.getMessage());
+        }
     }
 
     private static void clearPgVectorSystemProperties() {

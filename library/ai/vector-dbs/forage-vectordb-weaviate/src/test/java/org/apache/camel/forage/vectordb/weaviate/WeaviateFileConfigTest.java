@@ -32,7 +32,7 @@ public class WeaviateFileConfigTest {
 
     private static void copyPropertiesFile() {
         try {
-            Path sourceFile = Paths.get("forage-vectordb-weaviate.properties-example");
+            Path sourceFile = Paths.get("forage-vectordb-weaviate.properties");
             Path targetDir = Paths.get("src/test/resources");
             Path targetFile = targetDir.resolve("forage-vectordb-weaviate.properties");
 
@@ -48,7 +48,20 @@ public class WeaviateFileConfigTest {
     public static void teardownWeaviateFileConfiguration() {
         LOG.info("Cleaning up Weaviate file-based configuration");
         clearWeaviateSystemProperties();
+        removePropertiesFile();
         LOG.info("Weaviate file-based configuration cleanup complete");
+    }
+
+    private static void removePropertiesFile() {
+        try {
+            Path targetFile = Paths.get("src/test/resources/forage-vectordb-weaviate.properties");
+            if (Files.exists(targetFile)) {
+                Files.delete(targetFile);
+                LOG.info("Removed properties file: {}", targetFile);
+            }
+        } catch (IOException e) {
+            LOG.warn("Failed to remove properties file: {}", e.getMessage());
+        }
     }
 
     private static void clearWeaviateSystemProperties() {

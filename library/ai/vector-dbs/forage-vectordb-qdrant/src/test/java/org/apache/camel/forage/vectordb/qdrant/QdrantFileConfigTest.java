@@ -32,7 +32,7 @@ public class QdrantFileConfigTest {
 
     private static void copyPropertiesFile() {
         try {
-            Path sourceFile = Paths.get("forage-vectordb-qdrant.properties-example");
+            Path sourceFile = Paths.get("forage-vectordb-qdrant.properties");
             Path targetDir = Paths.get("src/test/resources");
             Path targetFile = targetDir.resolve("forage-vectordb-qdrant.properties");
 
@@ -48,7 +48,20 @@ public class QdrantFileConfigTest {
     public static void teardownQdrantFileConfiguration() {
         LOG.info("Cleaning up Qdrant file-based configuration");
         clearQdrantSystemProperties();
+        removePropertiesFile();
         LOG.info("Qdrant file-based configuration cleanup complete");
+    }
+
+    private static void removePropertiesFile() {
+        try {
+            Path targetFile = Paths.get("src/test/resources/forage-vectordb-qdrant.properties");
+            if (Files.exists(targetFile)) {
+                Files.delete(targetFile);
+                LOG.info("Removed properties file: {}", targetFile);
+            }
+        } catch (IOException e) {
+            LOG.warn("Failed to remove properties file: {}", e.getMessage());
+        }
     }
 
     private static void clearQdrantSystemProperties() {

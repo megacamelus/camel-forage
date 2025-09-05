@@ -35,7 +35,7 @@ public class PineconeFileConfigTest {
 
     private static void copyPropertiesFile() {
         try {
-            Path sourceFile = Paths.get("forage-vectordb-pinecone.properties-example");
+            Path sourceFile = Paths.get("forage-vectordb-pinecone.properties");
             Path targetDir = Paths.get("src/test/resources");
             Path targetFile = targetDir.resolve("forage-vectordb-pinecone.properties");
 
@@ -51,7 +51,20 @@ public class PineconeFileConfigTest {
     public static void teardownPineconeFileConfiguration() {
         LOG.info("Cleaning up Pinecone file-based configuration");
         clearPineconeSystemProperties();
+        removePropertiesFile();
         LOG.info("Pinecone file-based configuration cleanup complete");
+    }
+
+    private static void removePropertiesFile() {
+        try {
+            Path targetFile = Paths.get("src/test/resources/forage-vectordb-pinecone.properties");
+            if (Files.exists(targetFile)) {
+                Files.delete(targetFile);
+                LOG.info("Removed properties file: {}", targetFile);
+            }
+        } catch (IOException e) {
+            LOG.warn("Failed to remove properties file: {}", e.getMessage());
+        }
     }
 
     private static void clearPineconeSystemProperties() {

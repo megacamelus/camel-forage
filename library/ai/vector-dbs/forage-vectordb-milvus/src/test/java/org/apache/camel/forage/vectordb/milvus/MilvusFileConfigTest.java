@@ -32,7 +32,7 @@ public class MilvusFileConfigTest {
 
     private static void copyPropertiesFile() {
         try {
-            Path sourceFile = Paths.get("forage-vectordb-milvus.properties-example");
+            Path sourceFile = Paths.get("forage-vectordb-milvus.properties");
             Path targetDir = Paths.get("src/test/resources");
             Path targetFile = targetDir.resolve("forage-vectordb-milvus.properties");
 
@@ -48,7 +48,20 @@ public class MilvusFileConfigTest {
     public static void teardownMilvusFileConfiguration() {
         LOG.info("Cleaning up Milvus file-based configuration");
         clearMilvusSystemProperties();
+        removePropertiesFile();
         LOG.info("Milvus file-based configuration cleanup complete");
+    }
+
+    private static void removePropertiesFile() {
+        try {
+            Path targetFile = Paths.get("src/test/resources/forage-vectordb-milvus.properties");
+            if (Files.exists(targetFile)) {
+                Files.delete(targetFile);
+                LOG.info("Removed properties file: {}", targetFile);
+            }
+        } catch (IOException e) {
+            LOG.warn("Failed to remove properties file: {}", e.getMessage());
+        }
     }
 
     private static void clearMilvusSystemProperties() {

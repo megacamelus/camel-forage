@@ -52,6 +52,8 @@
 
     <modules>
         <module>forage-vectordb-default</module>
+        <module>forage-vectordb-chroma</module>
+        <module>forage-vectordb-infinispan</module>
         <module>forage-vectordb-milvus</module>
         <module>forage-vectordb-pgvector</module>
         <module>forage-vectordb-pinecone</module>
