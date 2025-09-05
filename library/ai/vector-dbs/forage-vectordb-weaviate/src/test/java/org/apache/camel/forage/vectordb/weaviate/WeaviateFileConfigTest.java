@@ -1,5 +1,7 @@
 package org.apache.camel.forage.vectordb.weaviate;
 
+import static org.assertj.core.api.Fail.fail;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -22,6 +24,8 @@ import org.slf4j.LoggerFactory;
 public class WeaviateFileConfigTest {
     private static final Logger LOG = LoggerFactory.getLogger(WeaviateFileConfigTest.class);
 
+    private static final String PROPERTIES_FILE = "forage-vectordb-weaviate.properties";
+
     @BeforeAll
     public static void setupWeaviateFileConfiguration() {
         LOG.info("Setting up Weaviate file-based configuration test");
@@ -32,15 +36,15 @@ public class WeaviateFileConfigTest {
 
     private static void copyPropertiesFile() {
         try {
-            Path sourceFile = Paths.get("forage-vectordb-weaviate.properties");
+            Path sourceFile = Paths.get(PROPERTIES_FILE);
             Path targetDir = Paths.get("src/test/resources");
-            Path targetFile = targetDir.resolve("forage-vectordb-weaviate.properties");
+            Path targetFile = targetDir.resolve(PROPERTIES_FILE);
 
             Files.createDirectories(targetDir);
             Files.copy(sourceFile, targetFile, StandardCopyOption.REPLACE_EXISTING);
             LOG.info("Copied {} to {}", sourceFile, targetFile);
         } catch (IOException e) {
-            LOG.warn("Failed to copy properties file: {}", e.getMessage());
+            fail("Failed to copy properties file: {}", e.getMessage());
         }
     }
 
@@ -54,13 +58,13 @@ public class WeaviateFileConfigTest {
 
     private static void removePropertiesFile() {
         try {
-            Path targetFile = Paths.get("src/test/resources/forage-vectordb-weaviate.properties");
+            Path targetFile = Paths.get("src/test/resources/" + PROPERTIES_FILE);
             if (Files.exists(targetFile)) {
                 Files.delete(targetFile);
                 LOG.info("Removed properties file: {}", targetFile);
             }
         } catch (IOException e) {
-            LOG.warn("Failed to remove properties file: {}", e.getMessage());
+            fail("Failed to remove properties file: {}", e.getMessage());
         }
     }
 

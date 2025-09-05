@@ -1,5 +1,7 @@
 package org.apache.camel.forage.vectordb.infinispan;
 
+import static org.assertj.core.api.Fail.fail;
+
 import dev.langchain4j.data.document.Metadata;
 import dev.langchain4j.data.embedding.Embedding;
 import dev.langchain4j.data.segment.TextSegment;
@@ -115,10 +117,7 @@ public class InfinispanIntegrationTest {
             LOG.info("Created test embeddings and segments for validation");
 
         } catch (Exception e) {
-            e.printStackTrace();
-            LOG.warn("Infinispan basic operations test failed (expected for some configurations): {}", e.getMessage());
-            // This is expected as full Infinispan integration requires complex setup
-            // The test primarily validates that configuration and provider creation work
+            fail("Infinispan basic operations test failed (expected for some configurations): {}", e.getMessage());
         }
     }
 }

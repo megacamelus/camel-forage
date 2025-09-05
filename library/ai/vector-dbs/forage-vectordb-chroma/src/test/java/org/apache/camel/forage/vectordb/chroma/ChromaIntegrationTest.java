@@ -1,5 +1,7 @@
 package org.apache.camel.forage.vectordb.chroma;
 
+import static org.assertj.core.api.Fail.fail;
+
 import dev.langchain4j.data.document.Metadata;
 import dev.langchain4j.data.embedding.Embedding;
 import dev.langchain4j.data.segment.TextSegment;
@@ -120,7 +122,7 @@ public class ChromaIntegrationTest {
                 LOG.info("Match: {} with score: {}", match.embedded().text(), match.score());
             }
         } catch (Exception e) {
-            LOG.warn("Chroma basic operations test failed (expected for some configurations): {}", e.getMessage());
+            fail("Chroma basic operations test failed (expected for some configurations): {}", e.getMessage());
         }
     }
 }

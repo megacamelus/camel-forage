@@ -1,5 +1,7 @@
 package org.apache.camel.forage.vectordb.qdrant;
 
+import static org.assertj.core.api.Fail.fail;
+
 import dev.langchain4j.data.document.Metadata;
 import dev.langchain4j.data.embedding.Embedding;
 import dev.langchain4j.data.segment.TextSegment;
@@ -136,7 +138,7 @@ public class QdrantIntegrationTest {
                 LOG.info("Match: {} with score: {}", match.embedded().text(), match.score());
             }
         } catch (Exception e) {
-            LOG.warn("Qdrant basic operations test failed (expected for some configurations): {}", e.getMessage());
+            fail("Qdrant basic operations test failed (expected for some configurations): {}", e.getMessage());
         }
     }
 }
