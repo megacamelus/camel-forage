@@ -7,13 +7,13 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Provider for creating pgvector embedding stores within the Camel Forage framework.
- * 
+ *
  * <p>pgvector is a PostgreSQL extension that provides vector similarity search capabilities.
  * It allows storing and querying high-dimensional vectors directly in PostgreSQL, leveraging
- * the database's ACID properties, mature ecosystem, and existing infrastructure. This provider 
+ * the database's ACID properties, mature ecosystem, and existing infrastructure. This provider
  * creates configured {@link PgVectorEmbeddingStore} instances for PostgreSQL-based vector operations.</p>
- * 
- * <p>The provider automatically configures the PostgreSQL connection using properties from the 
+ *
+ * <p>The provider automatically configures the PostgreSQL connection using properties from the
  * {@link PgVectorConfig} which supports multiple configuration sources:</p>
  * <ul>
  *   <li>Environment variables (e.g., PGVECTOR_HOST, PGVECTOR_PORT, PGVECTOR_DATABASE)</li>
@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory;
  *   <li>Configuration files (forage-vectordb-pgvector.properties)</li>
  *   <li>Default values where applicable</li>
  * </ul>
- * 
+ *
  * <p>Key configuration options include:</p>
  * <ul>
  *   <li><strong>Connection:</strong> host, port, database, user, password</li>
@@ -29,7 +29,7 @@ import org.slf4j.LoggerFactory;
  *   <li><strong>Performance:</strong> index usage, index list size for IVFFlat</li>
  *   <li><strong>Management:</strong> table creation/dropping, metadata storage configuration</li>
  * </ul>
- * 
+ *
  * <p>The provider automatically handles PostgreSQL-specific vector operations including:</p>
  * <ul>
  *   <li>Vector index creation (IVFFlat) for improved search performance</li>
@@ -37,14 +37,14 @@ import org.slf4j.LoggerFactory;
  *   <li>Metadata storage in JSON columns</li>
  *   <li>Distance calculations using PostgreSQL's vector operators</li>
  * </ul>
- * 
+ *
  * <p>This provider is automatically discovered via Java's ServiceLoader mechanism and can be used
  * with Apache Camel's LangChain4j components for AI-powered routes.</p>
- * 
+ *
  * @see PgVectorConfig
  * @see PgVectorEmbeddingStore
  * @see EmbeddingStoreProvider
- * 
+ *
  * @since 1.0
  */
 public class PgVectorProvider implements EmbeddingStoreProvider {
@@ -52,13 +52,13 @@ public class PgVectorProvider implements EmbeddingStoreProvider {
 
     /**
      * Creates a new {@link PgVectorEmbeddingStore} instance configured for the specified ID.
-     * 
+     *
      * <p>The ID parameter allows for multiple PostgreSQL/pgvector configurations within the same application.
      * Configuration properties can be scoped by ID using the pattern: {@code pgvector.<id>.<property>}</p>
-     * 
+     *
      * <p>The provider will automatically create the necessary table schema and indexes if configured
      * to do so via the {@code createTable} and {@code useIndex} properties.</p>
-     * 
+     *
      * @param id the configuration identifier for this embedding store instance
      * @return a fully configured {@link PgVectorEmbeddingStore} ready for use
      * @throws RuntimeException if required configuration is missing or database connection fails

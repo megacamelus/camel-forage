@@ -1,4 +1,4 @@
-package org.apache.camel.forage.vectordb.qdrant;
+package org.apache.camel.forage.vectordb.chroma;
 
 import static org.assertj.core.api.Fail.fail;
 
@@ -14,24 +14,24 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Unit test for Qdrant vector database using file-based configuration.
+ * Unit test for Chroma vector database using file-based configuration.
  *
  * <p>This test demonstrates how the Camel Forage framework can load configuration
  * from properties files instead of system properties or environment variables.
- * The configuration is loaded from the 'forage-vectordb-qdrant.properties' file
+ * The configuration is loaded from the 'forage-vectordb-chroma.properties' file
  * on the classpath.
  */
-public class QdrantFileConfigTest {
-    private static final Logger LOG = LoggerFactory.getLogger(QdrantFileConfigTest.class);
+public class ChromaFileConfigTest {
+    private static final Logger LOG = LoggerFactory.getLogger(ChromaFileConfigTest.class);
 
-    private static final String PROPERTIES_FILE = "forage-vectordb-qdrant.properties";
+    private static final String PROPERTIES_FILE = "forage-vectordb-chroma.properties";
 
     @BeforeAll
-    public static void setupQdrantFileConfiguration() {
-        LOG.info("Setting up Qdrant file-based configuration test");
-        clearQdrantSystemProperties();
+    public static void setupChromaFileConfiguration() {
+        LOG.info("Setting up Chroma file-based configuration test");
+        clearChromaSystemProperties();
         copyPropertiesFile();
-        LOG.info("Qdrant file-based configuration setup complete");
+        LOG.info("Chroma file-based configuration setup complete");
     }
 
     private static void copyPropertiesFile() {
@@ -49,11 +49,11 @@ public class QdrantFileConfigTest {
     }
 
     @AfterAll
-    public static void teardownQdrantFileConfiguration() {
-        LOG.info("Cleaning up Qdrant file-based configuration");
-        clearQdrantSystemProperties();
+    public static void teardownChromaFileConfiguration() {
+        LOG.info("Cleaning up Chroma file-based configuration");
+        clearChromaSystemProperties();
         removePropertiesFile();
-        LOG.info("Qdrant file-based configuration cleanup complete");
+        LOG.info("Chroma file-based configuration cleanup complete");
     }
 
     private static void removePropertiesFile() {
@@ -68,29 +68,27 @@ public class QdrantFileConfigTest {
         }
     }
 
-    private static void clearQdrantSystemProperties() {
-        // Clear all possible qdrant system properties based on QdrantConfig
-        System.clearProperty("qdrant.collection.name");
-        System.clearProperty("qdrant.host");
-        System.clearProperty("qdrant.port");
-        System.clearProperty("qdrant.use.tls");
-        System.clearProperty("qdrant.payload.text.key");
-        System.clearProperty("qdrant.api.key");
+    private static void clearChromaSystemProperties() {
+        // Clear all possible chroma system properties based on ChromaConfig
+        System.clearProperty("chroma.url");
+        System.clearProperty("chroma.collection.name");
+        System.clearProperty("chroma.timeout");
+        System.clearProperty("chroma.log.requests");
+        System.clearProperty("chroma.log.responses");
 
-        // Also clear the simple property names (without qdrant prefix)
+        // Also clear the simple property names (without chroma prefix)
+        System.clearProperty("url");
         System.clearProperty("collection.name");
-        System.clearProperty("host");
-        System.clearProperty("port");
-        System.clearProperty("use.tls");
-        System.clearProperty("payload.text.key");
-        System.clearProperty("api.key");
+        System.clearProperty("timeout");
+        System.clearProperty("log.requests");
+        System.clearProperty("log.responses");
     }
 
     @Test
-    public void shouldCreateQdrantProviderInstance() {
-        LOG.info("Testing Qdrant provider instantiation");
-        QdrantProvider provider = new QdrantProvider();
+    public void shouldCreateChromaProviderInstance() {
+        LOG.info("Testing Chroma provider instantiation");
+        ChromaProvider provider = new ChromaProvider();
         org.assertj.core.api.Assertions.assertThat(provider).isNotNull();
-        LOG.info("Successfully created Qdrant provider");
+        LOG.info("Successfully created Chroma provider");
     }
 }

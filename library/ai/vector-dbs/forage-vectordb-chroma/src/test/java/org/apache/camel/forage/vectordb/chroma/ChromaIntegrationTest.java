@@ -1,4 +1,4 @@
-package org.apache.camel.forage.vectordb.qdrant;
+package org.apache.camel.forage.vectordb.chroma;
 
 import static org.assertj.core.api.Fail.fail;
 
@@ -9,9 +9,6 @@ import dev.langchain4j.store.embedding.EmbeddingMatch;
 import dev.langchain4j.store.embedding.EmbeddingSearchRequest;
 import dev.langchain4j.store.embedding.EmbeddingSearchResult;
 import dev.langchain4j.store.embedding.EmbeddingStore;
-import io.qdrant.client.QdrantClient;
-import io.qdrant.client.QdrantGrpcClient;
-import io.qdrant.client.grpc.Collections;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -21,26 +18,24 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.testcontainers.chromadb.ChromaDBContainer;
 import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
-import org.testcontainers.qdrant.QdrantContainer;
 
 @Testcontainers
-public class QdrantIntegrationTest {
-    private static final Logger LOG = LoggerFactory.getLogger(QdrantIntegrationTest.class);
+public class ChromaIntegrationTest {
+    private static final Logger LOG = LoggerFactory.getLogger(ChromaIntegrationTest.class);
 
-    private static final Collections.Distance distance = Collections.Distance.Cosine;
-    private static final int dimension = 4;
     private static final String collectionName = "test_collection";
-    private static final String PROPERTIES_FILE_NAME = "forage-vectordb-qdrant.properties";
+    private static final String PROPERTIES_FILE_NAME = "forage-vectordb-chroma.properties";
 
     @Container
-    public static QdrantContainer qdrantContainer =
-            new QdrantContainer("qdrant/qdrant:latest").waitingFor(Wait.forListeningPort());
+    public static ChromaDBContainer chromaContainer =
+            new ChromaDBContainer("chromadb/chroma:0.5.4").waitingFor(Wait.forListeningPort());
 
     @BeforeAll
-    public static void setupQdrantConfiguration() throws Exception {
+    public static void setupChromaConfiguration() throws Exception {
         LOG.info("Clear any existing {} properties file ...", PROPERTIES_FILE_NAME);
         Path sourceFile = Paths.get(PROPERTIES_FILE_NAME);
         Path targetFile = Paths.get("src/test/resources", PROPERTIES_FILE_NAME);
@@ -51,56 +46,45 @@ public class QdrantIntegrationTest {
         }
 
         // Clear any existing system properties first
-        System.clearProperty("qdrant.host");
-        System.clearProperty("qdrant.port");
-        System.clearProperty("qdrant.collection.name");
-        System.clearProperty("qdrant.use.tls");
+        System.clearProperty("chroma.url");
+        System.clearProperty("chroma.collection.name");
+        System.clearProperty("chroma.timeout");
+        System.clearProperty("chroma.log.requests");
+        System.clearProperty("chroma.log.responses");
 
-        LOG.info("Setting up Qdrant configuration with container: {}", qdrantContainer.getDockerImageName());
+        LOG.info("Setting up Chroma configuration with container: {}", chromaContainer.getDockerImageName());
 
-        String host = qdrantContainer.getHost();
+        String endpoint = chromaContainer.getEndpoint();
 
-        Integer grpcPort = qdrantContainer.getGrpcPort();
+        LOG.info("Chroma container configured - Endpoint: {}", endpoint);
 
-        LOG.info("Qdrant container configured - Host: {}, GRPC Port: {}", host, grpcPort);
+        System.setProperty("chroma.url", endpoint);
+        System.setProperty("chroma.collection.name", collectionName);
+        System.setProperty("chroma.timeout", "30");
+        System.setProperty("chroma.log.requests", "true");
+        System.setProperty("chroma.log.responses", "true");
 
-        System.setProperty("qdrant.host", host);
-        System.setProperty("qdrant.port", Integer.toString(grpcPort));
-        System.setProperty("qdrant.collection.name", collectionName);
-        System.setProperty("qdrant.use.tls", "false");
-
-        // Create the collection
-        QdrantClient client = new QdrantClient(
-                QdrantGrpcClient.newBuilder(host, grpcPort, false).build());
-
-        client.createCollectionAsync(
-                        collectionName,
-                        Collections.VectorParams.newBuilder()
-                                .setDistance(distance)
-                                .setSize(4)
-                                .build())
-                .get();
-
-        LOG.info("Qdrant collection created {}", collectionName);
+        LOG.info("Chroma configuration completed for collection: {}", collectionName);
     }
 
     @AfterAll
-    public static void teardownQdrantConfiguration() {
-        LOG.info("Cleaning up Qdrant system properties");
+    public static void teardownChromaConfiguration() {
+        LOG.info("Cleaning up Chroma system properties");
 
-        System.clearProperty("qdrant.host");
-        System.clearProperty("qdrant.port");
-        System.clearProperty("qdrant.collection.name");
-        System.clearProperty("qdrant.use.tls");
+        System.clearProperty("chroma.url");
+        System.clearProperty("chroma.collection.name");
+        System.clearProperty("chroma.timeout");
+        System.clearProperty("chroma.log.requests");
+        System.clearProperty("chroma.log.responses");
 
-        LOG.info("Qdrant system properties cleared");
+        LOG.info("Chroma system properties cleared");
     }
 
     @Test
-    public void shouldPerformBasicQdrantOperations() {
-        LOG.info("Testing basic Qdrant operations");
+    public void shouldPerformBasicChromaOperations() {
+        LOG.info("Testing basic Chroma operations");
 
-        QdrantProvider provider = new QdrantProvider();
+        ChromaProvider provider = new ChromaProvider();
         EmbeddingStore<TextSegment> embeddingStore = provider.create();
 
         try {
@@ -138,7 +122,7 @@ public class QdrantIntegrationTest {
                 LOG.info("Match: {} with score: {}", match.embedded().text(), match.score());
             }
         } catch (Exception e) {
-            fail("Qdrant basic operations test failed (expected for some configurations): {}", e.getMessage());
+            fail("Chroma basic operations test failed (expected for some configurations): {}", e.getMessage());
         }
     }
 }

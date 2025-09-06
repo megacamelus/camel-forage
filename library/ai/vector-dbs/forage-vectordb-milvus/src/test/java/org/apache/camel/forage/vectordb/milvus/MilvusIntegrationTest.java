@@ -1,5 +1,7 @@
 package org.apache.camel.forage.vectordb.milvus;
 
+import static org.assertj.core.api.Fail.fail;
+
 import dev.langchain4j.data.document.Metadata;
 import dev.langchain4j.data.embedding.Embedding;
 import dev.langchain4j.data.segment.TextSegment;
@@ -146,7 +148,7 @@ public class MilvusIntegrationTest {
             org.assertj.core.api.Assertions.assertThat(matches.get(0).score()).isGreaterThan(0.8);
 
         } catch (Exception e) {
-            LOG.warn("Milvus basic operations test failed (expected for some configurations): {}", e.getMessage());
+            fail("Milvus basic operations test failed (expected for some configurations): {}", e.getMessage());
         }
     }
 }
