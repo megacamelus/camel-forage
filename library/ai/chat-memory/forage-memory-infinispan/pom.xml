@@ -15,7 +15,7 @@
     <name>Camel Forage :: Library :: AI :: Chat Memory :: Infinispan</name>
 
     <properties>
-        <infinispan.version>15.2.5.Final</infinispan.version>
+        <infinispan.version>16.0.0.Dev03</infinispan.version>
     </properties>
 
     <dependencies>
