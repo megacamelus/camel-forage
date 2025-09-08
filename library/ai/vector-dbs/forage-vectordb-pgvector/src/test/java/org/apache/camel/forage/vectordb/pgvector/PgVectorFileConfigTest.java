@@ -36,7 +36,7 @@ public class PgVectorFileConfigTest {
 
     private static void copyPropertiesFile() {
         try {
-            Path sourceFile = Paths.get(PROPERTIES_FILE);
+            Path sourceFile = Paths.get("test-configuration", PROPERTIES_FILE);
             Path targetDir = Paths.get("src/test/resources");
             Path targetFile = targetDir.resolve(PROPERTIES_FILE);
 
