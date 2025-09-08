@@ -2,6 +2,8 @@ package org.apache.camel.forage.vectordb.qdrant;
 
 import static org.assertj.core.api.Fail.fail;
 
+import dev.langchain4j.data.segment.TextSegment;
+import dev.langchain4j.store.embedding.EmbeddingStore;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -37,7 +39,7 @@ public class QdrantFileConfigTest {
     private static void copyPropertiesFile() {
         try {
             Path sourceFile = Paths.get("test-configuration", PROPERTIES_FILE);
-            Path targetDir = Paths.get("src/test/resources");
+            Path targetDir = Paths.get(".");
             Path targetFile = targetDir.resolve(PROPERTIES_FILE);
 
             Files.createDirectories(targetDir);
@@ -58,7 +60,7 @@ public class QdrantFileConfigTest {
 
     private static void removePropertiesFile() {
         try {
-            Path targetFile = Paths.get("src/test/resources/" + PROPERTIES_FILE);
+            Path targetFile = Paths.get(".", PROPERTIES_FILE);
             if (Files.exists(targetFile)) {
                 Files.delete(targetFile);
                 LOG.info("Removed properties file: {}", targetFile);
@@ -90,7 +92,10 @@ public class QdrantFileConfigTest {
     public void shouldCreateQdrantProviderInstance() {
         LOG.info("Testing Qdrant provider instantiation");
         QdrantProvider provider = new QdrantProvider();
+        EmbeddingStore<TextSegment> embeddingStore = provider.create();
+
         org.assertj.core.api.Assertions.assertThat(provider).isNotNull();
+        org.assertj.core.api.Assertions.assertThat(embeddingStore).isNotNull();
         LOG.info("Successfully created Qdrant provider");
     }
 }

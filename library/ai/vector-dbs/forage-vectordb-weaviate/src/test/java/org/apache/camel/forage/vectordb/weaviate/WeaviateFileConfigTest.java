@@ -2,6 +2,8 @@ package org.apache.camel.forage.vectordb.weaviate;
 
 import static org.assertj.core.api.Fail.fail;
 
+import dev.langchain4j.data.segment.TextSegment;
+import dev.langchain4j.store.embedding.EmbeddingStore;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -30,6 +32,7 @@ public class WeaviateFileConfigTest {
     public static void setupWeaviateFileConfiguration() {
         LOG.info("Setting up Weaviate file-based configuration test");
         clearWeaviateSystemProperties();
+        removePropertiesFile();
         copyPropertiesFile();
         LOG.info("Weaviate file-based configuration setup complete");
     }
@@ -37,7 +40,7 @@ public class WeaviateFileConfigTest {
     private static void copyPropertiesFile() {
         try {
             Path sourceFile = Paths.get("test-configuration", PROPERTIES_FILE);
-            Path targetDir = Paths.get("src/test/resources");
+            Path targetDir = Paths.get(".");
             Path targetFile = targetDir.resolve(PROPERTIES_FILE);
 
             Files.createDirectories(targetDir);
@@ -58,7 +61,7 @@ public class WeaviateFileConfigTest {
 
     private static void removePropertiesFile() {
         try {
-            Path targetFile = Paths.get("src/test/resources/" + PROPERTIES_FILE);
+            Path targetFile = Paths.get(".", PROPERTIES_FILE);
             if (Files.exists(targetFile)) {
                 Files.delete(targetFile);
                 LOG.info("Removed properties file: {}", targetFile);
@@ -104,7 +107,9 @@ public class WeaviateFileConfigTest {
     public void shouldCreateWeaviateProviderInstance() {
         LOG.info("Testing Weaviate provider instantiation");
         WeaviateProvider provider = new WeaviateProvider();
+        EmbeddingStore<TextSegment> wes = provider.create();
         org.assertj.core.api.Assertions.assertThat(provider).isNotNull();
+        org.assertj.core.api.Assertions.assertThat(wes).isNotNull();
         LOG.info("Successfully created Weaviate provider");
     }
 }

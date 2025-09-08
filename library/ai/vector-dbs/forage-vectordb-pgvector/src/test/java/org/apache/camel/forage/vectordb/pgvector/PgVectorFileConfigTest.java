@@ -2,6 +2,8 @@ package org.apache.camel.forage.vectordb.pgvector;
 
 import static org.assertj.core.api.Fail.fail;
 
+import dev.langchain4j.data.segment.TextSegment;
+import dev.langchain4j.store.embedding.EmbeddingStore;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -37,7 +39,7 @@ public class PgVectorFileConfigTest {
     private static void copyPropertiesFile() {
         try {
             Path sourceFile = Paths.get("test-configuration", PROPERTIES_FILE);
-            Path targetDir = Paths.get("src/test/resources");
+            Path targetDir = Paths.get(".");
             Path targetFile = targetDir.resolve(PROPERTIES_FILE);
 
             Files.createDirectories(targetDir);
@@ -58,7 +60,7 @@ public class PgVectorFileConfigTest {
 
     private static void removePropertiesFile() {
         try {
-            Path targetFile = Paths.get("src/test/resources/" + PROPERTIES_FILE);
+            Path targetFile = Paths.get(".", PROPERTIES_FILE);
             if (Files.exists(targetFile)) {
                 Files.delete(targetFile);
                 LOG.info("Removed properties file: {}", targetFile);
@@ -102,6 +104,13 @@ public class PgVectorFileConfigTest {
     public void shouldCreatePgVectorProviderInstance() {
         LOG.info("Testing PgVector provider instantiation");
         PgVectorProvider provider = new PgVectorProvider();
+        try {
+            EmbeddingStore<TextSegment> pgvect = provider.create();
+        } catch (RuntimeException re) {
+            LOG.info("Succesfully caught RuntimeException when creating PGVector embedding store");
+        } catch (Exception e) {
+            fail("Caught exception trying to create PGVector embedding store {}", e);
+        }
         org.assertj.core.api.Assertions.assertThat(provider).isNotNull();
         LOG.info("Successfully created PgVector provider");
     }

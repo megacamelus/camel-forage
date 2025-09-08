@@ -127,6 +127,21 @@ public class WeaviateConfig implements Config {
                 .orElse("_metadata");
     }
 
+    public String toString() {
+        String result = String.format(
+                "apiKey: %s, scheme %s, host %s, port %s, useGrpcForInserts %s, securedGrpc %s, objectClass %s, avoidDups %s, consistencyLevel %s",
+                apiKey(),
+                scheme(),
+                host(),
+                port().toString(),
+                useGrpcForInserts().toString(),
+                securedGrpc().toString(),
+                objectClass(),
+                avoidDups().toString(),
+                consistencyLevel().toString());
+        return result;
+    }
+
     @Override
     public void register(String name, String value) {
         Optional<ConfigModule> config = WeaviateConfigEntries.find(prefix, name);

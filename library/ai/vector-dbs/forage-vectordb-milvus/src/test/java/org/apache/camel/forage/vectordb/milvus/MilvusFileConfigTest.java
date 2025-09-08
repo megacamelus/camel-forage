@@ -2,6 +2,8 @@ package org.apache.camel.forage.vectordb.milvus;
 
 import static org.assertj.core.api.Fail.fail;
 
+import dev.langchain4j.data.segment.TextSegment;
+import dev.langchain4j.store.embedding.EmbeddingStore;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -37,7 +39,7 @@ public class MilvusFileConfigTest {
     private static void copyPropertiesFile() {
         try {
             Path sourceFile = Paths.get("test-configuration", PROPERTIES_FILE);
-            Path targetDir = Paths.get("src/test/resources");
+            Path targetDir = Paths.get(".");
             Path targetFile = targetDir.resolve(PROPERTIES_FILE);
 
             Files.createDirectories(targetDir);
@@ -58,7 +60,7 @@ public class MilvusFileConfigTest {
 
     private static void removePropertiesFile() {
         try {
-            Path targetFile = Paths.get("src/test/resources/" + PROPERTIES_FILE);
+            Path targetFile = Paths.get(".", PROPERTIES_FILE);
             if (Files.exists(targetFile)) {
                 Files.delete(targetFile);
                 LOG.info("Removed properties file: {}", targetFile);
@@ -115,6 +117,13 @@ public class MilvusFileConfigTest {
         LOG.info("Testing Milvus provider instantiation");
         MilvusProvider provider = new MilvusProvider();
         org.assertj.core.api.Assertions.assertThat(provider).isNotNull();
+        try {
+            EmbeddingStore<TextSegment> milv = provider.create();
+        } catch (RuntimeException re) {
+            LOG.info("Expected to catch RuntimeException creating Milvus Embedding Store and did succesfully...");
+        } catch (Exception e) {
+            fail("Caught exception trying to create Milvus Embedding Store {}", e);
+        }
         LOG.info("Successfully created Milvus provider");
     }
 }
