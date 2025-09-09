@@ -21,7 +21,7 @@
         <junit-jupiter.version>5.13.4</junit-jupiter.version>
         <assertj-core.version>3.27.4</assertj-core.version>
         <testcontainers.version>1.21.3</testcontainers.version>
-
+        <agroal.version>2.8</agroal.version>
         <maven.version>3.9.11</maven.version>
         <maven-plugin-api.version>3.9.0</maven-plugin-api.version>
         <maven-plugin-annotations.version>3.8.1</maven-plugin-annotations.version>
@@ -93,8 +93,6 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
-
 
     <modules>
         <module>core</module>
