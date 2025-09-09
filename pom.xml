@@ -23,6 +23,7 @@
         <junit-jupiter.version>5.13.4</junit-jupiter.version>
         <assertj-core.version>3.27.4</assertj-core.version>
         <testcontainers.version>1.21.3</testcontainers.version>
+        <agroal.version>2.8</agroal.version>
     </properties>
 
     <dependencyManagement>
@@ -87,8 +88,6 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
-
 
     <modules>
         <module>core</module>

@@ -141,11 +141,27 @@ public final class ConfigStore {
         if (classLoader != null) {
             LOG.info("Trying to use the classloader to read {}", file);
             final URL resource = classLoader.getResource(asClasspathPath(instance));
-            if (resource == null) {
-                return;
+            if (resource != null) {
+                try (InputStream fis = resource.openStream()) {
+                    loadProperties(registerFunction, fis);
+
+                    return;
+                } catch (FileNotFoundException e) {
+                    throw new RuntimeException(e);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
-            try (InputStream fis = resource.openStream()) {
-                loadProperties(registerFunction, fis);
+        }
+
+        // Load defaults provided by the forage component itself
+        InputStream is = ConfigStore.class.getResourceAsStream("/" + instance.name() + ".properties");
+        if (is != null) {
+            LOG.info("Loading defaults from the forage component");
+            try {
+                loadProperties(registerFunction, is);
+
+                return;
             } catch (FileNotFoundException e) {
                 throw new RuntimeException(e);
             } catch (IOException e) {
