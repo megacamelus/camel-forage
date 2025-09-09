@@ -58,6 +58,7 @@
         <module>forage-vectordb-pgvector</module>
         <module>forage-vectordb-pinecone</module>
         <module>forage-vectordb-qdrant</module>
+        <module>forage-vectordb-redis</module>
         <module>forage-vectordb-weaviate</module>
     </modules>
 
