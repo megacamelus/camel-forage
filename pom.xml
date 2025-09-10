@@ -24,6 +24,7 @@
         <assertj-core.version>3.27.4</assertj-core.version>
         <testcontainers.version>1.21.3</testcontainers.version>
         <agroal.version>2.8</agroal.version>
+        <spring-boot.version>3.5.5</spring-boot.version>
     </properties>
 
     <dependencyManagement>

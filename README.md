@@ -88,6 +88,118 @@ based on the dependencies available on the classpath.
 #### Embeddings
 - **embeddings** - Embedding model providers (coming soon)
 
+### JDBC Modules
+
+Camel Forage provides JDBC data source factories that simplify database connectivity with pre-configured, pooled data sources for various database systems.
+
+#### Available JDBC Modules
+
+- **forage-jdbc** - Core pooled JDBC functionality
+- **forage-jdbc-factories** - Data source factory implementations ([Documentation](library/jdbc/forage-jdbc-factories/README.md))
+- **forage-jdbc-postgres** - PostgreSQL data source provider
+- **forage-jdbc-mysql** - MySQL data source provider  
+- **forage-jdbc-mariadb** - MariaDB data source provider
+- **forage-jdbc-oracle** - Oracle data source provider
+- **forage-jdbc-mssql** - Microsoft SQL Server data source provider
+- **forage-jdbc-db2** - IBM DB2 data source provider
+- **forage-jdbc-h2** - H2 database data source provider
+- **forage-jdbc-hsqldb** - HSQLDB data source provider
+
+#### JDBC Configuration Properties
+
+All JDBC modules support the following configuration properties with a flexible precedence hierarchy (environment variables → system properties → configuration files → defaults):
+
+**Database Connection:**
+- `jdbc.url` - JDBC connection URL (required)
+- `jdbc.username` - Database username (required)
+- `jdbc.password` - Database password (required)
+
+**Connection Pool Settings:**
+- `jdbc.pool.initial.size` - Initial pool size (default: 5)
+- `jdbc.pool.min.size` - Minimum pool size (default: 2)
+- `jdbc.pool.max.size` - Maximum pool size (default: 20)
+- `jdbc.pool.acquisition.timeout.seconds` - Connection acquisition timeout (default: 5)
+- `jdbc.pool.validation.timeout.seconds` - Connection validation timeout (default: 3)
+- `jdbc.pool.leak.timeout.minutes` - Connection leak detection timeout (default: 10)
+- `jdbc.pool.idle.validation.timeout.minutes` - Idle connection validation timeout (default: 3)
+
+**Transaction Settings:**
+- `jdbc.transaction.timeout.seconds` - Transaction timeout (default: 30)
+
+**Provider Configuration:**
+- `provider.datasource.class` - DataSource implementation class (auto-detected based on dependencies)
+
+#### Quick Start with PostgreSQL
+
+1. **Start PostgreSQL database:**
+```bash
+camel infra run postgres
+```
+
+2. **Add dependencies to your project:**
+```xml
+<dependency>
+    <groupId>org.apache.camel.forage</groupId>
+    <artifactId>forage-jdbc-factories</artifactId>
+    <version>1.0-SNAPSHOT</version>
+</dependency>
+<dependency>
+    <groupId>org.apache.camel.forage</groupId>
+    <artifactId>forage-jdbc-postgres</artifactId>
+    <version>1.0-SNAPSHOT</version>
+</dependency>
+```
+
+3. **Create a Camel route:**
+```java
+import org.apache.camel.builder.RouteBuilder;
+
+public class Test extends RouteBuilder {
+
+    @Override
+    public void configure() throws Exception {
+        from("timer:java?period=1000")
+                .to("sql:select * from acme?dataSourceFactory=#class:org.apache.camel.forage.jdbc.factory.DefaultDataSourceFactory")
+                .log("${body}");
+    }
+}
+```
+
+4. **Run with JBang:**
+```bash
+camel run Test.java \
+  --dep=mvn:org.apache.camel.forage:forage-jdbc-factories:1.0-SNAPSHOT \
+  --dep=mvn:org.apache.camel.forage:forage-jdbc-postgres:1.0-SNAPSHOT
+```
+
+This provides a fully configured, pooled data source out-of-the-box with sensible defaults.
+
+#### Configuration Examples
+
+**Environment Variables:**
+```bash
+export JDBC_URL="jdbc:postgresql://localhost:5432/mydb"
+export JDBC_USERNAME="myuser"
+export JDBC_PASSWORD="mypassword"
+export JDBC_POOL_MAX_SIZE="50"
+```
+
+**System Properties:**
+```bash
+-Djdbc.url=jdbc:postgresql://localhost:5432/mydb
+-Djdbc.username=myuser
+-Djdbc.password=mypassword
+-Djdbc.pool.max.size=50
+```
+
+**Configuration File (forage-datasource-factory.properties):**
+```properties
+jdbc.url=jdbc:postgresql://localhost:5432/mydb
+jdbc.username=myuser
+jdbc.password=mypassword
+jdbc.pool.max.size=50
+```
+
 ## Configuration
 
 Camel Forage uses a flexible configuration system that supports multiple sources with a defined precedence hierarchy:

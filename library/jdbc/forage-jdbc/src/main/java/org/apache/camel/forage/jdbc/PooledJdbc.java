@@ -32,20 +32,18 @@ public abstract class PooledJdbc implements DataSourceProvider {
     @Override
     public DataSource create(String id) {
         LOG.info("Creating DataSource with id: {}", id);
-        DataSourceFactoryConfig config = new DataSourceFactoryConfig(id);
-        return createPooledDataSource(config, id);
+        return createPooledDataSource(id);
     }
 
     /**
      * Creates a pooled DataSource with the given configuration.
      *
-     * @param config the JDBC configuration
      * @param id the configuration ID for logging
      * @return configured pooled DataSource
      * @throws RuntimeException if DataSource creation fails
      */
-    protected DataSource createPooledDataSource(DataSourceFactoryConfig config, String id) {
-        LOG.info("Creating pooled DataSource with id: {}", id);
+    protected AgroalDataSource createPooledDataSource(String id) {
+        DataSourceFactoryConfig config = new DataSourceFactoryConfig(id);
 
         LOG.info(
                 "DataSource configuration - JDBC URL: {}, Username: {}, Initial Size: {}, Min Size: {}, Max Size: {}, "
@@ -64,6 +62,7 @@ public abstract class PooledJdbc implements DataSourceProvider {
                 config.providerDataSourceClass());
 
         AgroalDataSourceConfigurationSupplier configSupplier = new AgroalDataSourceConfigurationSupplier();
+        configSupplier.metricsEnabled(true);
 
         // Configure connection factory
         AgroalConnectionFactoryConfigurationSupplier connectionFactoryConfig =

@@ -5,17 +5,22 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.apache.camel.forage</groupId>
-        <artifactId>jdbc</artifactId>
+        <artifactId>spring-boot</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>forage-jdbc-factories</artifactId>
-    <name>Camel Forage :: Library :: JDBC :: Forage JDBC Factories</name>
+    <artifactId>forage-jdbc-starter</artifactId>
+    <name>Camel Forage :: Library :: JDBC :: Spring Boot :: Jdbc Starter</name>
 
     <dependencies>
         <dependency>
-            <groupId>org.apache.camel</groupId>
-            <artifactId>camel-core</artifactId>
+            <groupId>org.apache.camel.forage</groupId>
+            <artifactId>forage-jdbc</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
         </dependency>
 
         <dependency>
@@ -31,8 +36,9 @@
         </dependency>
 
         <dependency>
-            <groupId>org.apache.camel</groupId>
-            <artifactId>camel-support</artifactId>
+            <groupId>io.agroal</groupId>
+            <artifactId>agroal-spring-boot-starter</artifactId>
+            <version>${agroal.version}</version>
         </dependency>
     </dependencies>
 

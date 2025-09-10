@@ -7,15 +7,12 @@ import java.util.concurrent.ConcurrentHashMap;
 import javax.sql.DataSource;
 import org.apache.camel.CamelContext;
 import org.apache.camel.Exchange;
-import org.apache.camel.component.sql.DataSourceFactory;
 import org.apache.camel.forage.core.common.ServiceLoaderHelper;
 import org.apache.camel.forage.core.jdbc.DataSourceProvider;
 import org.apache.camel.forage.core.util.config.ConfigStore;
+import org.apache.camel.support.sql.DataSourceFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.support.TransactionTemplate;
 
 /**
  * Multi-DataSource factory that uses ServiceLoader to discover and create multiple DataSource providers.
@@ -112,15 +109,15 @@ public class MultiDataSourceFactory implements DataSourceFactory {
         return dataSourceProvider.create(name);
     }
 
-    @Override
-    public PlatformTransactionManager createTransactionManager(DataSource dataSource) throws Exception {
-        return new DataSourceTransactionManager(dataSource);
-    }
-
-    public TransactionTemplate createTransactionTemplate(PlatformTransactionManager transactionManager)
-            throws Exception {
-        TransactionTemplate template = new TransactionTemplate(transactionManager);
-        template.setTimeout(30); // Default 30 seconds
-        return template;
-    }
+    //    @Override
+    //    public PlatformTransactionManager createTransactionManager(DataSource dataSource) throws Exception {
+    //        return new DataSourceTransactionManager(dataSource);
+    //    }
+    //
+    //    public TransactionTemplate createTransactionTemplate(PlatformTransactionManager transactionManager)
+    //            throws Exception {
+    //        TransactionTemplate template = new TransactionTemplate(transactionManager);
+    //        template.setTimeout(30); // Default 30 seconds
+    //        return template;
+    //    }
 }

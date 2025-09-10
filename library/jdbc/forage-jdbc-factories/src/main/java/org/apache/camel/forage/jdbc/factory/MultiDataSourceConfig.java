@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import org.apache.camel.forage.core.util.config.Config;
+import org.apache.camel.forage.core.util.config.ConfigHelper;
 import org.apache.camel.forage.core.util.config.ConfigModule;
 import org.apache.camel.forage.core.util.config.ConfigStore;
 
@@ -44,10 +45,7 @@ public class MultiDataSourceConfig implements Config {
     }
 
     public List<String> multiDataSourceNames() {
-        return ConfigStore.getInstance()
-                .get(MultiDataSourceConfigEntries.MULTI_DATASOURCE_NAMES.asNamed(prefix))
-                .map(names -> Arrays.stream(names.split(",")).map(String::trim).toList())
-                .orElse(List.of());
+        return ConfigHelper.readAsList(MultiDataSourceConfigEntries.MULTI_DATASOURCE_NAMES.asNamed(prefix));
     }
 
     public String dataSourceIdSourceType() {

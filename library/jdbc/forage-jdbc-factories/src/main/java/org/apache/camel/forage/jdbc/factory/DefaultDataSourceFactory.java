@@ -4,14 +4,11 @@ import java.util.ServiceLoader;
 import javax.sql.DataSource;
 import org.apache.camel.CamelContext;
 import org.apache.camel.Exchange;
-import org.apache.camel.component.sql.DataSourceFactory;
 import org.apache.camel.forage.core.jdbc.DataSourceProvider;
 import org.apache.camel.forage.core.util.config.ConfigStore;
+import org.apache.camel.support.sql.DataSourceFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.support.TransactionTemplate;
 
 /**
  * Default implementation of DataSourceFactory that uses ServiceLoader to discover and create DataSource providers.
@@ -57,23 +54,23 @@ public class DefaultDataSourceFactory implements DataSourceFactory {
                         new IllegalStateException("No DataSourceProvider implementation found via ServiceLoader"));
     }
 
-    /**
-     * Creates a Spring transaction manager for the data source.
-     */
-    @Override
-    public PlatformTransactionManager createTransactionManager(DataSource dataSource) throws Exception {
-        return new DataSourceTransactionManager(dataSource);
-    }
-
-    /**
-     * Creates a transaction template with default timeout.
-     */
-    public TransactionTemplate createTransactionTemplate(PlatformTransactionManager transactionManager)
-            throws Exception {
-        TransactionTemplate template = new TransactionTemplate(transactionManager);
-        template.setTimeout(30); // Default 30 seconds
-        return template;
-    }
+    //    /**
+    //     * Creates a Spring transaction manager for the data source.
+    //     */
+    //    @Override
+    //    public PlatformTransactionManager createTransactionManager(DataSource dataSource) throws Exception {
+    //        return new DataSourceTransactionManager(dataSource);
+    //    }
+    //
+    //    /**
+    //     * Creates a transaction template with default timeout.
+    //     */
+    //    public TransactionTemplate createTransactionTemplate(PlatformTransactionManager transactionManager)
+    //            throws Exception {
+    //        TransactionTemplate template = new TransactionTemplate(transactionManager);
+    //        template.setTimeout(30); // Default 30 seconds
+    //        return template;
+    //    }
 
     @Override
     public void setCamelContext(CamelContext camelContext) {
