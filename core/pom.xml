@@ -18,6 +18,7 @@
         <module>forage-core-common</module>
         <module>forage-core-ai</module>
         <module>forage-core-vectordb</module>
+        <module>forage-core-jdbc</module>
     </modules>
 
 </project>

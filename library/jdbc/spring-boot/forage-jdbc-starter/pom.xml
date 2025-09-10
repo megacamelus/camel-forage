@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.apache.camel.forage</groupId>
+        <artifactId>spring-boot</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>forage-jdbc-starter</artifactId>
+    <name>Camel Forage :: Library :: JDBC :: Spring Boot :: Jdbc Starter</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.camel.forage</groupId>
+            <artifactId>forage-jdbc</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.camel.forage</groupId>
+            <artifactId>forage-core-jdbc</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.camel.forage</groupId>
+            <artifactId>forage-core-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.agroal</groupId>
+            <artifactId>agroal-spring-boot-starter</artifactId>
+            <version>${agroal.version}</version>
+        </dependency>
+    </dependencies>
+
+</project>
