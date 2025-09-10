@@ -18,6 +18,7 @@
         <module>forage-model-google-gemini</module>
         <module>forage-model-ollama</module>
         <module>forage-model-open-ai</module>
+        <module>forage-model-multi-model</module>
     </modules>
 
 </project>

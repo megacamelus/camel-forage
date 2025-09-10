@@ -24,6 +24,7 @@
         <junit-jupiter.version>5.13.4</junit-jupiter.version>
         <assertj-core.version>3.27.4</assertj-core.version>
         <testcontainers.version>1.21.3</testcontainers.version>
+        <mockito.version>5.14.2</mockito.version>
     </properties>
 
     <dependencyManagement>
