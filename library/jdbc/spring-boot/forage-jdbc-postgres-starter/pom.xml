@@ -5,34 +5,22 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.apache.camel.forage</groupId>
-        <artifactId>jdbc</artifactId>
+        <artifactId>spring-boot</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>forage-jdbc-factories</artifactId>
-    <name>Camel Forage :: Library :: JDBC :: Forage JDBC Factories</name>
+    <artifactId>forage-jdbc-postgres-starter</artifactId>
 
     <dependencies>
         <dependency>
-            <groupId>org.apache.camel</groupId>
-            <artifactId>camel-core</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>org.apache.camel.forage</groupId>
-            <artifactId>forage-core-jdbc</artifactId>
+            <artifactId>forage-jdbc-starter</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>org.apache.camel.forage</groupId>
-            <artifactId>forage-core-common</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.camel</groupId>
-            <artifactId>camel-support</artifactId>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
         </dependency>
     </dependencies>
 
