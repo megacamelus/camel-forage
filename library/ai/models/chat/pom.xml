@@ -16,6 +16,7 @@
 
     <modules>
         <module>forage-model-azure-openai</module>
+        <module>forage-model-dashscope</module>
         <module>forage-model-google-gemini</module>
         <module>forage-model-ollama</module>
         <module>forage-model-open-ai</module>
