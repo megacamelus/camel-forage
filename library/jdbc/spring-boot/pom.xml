@@ -27,7 +27,6 @@
 
     <modules>
         <module>forage-jdbc-starter</module>
-        <module>forage-jdbc-postgres-starter</module>
     </modules>
 
 </project>

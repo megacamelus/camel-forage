@@ -123,6 +123,7 @@ public class DataSourceFactoryConfig implements Config {
     public String providerDataSourceClass() {
         return ConfigStore.getInstance()
                 .get(DataSourceFactoryConfigEntries.PROVIDER_DATASOURCE_CLASS.asNamed(prefix))
-                .orElse("org.apache.camel.forage.jdbc.postgres.PostgresJdbc");
+                .orElseThrow(
+                        () -> new IllegalStateException("Provider datasource class is required but not configured"));
     }
 }

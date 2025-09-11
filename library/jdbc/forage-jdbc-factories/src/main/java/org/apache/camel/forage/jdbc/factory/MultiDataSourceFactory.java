@@ -1,16 +1,20 @@
 package org.apache.camel.forage.jdbc.factory;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.ServiceLoader;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.sql.DataSource;
 import org.apache.camel.CamelContext;
-import org.apache.camel.Exchange;
+import org.apache.camel.Endpoint;
 import org.apache.camel.forage.core.common.ServiceLoaderHelper;
 import org.apache.camel.forage.core.jdbc.DataSourceProvider;
 import org.apache.camel.forage.core.util.config.ConfigStore;
 import org.apache.camel.support.sql.DataSourceFactory;
+import org.apache.camel.util.URISupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,11 +56,10 @@ public class MultiDataSourceFactory implements DataSourceFactory {
     }
 
     @Override
-    public DataSource createDataSource(Exchange exchange) throws Exception {
-        DataSourceIdSelector dataSourceIdSource = DataSourceIdSourceFactory.create(config);
-        final String dataSourceId = dataSourceIdSource.select(exchange);
+    public DataSource createDataSource(Endpoint endpoint) throws Exception {
+        final String dataSourceId = getDataSourceName(endpoint);
 
-        LOG.info("Creating DataSource for {} using ID {}", exchange.getExchangeId(), dataSourceId);
+        LOG.info("Creating DataSource for endpoint {} using ID {}", endpoint, dataSourceId);
 
         if (LOG.isTraceEnabled()) {
             LOG.debug("Available dataSources: {}", dataSources);
@@ -75,16 +78,47 @@ public class MultiDataSourceFactory implements DataSourceFactory {
             DataSourceFactoryConfig dsFactoryConfig = new DataSourceFactoryConfig(dataSourceId);
 
             LOG.info("Using factory {} for {}", dsFactoryConfig.name(), dataSourceId);
-
             DataSource dataSource = newDataSource(dsFactoryConfig, dataSourceId);
+
+            endpoint.getCamelContext().getRegistry().bind(dataSourceId, dataSource);
 
             LOG.info("Using dataSource {} for {}", dataSource, dataSourceId);
             dataSources.put(dataSourceId, new DataSourcePair(dsFactoryConfig, dataSource));
 
             return dataSource;
+        } else {
+            throw new IllegalArgumentException(String.format(
+                    "DataSource '%s' is not defined in multi.datasource.names configuration. "
+                            + "Available DataSources: %s",
+                    dataSourceId, config.multiDataSourceNames()));
         }
+    }
 
-        throw DataSourceIdSourceFactory.newUndefinedDataSourceException(config, exchange);
+    private String getDataSourceName(Endpoint endpoint) {
+        Map<String, Object> parameters;
+        try {
+            if (endpoint.getEndpointBaseUri().startsWith("jdbc")
+                    || endpoint.getEndpointBaseUri().startsWith("spring-jdbc")) {
+                URI uri = new URI(endpoint.getEndpointBaseUri());
+                String pathPart = URISupport.extractRemainderPath(uri, false);
+
+                return pathPart;
+            } else if (endpoint.getEndpointBaseUri().startsWith("sql")) {
+                parameters = URISupport.parseParameters(URI.create(endpoint.getEndpointUri()));
+
+                String dataSourceName = Optional.ofNullable((String) parameters.get("dataSource"))
+                        .or(() -> Optional.ofNullable((String) parameters.get("dataSourceName")))
+                        .orElseThrow(() -> new RuntimeException("dataSource or dataSourceName must be provided"));
+
+                return dataSourceName.replace("#", "");
+            } else {
+                throw new IllegalArgumentException("Endpoint URI " + endpoint.getEndpointUri()
+                        + " is not supported, only sql, jdbc and spring-jdbc are supported");
+            }
+
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private synchronized DataSource newDataSource(DataSourceFactoryConfig dataSourceFactoryConfig, String name) {
