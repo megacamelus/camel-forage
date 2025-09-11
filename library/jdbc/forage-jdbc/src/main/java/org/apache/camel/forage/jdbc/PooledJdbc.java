@@ -48,7 +48,7 @@ public abstract class PooledJdbc implements DataSourceProvider {
         LOG.info(
                 "DataSource configuration - JDBC URL: {}, Username: {}, Initial Size: {}, Min Size: {}, Max Size: {}, "
                         + "Acquisition Timeout: {}s, Validation Timeout: {}s, Leak Timeout: {}min, Idle Validation Timeout: {}min, "
-                        + "Transaction Timeout: {}s, Provider DataSource Class: {}",
+                        + "Transaction Timeout: {}s",
                 config.jdbcUrl(),
                 config.username(),
                 config.initialSize(),
@@ -58,8 +58,7 @@ public abstract class PooledJdbc implements DataSourceProvider {
                 config.validationTimeoutSeconds(),
                 config.leakTimeoutMinutes(),
                 config.idleValidationTimeoutMinutes(),
-                config.transactionTimeoutSeconds(),
-                config.providerDataSourceClass());
+                config.transactionTimeoutSeconds());
 
         AgroalDataSourceConfigurationSupplier configSupplier = new AgroalDataSourceConfigurationSupplier();
         configSupplier.metricsEnabled(true);

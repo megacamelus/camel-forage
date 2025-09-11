@@ -3,7 +3,7 @@ package org.apache.camel.forage.jdbc.factory;
 import java.util.ServiceLoader;
 import javax.sql.DataSource;
 import org.apache.camel.CamelContext;
-import org.apache.camel.Exchange;
+import org.apache.camel.Endpoint;
 import org.apache.camel.forage.core.jdbc.DataSourceProvider;
 import org.apache.camel.forage.core.util.config.ConfigStore;
 import org.apache.camel.support.sql.DataSourceFactory;
@@ -24,12 +24,15 @@ public class DefaultDataSourceFactory implements DataSourceFactory {
      * Creates a DataSource using ServiceLoader to discover the first available provider.
      */
     @Override
-    public DataSource createDataSource(Exchange exchange) throws Exception {
+    public DataSource createDataSource(Endpoint endpoint) throws Exception {
         if (dataSource != null) {
             return dataSource;
         }
 
-        return doCreateDataSource();
+        DataSource ds = doCreateDataSource();
+        endpoint.getCamelContext().getRegistry().bind("dataSource", ds);
+
+        return ds;
     }
 
     private synchronized DataSource doCreateDataSource() {

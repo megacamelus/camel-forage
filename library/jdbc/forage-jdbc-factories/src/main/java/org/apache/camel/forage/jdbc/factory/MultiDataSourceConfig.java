@@ -1,6 +1,5 @@
 package org.apache.camel.forage.jdbc.factory;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import org.apache.camel.forage.core.util.config.Config;
