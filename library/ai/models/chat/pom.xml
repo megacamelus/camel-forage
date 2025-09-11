@@ -15,6 +15,7 @@
     <name>Camel Forage :: Library :: AI :: Models :: Chat</name>
 
     <modules>
+        <module>forage-model-anthropic</module>
         <module>forage-model-azure-openai</module>
         <module>forage-model-dashscope</module>
         <module>forage-model-google-gemini</module>

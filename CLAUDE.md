@@ -31,6 +31,7 @@ camel-forage/
 │       ├── chat-memory/                    # Chat memory providers
 │       │   └── forage-memory-message-window/
 │       ├── models/chat/                    # AI model providers
+│       │   ├── forage-model-anthropic/
 │       │   ├── forage-model-azure-openai/
 │       │   ├── forage-model-dashscope/
 │       │   ├── forage-model-google-gemini/
@@ -277,6 +278,7 @@ Contains vector database interfaces:
 - **forage-agent**: Composable agent with optional memory support (uses `AiAgentWithMemoryService` or `AiAgentService`)
 
 #### AI Models
+- **forage-model-anthropic**: Anthropic Claude integration (Claude models) - *placeholder implementation*
 - **forage-model-azure-openai**: Azure OpenAI integration (GPT models via Azure)
 - **forage-model-dashscope**: Alibaba Dashscope integration (Qwen models) - *placeholder implementation*
 - **forage-model-google-gemini**: Google Gemini integration
@@ -418,6 +420,54 @@ presence-penalty=0.0
 frequency-penalty=0.0
 seed=12345
 user=user-123
+timeout=60
+max-retries=3
+log-requests-and-responses=false
+```
+
+### Anthropic Configuration
+**Note:** This is currently a placeholder implementation. The provider will throw an `UnsupportedOperationException` until LangChain4J adds full Anthropic support.
+
+```bash
+# Required Environment variables
+export ANTHROPIC_API_KEY="sk-ant-api03-..."
+
+# Optional Environment variables
+export ANTHROPIC_MODEL_NAME="claude-3-sonnet-20240229"
+export ANTHROPIC_TEMPERATURE="0.7"
+export ANTHROPIC_MAX_TOKENS="2048"
+export ANTHROPIC_TOP_P="0.9"
+export ANTHROPIC_TOP_K="50"
+export ANTHROPIC_STOP_SEQUENCES="Human:,Assistant:"
+export ANTHROPIC_TIMEOUT="60"
+export ANTHROPIC_MAX_RETRIES="3"
+export ANTHROPIC_LOG_REQUESTS_AND_RESPONSES="false"
+
+# Required System properties
+-Danthropic.api.key=sk-ant-api03-...
+
+# Optional System properties
+-Danthropic.model.name=claude-3-sonnet-20240229
+-Danthropic.temperature=0.7
+-Danthropic.max.tokens=2048
+-Danthropic.top.p=0.9
+-Danthropic.top.k=50
+-Danthropic.stop.sequences=Human:,Assistant:
+-Danthropic.timeout=60
+-Danthropic.max.retries=3
+-Danthropic.log.requests.and.responses=false
+
+# forage-model-anthropic.properties
+# Required
+api-key=sk-ant-api03-...
+
+# Optional
+model-name=claude-3-sonnet-20240229
+temperature=0.7
+max-tokens=2048
+top-p=0.9
+top-k=50
+stop-sequences=Human:,Assistant:
 timeout=60
 max-retries=3
 log-requests-and-responses=false
