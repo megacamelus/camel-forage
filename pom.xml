@@ -25,7 +25,7 @@
         <assertj-core.version>3.27.4</assertj-core.version>
         <testcontainers.version>1.21.3</testcontainers.version>
 
-        <maven.version>3.9.0</maven.version>
+        <maven.version>3.9.11</maven.version>
         <maven-plugin-api.version>3.9.0</maven-plugin-api.version>
         <maven-plugin-annotations.version>3.8.1</maven-plugin-annotations.version>
         <maven-plugin-plugin.version>3.8.1</maven-plugin-plugin.version>
