@@ -1,4 +1,4 @@
-package org.apache.camel.forage.jdbc.factory;
+package org.apache.camel.forage.jdbc;
 
 import java.util.Collections;
 import java.util.Map;

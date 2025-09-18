@@ -1,4 +1,4 @@
-package org.apache.camel.forage.jdbc.factory;
+package org.apache.camel.forage.jdbc;
 
 import java.util.Optional;
 import org.apache.camel.forage.core.util.config.Config;

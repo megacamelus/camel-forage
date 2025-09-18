@@ -16,7 +16,6 @@
 
     <modules>
         <module>forage-jdbc</module>
-        <module>forage-jdbc-factories</module>
         <module>forage-jdbc-db2</module>
         <module>forage-jdbc-h2</module>
         <module>forage-jdbc-hsqldb</module>

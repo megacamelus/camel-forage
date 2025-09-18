@@ -1,4 +1,4 @@
-package org.apache.camel.forage.jdbc.factory;
+package org.apache.camel.forage.jdbc;
 
 import java.util.List;
 import java.util.Optional;
@@ -45,17 +45,5 @@ public class MultiDataSourceConfig implements Config {
 
     public List<String> multiDataSourceNames() {
         return ConfigHelper.readAsList(MultiDataSourceConfigEntries.MULTI_DATASOURCE_NAMES.asNamed(prefix));
-    }
-
-    public String dataSourceIdSourceType() {
-        return ConfigStore.getInstance()
-                .get(MultiDataSourceConfigEntries.DATASOURCE_ID_SOURCE_TYPE.asNamed(prefix))
-                .orElse("header");
-    }
-
-    public String dataSourceIdSourceName() {
-        return ConfigStore.getInstance()
-                .get(MultiDataSourceConfigEntries.DATASOURCE_ID_SOURCE_NAME.asNamed(prefix))
-                .orElse("dataSourceId");
     }
 }

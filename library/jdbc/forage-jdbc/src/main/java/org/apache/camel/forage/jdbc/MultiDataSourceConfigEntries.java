@@ -1,4 +1,4 @@
-package org.apache.camel.forage.jdbc.factory;
+package org.apache.camel.forage.jdbc;
 
 import java.util.Collections;
 import java.util.Map;
@@ -15,10 +15,6 @@ public class MultiDataSourceConfigEntries extends ConfigEntries {
 
     public static final ConfigModule MULTI_DATASOURCE_NAMES =
             ConfigModule.of(MultiDataSourceConfig.class, "multi.datasource.names");
-    public static final ConfigModule DATASOURCE_ID_SOURCE_TYPE =
-            ConfigModule.of(MultiDataSourceConfig.class, "datasource.id.source.type");
-    public static final ConfigModule DATASOURCE_ID_SOURCE_NAME =
-            ConfigModule.of(MultiDataSourceConfig.class, "datasource.id.source.name");
 
     private static final Map<ConfigModule, ConfigEntry> CONFIG_MODULES = new ConcurrentHashMap<>();
 
@@ -28,8 +24,6 @@ public class MultiDataSourceConfigEntries extends ConfigEntries {
 
     static void init() {
         CONFIG_MODULES.put(MULTI_DATASOURCE_NAMES, ConfigEntry.fromModule());
-        CONFIG_MODULES.put(DATASOURCE_ID_SOURCE_TYPE, ConfigEntry.fromModule());
-        CONFIG_MODULES.put(DATASOURCE_ID_SOURCE_NAME, ConfigEntry.fromModule());
     }
 
     public static Map<ConfigModule, ConfigEntry> entries() {
