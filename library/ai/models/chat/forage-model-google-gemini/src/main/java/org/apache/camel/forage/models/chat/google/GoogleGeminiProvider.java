@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
  */
 @ForageBean(
         value = "google-gemini",
-        component = "camel-langchain4j-agent",
+        components = {"camel-langchain4j-agent"},
         description = "Google Gemini AI chat model provider")
 public class GoogleGeminiProvider implements ModelProvider {
     private static final Logger LOG = LoggerFactory.getLogger(GoogleGeminiProvider.class);

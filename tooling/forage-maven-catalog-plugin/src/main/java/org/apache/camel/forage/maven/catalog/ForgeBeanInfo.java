@@ -1,19 +1,29 @@
 package org.apache.camel.forage.maven.catalog;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Represents information about a ForageBean annotation found in the codebase.
  */
 public class ForgeBeanInfo {
     private String name;
-    private String component;
+    private List<String> components;
     private String description;
     private String className;
 
     public ForgeBeanInfo() {}
 
+    public ForgeBeanInfo(String name, List<String> components, String description, String className) {
+        this.name = name;
+        this.components = components;
+        this.description = description;
+        this.className = className;
+    }
+
     public ForgeBeanInfo(String name, String component, String description, String className) {
         this.name = name;
-        this.component = component;
+        this.components = component != null && !component.isEmpty() ? Arrays.asList(component) : List.of();
         this.description = description;
         this.className = className;
     }
@@ -26,12 +36,12 @@ public class ForgeBeanInfo {
         this.name = name;
     }
 
-    public String getComponent() {
-        return component;
+    public List<String> getComponents() {
+        return components;
     }
 
-    public void setComponent(String component) {
-        this.component = component;
+    public void setComponents(List<String> components) {
+        this.components = components;
     }
 
     public String getDescription() {
@@ -53,8 +63,8 @@ public class ForgeBeanInfo {
     @Override
     public String toString() {
         return "ForgeBeanInfo{" + "name='"
-                + name + '\'' + ", component='"
-                + component + '\'' + ", description='"
+                + name + '\'' + ", components="
+                + components + ", description='"
                 + description + '\'' + ", className='"
                 + className + '\'' + '}';
     }

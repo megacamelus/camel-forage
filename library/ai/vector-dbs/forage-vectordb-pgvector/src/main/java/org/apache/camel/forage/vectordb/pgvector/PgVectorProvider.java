@@ -50,7 +50,7 @@ import org.slf4j.LoggerFactory;
  */
 @ForageBean(
         value = "pgvector",
-        component = "camel-langchain4j-embeddings",
+        components = {"camel-langchain4j-embeddings"},
         description = "PostgreSQL pgvector extension provider")
 public class PgVectorProvider implements EmbeddingStoreProvider {
     private static final Logger LOG = LoggerFactory.getLogger(PgVectorProvider.class);

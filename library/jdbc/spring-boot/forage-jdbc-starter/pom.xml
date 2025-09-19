@@ -10,31 +10,19 @@
     </parent>
 
     <artifactId>forage-jdbc-starter</artifactId>
-    <name>Camel Forage :: Library :: JDBC :: Spring Boot :: Jdbc Starter</name>
+    <name>Camel Forage :: Library :: JDBC :: Spring Boot :: DataSource Starter</name>
 
     <dependencies>
         <dependency>
             <groupId>org.apache.camel.forage</groupId>
-            <artifactId>forage-jdbc</artifactId>
+            <artifactId>forage-jdbc-common</artifactId>
             <version>${project.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jdbc</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>org.apache.camel.forage</groupId>
-            <artifactId>forage-core-jdbc</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.camel.forage</groupId>
-            <artifactId>forage-core-common</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
         <dependency>
             <groupId>io.agroal</groupId>
             <artifactId>agroal-spring-boot-starter</artifactId>

@@ -43,7 +43,10 @@ import org.slf4j.LoggerFactory;
  * @see EmbeddingStoreProvider
  * @since 1.0
  */
-@ForageBean(value = "redis", component = "camel-langchain4j-embeddings", description = "Redis vector database provider")
+@ForageBean(
+        value = "redis",
+        components = {"camel-langchain4j-embeddings"},
+        description = "Redis vector database provider")
 public class RedisProvider implements EmbeddingStoreProvider {
     private static final Logger LOG = LoggerFactory.getLogger(RedisProvider.class);
 

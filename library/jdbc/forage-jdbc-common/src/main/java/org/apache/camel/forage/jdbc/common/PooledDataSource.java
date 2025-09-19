@@ -1,4 +1,4 @@
-package org.apache.camel.forage.jdbc;
+package org.apache.camel.forage.jdbc.common;
 
 import io.agroal.api.AgroalDataSource;
 import io.agroal.api.configuration.AgroalDataSourceConfiguration;

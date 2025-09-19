@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
  */
 @ForageBean(
         value = "local-ai",
-        component = "camel-langchain4j-agent",
+        components = {"camel-langchain4j-agent"},
         description = "LocalAI self-hosted OpenAI-compatible model provider")
 public class LocalAiProvider implements ModelProvider {
     private static final Logger LOG = LoggerFactory.getLogger(LocalAiProvider.class);

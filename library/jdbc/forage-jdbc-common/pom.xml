@@ -9,14 +9,15 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>forage-jdbc-mssql</artifactId>
-    <name>Camel Forage :: Library :: JDBC :: MSSQL</name>
-
-    <properties>
-        <mssql.version>12.8.1.jre11</mssql.version>
-    </properties>
+    <artifactId>forage-jdbc-common</artifactId>
+    <name>Camel Forage :: Library :: JDBC :: Common</name>
 
     <dependencies>
+        <dependency>
+            <groupId>org.apache.camel.forage</groupId>
+            <artifactId>forage-core-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.apache.camel.forage</groupId>
             <artifactId>forage-core-jdbc</artifactId>
@@ -24,21 +25,19 @@
         </dependency>
 
         <dependency>
-            <groupId>org.apache.camel.forage</groupId>
-            <artifactId>forage-core-common</artifactId>
-            <version>${project.version}</version>
+            <groupId>io.agroal</groupId>
+            <artifactId>agroal-api</artifactId>
+            <version>${agroal.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.agroal</groupId>
+            <artifactId>agroal-pool</artifactId>
+            <version>${agroal.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>org.apache.camel.forage</groupId>
-            <artifactId>forage-jdbc-common</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.microsoft.sqlserver</groupId>
-            <artifactId>mssql-jdbc</artifactId>
-            <version>${mssql.version}</version>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
         </dependency>
     </dependencies>
 

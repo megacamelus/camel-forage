@@ -29,7 +29,7 @@ public @interface ForageBean {
      *
      * @return the supported component
      */
-    String component() default "";
+    String[] components() default {};
 
     /**
      * Description of what this bean provides.

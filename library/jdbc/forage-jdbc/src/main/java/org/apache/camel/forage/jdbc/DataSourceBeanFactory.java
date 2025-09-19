@@ -4,12 +4,21 @@ import java.util.List;
 import java.util.ServiceLoader;
 import javax.sql.DataSource;
 import org.apache.camel.CamelContext;
+import org.apache.camel.forage.core.annotations.ForageFactory;
 import org.apache.camel.forage.core.common.BeanFactory;
 import org.apache.camel.forage.core.common.ServiceLoaderHelper;
 import org.apache.camel.forage.core.jdbc.DataSourceProvider;
+import org.apache.camel.forage.jdbc.common.DataSourceFactoryConfig;
+import org.apache.camel.forage.jdbc.common.MultiDataSourceConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@ForageFactory(
+        value = "CamelDataSourceFactory",
+        components = {"camel-sql", "camel-jdbc", "camel-spring-jdbc"},
+        description = "Default DataSource factory with ServiceLoader discovery",
+        factoryType = "DataSource",
+        autowired = true)
 public class DataSourceBeanFactory implements BeanFactory {
     private final Logger LOG = LoggerFactory.getLogger(DataSourceBeanFactory.class);
 

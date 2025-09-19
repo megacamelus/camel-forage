@@ -48,7 +48,7 @@ import org.slf4j.LoggerFactory;
  */
 @ForageBean(
         value = "infinispan",
-        component = "camel-langchain4j-embeddings",
+        components = {"camel-langchain4j-embeddings"},
         description = "Infinispan distributed vector database provider")
 public class InfinispanProvider implements EmbeddingStoreProvider {
     private static final Logger LOG = LoggerFactory.getLogger(InfinispanProvider.class);

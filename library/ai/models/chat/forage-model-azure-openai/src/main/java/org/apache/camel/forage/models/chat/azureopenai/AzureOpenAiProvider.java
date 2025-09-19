@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
  */
 @ForageBean(
         value = "azure-openai",
-        component = "camel-langchain4j-agent",
+        components = {"camel-langchain4j-agent"},
         description = "Azure OpenAI GPT chat model provider")
 public class AzureOpenAiProvider implements ModelProvider {
     private static final Logger LOG = LoggerFactory.getLogger(AzureOpenAiProvider.class);

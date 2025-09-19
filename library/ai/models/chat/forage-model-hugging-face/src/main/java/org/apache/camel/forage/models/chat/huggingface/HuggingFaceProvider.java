@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
  */
 @ForageBean(
         value = "hugging-face",
-        component = "camel-langchain4j-agent",
+        components = {"camel-langchain4j-agent"},
         description = "HuggingFace Inference API chat model provider")
 public class HuggingFaceProvider implements ModelProvider {
     private static final Logger LOG = LoggerFactory.getLogger(HuggingFaceProvider.class);

@@ -44,7 +44,7 @@ import org.slf4j.LoggerFactory;
  */
 @ForageBean(
         value = "infinispan",
-        component = "camel-langchain4j-agent",
+        components = {"camel-langchain4j-agent"},
         description = "Infinispan distributed chat memory factory")
 public class InfinispanMemoryBeanProvider implements ChatMemoryBeanProvider {
     private static final Logger LOG = LoggerFactory.getLogger(InfinispanMemoryBeanProvider.class);

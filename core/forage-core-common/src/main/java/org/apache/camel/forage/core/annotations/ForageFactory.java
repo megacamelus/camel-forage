@@ -30,7 +30,7 @@ public @interface ForageFactory {
      *
      * @return the supported component
      */
-    String component() default "";
+    String[] components() default {};
 
     /**
      * Description of what this factory provides.
@@ -45,4 +45,11 @@ public @interface ForageFactory {
      * @return the factory type
      */
     String factoryType() default "";
+
+    /**
+     * Mark if the Factory configure itself, without having to configure the Factory name on the component.
+     *
+     * @return
+     */
+    boolean autowired() default false;
 }

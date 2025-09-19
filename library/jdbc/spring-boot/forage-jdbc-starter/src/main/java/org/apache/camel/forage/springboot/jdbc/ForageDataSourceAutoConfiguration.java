@@ -5,10 +5,11 @@ import io.agroal.springframework.boot.AgroalDataSourceAutoConfiguration;
 import jakarta.annotation.PostConstruct;
 import java.util.List;
 import java.util.ServiceLoader;
+import org.apache.camel.forage.core.annotations.ForageFactory;
 import org.apache.camel.forage.core.common.ServiceLoaderHelper;
 import org.apache.camel.forage.core.jdbc.DataSourceProvider;
-import org.apache.camel.forage.jdbc.DataSourceFactoryConfig;
-import org.apache.camel.forage.jdbc.MultiDataSourceConfig;
+import org.apache.camel.forage.jdbc.common.DataSourceFactoryConfig;
+import org.apache.camel.forage.jdbc.common.MultiDataSourceConfig;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -16,6 +17,12 @@ import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
 
+@ForageFactory(
+        value = "CamelSpringBootDataSourceFactory",
+        components = {"camel-sql", "camel-jdbc", "camel-spring-jdbc"},
+        description = "Default Spring Boot DataSource factory with ServiceLoader discovery",
+        factoryType = "DataSource",
+        autowired = true)
 @Configuration
 @AutoConfigureBefore({DataSourceAutoConfiguration.class, AgroalDataSourceAutoConfiguration.class})
 public class ForageDataSourceAutoConfiguration implements BeanFactoryAware {

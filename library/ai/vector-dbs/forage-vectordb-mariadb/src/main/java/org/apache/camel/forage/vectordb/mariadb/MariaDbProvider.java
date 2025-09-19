@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 
 @ForageBean(
         value = "mariadb",
-        component = "camel-langchain4j-embeddings",
+        components = {"camel-langchain4j-embeddings"},
         description = "MariaDB vector database provider")
 public class MariaDbProvider implements EmbeddingStoreProvider {
     private static final Logger LOG = LoggerFactory.getLogger(MariaDbProvider.class);

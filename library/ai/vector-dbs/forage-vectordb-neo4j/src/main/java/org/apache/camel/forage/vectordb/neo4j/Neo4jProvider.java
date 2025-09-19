@@ -47,7 +47,10 @@ import org.slf4j.LoggerFactory;
  * @see EmbeddingStoreProvider
  * @since 1.0
  */
-@ForageBean(value = "neo4j", component = "camel-langchain4j-embeddings", description = "Neo4j database provider")
+@ForageBean(
+        value = "neo4j",
+        components = {"camel-langchain4j-embeddings"},
+        description = "Neo4j database provider")
 public class Neo4jProvider implements EmbeddingStoreProvider {
     private static final Logger LOG = LoggerFactory.getLogger(Neo4jProvider.class);
 

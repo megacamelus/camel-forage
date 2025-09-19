@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory;
  */
 @ForageFactory(
         value = "multi-agent",
-        component = "camel-langchain4j-agent",
+        components = {"camel-langchain4j-agent"},
         description = "Multi-agent factory with ServiceLoader discovery and configuration-based selection",
         factoryType = "Agent")
 public class MultiAgentFactory implements AgentFactory {

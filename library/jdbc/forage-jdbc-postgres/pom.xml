@@ -10,6 +10,7 @@
     </parent>
 
     <artifactId>forage-jdbc-postgres</artifactId>
+    <name>Camel Forage :: Library :: JDBC :: Postgres</name>
 
     <properties>
         <postgresql.version>42.7.7</postgresql.version>
@@ -30,7 +31,7 @@
 
         <dependency>
             <groupId>org.apache.camel.forage</groupId>
-            <artifactId>forage-jdbc</artifactId>
+            <artifactId>forage-jdbc-common</artifactId>
             <version>${project.version}</version>
         </dependency>
 

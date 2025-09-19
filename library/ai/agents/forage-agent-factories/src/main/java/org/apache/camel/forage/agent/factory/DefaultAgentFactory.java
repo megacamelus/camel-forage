@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
  */
 @ForageFactory(
         value = "default-agent",
-        component = "camel-langchain4j-agent",
+        components = {"camel-langchain4j-agent"},
         description = "Default agent factory with ServiceLoader discovery",
         factoryType = "Agent")
 public class DefaultAgentFactory implements AgentFactory {

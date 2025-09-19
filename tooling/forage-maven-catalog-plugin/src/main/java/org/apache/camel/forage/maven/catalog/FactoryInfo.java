@@ -1,23 +1,43 @@
 package org.apache.camel.forage.maven.catalog;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Represents information about a ForageFactory annotation found in the codebase.
  */
 public class FactoryInfo {
     private String name;
-    private String component;
+    private List<String> components;
     private String description;
     private String factoryType;
     private String className;
+    private boolean autowired;
 
     public FactoryInfo() {}
 
-    public FactoryInfo(String name, String component, String description, String factoryType, String className) {
+    public FactoryInfo(
+            String name,
+            List<String> components,
+            String description,
+            String factoryType,
+            String className,
+            boolean autowired) {
         this.name = name;
-        this.component = component;
+        this.components = components;
         this.description = description;
         this.factoryType = factoryType;
         this.className = className;
+        this.autowired = autowired;
+    }
+
+    public FactoryInfo(String name, String component, String description, String factoryType, String className) {
+        this.name = name;
+        this.components = component != null && !component.isEmpty() ? Arrays.asList(component) : List.of();
+        this.description = description;
+        this.factoryType = factoryType;
+        this.className = className;
+        this.autowired = false;
     }
 
     public String getName() {
@@ -28,12 +48,12 @@ public class FactoryInfo {
         this.name = name;
     }
 
-    public String getComponent() {
-        return component;
+    public List<String> getComponents() {
+        return components;
     }
 
-    public void setComponent(String component) {
-        this.component = component;
+    public void setComponents(List<String> components) {
+        this.components = components;
     }
 
     public String getDescription() {
@@ -60,13 +80,22 @@ public class FactoryInfo {
         this.className = className;
     }
 
+    public boolean isAutowired() {
+        return autowired;
+    }
+
+    public void setAutowired(boolean autowired) {
+        this.autowired = autowired;
+    }
+
     @Override
     public String toString() {
         return "FactoryInfo{" + "name='"
-                + name + '\'' + ", component='"
-                + component + '\'' + ", description='"
+                + name + '\'' + ", components="
+                + components + ", description='"
                 + description + '\'' + ", factoryType='"
                 + factoryType + '\'' + ", className='"
-                + className + '\'' + '}';
+                + className + '\'' + ", autowired="
+                + autowired + '}';
     }
 }

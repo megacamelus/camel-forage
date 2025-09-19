@@ -1,12 +1,17 @@
 package org.apache.camel.forage.jdbc.mssql;
 
 import com.microsoft.sqlserver.jdbc.SQLServerDriver;
-import org.apache.camel.forage.jdbc.PooledDataSource;
+import org.apache.camel.forage.core.annotations.ForageBean;
+import org.apache.camel.forage.jdbc.common.PooledDataSource;
 
 /**
  * Microsoft SQL Server implementation extending PooledJdbc.
  * Provides SQL Server-specific connection provider configuration.
  */
+@ForageBean(
+        value = "mssql",
+        components = {"camel-sql", "camel-jdbc", "camel-spring-jdbc"},
+        description = "MSSQL database DataSource Provider")
 public class MssqlJdbc extends PooledDataSource {
 
     @Override

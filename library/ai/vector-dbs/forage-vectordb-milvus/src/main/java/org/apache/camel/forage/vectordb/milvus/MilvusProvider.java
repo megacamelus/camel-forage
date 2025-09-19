@@ -41,7 +41,7 @@ import org.slf4j.LoggerFactory;
  */
 @ForageBean(
         value = "milvus",
-        component = "camel-langchain4j-embeddings",
+        components = {"camel-langchain4j-embeddings"},
         description = "Milvus vector database provider")
 public class MilvusProvider implements EmbeddingStoreProvider {
     private static final Logger LOG = LoggerFactory.getLogger(MilvusProvider.class);

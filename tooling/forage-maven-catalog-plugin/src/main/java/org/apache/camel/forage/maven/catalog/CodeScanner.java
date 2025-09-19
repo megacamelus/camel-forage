@@ -6,6 +6,9 @@ import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.expr.AnnotationExpr;
+import com.github.javaparser.ast.expr.ArrayInitializerExpr;
+import com.github.javaparser.ast.expr.BooleanLiteralExpr;
+import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.MemberValuePair;
 import com.github.javaparser.ast.expr.MethodCallExpr;
 import com.github.javaparser.ast.expr.NormalAnnotationExpr;
@@ -209,9 +212,10 @@ public class CodeScanner {
     private FactoryInfo extractForageFactoryInfo(
             AnnotationExpr annotation, ClassOrInterfaceDeclaration classDecl, CompilationUnit cu) {
         String name = "";
-        String component = "";
+        List<String> components = new ArrayList<>();
         String description = "";
         String factoryType = "";
+        boolean autowired = false;
 
         // Extract annotation values
         if (annotation instanceof SingleMemberAnnotationExpr) {
@@ -223,22 +227,32 @@ public class CodeScanner {
             NormalAnnotationExpr normalAnnotation = (NormalAnnotationExpr) annotation;
             for (MemberValuePair pair : normalAnnotation.getPairs()) {
                 String pairName = pair.getNameAsString();
-                if (pair.getValue() instanceof StringLiteralExpr) {
-                    String value = ((StringLiteralExpr) pair.getValue()).asString();
-                    switch (pairName) {
-                        case "value":
-                            name = value;
-                            break;
-                        case "component":
-                            component = value;
-                            break;
-                        case "description":
-                            description = value;
-                            break;
-                        case "factoryType":
-                            factoryType = value;
-                            break;
-                    }
+                Expression value = pair.getValue();
+
+                switch (pairName) {
+                    case "value":
+                        if (value instanceof StringLiteralExpr) {
+                            name = ((StringLiteralExpr) value).asString();
+                        }
+                        break;
+                    case "components":
+                        components = extractStringArrayValue(value);
+                        break;
+                    case "description":
+                        if (value instanceof StringLiteralExpr) {
+                            description = ((StringLiteralExpr) value).asString();
+                        }
+                        break;
+                    case "factoryType":
+                        if (value instanceof StringLiteralExpr) {
+                            factoryType = ((StringLiteralExpr) value).asString();
+                        }
+                        break;
+                    case "autowired":
+                        if (value instanceof BooleanLiteralExpr) {
+                            autowired = ((BooleanLiteralExpr) value).getValue();
+                        }
+                        break;
                 }
             }
         }
@@ -246,7 +260,7 @@ public class CodeScanner {
         // Get the fully qualified class name
         String className = getFullyQualifiedClassName(classDecl, cu);
 
-        return new FactoryInfo(name, component, description, factoryType, className);
+        return new FactoryInfo(name, components, description, factoryType, className, autowired);
     }
 
     /**
@@ -255,7 +269,7 @@ public class CodeScanner {
     private ForgeBeanInfo extractForgeBeanInfo(
             AnnotationExpr annotation, ClassOrInterfaceDeclaration classDecl, CompilationUnit cu) {
         String name = "";
-        String component = "";
+        List<String> components = new ArrayList<>();
         String description = "";
 
         // Extract annotation values
@@ -268,19 +282,22 @@ public class CodeScanner {
             NormalAnnotationExpr normalAnnotation = (NormalAnnotationExpr) annotation;
             for (MemberValuePair pair : normalAnnotation.getPairs()) {
                 String pairName = pair.getNameAsString();
-                if (pair.getValue() instanceof StringLiteralExpr) {
-                    String value = ((StringLiteralExpr) pair.getValue()).asString();
-                    switch (pairName) {
-                        case "value":
-                            name = value;
-                            break;
-                        case "component":
-                            component = value;
-                            break;
-                        case "description":
-                            description = value;
-                            break;
-                    }
+                Expression value = pair.getValue();
+
+                switch (pairName) {
+                    case "value":
+                        if (value instanceof StringLiteralExpr) {
+                            name = ((StringLiteralExpr) value).asString();
+                        }
+                        break;
+                    case "components":
+                        components = extractStringArrayValue(value);
+                        break;
+                    case "description":
+                        if (value instanceof StringLiteralExpr) {
+                            description = ((StringLiteralExpr) value).asString();
+                        }
+                        break;
                 }
             }
         }
@@ -288,7 +305,7 @@ public class CodeScanner {
         // Get the fully qualified class name
         String className = getFullyQualifiedClassName(classDecl, cu);
 
-        return new ForgeBeanInfo(name, component, description, className);
+        return new ForgeBeanInfo(name, components, description, className);
     }
 
     /**
@@ -431,6 +448,22 @@ public class CodeScanner {
                 && methodCall.getScope().isPresent()
                 && (methodCall.getScope().get().toString().equals("ConfigModule")
                         || methodCall.getScope().get().toString().endsWith(".ConfigModule"));
+    }
+
+    /**
+     * Extracts a list of strings from an annotation value that can be either a single string or an array of strings.
+     */
+    private List<String> extractStringArrayValue(Expression value) {
+        List<String> result = new ArrayList<>();
+
+        ArrayInitializerExpr arrayExpr = (ArrayInitializerExpr) value;
+        for (Expression element : arrayExpr.getValues()) {
+            if (element instanceof StringLiteralExpr) {
+                result.add(((StringLiteralExpr) element).asString());
+            }
+        }
+
+        return result;
     }
 
     /**

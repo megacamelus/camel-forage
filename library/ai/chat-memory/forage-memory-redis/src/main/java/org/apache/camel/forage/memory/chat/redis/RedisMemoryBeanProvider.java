@@ -42,7 +42,10 @@ import redis.clients.jedis.exceptions.JedisException;
  * @see PersistentRedisStore
  * @since 1.0
  */
-@ForageBean(value = "redis", component = "camel-langchain4j-agent", description = "Redis-based chat memory factory")
+@ForageBean(
+        value = "redis",
+        components = {"camel-langchain4j-agent"},
+        description = "Redis-based chat memory factory")
 public class RedisMemoryBeanProvider implements ChatMemoryBeanProvider {
     private static final Logger LOG = LoggerFactory.getLogger(RedisMemoryBeanProvider.class);
     private static final int DEFAULT_MAX_MESSAGES = 100;

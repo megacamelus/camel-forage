@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 
 @ForageBean(
         value = "message-window",
-        component = "camel-langchain4j-agent",
+        components = {"camel-langchain4j-agent"},
         description = "Message window chat memory factory")
 public class MessageWindowChatMemoryBeanProvider implements ChatMemoryBeanProvider {
     private static final Logger LOG = LoggerFactory.getLogger(MessageWindowChatMemoryBeanProvider.class);

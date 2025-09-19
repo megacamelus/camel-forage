@@ -1,4 +1,4 @@
-package org.apache.camel.forage.jdbc;
+package org.apache.camel.forage.jdbc.common;
 
 import java.util.List;
 import java.util.Optional;

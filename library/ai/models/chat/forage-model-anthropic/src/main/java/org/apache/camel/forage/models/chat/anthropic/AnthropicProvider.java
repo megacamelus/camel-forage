@@ -27,7 +27,7 @@ import org.slf4j.LoggerFactory;
  */
 @ForageBean(
         value = "anthropic",
-        component = "camel-langchain4j-agent",
+        components = {"camel-langchain4j-agent"},
         description = "Anthropic Claude chat model provider (placeholder)")
 public class AnthropicProvider implements ModelProvider {
     private static final Logger LOG = LoggerFactory.getLogger(AnthropicProvider.class);

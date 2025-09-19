@@ -44,7 +44,7 @@ import org.slf4j.LoggerFactory;
  */
 @ForageBean(
         value = "chroma",
-        component = "camel-langchain4j-embeddings",
+        components = {"camel-langchain4j-embeddings"},
         description = "Chroma vector database provider")
 public class ChromaProvider implements EmbeddingStoreProvider {
     private static final Logger LOG = LoggerFactory.getLogger(ChromaProvider.class);
