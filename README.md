@@ -266,7 +266,6 @@ from("timer:ai?period=30000")
 ### Custom Configuration
 
 ```java
-@Component
 public class MyRoutes extends RouteBuilder {
     @Override
     public void configure() throws Exception {

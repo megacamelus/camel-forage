@@ -214,7 +214,6 @@ For advanced scenarios, you can create custom agent factories or configure agent
 ### Memory-Enabled Chat Bot
 
 ```java
-@Component
 public class ChatBotRoutes extends RouteBuilder {
     @Override
     public void configure() throws Exception {
@@ -230,7 +229,6 @@ public class ChatBotRoutes extends RouteBuilder {
 ### Stateless API Endpoint
 
 ```java
-@Component
 public class ApiRoutes extends RouteBuilder {
     @Override
     public void configure() throws Exception {
