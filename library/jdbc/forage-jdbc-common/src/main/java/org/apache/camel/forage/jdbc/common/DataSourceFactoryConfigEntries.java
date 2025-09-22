@@ -13,6 +13,7 @@ import org.apache.camel.forage.core.util.config.ConfigModule;
  */
 public class DataSourceFactoryConfigEntries extends ConfigEntries {
     // Database connection configuration
+    public static final ConfigModule DB_KIND = ConfigModule.of(DataSourceFactoryConfig.class, "jdbc.db.kind");
     public static final ConfigModule JDBC_URL = ConfigModule.of(DataSourceFactoryConfig.class, "jdbc.url");
     public static final ConfigModule CONNECTION_PROVIDER_CLASS_NAME =
             ConfigModule.of(DataSourceFactoryConfig.class, "jdbc.connection.provider.class.name");
@@ -45,6 +46,7 @@ public class DataSourceFactoryConfigEntries extends ConfigEntries {
     }
 
     static void init() {
+        CONFIG_MODULES.put(DB_KIND, ConfigEntry.fromModule());
         CONFIG_MODULES.put(JDBC_URL, ConfigEntry.fromModule());
         CONFIG_MODULES.put(CONNECTION_PROVIDER_CLASS_NAME, ConfigEntry.fromModule());
         CONFIG_MODULES.put(USERNAME, ConfigEntry.fromModule());

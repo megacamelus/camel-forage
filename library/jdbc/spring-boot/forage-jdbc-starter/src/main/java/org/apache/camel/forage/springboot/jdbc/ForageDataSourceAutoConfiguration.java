@@ -5,11 +5,13 @@ import io.agroal.springframework.boot.AgroalDataSourceAutoConfiguration;
 import jakarta.annotation.PostConstruct;
 import java.util.List;
 import java.util.ServiceLoader;
+import java.util.Set;
 import org.apache.camel.forage.core.annotations.ForageFactory;
 import org.apache.camel.forage.core.common.ServiceLoaderHelper;
 import org.apache.camel.forage.core.jdbc.DataSourceProvider;
+import org.apache.camel.forage.core.util.config.ConfigStore;
 import org.apache.camel.forage.jdbc.common.DataSourceFactoryConfig;
-import org.apache.camel.forage.jdbc.common.MultiDataSourceConfig;
+import org.apache.camel.forage.jdbc.common.DataSourceFactoryConfigHelper;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -33,13 +35,12 @@ public class ForageDataSourceAutoConfiguration implements BeanFactoryAware {
     public void createJdbcBeans() {
         ConfigurableBeanFactory configurableBeanFactory = (ConfigurableBeanFactory) beanFactory;
 
-        MultiDataSourceConfig config = new MultiDataSourceConfig();
+        DataSourceFactoryConfig config = new DataSourceFactoryConfig();
+        Set<String> prefixes = ConfigStore.getInstance().readPrefixes(config, "(.+).jdbc\\..*");
 
-        if (config != null
-                && config.multiDataSourceNames() != null
-                && !config.multiDataSourceNames().isEmpty()) {
+        if (!prefixes.isEmpty()) {
             boolean isDataSourceCrated = false;
-            for (String name : config.multiDataSourceNames()) {
+            for (String name : prefixes) {
                 if (!configurableBeanFactory.containsBean(name)) {
                     DataSourceFactoryConfig dsFactoryConfig = new DataSourceFactoryConfig(name);
                     AgroalDataSource agroalDataSource = newDataSource(dsFactoryConfig, name);
@@ -65,7 +66,8 @@ public class ForageDataSourceAutoConfiguration implements BeanFactoryAware {
     }
 
     private synchronized AgroalDataSource newDataSource(DataSourceFactoryConfig dataSourceFactoryConfig, String name) {
-        final String dataSourceProviderClass = dataSourceFactoryConfig.providerDataSourceClass();
+        final String dataSourceProviderClass =
+                DataSourceFactoryConfigHelper.transformDbKindIntoProviderClass(dataSourceFactoryConfig.dbKind());
 
         final List<ServiceLoader.Provider<DataSourceProvider>> providers = findDataSourceProviders();
 

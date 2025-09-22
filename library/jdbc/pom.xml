@@ -15,6 +15,7 @@
     <name>Camel Forage :: Library :: JDBC</name>
 
     <modules>
+        <module>camel-quarkus</module>
         <module>forage-jdbc-common</module>
         <module>forage-jdbc</module>
         <module>forage-jdbc-db2</module>

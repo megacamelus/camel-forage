@@ -7,9 +7,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.Optional;
 import java.util.Properties;
+import java.util.Set;
 import java.util.function.BiConsumer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -189,6 +194,104 @@ public final class ConfigStore {
         props.load(inputStream);
 
         props.forEach((k, v) -> registerFunction.accept((String) k, (String) v));
+    }
+
+    /**
+     * Utility method to read common prefixes from the {@link Config}, defined by the regexp.
+     *
+     * <p>
+     *     Regexp has to contain one group, which is extracted.
+     *     For the regexp <pre>"(.+).jdbc\\..*"</pre> from the properties:
+     *      <pre>
+     *          ds1.jdbc.url=jdbc:postgresql://localhost:5432/postgres
+     *          ds2.jdbc.url=jdbc:mysql://localhost:3306/test
+     *      </pre>
+     *      both <Strong>ds1, ds2</Strong> prefixes are extracted.
+     *      </p>
+     * </p>
+     *
+     * @return If there is no group extracted in the whole properties file, null is return. Else prefixes defined by
+     * the regexp in a set.
+     */
+    public <T extends Config> Set<String> readPrefixes(T instance, String regexp) {
+        final String fileName = asProperties(instance);
+
+        File file = Paths.get("", fileName).toAbsolutePath().toFile();
+        if (!file.exists()) {
+            final String property = System.getProperty("forage.config.dir");
+            if (property != null) {
+                file = Paths.get(property, fileName).toAbsolutePath().toFile();
+            } else {
+                final String environment = System.getenv("FORAGE_CONFIG_DIR");
+                if (environment != null) {
+                    file = Paths.get(environment, fileName).toAbsolutePath().toFile();
+                }
+            }
+        }
+
+        if (file.exists()) {
+            return readPrefixes(file, regexp);
+        }
+
+        if (classLoader != null) {
+            LOG.info("Trying to use the classloader to read {}", file);
+            final URL resource = classLoader.getResource(asClasspathPath(instance));
+            if (resource != null) {
+                try (InputStream fis = resource.openStream()) {
+                    return readPrefixes(fis, regexp);
+                } catch (FileNotFoundException e) {
+                    throw new RuntimeException(e);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+
+        // Load defaults provided by the forage component itself
+        InputStream is = ConfigStore.class.getResourceAsStream("/" + instance.name() + ".properties");
+        if (is != null) {
+            LOG.info("Loading defaults from the forage component");
+            try {
+                return readPrefixes(is, regexp);
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return Collections.emptySet();
+    }
+
+    private static Set<String> readPrefixes(File file, String regexp) {
+        LOG.info("Found existing config file {}", file);
+
+        try (FileInputStream fis = new FileInputStream(file)) {
+            return readPrefixes(fis, regexp);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static Set<String> readPrefixes(InputStream inputStream, String regexp) throws IOException {
+        Pattern pattern = Pattern.compile(regexp);
+
+        Properties props = new Properties();
+
+        props.load(inputStream);
+
+        return Collections.list(props.keys()).stream()
+                .map((key) -> {
+                    Matcher m = pattern.matcher((String) key);
+                    if (m.find()) {
+                        return m.group(1);
+                    } else {
+                        return null;
+                    }
+                })
+                .filter(prefix -> prefix != null)
+                .collect(Collectors.toSet());
     }
 
     private static <T extends Config> String asClasspathPath(T instance) {

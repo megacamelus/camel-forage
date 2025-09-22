@@ -43,6 +43,12 @@ public class DataSourceFactoryConfig implements Config {
     }
 
     // Database connection methods
+    public String dbKind() {
+        return ConfigStore.getInstance()
+                .get(DataSourceFactoryConfigEntries.DB_KIND.asNamed(prefix))
+                .orElseThrow(() -> new MissingConfigException("Db kind is required but not configured"));
+    }
+
     public String jdbcUrl() {
         return ConfigStore.getInstance()
                 .get(DataSourceFactoryConfigEntries.JDBC_URL.asNamed(prefix))
@@ -117,13 +123,5 @@ public class DataSourceFactoryConfig implements Config {
                 .get(DataSourceFactoryConfigEntries.TRANSACTION_TIMEOUT_SECONDS.asNamed(prefix))
                 .map(Integer::parseInt)
                 .orElse(30);
-    }
-
-    // Provider configuration method
-    public String providerDataSourceClass() {
-        return ConfigStore.getInstance()
-                .get(DataSourceFactoryConfigEntries.PROVIDER_DATASOURCE_CLASS.asNamed(prefix))
-                .orElseThrow(
-                        () -> new IllegalStateException("Provider datasource class is required but not configured"));
     }
 }
