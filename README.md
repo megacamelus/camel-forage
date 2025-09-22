@@ -75,7 +75,7 @@ based on the dependencies available on the classpath.
 📋 **[Complete Agents Documentation](library/ai/agents/README.md)** - Comprehensive guide to all agent components
 
 #### Models
-- **camel-forage-model-open-ai** - OpenAI chat model provider ([Configuration Guide](library/ai/models/chat/camel-forage-model-open-ai/README.md))
+- **camel-forage-model-open-ai** - OpenAI chat model provider ([Configuration Guide](library/ai/models/chat/forage-model-open-ai/README.md))
 - **forage-model-google-gemini** - Google Gemini chat model provider ([Configuration Guide](library/ai/models/chat/forage-model-google-gemini/README.md))
 - **forage-model-ollama** - Ollama chat model provider ([Configuration Guide](library/ai/models/chat/forage-model-ollama/README.md))
 
@@ -95,7 +95,7 @@ Camel Forage provides JDBC data source factories that simplify database connecti
 #### Available JDBC Modules
 
 - **forage-jdbc** - Core pooled JDBC functionality
-- **forage-jdbc-factories** - Data source factory implementations ([Documentation](library/jdbc/forage-jdbc-factories/README.md))
+- **forage-jdbc-factories** - Data source factory implementations
 - **forage-jdbc-postgres** - PostgreSQL data source provider
 - **forage-jdbc-mysql** - MySQL data source provider  
 - **forage-jdbc-mariadb** - MariaDB data source provider
