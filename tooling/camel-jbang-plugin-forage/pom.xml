@@ -21,12 +21,22 @@
             <artifactId>camel-jbang-core</artifactId>
         </dependency>
 
-        <!-- Test dependencies -->
         <dependency>
-            <groupId>org.apache.camel</groupId>
-            <artifactId>camel-test-junit5</artifactId>
-            <scope>test</scope>
+            <groupId>org.apache.camel.forage</groupId>
+            <artifactId>forage-jdbc-common</artifactId>
+            <version>${project.version}</version>
         </dependency>
+
+        <!-- Test dependencies -->
     </dependencies>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+    </build>
 
 </project>

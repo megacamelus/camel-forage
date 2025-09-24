@@ -19,6 +19,8 @@ package org.apache.camel.forage.plugin;
 import org.apache.camel.dsl.jbang.core.commands.CamelJBangMain;
 import org.apache.camel.dsl.jbang.core.common.CamelJBangPlugin;
 import org.apache.camel.dsl.jbang.core.common.Plugin;
+import org.apache.camel.forage.plugin.datasource.DataSourceCommand;
+import org.apache.camel.forage.plugin.datasource.TestDataSourceCommand;
 import picocli.CommandLine;
 
 @CamelJBangPlugin(name = "camel-jbang-plugin-forage", firstVersion = "4.15.0")
@@ -28,6 +30,11 @@ public class ForagePlugin implements Plugin {
     public void customize(CommandLine commandLine, CamelJBangMain main) {
         var cmd = new CommandLine(new ForageCommand(main));
 
-        commandLine.addSubcommand("forage", cmd);
+        commandLine.addSubcommand(
+                "forage",
+                cmd.addSubcommand(
+                        "datasource",
+                        new CommandLine(new DataSourceCommand(main))
+                                .addSubcommand("test-connection", new CommandLine(new TestDataSourceCommand(main)))));
     }
 }
