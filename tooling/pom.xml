@@ -16,6 +16,7 @@
 
     <modules>
         <module>forage-maven-catalog-plugin</module>
+        <module>camel-jbang-plugin-forage</module>
     </modules>
 
 </project>
