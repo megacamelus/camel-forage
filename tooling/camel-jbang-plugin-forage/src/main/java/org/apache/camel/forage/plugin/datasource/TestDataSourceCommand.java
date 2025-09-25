@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Map;
+import java.util.Set;
 import javax.sql.DataSource;
 import org.apache.camel.dsl.jbang.core.commands.CamelCommand;
 import org.apache.camel.dsl.jbang.core.commands.CamelJBangMain;
@@ -13,6 +13,10 @@ import org.apache.camel.forage.jdbc.common.DataSourceFactoryConfig;
 import org.apache.camel.main.download.DependencyDownloaderClassLoader;
 import org.apache.camel.main.download.MavenDependencyDownloader;
 import org.apache.camel.tooling.maven.MavenArtifact;
+import org.reflections.Reflections;
+import org.reflections.scanners.Scanners;
+import org.reflections.util.ClasspathHelper;
+import org.reflections.util.ConfigurationBuilder;
 import picocli.CommandLine;
 
 /**
@@ -32,51 +36,9 @@ public class TestDataSourceCommand extends CamelCommand {
             description = "Enable verbose logging")
     private boolean verbose;
 
-    private static final Map<String, DatabaseInfo> SUPPORTED_DATABASES = Map.of(
-            "postgres",
-                    new DatabaseInfo(
-                            "org.apache.camel.forage.jdbc.postgres.PostgresJdbc",
-                            "SELECT version(), current_database(), current_user"),
-            "postgresql",
-                    new DatabaseInfo(
-                            "org.apache.camel.forage.jdbc.postgres.PostgresJdbc",
-                            "SELECT version(), current_database(), current_user"),
-            "mysql",
-                    new DatabaseInfo(
-                            "org.apache.camel.forage.jdbc.mysql.MysqlJdbc", "SELECT VERSION(), DATABASE(), USER()"),
-            "mariadb",
-                    new DatabaseInfo(
-                            "org.apache.camel.forage.jdbc.mariadb.MariadbJdbc", "SELECT VERSION(), DATABASE(), USER()"),
-            "oracle",
-                    new DatabaseInfo(
-                            "org.apache.camel.forage.jdbc.oracle.OracleJdbc",
-                            "SELECT banner FROM v$version WHERE ROWNUM = 1"),
-            "mssql",
-                    new DatabaseInfo(
-                            "org.apache.camel.forage.jdbc.mssql.MssqlJdbc",
-                            "SELECT @@VERSION, DB_NAME(), SUSER_SNAME()"),
-            "sqlserver",
-                    new DatabaseInfo(
-                            "org.apache.camel.forage.jdbc.mssql.MssqlJdbc",
-                            "SELECT @@VERSION, DB_NAME(), SUSER_SNAME()"),
-            "h2", new DatabaseInfo("org.apache.camel.forage.jdbc.h2.H2Jdbc", "SELECT H2VERSION(), SCHEMA(), USER()"),
-            "hsqldb",
-                    new DatabaseInfo(
-                            "org.apache.camel.forage.jdbc.hsqldb.HsqldbJdbc",
-                            "SELECT 'HSQLDB ' || database_version() FROM INFORMATION_SCHEMA.SYSTEM_VERSIONS"),
-            "db2",
-                    new DatabaseInfo(
-                            "org.apache.camel.forage.jdbc.db2.Db2Jdbc",
-                            "SELECT service_level, current_schema, current_user FROM sysibm.sysversions"));
-
     public TestDataSourceCommand(CamelJBangMain main) {
         super(main);
     }
-
-    /**
-     * Database configuration containing provider class and test query.
-     */
-    private record DatabaseInfo(String providerClass, String testQuery) {}
 
     /**
      * Executes the datasource connection test.
@@ -89,12 +51,9 @@ public class TestDataSourceCommand extends CamelCommand {
         try {
             DataSourceFactoryConfig dsFactoryConfig = new DataSourceFactoryConfig(dataSourceName);
             String dbKind = dsFactoryConfig.dbKind().toLowerCase();
-
-            DatabaseInfo dbInfo = SUPPORTED_DATABASES.get(dbKind);
-            if (dbInfo == null) {
-                printer().printErr("Unsupported database kind: " + dbKind);
-                printer().printErr("Supported databases: " + String.join(", ", SUPPORTED_DATABASES.keySet()));
-                return 1;
+            // TODO Either align everything to postgresql or postgres
+            if (dbKind.equals("postgresql")) {
+                dbKind = "postgres";
             }
 
             printer().println("Testing connection for database: " + dbKind);
@@ -103,9 +62,10 @@ public class TestDataSourceCommand extends CamelCommand {
             }
 
             ClassLoader dbClassLoader = loadJdbcDependency(dbKind);
-            DataSource dataSource = createDataSource(dbInfo.providerClass, dbClassLoader);
 
-            return testConnection(dataSource, dbInfo.testQuery);
+            DataSourceProvider dataSourceProvider = createDataSourceProvider(dbKind, dbClassLoader);
+
+            return testConnection(dataSourceProvider.create(dataSourceName), dataSourceProvider.getTestQuery());
         } catch (Exception e) {
             printer().printErr("Failed to test datasource connection: " + e.getMessage());
             if (verbose) {
@@ -119,22 +79,27 @@ public class TestDataSourceCommand extends CamelCommand {
     /**
      * Creates a datasource using the specified provider class and classloader.
      *
-     * @param className the datasource provider class name
+     * @param dbKind the database type
      * @param classLoader the classloader containing the provider
      * @return configured DataSource instance
      * @throws Exception if datasource creation fails
      */
-    private DataSource createDataSource(String className, ClassLoader classLoader) throws Exception {
-        try {
-            Class<?> providerClass = classLoader.loadClass(className);
-            DataSourceProvider dataSourceProvider =
-                    (DataSourceProvider) providerClass.getDeclaredConstructor().newInstance();
-            return dataSourceProvider.create(dataSourceName);
-        } catch (ClassNotFoundException e) {
-            throw new IllegalStateException("DataSource provider class not found: " + className, e);
-        } catch (Exception e) {
-            throw new IllegalStateException("Failed to create DataSource provider: " + className, e);
-        }
+    private DataSourceProvider createDataSourceProvider(String dbKind, ClassLoader classLoader) throws Exception {
+        Set<Class<? extends DataSourceProvider>> providers = findImplementations(classLoader);
+
+        DataSourceProvider dataSourceProvider = providers.stream()
+                .filter(dsProvider -> dsProvider.getName().toLowerCase().contains(dbKind.toLowerCase()))
+                .map(dsProvider -> {
+                    try {
+                        return dsProvider.getDeclaredConstructor().newInstance();
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                })
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("No implementation found for " + dbKind));
+
+        return dataSourceProvider;
     }
 
     /**
@@ -343,5 +308,17 @@ public class TestDataSourceCommand extends CamelCommand {
                 }
             }
         }
+    }
+
+    private Set<Class<? extends DataSourceProvider>> findImplementations(ClassLoader classLoader) {
+
+        // Create Reflections configuration with specific ClassLoader
+        Reflections reflections = new Reflections(new ConfigurationBuilder()
+                .setUrls(ClasspathHelper.forClassLoader(classLoader))
+                .addClassLoaders(classLoader)
+                .addScanners(Scanners.SubTypes));
+
+        // Get all subtypes (implementations) of the interface
+        return reflections.getSubTypesOf(DataSourceProvider.class);
     }
 }

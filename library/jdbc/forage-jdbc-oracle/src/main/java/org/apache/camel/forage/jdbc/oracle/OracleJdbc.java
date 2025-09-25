@@ -18,4 +18,9 @@ public class OracleJdbc extends PooledDataSource {
     protected Class getConnectionProviderClass() {
         return OracleDriver.class;
     }
+
+    @Override
+    public String getTestQuery() {
+        return "SELECT banner FROM v$version WHERE ROWNUM = 1";
+    }
 }

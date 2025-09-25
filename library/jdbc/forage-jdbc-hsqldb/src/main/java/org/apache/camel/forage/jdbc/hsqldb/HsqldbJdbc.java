@@ -18,4 +18,9 @@ public class HsqldbJdbc extends PooledDataSource {
     protected Class getConnectionProviderClass() {
         return JDBCDriver.class;
     }
+
+    @Override
+    public String getTestQuery() {
+        return "SELECT 'HSQLDB ' || database_version() FROM INFORMATION_SCHEMA.SYSTEM_VERSIONS";
+    }
 }

@@ -18,4 +18,9 @@ public class PostgresJdbc extends PooledDataSource {
     protected Class getConnectionProviderClass() {
         return Driver.class;
     }
+
+    @Override
+    public String getTestQuery() {
+        return "SELECT version(), current_database(), current_user";
+    }
 }

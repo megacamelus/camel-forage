@@ -18,4 +18,9 @@ public class Db2Jdbc extends PooledDataSource {
     protected Class getConnectionProviderClass() {
         return DB2Driver.class;
     }
+
+    @Override
+    public String getTestQuery() {
+        return "SELECT service_level, current_schema, current_user FROM sysibm.sysversions";
+    }
 }

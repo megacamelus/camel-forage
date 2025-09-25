@@ -29,4 +29,12 @@ public interface DataSourceProvider extends BeanProvider<DataSource> {
      */
     @Override
     DataSource create(String id);
+
+    /**
+     * Return a query that can be used to test the connection
+     * to the database
+     *
+     * @return the query
+     */
+    String getTestQuery();
 }

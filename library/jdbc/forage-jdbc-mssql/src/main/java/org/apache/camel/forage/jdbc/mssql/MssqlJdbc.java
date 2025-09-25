@@ -18,4 +18,9 @@ public class MssqlJdbc extends PooledDataSource {
     protected Class getConnectionProviderClass() {
         return SQLServerDriver.class;
     }
+
+    @Override
+    public String getTestQuery() {
+        return "SELECT @@VERSION, DB_NAME(), SUSER_SNAME()";
+    }
 }

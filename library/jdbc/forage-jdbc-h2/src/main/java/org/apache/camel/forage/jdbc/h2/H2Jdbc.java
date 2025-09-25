@@ -18,4 +18,9 @@ public class H2Jdbc extends PooledDataSource {
     protected Class getConnectionProviderClass() {
         return Driver.class;
     }
+
+    @Override
+    public String getTestQuery() {
+        return "SELECT H2VERSION(), SCHEMA(), USER()";
+    }
 }

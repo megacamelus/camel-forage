@@ -18,4 +18,9 @@ public class MariadbJdbc extends PooledDataSource {
     protected Class getConnectionProviderClass() {
         return Driver.class;
     }
+
+    @Override
+    public String getTestQuery() {
+        return "SELECT VERSION(), DATABASE(), USER()";
+    }
 }
