@@ -12,6 +12,12 @@ import org.apache.camel.forage.core.jdbc.DataSourceProvider;
 import org.apache.camel.forage.core.util.config.ConfigStore;
 import org.apache.camel.forage.jdbc.common.DataSourceFactoryConfig;
 import org.apache.camel.forage.jdbc.common.DataSourceFactoryConfigHelper;
+import org.apache.camel.forage.jdbc.jta.MandatoryJtaTransactionPolicy;
+import org.apache.camel.forage.jdbc.jta.NeverJtaTransactionPolicy;
+import org.apache.camel.forage.jdbc.jta.NotSupportedJtaTransactionPolicy;
+import org.apache.camel.forage.jdbc.jta.RequiredJtaTransactionPolicy;
+import org.apache.camel.forage.jdbc.jta.RequiresNewJtaTransactionPolicy;
+import org.apache.camel.forage.jdbc.jta.SupportsJtaTransactionPolicy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,6 +38,15 @@ public class DataSourceBeanFactory implements BeanFactory {
 
         DataSourceFactoryConfig config = new DataSourceFactoryConfig();
         Set<String> prefixes = ConfigStore.getInstance().readPrefixes(config, "(.+).jdbc\\..*");
+
+        if (config.transactionEnabled()) {
+            camelContext.getRegistry().bind("PROPAGATION_REQUIRED", new RequiredJtaTransactionPolicy());
+            camelContext.getRegistry().bind("MANDATORY", new MandatoryJtaTransactionPolicy());
+            camelContext.getRegistry().bind("NEVER", new NeverJtaTransactionPolicy());
+            camelContext.getRegistry().bind("NOT_SUPPORTED", new NotSupportedJtaTransactionPolicy());
+            camelContext.getRegistry().bind("REQUIRES_NEW", new RequiresNewJtaTransactionPolicy());
+            camelContext.getRegistry().bind("SUPPORTS", new SupportsJtaTransactionPolicy());
+        }
 
         if (!prefixes.isEmpty()) {
             for (String name : prefixes) {

@@ -12,13 +12,22 @@ import org.apache.camel.forage.core.jdbc.DataSourceProvider;
 import org.apache.camel.forage.core.util.config.ConfigStore;
 import org.apache.camel.forage.jdbc.common.DataSourceFactoryConfig;
 import org.apache.camel.forage.jdbc.common.DataSourceFactoryConfigHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+/**
+ * Auto-configuration for Forage DataSource creation using ServiceLoader discovery.
+ * Automatically creates DataSource beans from JDBC configuration properties,
+ * supporting both single and multi-instance (prefixed) configurations.
+ */
 @ForageFactory(
         value = "CamelSpringBootDataSourceFactory",
         components = {"camel-sql", "camel-jdbc", "camel-spring-jdbc"},
@@ -29,56 +38,100 @@ import org.springframework.context.annotation.Configuration;
 @AutoConfigureBefore({DataSourceAutoConfiguration.class, AgroalDataSourceAutoConfiguration.class})
 public class ForageDataSourceAutoConfiguration implements BeanFactoryAware {
 
+    private static final Logger log = LoggerFactory.getLogger(ForageDataSourceAutoConfiguration.class);
+
+    /**
+     * Transaction management configuration that enables Spring transaction support
+     * when JDBC transactions are configured in Forage DataSource settings.
+     */
+    @Configuration
+    @ConditionalOnProperty(value = "jdbc.transaction.enabled", havingValue = "true")
+    @EnableTransactionManagement
+    class ForageTransactionManagement {
+
+        @PostConstruct
+        public void init() {
+            log.info("ForageTransactionManagement configuration enabled");
+        }
+    }
+
     private BeanFactory beanFactory;
 
     @PostConstruct
     public void createJdbcBeans() {
+        log.info("Initializing Forage DataSource auto-configuration");
         ConfigurableBeanFactory configurableBeanFactory = (ConfigurableBeanFactory) beanFactory;
 
         DataSourceFactoryConfig config = new DataSourceFactoryConfig();
         Set<String> prefixes = ConfigStore.getInstance().readPrefixes(config, "(.+).jdbc\\..*");
+        log.debug("Found {} prefixes for JDBC configuration: {}", prefixes.size(), prefixes);
 
         if (!prefixes.isEmpty()) {
+            log.info("Creating named DataSource beans for prefixes: {}", prefixes);
             boolean isDataSourceCrated = false;
             for (String name : prefixes) {
                 if (!configurableBeanFactory.containsBean(name)) {
+                    log.debug("Creating DataSource bean with name: {}", name);
                     DataSourceFactoryConfig dsFactoryConfig = new DataSourceFactoryConfig(name);
                     AgroalDataSource agroalDataSource = newDataSource(dsFactoryConfig, name);
                     configurableBeanFactory.registerSingleton(name, agroalDataSource);
+                    log.info("Registered DataSource bean: {}", name);
                     if (!isDataSourceCrated) {
                         // This is needed for Spring Boot AutoConfiguration, let's just register the first datasource
                         // as the default dataSource too
                         configurableBeanFactory.registerSingleton("dataSource", agroalDataSource);
+                        log.info("Registered default DataSource bean using: {}", name);
                         isDataSourceCrated = true;
                     }
+                } else {
+                    log.debug("DataSource bean {} already exists, skipping creation", name);
                 }
             }
         } else {
+            log.debug("No prefixed JDBC configurations found, looking for single DataSource provider");
             final List<ServiceLoader.Provider<DataSourceProvider>> providers = findDataSourceProviders();
             if (providers.size() == 1) {
+                log.info(
+                        "Creating default DataSource using single provider: {}",
+                        providers.get(0).type().getName());
                 AgroalDataSource agroalDataSource =
                         (AgroalDataSource) providers.get(0).get().create();
                 configurableBeanFactory.registerSingleton("dataSource", agroalDataSource);
+                log.info("Registered default DataSource bean");
             } else {
+                log.error(
+                        "Expected exactly 1 DataSource provider, but found {}: {}",
+                        providers.size(),
+                        providers.stream().map(p -> p.type().getName()).toList());
                 throw new IllegalArgumentException("No dataSource implementation is present in the classpath");
             }
         }
     }
 
     private synchronized AgroalDataSource newDataSource(DataSourceFactoryConfig dataSourceFactoryConfig, String name) {
+        log.debug("Creating new DataSource for name: {} with dbKind: {}", name, dataSourceFactoryConfig.dbKind());
         final String dataSourceProviderClass =
                 DataSourceFactoryConfigHelper.transformDbKindIntoProviderClass(dataSourceFactoryConfig.dbKind());
+        log.debug("Resolved provider class: {}", dataSourceProviderClass);
 
         final List<ServiceLoader.Provider<DataSourceProvider>> providers = findDataSourceProviders();
+        log.debug("Found {} DataSource providers", providers.size());
 
         ServiceLoader.Provider<DataSourceProvider> dataSourceProvider;
         if (providers.size() == 1) {
             dataSourceProvider = providers.get(0);
+            log.debug(
+                    "Using single available provider: {}",
+                    dataSourceProvider.type().getName());
         } else {
             dataSourceProvider = ServiceLoaderHelper.findProviderByClassName(providers, dataSourceProviderClass);
+            log.debug(
+                    "Selected provider by class name: {}",
+                    dataSourceProvider != null ? dataSourceProvider.type().getName() : "null");
         }
 
         if (dataSourceProvider == null) {
+            log.error("No DataSource provider found for class: {}", dataSourceProviderClass);
             return null;
         }
 
@@ -86,15 +139,27 @@ public class ForageDataSourceAutoConfiguration implements BeanFactoryAware {
     }
 
     private AgroalDataSource doCreateDataSource(ServiceLoader.Provider<DataSourceProvider> provider, String name) {
+        log.debug(
+                "Creating DataSource instance using provider: {} for name: {}",
+                provider.type().getName(),
+                name);
         final DataSourceProvider dataSourceProvider = provider.get();
-        return (AgroalDataSource) dataSourceProvider.create(name);
+        AgroalDataSource dataSource = (AgroalDataSource) dataSourceProvider.create(name);
+        log.debug("Successfully created DataSource instance for: {}", name);
+        return dataSource;
     }
 
     private List<ServiceLoader.Provider<DataSourceProvider>> findDataSourceProviders() {
         ServiceLoader<DataSourceProvider> serviceLoader = ServiceLoader.load(
                 DataSourceProvider.class, beanFactory.getClass().getClassLoader());
 
-        return serviceLoader.stream().toList();
+        List<ServiceLoader.Provider<DataSourceProvider>> providers =
+                serviceLoader.stream().toList();
+        log.debug(
+                "Found {} DataSource providers: {}",
+                providers.size(),
+                providers.stream().map(p -> p.type().getName()).toList());
+        return providers;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package org.apache.camel.forage.jdbc.oracle;
 
 import oracle.jdbc.OracleDriver;
+import oracle.jdbc.xa.OracleXADataSource;
 import org.apache.camel.forage.core.annotations.ForageBean;
 import org.apache.camel.forage.jdbc.common.PooledDataSource;
 
@@ -16,7 +17,11 @@ public class OracleJdbc extends PooledDataSource {
 
     @Override
     protected Class getConnectionProviderClass() {
-        return OracleDriver.class;
+        if (getConfig().transactionEnabled()) {
+            return OracleXADataSource.class;
+        } else {
+            return OracleDriver.class;
+        }
     }
 
     @Override

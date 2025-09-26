@@ -39,6 +39,33 @@ public class DataSourceFactoryConfigEntries extends ConfigEntries {
     public static final ConfigModule PROVIDER_DATASOURCE_CLASS =
             ConfigModule.of(DataSourceFactoryConfig.class, "provider.datasource.class");
 
+    public static final ConfigModule TRANSACTION_ENABLED =
+            ConfigModule.of(DataSourceFactoryConfig.class, "jdbc.transaction.enabled");
+    public static final ConfigModule TRANSACTION_NODE_ID =
+            ConfigModule.of(DataSourceFactoryConfig.class, "jdbc.transaction.node.id");
+    public static final ConfigModule TRANSACTION_OBJECT_STORE_ID =
+            ConfigModule.of(DataSourceFactoryConfig.class, "jdbc.transaction.object.store.id");
+    public static final ConfigModule TRANSACTION_ENABLE_RECOVERY =
+            ConfigModule.of(DataSourceFactoryConfig.class, "jdbc.transaction.enable.recovery");
+    public static final ConfigModule TRANSACTION_RECOVERY_MODULES =
+            ConfigModule.of(DataSourceFactoryConfig.class, "jdbc.transaction.recovery.modules");
+    public static final ConfigModule TRANSACTION_EXPIRY_SCANNERS =
+            ConfigModule.of(DataSourceFactoryConfig.class, "jdbc.transaction.expiry.scanners");
+    public static final ConfigModule TRANSACTION_XA_RESOURCE_ORPHAN_FILTERS =
+            ConfigModule.of(DataSourceFactoryConfig.class, "jdbc.transaction.xa.resource.orphan.filters");
+    public static final ConfigModule TRANSACTION_OBJECT_STORE_DIRECTORY =
+            ConfigModule.of(DataSourceFactoryConfig.class, "jdbc.transaction.object.store.directory");
+    public static final ConfigModule TRANSACTION_OBJECT_STORE_TYPE =
+            ConfigModule.of(DataSourceFactoryConfig.class, "jdbc.transaction.object.store.type");
+    public static final ConfigModule TRANSACTION_OBJECT_STORE_DATASOURCE =
+            ConfigModule.of(DataSourceFactoryConfig.class, "jdbc.transaction.object.store.datasource");
+    public static final ConfigModule TRANSACTION_OBJECT_STORE_CREATE_TABLE =
+            ConfigModule.of(DataSourceFactoryConfig.class, "jdbc.transaction.object.store.create.table");
+    public static final ConfigModule TRANSACTION_OBJECT_STORE_DROP_TABLE =
+            ConfigModule.of(DataSourceFactoryConfig.class, "jdbc.transaction.object.store.drop.table");
+    public static final ConfigModule TRANSACTION_OBJECT_STORE_TABLE_PREFIX =
+            ConfigModule.of(DataSourceFactoryConfig.class, "jdbc.transaction.object.store.table.prefix");
+
     private static final Map<ConfigModule, ConfigEntry> CONFIG_MODULES = new ConcurrentHashMap<>();
 
     static {
@@ -60,6 +87,19 @@ public class DataSourceFactoryConfigEntries extends ConfigEntries {
         CONFIG_MODULES.put(IDLE_VALIDATION_TIMEOUT_MINUTES, ConfigEntry.fromModule());
         CONFIG_MODULES.put(TRANSACTION_TIMEOUT_SECONDS, ConfigEntry.fromModule());
         CONFIG_MODULES.put(PROVIDER_DATASOURCE_CLASS, ConfigEntry.fromModule());
+        CONFIG_MODULES.put(TRANSACTION_ENABLED, ConfigEntry.fromModule());
+        CONFIG_MODULES.put(TRANSACTION_NODE_ID, ConfigEntry.fromModule());
+        CONFIG_MODULES.put(TRANSACTION_OBJECT_STORE_ID, ConfigEntry.fromModule());
+        CONFIG_MODULES.put(TRANSACTION_ENABLE_RECOVERY, ConfigEntry.fromModule());
+        CONFIG_MODULES.put(TRANSACTION_RECOVERY_MODULES, ConfigEntry.fromModule());
+        CONFIG_MODULES.put(TRANSACTION_EXPIRY_SCANNERS, ConfigEntry.fromModule());
+        CONFIG_MODULES.put(TRANSACTION_XA_RESOURCE_ORPHAN_FILTERS, ConfigEntry.fromModule());
+        CONFIG_MODULES.put(TRANSACTION_OBJECT_STORE_DIRECTORY, ConfigEntry.fromModule());
+        CONFIG_MODULES.put(TRANSACTION_OBJECT_STORE_TYPE, ConfigEntry.fromModule());
+        CONFIG_MODULES.put(TRANSACTION_OBJECT_STORE_DATASOURCE, ConfigEntry.fromModule());
+        CONFIG_MODULES.put(TRANSACTION_OBJECT_STORE_CREATE_TABLE, ConfigEntry.fromModule());
+        CONFIG_MODULES.put(TRANSACTION_OBJECT_STORE_DROP_TABLE, ConfigEntry.fromModule());
+        CONFIG_MODULES.put(TRANSACTION_OBJECT_STORE_TABLE_PREFIX, ConfigEntry.fromModule());
     }
 
     public static Map<ConfigModule, ConfigEntry> entries() {

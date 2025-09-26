@@ -1,6 +1,7 @@
 package org.apache.camel.forage.jdbc.mysql;
 
 import com.mysql.cj.jdbc.Driver;
+import com.mysql.cj.jdbc.MysqlXADataSource;
 import org.apache.camel.forage.core.annotations.ForageBean;
 import org.apache.camel.forage.jdbc.common.PooledDataSource;
 
@@ -16,7 +17,11 @@ public class MysqlJdbc extends PooledDataSource {
 
     @Override
     protected Class getConnectionProviderClass() {
-        return Driver.class;
+        if (getConfig().transactionEnabled()) {
+            return MysqlXADataSource.class;
+        } else {
+            return Driver.class;
+        }
     }
 
     @Override

@@ -124,4 +124,90 @@ public class DataSourceFactoryConfig implements Config {
                 .map(Integer::parseInt)
                 .orElse(30);
     }
+
+    public boolean transactionEnabled() {
+        return ConfigStore.getInstance()
+                .get(DataSourceFactoryConfigEntries.TRANSACTION_ENABLED.asNamed(prefix))
+                .map(Boolean::parseBoolean)
+                .orElse(false);
+    }
+
+    public String transactionNodeId() {
+        return ConfigStore.getInstance()
+                .get(DataSourceFactoryConfigEntries.TRANSACTION_NODE_ID.asNamed(prefix))
+                .orElse(null);
+    }
+
+    public String transactionObjectStoreId() {
+        return ConfigStore.getInstance()
+                .get(DataSourceFactoryConfigEntries.TRANSACTION_OBJECT_STORE_ID.asNamed(prefix))
+                .orElse(null);
+    }
+
+    public boolean transactionEnableRecovery() {
+        return ConfigStore.getInstance()
+                .get(DataSourceFactoryConfigEntries.TRANSACTION_ENABLE_RECOVERY.asNamed(prefix))
+                .map(Boolean::parseBoolean)
+                .orElse(false);
+    }
+
+    public String transactionRecoveryModules() {
+        return ConfigStore.getInstance()
+                .get(DataSourceFactoryConfigEntries.TRANSACTION_RECOVERY_MODULES.asNamed(prefix))
+                .orElse("com.arjuna.ats.internal.arjuna.recovery.AtomicActionRecoveryModule,"
+                        + "com.arjuna.ats.internal.jta.recovery.arjunacore.XARecoveryModule");
+    }
+
+    public String transactionExpiryScanners() {
+        return ConfigStore.getInstance()
+                .get(DataSourceFactoryConfigEntries.TRANSACTION_EXPIRY_SCANNERS.asNamed(prefix))
+                .orElse("com.arjuna.ats.internal.arjuna.recovery.ExpiredTransactionStatusManagerScanner");
+    }
+
+    public String transactionXaResourceOrphanFilters() {
+        return ConfigStore.getInstance()
+                .get(DataSourceFactoryConfigEntries.TRANSACTION_XA_RESOURCE_ORPHAN_FILTERS.asNamed(prefix))
+                .orElse(
+                        "com.arjuna.ats.internal.jta.recovery.arjunacore.JTATransactionLogXAResourceOrphanFilter,"
+                                + "com.arjuna.ats.internal.jta.recovery.arjunacore.JTANodeNameXAResourceOrphanFilter,"
+                                + "com.arjuna.ats.internal.jta.recovery.arjunacore.JTAActionStatusServiceXAResourceOrphanFilter");
+    }
+
+    public String transactionObjectStoreDirectory() {
+        return ConfigStore.getInstance()
+                .get(DataSourceFactoryConfigEntries.TRANSACTION_OBJECT_STORE_DIRECTORY.asNamed(prefix))
+                .orElse("ObjectStore");
+    }
+
+    public String transactionObjectStoreType() {
+        return ConfigStore.getInstance()
+                .get(DataSourceFactoryConfigEntries.TRANSACTION_OBJECT_STORE_TYPE.asNamed(prefix))
+                .orElse("file-system");
+    }
+
+    public String transactionObjectStoreDataSource() {
+        return ConfigStore.getInstance()
+                .get(DataSourceFactoryConfigEntries.TRANSACTION_OBJECT_STORE_DATASOURCE.asNamed(prefix))
+                .orElse(null);
+    }
+
+    public boolean transactionObjectStoreCreateTable() {
+        return ConfigStore.getInstance()
+                .get(DataSourceFactoryConfigEntries.TRANSACTION_OBJECT_STORE_CREATE_TABLE.asNamed(prefix))
+                .map(Boolean::parseBoolean)
+                .orElse(false);
+    }
+
+    public boolean transactionObjectStoreDropTable() {
+        return ConfigStore.getInstance()
+                .get(DataSourceFactoryConfigEntries.TRANSACTION_OBJECT_STORE_DROP_TABLE.asNamed(prefix))
+                .map(Boolean::parseBoolean)
+                .orElse(false);
+    }
+
+    public String transactionObjectStoreTablePrefix() {
+        return ConfigStore.getInstance()
+                .get(DataSourceFactoryConfigEntries.TRANSACTION_OBJECT_STORE_TABLE_PREFIX.asNamed(prefix))
+                .orElse("forage_");
+    }
 }

@@ -3,6 +3,7 @@ package org.apache.camel.forage.jdbc.mariadb;
 import org.apache.camel.forage.core.annotations.ForageBean;
 import org.apache.camel.forage.jdbc.common.PooledDataSource;
 import org.mariadb.jdbc.Driver;
+import org.mariadb.jdbc.MariaDbDataSource;
 
 /**
  * MariaDB implementation extending PooledJdbc.
@@ -16,7 +17,11 @@ public class MariadbJdbc extends PooledDataSource {
 
     @Override
     protected Class getConnectionProviderClass() {
-        return Driver.class;
+        if (getConfig().transactionEnabled()) {
+            return MariaDbDataSource.class;
+        } else {
+            return Driver.class;
+        }
     }
 
     @Override

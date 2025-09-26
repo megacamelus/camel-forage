@@ -8,9 +8,11 @@ import io.agroal.api.configuration.supplier.AgroalDataSourceConfigurationSupplie
 import io.agroal.api.security.NamePrincipal;
 import io.agroal.api.security.SimplePassword;
 import io.agroal.api.transaction.TransactionIntegration;
+import io.agroal.narayana.NarayanaTransactionIntegration;
 import java.time.Duration;
 import javax.sql.DataSource;
 import org.apache.camel.forage.core.jdbc.DataSourceProvider;
+import org.apache.camel.forage.jdbc.common.transactions.TransactionConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,6 +22,8 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class PooledDataSource implements DataSourceProvider {
     private static final Logger LOG = LoggerFactory.getLogger(PooledDataSource.class);
+
+    private DataSourceFactoryConfig config;
 
     /**
      * Returns the connection provider class name for the specific database implementation.
@@ -42,7 +46,7 @@ public abstract class PooledDataSource implements DataSourceProvider {
      * @throws RuntimeException if DataSource creation fails
      */
     protected AgroalDataSource createPooledDataSource(String id) {
-        DataSourceFactoryConfig config = new DataSourceFactoryConfig(id);
+        config = new DataSourceFactoryConfig(id);
 
         LOG.info(
                 "DataSource configuration - JDBC URL: {}, Username: {}, Initial Size: {}, Min Size: {}, Max Size: {}, "
@@ -84,7 +88,15 @@ public abstract class PooledDataSource implements DataSourceProvider {
                 .leakTimeout(Duration.ofMinutes(config.leakTimeoutMinutes()))
                 .idleValidationTimeout(Duration.ofMinutes(config.idleValidationTimeoutMinutes()));
 
-        poolConfig.transactionIntegration(TransactionIntegration.none());
+        if (config.transactionEnabled()) {
+            new TransactionConfiguration(config, id == null ? "dataSource" : id).initializeNarayana();
+
+            poolConfig.transactionIntegration(new NarayanaTransactionIntegration(
+                    com.arjuna.ats.jta.TransactionManager.transactionManager(),
+                    new com.arjuna.ats.internal.jta.transaction.arjunacore.TransactionSynchronizationRegistryImple()));
+        } else {
+            poolConfig.transactionIntegration(TransactionIntegration.none());
+        }
 
         // Build the configuration
         AgroalDataSourceConfiguration dsConfig = configSupplier.get();
@@ -96,5 +108,9 @@ public abstract class PooledDataSource implements DataSourceProvider {
             LOG.error("Failed to create DataSource for id: {}", id, e);
             throw new RuntimeException("Failed to create DataSource", e);
         }
+    }
+
+    protected DataSourceFactoryConfig getConfig() {
+        return config;
     }
 }

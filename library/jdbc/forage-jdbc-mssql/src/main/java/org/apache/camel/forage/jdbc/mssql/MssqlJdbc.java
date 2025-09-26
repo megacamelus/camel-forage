@@ -1,6 +1,7 @@
 package org.apache.camel.forage.jdbc.mssql;
 
 import com.microsoft.sqlserver.jdbc.SQLServerDriver;
+import com.microsoft.sqlserver.jdbc.SQLServerXADataSource;
 import org.apache.camel.forage.core.annotations.ForageBean;
 import org.apache.camel.forage.jdbc.common.PooledDataSource;
 
@@ -16,7 +17,11 @@ public class MssqlJdbc extends PooledDataSource {
 
     @Override
     protected Class getConnectionProviderClass() {
-        return SQLServerDriver.class;
+        if (getConfig().transactionEnabled()) {
+            return SQLServerXADataSource.class;
+        } else {
+            return SQLServerDriver.class;
+        }
     }
 
     @Override

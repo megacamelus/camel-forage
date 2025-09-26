@@ -3,6 +3,7 @@ package org.apache.camel.forage.jdbc.h2;
 import org.apache.camel.forage.core.annotations.ForageBean;
 import org.apache.camel.forage.jdbc.common.PooledDataSource;
 import org.h2.Driver;
+import org.h2.jdbcx.JdbcDataSource;
 
 /**
  * H2 Database implementation extending PooledJdbc.
@@ -16,7 +17,11 @@ public class H2Jdbc extends PooledDataSource {
 
     @Override
     protected Class getConnectionProviderClass() {
-        return Driver.class;
+        if (getConfig().transactionEnabled()) {
+            return JdbcDataSource.class;
+        } else {
+            return Driver.class;
+        }
     }
 
     @Override

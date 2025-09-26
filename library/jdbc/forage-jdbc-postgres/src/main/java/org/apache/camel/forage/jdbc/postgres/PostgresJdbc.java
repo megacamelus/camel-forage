@@ -3,6 +3,7 @@ package org.apache.camel.forage.jdbc.postgres;
 import org.apache.camel.forage.core.annotations.ForageBean;
 import org.apache.camel.forage.jdbc.common.PooledDataSource;
 import org.postgresql.Driver;
+import org.postgresql.xa.PGXADataSource;
 
 /**
  * PostgreSQL implementation extending PooledJdbc.
@@ -16,7 +17,11 @@ public class PostgresJdbc extends PooledDataSource {
 
     @Override
     protected Class getConnectionProviderClass() {
-        return Driver.class;
+        if (getConfig().transactionEnabled()) {
+            return PGXADataSource.class;
+        } else {
+            return Driver.class;
+        }
     }
 
     @Override

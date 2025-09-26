@@ -3,6 +3,7 @@ package org.apache.camel.forage.jdbc.hsqldb;
 import org.apache.camel.forage.core.annotations.ForageBean;
 import org.apache.camel.forage.jdbc.common.PooledDataSource;
 import org.hsqldb.jdbc.JDBCDriver;
+import org.hsqldb.jdbc.pool.JDBCXADataSource;
 
 /**
  * HSQLDB implementation extending PooledJdbc.
@@ -16,7 +17,11 @@ public class HsqldbJdbc extends PooledDataSource {
 
     @Override
     protected Class getConnectionProviderClass() {
-        return JDBCDriver.class;
+        if (getConfig().transactionEnabled()) {
+            return JDBCXADataSource.class;
+        } else {
+            return JDBCDriver.class;
+        }
     }
 
     @Override

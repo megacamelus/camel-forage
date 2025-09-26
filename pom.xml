@@ -31,6 +31,7 @@
         <javaparser.version>3.27.0</javaparser.version>
         <jackson.version>2.15.2</jackson.version>
         <maven-plugin-testing-harness.version>3.3.0</maven-plugin-testing-harness.version>
+        <narayana.version>7.2.2.Final</narayana.version>
     </properties>
 
     <dependencyManagement>
