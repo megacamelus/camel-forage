@@ -10,8 +10,8 @@ import org.apache.camel.forage.core.annotations.ForageFactory;
 import org.apache.camel.forage.core.common.ServiceLoaderHelper;
 import org.apache.camel.forage.core.jdbc.DataSourceProvider;
 import org.apache.camel.forage.core.util.config.ConfigStore;
+import org.apache.camel.forage.jdbc.common.DataSourceCommonExportHelper;
 import org.apache.camel.forage.jdbc.common.DataSourceFactoryConfig;
-import org.apache.camel.forage.jdbc.common.DataSourceFactoryConfigHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanFactory;
@@ -111,7 +111,7 @@ public class ForageDataSourceAutoConfiguration implements BeanFactoryAware {
     private synchronized AgroalDataSource newDataSource(DataSourceFactoryConfig dataSourceFactoryConfig, String name) {
         log.debug("Creating new DataSource for name: {} with dbKind: {}", name, dataSourceFactoryConfig.dbKind());
         final String dataSourceProviderClass =
-                DataSourceFactoryConfigHelper.transformDbKindIntoProviderClass(dataSourceFactoryConfig.dbKind());
+                DataSourceCommonExportHelper.transformDbKindIntoProviderClass(dataSourceFactoryConfig.dbKind());
         log.debug("Resolved provider class: {}", dataSourceProviderClass);
 
         final List<ServiceLoader.Provider<DataSourceProvider>> providers = findDataSourceProviders();

@@ -1,25 +1,9 @@
 package org.apache.camel.forage.jdbc.common;
 
-import java.io.InputStream;
-
 /**
  * Utility class for jdbc configuration value processing and transformation in the Camel Forage framework.
  */
-public final class DataSourceFactoryConfigHelper {
-
-    /**
-     * Regexp for See {@link org.apache.camel.forage.core.util.config.ConfigStore#readPrefixes(InputStream, String)}
-     * to extract all datasource groups from the properties file.
-     *
-     * <p>From properties
-     * <pre>
-     *     ds1.jdbc.url=jdbc:postgresql://localhost:5432/postgres
-     *     ds2.jdbc.url=jdbc:mysql://localhost:3306/test
-     * </pre>
-     *  both <Strong>ds1, ds2</Strong> prefixes are extracted.
-     * </p>
-     * */
-    public static final String JDBC_PREFIXES_REGEXP = "(.+).jdbc\\..*";
+public final class DataSourceCommonExportHelper {
 
     /**
      * Utility method, to translate dbKind into {@link org.apache.camel.forage.jdbc.common.PooledDataSource}.

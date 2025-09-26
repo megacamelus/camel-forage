@@ -10,8 +10,8 @@ import org.apache.camel.forage.core.common.BeanFactory;
 import org.apache.camel.forage.core.common.ServiceLoaderHelper;
 import org.apache.camel.forage.core.jdbc.DataSourceProvider;
 import org.apache.camel.forage.core.util.config.ConfigStore;
+import org.apache.camel.forage.jdbc.common.DataSourceCommonExportHelper;
 import org.apache.camel.forage.jdbc.common.DataSourceFactoryConfig;
-import org.apache.camel.forage.jdbc.common.DataSourceFactoryConfigHelper;
 import org.apache.camel.forage.jdbc.jta.MandatoryJtaTransactionPolicy;
 import org.apache.camel.forage.jdbc.jta.NeverJtaTransactionPolicy;
 import org.apache.camel.forage.jdbc.jta.NotSupportedJtaTransactionPolicy;
@@ -76,7 +76,7 @@ public class DataSourceBeanFactory implements BeanFactory {
 
     private synchronized DataSource newDataSource(DataSourceFactoryConfig dataSourceFactoryConfig, String name) {
         final String dataSourceProviderClass =
-                DataSourceFactoryConfigHelper.transformDbKindIntoProviderClass(dataSourceFactoryConfig.dbKind());
+                DataSourceCommonExportHelper.transformDbKindIntoProviderClass(dataSourceFactoryConfig.dbKind());
         LOG.info("Creating DataSource of type {}", dataSourceProviderClass);
 
         final List<ServiceLoader.Provider<DataSourceProvider>> providers = findProviders(DataSourceProvider.class);
