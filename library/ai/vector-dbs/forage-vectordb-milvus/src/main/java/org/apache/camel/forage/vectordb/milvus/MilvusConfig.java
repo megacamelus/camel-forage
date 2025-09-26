@@ -94,6 +94,9 @@ public class MilvusConfig implements Config {
 
         // Lastly, load the overrides defined in system properties and environment variables
         MilvusConfigEntries.loadOverrides(prefix);
+
+        // Validate connection configuration
+        validateConnectionConfig();
     }
 
     @Override
@@ -102,16 +105,14 @@ public class MilvusConfig implements Config {
     }
 
     public String host() {
-        return ConfigStore.getInstance()
-                .get(HOST.asNamed(prefix))
-                .orElseThrow(() -> new MissingConfigException("Missing Milvus host"));
+        return ConfigStore.getInstance().get(HOST.asNamed(prefix)).orElse(null);
     }
 
     public Integer port() {
         return ConfigStore.getInstance()
                 .get(PORT.asNamed(prefix))
                 .map(Integer::parseInt)
-                .orElseThrow(() -> new MissingConfigException("Missing Milvus port"));
+                .orElse(null);
     }
 
     public String collectionName() {
@@ -147,27 +148,19 @@ public class MilvusConfig implements Config {
     }
 
     public String uri() {
-        return ConfigStore.getInstance()
-                .get(URI.asNamed(prefix))
-                .orElseThrow(() -> new MissingConfigException("Missing Milvus URI"));
+        return ConfigStore.getInstance().get(URI.asNamed(prefix)).orElse(null);
     }
 
     public String token() {
-        return ConfigStore.getInstance()
-                .get(TOKEN.asNamed(prefix))
-                .orElseThrow(() -> new MissingConfigException("Missing Milvus token"));
+        return ConfigStore.getInstance().get(TOKEN.asNamed(prefix)).orElse(null);
     }
 
     public String username() {
-        return ConfigStore.getInstance()
-                .get(USERNAME.asNamed(prefix))
-                .orElseThrow(() -> new MissingConfigException("Missing Google username"));
+        return ConfigStore.getInstance().get(USERNAME.asNamed(prefix)).orElse("");
     }
 
     public String password() {
-        return ConfigStore.getInstance()
-                .get(PASSWORD.asNamed(prefix))
-                .orElseThrow(() -> new MissingConfigException("Missing Milvus password"));
+        return ConfigStore.getInstance().get(PASSWORD.asNamed(prefix)).orElse("");
     }
 
     public ConsistencyLevelEnum consistencyLevel() {
@@ -224,5 +217,22 @@ public class MilvusConfig implements Config {
         Optional<ConfigModule> config = MilvusConfigEntries.find(prefix, name);
 
         config.ifPresent(module -> ConfigStore.getInstance().set(module, value));
+    }
+
+    /*
+     * validateConnectionConfig checks to see if either the uri or the host/port
+     * combination is set.  It is not necessary for both uri and host/port to be set
+     * as only one of these is needed for a connection, but one of the two options
+     * does need to be set.
+     */
+    private void validateConnectionConfig() {
+        String uri = uri();
+        String host = host();
+        Integer port = port();
+
+        if (uri == null && (host == null || port == null)) {
+            throw new MissingConfigException(
+                    "Milvus connection configuration incomplete: either 'uri' or both 'host' and 'port' must be provided");
+        }
     }
 }
