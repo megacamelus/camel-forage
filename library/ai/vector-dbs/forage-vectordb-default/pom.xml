@@ -29,6 +29,11 @@
             <artifactId>langchain4j</artifactId>
             <version>${langchain4j-version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-langchain4j-embeddingstore</artifactId>
+            <version>${camel.version}</version>
+        </dependency>
     </dependencies>
 
 </project>
