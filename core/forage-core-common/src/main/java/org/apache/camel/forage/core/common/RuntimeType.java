@@ -5,6 +5,7 @@ package org.apache.camel.forage.core.common;
  * depend on cameljbang here, in commons module.
  */
 public enum RuntimeType {
+    main,
     quarkus,
     springBoot;
 }

@@ -21,7 +21,6 @@ import java.util.Optional;
 import java.util.Set;
 import org.apache.camel.dsl.jbang.core.commands.CamelJBangMain;
 import org.apache.camel.dsl.jbang.core.commands.Export;
-import org.apache.camel.dsl.jbang.core.commands.Run;
 import org.apache.camel.dsl.jbang.core.common.CamelJBangPlugin;
 import org.apache.camel.dsl.jbang.core.common.Plugin;
 import org.apache.camel.dsl.jbang.core.common.PluginExporter;
@@ -46,7 +45,7 @@ public class ForagePlugin implements Plugin {
                                         .addSubcommand(
                                                 "test-connection", new CommandLine(new TestDataSourceCommand(main))))
                         .addSubcommand("export", new Export(main))
-                        .addSubcommand("run", new Run(main)));
+                        .addSubcommand("run", new ForageRun(main)));
     }
 
     /**

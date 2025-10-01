@@ -1,7 +1,6 @@
 package org.apache.camel.forage.plugin;
 
 import java.io.InputStream;
-import org.apache.camel.forage.core.common.RuntimeType;
 
 /**
  * Utility class for jdbc configuration value processing and transformation in the Camel Forage framework.
@@ -21,23 +20,6 @@ public final class DataSourceExportHelper {
      * </p>
      * */
     public static final String JDBC_PREFIXES_REGEXP = "(.+).jdbc\\..*";
-
-    public static String getDbKindNameForRuntime(String dbKind, RuntimeType runtime) {
-        switch (runtime) {
-            case quarkus -> {
-                if ("postgresql".equals(dbKind)) {
-                    return "postgresql";
-                }
-            }
-            case springBoot -> {
-                if ("postgresql".equals(dbKind)) {
-                    return "postgres";
-                }
-            }
-        }
-
-        return dbKind;
-    }
 
     /**
      * Gets the quarkus version from the versions.properties file. (which is populated during buildtime)

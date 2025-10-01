@@ -1,5 +1,7 @@
 package org.apache.camel.forage.jdbc.common;
 
+import org.apache.camel.forage.core.common.RuntimeType;
+
 /**
  * Utility class for jdbc configuration value processing and transformation in the Camel Forage framework.
  */
@@ -22,5 +24,22 @@ public final class DataSourceCommonExportHelper {
 
         return "org.apache.camel.forage.jdbc.%s.%sJdbc"
                 .formatted(db, db.substring(0, 1).toUpperCase() + db.substring(1));
+    }
+
+    public static String getDbKindNameForRuntime(String dbKind, RuntimeType runtime) {
+        switch (runtime) {
+            case quarkus -> {
+                if ("postgres".equals(dbKind)) {
+                    return "postgresql";
+                }
+            }
+            case springBoot -> {
+                if ("postgresql".equals(dbKind)) {
+                    return "postgres";
+                }
+            }
+        }
+
+        return dbKind;
     }
 }

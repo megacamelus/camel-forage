@@ -3,7 +3,9 @@ package org.apache.camel.forage.quarkus.jdbc;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import org.apache.camel.forage.core.common.RuntimeType;
 import org.apache.camel.forage.core.util.config.ConfigStore;
+import org.apache.camel.forage.jdbc.common.DataSourceCommonExportHelper;
 import org.apache.camel.forage.jdbc.common.DataSourceFactoryConfig;
 import org.eclipse.microprofile.config.spi.ConfigSource;
 
@@ -34,7 +36,9 @@ public class ForageDataSourceQuarkusConfigSource implements ConfigSource {
             property = property + "\"" + prefix + "\".";
         }
 
-        configuration.put(property + "db-kind", config.dbKind());
+        configuration.put(
+                property + "db-kind",
+                DataSourceCommonExportHelper.getDbKindNameForRuntime(config.dbKind(), RuntimeType.quarkus));
         configuration.put(property + "password", config.password());
         configuration.put(property + "username", config.username());
         configuration.put(property + "jdbc.url", config.jdbcUrl());

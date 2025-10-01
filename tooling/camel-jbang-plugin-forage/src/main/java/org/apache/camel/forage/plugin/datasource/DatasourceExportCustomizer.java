@@ -1,12 +1,14 @@
 package org.apache.camel.forage.plugin.datasource;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import org.apache.camel.forage.core.common.ExportCustomizer;
 import org.apache.camel.forage.core.common.RuntimeType;
 import org.apache.camel.forage.core.util.config.ConfigStore;
+import org.apache.camel.forage.jdbc.common.DataSourceCommonExportHelper;
 import org.apache.camel.forage.jdbc.common.DataSourceFactoryConfig;
 import org.apache.camel.forage.plugin.DataSourceExportHelper;
 
@@ -23,7 +25,9 @@ public class DatasourceExportCustomizer implements ExportCustomizer {
     public Set<String> resolveRuntimeDependencies(RuntimeType runtime) {
         Set<String> dependencies = new HashSet<>();
 
-        switch (runtime) {
+        RuntimeType _runtime = runtime == null ? RuntimeType.main : runtime;
+
+        switch (_runtime) {
             case quarkus -> {
                 listDependencies(
                         dependencies,
@@ -39,6 +43,15 @@ public class DatasourceExportCustomizer implements ExportCustomizer {
                         Arrays.asList(
                                 "mvn:org.apache.camel.forage:forage-jdbc-starter:"
                                         + DataSourceExportHelper.geProjectVersion(),
+                                "mvn:org.apache.camel.forage:forage-jdbc:" + DataSourceExportHelper.geProjectVersion()),
+                        "mvn:org.apache.camel.forage:forage-jdbc-",
+                        ":" + DataSourceExportHelper.geProjectVersion(),
+                        runtime);
+            }
+            case main -> {
+                listDependencies(
+                        dependencies,
+                        Collections.singletonList(
                                 "mvn:org.apache.camel.forage:forage-jdbc:" + DataSourceExportHelper.geProjectVersion()),
                         "mvn:org.apache.camel.forage:forage-jdbc-",
                         ":" + DataSourceExportHelper.geProjectVersion(),
@@ -67,13 +80,13 @@ public class DatasourceExportCustomizer implements ExportCustomizer {
                     DataSourceFactoryConfig dsFactoryConfig = new DataSourceFactoryConfig(name);
                     // todoo get quarkus version
                     dependencies.add(depPrefix
-                            + DataSourceExportHelper.getDbKindNameForRuntime(dsFactoryConfig.dbKind(), runtime)
+                            + DataSourceCommonExportHelper.getDbKindNameForRuntime(dsFactoryConfig.dbKind(), runtime)
                             + depVersion);
                 }
             } else {
                 // todo get quarkus version
                 dependencies.add(depPrefix
-                        + DataSourceExportHelper.getDbKindNameForRuntime(config.dbKind(), runtime)
+                        + DataSourceCommonExportHelper.getDbKindNameForRuntime(config.dbKind(), runtime)
                         + depVersion);
             }
 
