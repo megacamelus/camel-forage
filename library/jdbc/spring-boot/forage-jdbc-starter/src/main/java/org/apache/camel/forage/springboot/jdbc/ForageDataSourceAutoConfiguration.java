@@ -6,12 +6,14 @@ import jakarta.annotation.PostConstruct;
 import java.util.List;
 import java.util.ServiceLoader;
 import java.util.Set;
+import javax.sql.DataSource;
 import org.apache.camel.forage.core.annotations.ForageFactory;
 import org.apache.camel.forage.core.common.ServiceLoaderHelper;
 import org.apache.camel.forage.core.jdbc.DataSourceProvider;
 import org.apache.camel.forage.core.util.config.ConfigStore;
 import org.apache.camel.forage.jdbc.common.DataSourceCommonExportHelper;
 import org.apache.camel.forage.jdbc.common.DataSourceFactoryConfig;
+import org.apache.camel.forage.jdbc.common.aggregation.ForageAggregationRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanFactory;
@@ -80,6 +82,7 @@ public class ForageDataSourceAutoConfiguration implements BeanFactoryAware {
                         // This is needed for Spring Boot AutoConfiguration, let's just register the first datasource
                         // as the default dataSource too
                         configurableBeanFactory.registerSingleton("dataSource", agroalDataSource);
+                        createAggregationRepository(configurableBeanFactory, dsFactoryConfig, agroalDataSource);
                         log.info("Registered default DataSource bean using: {}", name);
                         isDataSourceCrated = true;
                     }
@@ -97,6 +100,7 @@ public class ForageDataSourceAutoConfiguration implements BeanFactoryAware {
                 AgroalDataSource agroalDataSource =
                         (AgroalDataSource) providers.get(0).get().create();
                 configurableBeanFactory.registerSingleton("dataSource", agroalDataSource);
+                createAggregationRepository(configurableBeanFactory, config, agroalDataSource);
                 log.info("Registered default DataSource bean");
             } else {
                 log.error(
@@ -160,6 +164,24 @@ public class ForageDataSourceAutoConfiguration implements BeanFactoryAware {
                 providers.size(),
                 providers.stream().map(p -> p.type().getName()).toList());
         return providers;
+    }
+
+    private void createAggregationRepository(
+            ConfigurableBeanFactory configurableBeanFactory,
+            DataSourceFactoryConfig dsFactoryConfig,
+            DataSource agroalDataSource) {
+        if (!dsFactoryConfig.transactionEnabled() && dsFactoryConfig.aggregationRepositoryName() != null) {
+            log.warn("Transactions have to be enabled in order to create aggregation repositories");
+            return;
+        }
+        if (dsFactoryConfig.aggregationRepositoryName() != null) {
+            configurableBeanFactory.registerSingleton(
+                    dsFactoryConfig.aggregationRepositoryName(),
+                    new ForageAggregationRepository(
+                            agroalDataSource,
+                            com.arjuna.ats.jta.TransactionManager.transactionManager(),
+                            dsFactoryConfig));
+        }
     }
 
     @Override

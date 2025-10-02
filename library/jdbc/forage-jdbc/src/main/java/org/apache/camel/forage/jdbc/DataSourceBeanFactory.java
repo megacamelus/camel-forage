@@ -12,6 +12,7 @@ import org.apache.camel.forage.core.jdbc.DataSourceProvider;
 import org.apache.camel.forage.core.util.config.ConfigStore;
 import org.apache.camel.forage.jdbc.common.DataSourceCommonExportHelper;
 import org.apache.camel.forage.jdbc.common.DataSourceFactoryConfig;
+import org.apache.camel.forage.jdbc.common.aggregation.ForageAggregationRepository;
 import org.apache.camel.forage.jdbc.jta.MandatoryJtaTransactionPolicy;
 import org.apache.camel.forage.jdbc.jta.NeverJtaTransactionPolicy;
 import org.apache.camel.forage.jdbc.jta.NotSupportedJtaTransactionPolicy;
@@ -54,6 +55,7 @@ public class DataSourceBeanFactory implements BeanFactory {
                     DataSourceFactoryConfig dsFactoryConfig = new DataSourceFactoryConfig(name);
                     DataSource agroalDataSource = newDataSource(dsFactoryConfig, name);
                     camelContext.getRegistry().bind(name, agroalDataSource);
+                    createAggregationRepository(dsFactoryConfig, agroalDataSource);
                 }
             }
         } else {
@@ -64,6 +66,7 @@ public class DataSourceBeanFactory implements BeanFactory {
                     if (providers.size() == 1) {
                         DataSource agroalDataSource = providers.get(0).get().create();
                         camelContext.getRegistry().bind(DEFAULT_DATASOURCE, agroalDataSource);
+                        createAggregationRepository(config, agroalDataSource);
                     } else {
                         throw new IllegalArgumentException("No dataSource implementation is present in the classpath");
                     }
@@ -71,6 +74,23 @@ public class DataSourceBeanFactory implements BeanFactory {
             } catch (Exception ex) {
                 LOG.debug(ex.getMessage(), ex);
             }
+        }
+    }
+
+    private void createAggregationRepository(DataSourceFactoryConfig dsFactoryConfig, DataSource agroalDataSource) {
+        if (!dsFactoryConfig.transactionEnabled() && dsFactoryConfig.aggregationRepositoryName() != null) {
+            LOG.warn("Transactions have to be enabled in order to create aggregation repositories");
+            return;
+        }
+        if (dsFactoryConfig.aggregationRepositoryName() != null) {
+            camelContext
+                    .getRegistry()
+                    .bind(
+                            dsFactoryConfig.aggregationRepositoryName(),
+                            new ForageAggregationRepository(
+                                    agroalDataSource,
+                                    com.arjuna.ats.jta.TransactionManager.transactionManager(),
+                                    dsFactoryConfig));
         }
     }
 

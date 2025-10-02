@@ -210,4 +210,56 @@ public class DataSourceFactoryConfig implements Config {
                 .get(DataSourceFactoryConfigEntries.TRANSACTION_OBJECT_STORE_TABLE_PREFIX.asNamed(prefix))
                 .orElse("forage_");
     }
+
+    public String aggregationRepositoryName() {
+        return ConfigStore.getInstance()
+                .get(DataSourceFactoryConfigEntries.AGGREGATION_REPOSITORY_NAME.asNamed(prefix))
+                .orElse(null);
+    }
+
+    public String aggregationRepositoryHeadersToStore() {
+        return ConfigStore.getInstance()
+                .get(DataSourceFactoryConfigEntries.AGGREGATION_REPOSITORY_HEADERS_TO_STORE.asNamed(prefix))
+                .orElse(null);
+    }
+
+    public Boolean aggregationRepositoryStoreBody() {
+        return ConfigStore.getInstance()
+                .get(DataSourceFactoryConfigEntries.AGGREGATION_REPOSITORY_STORE_BODY.asNamed(prefix))
+                .map(Boolean::parseBoolean)
+                .orElse(null);
+    }
+
+    public String aggregationRepositoryDeadLetterUri() {
+        return ConfigStore.getInstance()
+                .get(DataSourceFactoryConfigEntries.AGGREGATION_REPOSITORY_DEAD_LETTER_URI.asNamed(prefix))
+                .orElse(null);
+    }
+
+    public Boolean aggregationRepositoryAllowSerializedHeaders() {
+        return ConfigStore.getInstance()
+                .get(DataSourceFactoryConfigEntries.AGGREGATION_REPOSITORY_ALLOW_SERIALIZED_HEADERS.asNamed(prefix))
+                .map(Boolean::parseBoolean)
+                .orElse(null);
+    }
+
+    public Integer aggregationRepositoryMaximumRedeliveries() {
+        return ConfigStore.getInstance()
+                .get(DataSourceFactoryConfigEntries.AGGREGATION_REPOSITORY_MAXIMUM_REDELIVERIES.asNamed(prefix))
+                .map(Integer::parseInt)
+                .orElse(null);
+    }
+
+    public Boolean aggregationRepositoryUseRecovery() {
+        return ConfigStore.getInstance()
+                .get(DataSourceFactoryConfigEntries.AGGREGATION_REPOSITORY_USE_RECOVERY.asNamed(prefix))
+                .map(Boolean::parseBoolean)
+                .orElse(null);
+    }
+
+    public String aggregationRepositoryPropagationBehaviourName() {
+        return ConfigStore.getInstance()
+                .get(DataSourceFactoryConfigEntries.AGGREGATION_REPOSITORY_PROPAGATION_BEHAVIOUR_NAME.asNamed(prefix))
+                .orElse(null);
+    }
 }

@@ -65,6 +65,22 @@ public class DataSourceFactoryConfigEntries extends ConfigEntries {
             ConfigModule.of(DataSourceFactoryConfig.class, "jdbc.transaction.object.store.drop.table");
     public static final ConfigModule TRANSACTION_OBJECT_STORE_TABLE_PREFIX =
             ConfigModule.of(DataSourceFactoryConfig.class, "jdbc.transaction.object.store.table.prefix");
+    public static final ConfigModule AGGREGATION_REPOSITORY_NAME =
+            ConfigModule.of(DataSourceFactoryConfig.class, "jdbc.aggregation.repository.name");
+    public static final ConfigModule AGGREGATION_REPOSITORY_HEADERS_TO_STORE =
+            ConfigModule.of(DataSourceFactoryConfig.class, "jdbc.aggregation.repository.headers.to.store");
+    public static final ConfigModule AGGREGATION_REPOSITORY_STORE_BODY =
+            ConfigModule.of(DataSourceFactoryConfig.class, "jdbc.aggregation.repository.store.body");
+    public static final ConfigModule AGGREGATION_REPOSITORY_DEAD_LETTER_URI =
+            ConfigModule.of(DataSourceFactoryConfig.class, "jdbc.aggregation.repository.dead.letter.uri");
+    public static final ConfigModule AGGREGATION_REPOSITORY_ALLOW_SERIALIZED_HEADERS =
+            ConfigModule.of(DataSourceFactoryConfig.class, "jdbc.aggregation.repository.allow.serialized.headers");
+    public static final ConfigModule AGGREGATION_REPOSITORY_MAXIMUM_REDELIVERIES =
+            ConfigModule.of(DataSourceFactoryConfig.class, "jdbc.aggregation.repository.maximum.redeliveries");
+    public static final ConfigModule AGGREGATION_REPOSITORY_USE_RECOVERY =
+            ConfigModule.of(DataSourceFactoryConfig.class, "jdbc.aggregation.repository.use.recovery");
+    public static final ConfigModule AGGREGATION_REPOSITORY_PROPAGATION_BEHAVIOUR_NAME =
+            ConfigModule.of(DataSourceFactoryConfig.class, "jdbc.aggregation.repository.propagation.behaviour.name");
 
     private static final Map<ConfigModule, ConfigEntry> CONFIG_MODULES = new ConcurrentHashMap<>();
 
@@ -100,6 +116,14 @@ public class DataSourceFactoryConfigEntries extends ConfigEntries {
         CONFIG_MODULES.put(TRANSACTION_OBJECT_STORE_CREATE_TABLE, ConfigEntry.fromModule());
         CONFIG_MODULES.put(TRANSACTION_OBJECT_STORE_DROP_TABLE, ConfigEntry.fromModule());
         CONFIG_MODULES.put(TRANSACTION_OBJECT_STORE_TABLE_PREFIX, ConfigEntry.fromModule());
+        CONFIG_MODULES.put(AGGREGATION_REPOSITORY_NAME, ConfigEntry.fromModule());
+        CONFIG_MODULES.put(AGGREGATION_REPOSITORY_HEADERS_TO_STORE, ConfigEntry.fromModule());
+        CONFIG_MODULES.put(AGGREGATION_REPOSITORY_STORE_BODY, ConfigEntry.fromModule());
+        CONFIG_MODULES.put(AGGREGATION_REPOSITORY_DEAD_LETTER_URI, ConfigEntry.fromModule());
+        CONFIG_MODULES.put(AGGREGATION_REPOSITORY_ALLOW_SERIALIZED_HEADERS, ConfigEntry.fromModule());
+        CONFIG_MODULES.put(AGGREGATION_REPOSITORY_MAXIMUM_REDELIVERIES, ConfigEntry.fromModule());
+        CONFIG_MODULES.put(AGGREGATION_REPOSITORY_USE_RECOVERY, ConfigEntry.fromModule());
+        CONFIG_MODULES.put(AGGREGATION_REPOSITORY_PROPAGATION_BEHAVIOUR_NAME, ConfigEntry.fromModule());
     }
 
     public static Map<ConfigModule, ConfigEntry> entries() {

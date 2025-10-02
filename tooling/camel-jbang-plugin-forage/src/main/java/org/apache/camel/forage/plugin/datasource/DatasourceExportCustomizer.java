@@ -88,7 +88,7 @@ public class DatasourceExportCustomizer implements ExportCustomizer {
                         + depVersion);
             }
 
-            if(config.transactionEnabled()) {
+            if (config.transactionEnabled()) {
                 dependencies.add("mvn:io.quarkus:quarkus-narayana-jta:" + DataSourceExportHelper.getQuarkusVersion());
             }
         } catch (Exception ex) {
