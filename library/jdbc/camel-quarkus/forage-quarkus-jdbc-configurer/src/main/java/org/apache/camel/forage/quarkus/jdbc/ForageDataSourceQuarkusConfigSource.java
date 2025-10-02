@@ -48,9 +48,36 @@ public class ForageDataSourceQuarkusConfigSource implements ConfigSource {
         configuration.put(property + "jdbc.acquisition-timeout", config.acquisitionTimeoutSeconds() + "S");
         configuration.put(property + "jdbc.validation-query-sql", config.validationTimeoutSeconds() + "S");
         configuration.put(property + "jdbc.leak-detection-interval", config.leakTimeoutMinutes() + "M");
-        //        configuration.put(
-        //                property + "quarkus.transaction-manager.default-transaction-timeout",
-        //                config.transactionTimeoutSeconds() + "S"); // todo need to be solved
+
+        if (config.transactionEnabled()) {
+            configuration.put(
+                    "quarkus.transaction-manager.default-transaction-timeout",
+                    config.transactionTimeoutSeconds() + "S");
+            if (config.transactionNodeId() != null) {
+                configuration.put("quarkus.transaction-manager.node-name", config.transactionNodeId());
+            }
+            // Quarkus does not support transactionObjectStoreId
+            configuration.put(
+                    "quarkus.transaction-manager.enable-recovery", String.valueOf(config.transactionEnableRecovery()));
+            configuration.put("quarkus.transaction-manager.recovery-modules", config.transactionRecoveryModules());
+            configuration.put(
+                    "quarkus.transaction-manager.xa-resource-orphan-filters",
+                    config.transactionXaResourceOrphanFilters());
+            configuration.put(
+                    "quarkus.transaction-manager.object-store.directory", config.transactionObjectStoreDirectory());
+            configuration.put("quarkus.transaction-manager.object-store.type", config.transactionObjectStoreType());
+            if (config.transactionObjectStoreDataSource() != null) {
+                configuration.put(
+                        "quarkus.transaction-manager.object-store.datasource",
+                        config.transactionObjectStoreDataSource());
+            }
+            configuration.put(
+                    "quarkus.transaction-manager.object-store.drop-table",
+                    String.valueOf(config.transactionObjectStoreDropTable()));
+            configuration.put(
+                    "quarkus.transaction-manager.object-store.table-prefix",
+                    config.transactionObjectStoreTablePrefix());
+        }
     }
 
     /**

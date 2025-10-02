@@ -78,18 +78,19 @@ public class DatasourceExportCustomizer implements ExportCustomizer {
             if (!prefixes.isEmpty()) {
                 for (String name : prefixes) {
                     DataSourceFactoryConfig dsFactoryConfig = new DataSourceFactoryConfig(name);
-                    // todoo get quarkus version
                     dependencies.add(depPrefix
                             + DataSourceCommonExportHelper.getDbKindNameForRuntime(dsFactoryConfig.dbKind(), runtime)
                             + depVersion);
                 }
             } else {
-                // todo get quarkus version
                 dependencies.add(depPrefix
                         + DataSourceCommonExportHelper.getDbKindNameForRuntime(config.dbKind(), runtime)
                         + depVersion);
             }
 
+            if(config.transactionEnabled()) {
+                dependencies.add("mvn:io.quarkus:quarkus-narayana-jta:" + DataSourceExportHelper.getQuarkusVersion());
+            }
         } catch (Exception ex) {
             // todo log error
         }
