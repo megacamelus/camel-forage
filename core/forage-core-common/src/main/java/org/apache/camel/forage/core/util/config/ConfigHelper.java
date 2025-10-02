@@ -1,8 +1,15 @@
 package org.apache.camel.forage.core.util.config;
 
+import io.smallrye.config.SmallRyeConfig;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.Properties;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Utility class for configuration value processing and transformation in the Camel Forage framework.
@@ -45,11 +52,158 @@ import java.util.Optional;
  * @see Config
  */
 public final class ConfigHelper {
+    private static final Logger LOG = LoggerFactory.getLogger(ConfigHelper.class);
 
     /**
      * Private constructor to prevent instantiation of this utility class.
      */
     private ConfigHelper() {}
+
+    private static RuntimeType runtime = null;
+    private static SmallRyeConfig quarkusConfig = null;
+    private static Properties springBootConfig = null;
+    private static Properties camelConfig = null;
+
+    public static RuntimeType getRuntime() {
+        if (runtime == null) {
+            if (isRuntimeSpringBoot()) {
+                runtime = RuntimeType.springBoot;
+            } else if (isRuntimeQuarkus()) {
+                runtime = RuntimeType.quarkus;
+            } else {
+                runtime = RuntimeType.main;
+            }
+        }
+        return runtime;
+    }
+
+    public static String getSpringBootProperty(String propertyName) {
+        Properties springBootProps = ConfigHelper.getSpringBootConfig();
+        if (springBootProps != null) {
+            LOG.info("Loading {} from Spring Boot", propertyName);
+            String propertyValue = (String) springBootProps.get(propertyName);
+            if (propertyValue != null) {
+                return propertyValue;
+            }
+        }
+        return null;
+    }
+
+    public static String getQuarkusProperty(String propertyName) {
+        SmallRyeConfig config = ConfigHelper.getQuarkusConfig();
+        if (config != null) {
+            LOG.info("Loading {} from Quarkus", propertyName);
+            String quarkusValue = config.getValue(propertyName, String.class);
+            if (quarkusValue != null) {
+                return quarkusValue;
+            }
+        }
+        return null;
+    }
+
+    public static String getCamelMainProperty(String propertyName) {
+        Properties camelMainProps = ConfigHelper.getCamelMainConfig();
+        if (camelMainProps != null) {
+            LOG.info("Loading {} from Camel main", propertyName);
+            String mainPropertyValue = (String) camelMainProps.get(propertyName);
+            if (mainPropertyValue != null) {
+                return mainPropertyValue;
+            }
+        }
+        return null;
+    }
+
+    private static boolean classExists(String className) {
+        try {
+            Class.forName(className);
+            return true;
+        } catch (ClassNotFoundException e) {
+            return false;
+        }
+    }
+
+    public static boolean isRuntimeSpringBoot() {
+        boolean classExists = classExists("org.springframework.boot.SpringBootVersion");
+        if (classExists) {
+            try {
+                Class<?> versionClass = Class.forName("org.springframework.boot.SpringBootVersion");
+                Method getVersionMethod = versionClass.getDeclaredMethod("getVersion");
+
+                Object result = getVersionMethod.invoke(null);
+
+                if (result != null) {
+                    String version = result.toString();
+                    LOG.info("Spring Boot environment detected, {} version", version);
+                    return true;
+                }
+            } catch (ClassNotFoundException e) {
+            } catch (Exception e) {
+            }
+        }
+        return false;
+    }
+
+    public static boolean isRuntimeQuarkus() {
+        boolean classExists = classExists("io.quarkus.runtime.Application");
+
+        if (classExists) {
+            try {
+                Class<?> quarkusClass = Class.forName("io.quarkus.runtime.Application");
+                Method getName =
+                        quarkusClass.getMethod("getName"); // if we can find this method, declare runtime quarkus
+                LOG.info("Quarkus environment detected");
+
+                return true;
+            } catch (ClassNotFoundException e) {
+            } catch (Exception e) {
+            }
+        }
+        return false;
+    }
+
+    private static SmallRyeConfig getQuarkusConfig() {
+        if (quarkusConfig != null) {
+            return quarkusConfig;
+        } else {
+            quarkusConfig = (SmallRyeConfig)
+                    org.eclipse.microprofile.config.ConfigProvider.getConfig().unwrap(SmallRyeConfig.class);
+            return quarkusConfig;
+        }
+    }
+
+    private static Properties getSpringBootConfig() {
+        if (springBootConfig != null) {
+            return springBootConfig;
+        } else {
+            try (InputStream input =
+                    ConfigHelper.class.getClassLoader().getResourceAsStream("application.properties")) {
+                if (input == null) {
+                    return null;
+                }
+                springBootConfig = new Properties();
+                springBootConfig.load(input);
+            } catch (IOException ex) {
+            }
+            return springBootConfig;
+        }
+    }
+
+    private static Properties getCamelMainConfig() {
+        if (camelConfig != null) {
+            return camelConfig;
+        } else {
+            try (InputStream input =
+                    ConfigHelper.class.getClassLoader().getResourceAsStream("application.properties")) {
+                if (input == null) {
+                    return null;
+                }
+                camelConfig = new Properties();
+                camelConfig.load(input);
+            } catch (IOException ex) {
+            }
+            return camelConfig;
+        }
+    }
 
     /**
      * Reads a configuration value as a list of strings by splitting on commas.

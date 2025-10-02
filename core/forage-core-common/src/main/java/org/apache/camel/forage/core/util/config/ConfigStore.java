@@ -327,6 +327,22 @@ public final class ConfigStore {
             return Optional.of(propertyValue);
         }
 
+        String value = null;
+        switch (ConfigHelper.getRuntime()) {
+            case springBoot:
+                value = ConfigHelper.getSpringBootProperty(module.propertyName());
+                break;
+            case quarkus:
+                value = ConfigHelper.getQuarkusProperty(module.propertyName());
+                break;
+            case main:
+                value = ConfigHelper.getCamelMainProperty(module.propertyName());
+                break;
+        }
+        if (value != null) {
+            return Optional.of(value);
+        }
+
         return Optional.empty();
     }
 
