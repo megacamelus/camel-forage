@@ -81,6 +81,14 @@ public class DataSourceFactoryConfigEntries extends ConfigEntries {
             ConfigModule.of(DataSourceFactoryConfig.class, "jdbc.aggregation.repository.use.recovery");
     public static final ConfigModule AGGREGATION_REPOSITORY_PROPAGATION_BEHAVIOUR_NAME =
             ConfigModule.of(DataSourceFactoryConfig.class, "jdbc.aggregation.repository.propagation.behaviour.name");
+    public static final ConfigModule ENABLE_IDEMPOTENT_REPOSITORY =
+            ConfigModule.of(DataSourceFactoryConfig.class, "jdbc.idempotent.repository.enabled");
+    public static final ConfigModule IDEMPOTENT_REPOSITORY_TABLE_NAME =
+            ConfigModule.of(DataSourceFactoryConfig.class, "jdbc.idempotent.repository.table.name");
+    public static final ConfigModule IDEMPOTENT_REPOSITORY_TABLE_IF_NOT_EXISTS =
+            ConfigModule.of(DataSourceFactoryConfig.class, "jdbc.idempotent.repository.table.create");
+    public static final ConfigModule IDEMPOTENT_REPOSITORY_PROCESSOR_NAME =
+            ConfigModule.of(DataSourceFactoryConfig.class, "jdbc.idempotent.repository.processor.name");
 
     private static final Map<ConfigModule, ConfigEntry> CONFIG_MODULES = new ConcurrentHashMap<>();
 
@@ -124,6 +132,10 @@ public class DataSourceFactoryConfigEntries extends ConfigEntries {
         CONFIG_MODULES.put(AGGREGATION_REPOSITORY_MAXIMUM_REDELIVERIES, ConfigEntry.fromModule());
         CONFIG_MODULES.put(AGGREGATION_REPOSITORY_USE_RECOVERY, ConfigEntry.fromModule());
         CONFIG_MODULES.put(AGGREGATION_REPOSITORY_PROPAGATION_BEHAVIOUR_NAME, ConfigEntry.fromModule());
+        CONFIG_MODULES.put(ENABLE_IDEMPOTENT_REPOSITORY, ConfigEntry.fromModule());
+        CONFIG_MODULES.put(IDEMPOTENT_REPOSITORY_TABLE_NAME, ConfigEntry.fromModule());
+        CONFIG_MODULES.put(IDEMPOTENT_REPOSITORY_TABLE_IF_NOT_EXISTS, ConfigEntry.fromModule());
+        CONFIG_MODULES.put(IDEMPOTENT_REPOSITORY_PROCESSOR_NAME, ConfigEntry.fromModule());
     }
 
     public static Map<ConfigModule, ConfigEntry> entries() {

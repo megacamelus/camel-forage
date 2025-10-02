@@ -28,4 +28,9 @@ public class MssqlJdbc extends PooledDataSource {
     public String getTestQuery() {
         return "SELECT @@VERSION, DB_NAME(), SUSER_SNAME()";
     }
+
+    @Override
+    public String createString() {
+        return "CREATE TABLE CAMEL_MESSAGEPROCESSED (processorName VARCHAR(255), messageId VARCHAR(100), createdAt DATETIME, PRIMARY KEY (processorName, messageId))";
+    }
 }

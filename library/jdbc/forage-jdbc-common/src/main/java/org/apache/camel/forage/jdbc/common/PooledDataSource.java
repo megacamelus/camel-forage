@@ -12,6 +12,7 @@ import io.agroal.narayana.NarayanaTransactionIntegration;
 import java.time.Duration;
 import javax.sql.DataSource;
 import org.apache.camel.forage.core.jdbc.DataSourceProvider;
+import org.apache.camel.forage.jdbc.common.idempotent.ForageIdRepository;
 import org.apache.camel.forage.jdbc.common.transactions.TransactionConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +21,7 @@ import org.slf4j.LoggerFactory;
  * Abstract base class for pooled JDBC implementations using Agroal connection pooling.
  * Provides database-agnostic DataSource configuration with optimized pool settings.
  */
-public abstract class PooledDataSource implements DataSourceProvider {
+public abstract class PooledDataSource implements DataSourceProvider, ForageIdRepository {
     private static final Logger LOG = LoggerFactory.getLogger(PooledDataSource.class);
 
     private DataSourceFactoryConfig config;

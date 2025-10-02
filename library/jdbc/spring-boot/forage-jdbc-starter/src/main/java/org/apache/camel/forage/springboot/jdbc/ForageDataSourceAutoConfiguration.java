@@ -13,7 +13,10 @@ import org.apache.camel.forage.core.jdbc.DataSourceProvider;
 import org.apache.camel.forage.core.util.config.ConfigStore;
 import org.apache.camel.forage.jdbc.common.DataSourceCommonExportHelper;
 import org.apache.camel.forage.jdbc.common.DataSourceFactoryConfig;
+import org.apache.camel.forage.jdbc.common.ForageDataSource;
 import org.apache.camel.forage.jdbc.common.aggregation.ForageAggregationRepository;
+import org.apache.camel.forage.jdbc.common.idempotent.ForageIdRepository;
+import org.apache.camel.forage.jdbc.common.idempotent.ForageJdbcMessageIdRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanFactory;
@@ -75,14 +78,20 @@ public class ForageDataSourceAutoConfiguration implements BeanFactoryAware {
                 if (!configurableBeanFactory.containsBean(name)) {
                     log.debug("Creating DataSource bean with name: {}", name);
                     DataSourceFactoryConfig dsFactoryConfig = new DataSourceFactoryConfig(name);
-                    AgroalDataSource agroalDataSource = newDataSource(dsFactoryConfig, name);
-                    configurableBeanFactory.registerSingleton(name, agroalDataSource);
+                    ForageDataSource forageDataSource = newDataSource(dsFactoryConfig, name);
+                    configurableBeanFactory.registerSingleton(name, forageDataSource.dataSource());
                     log.info("Registered DataSource bean: {}", name);
                     if (!isDataSourceCrated) {
                         // This is needed for Spring Boot AutoConfiguration, let's just register the first datasource
                         // as the default dataSource too
-                        configurableBeanFactory.registerSingleton("dataSource", agroalDataSource);
-                        createAggregationRepository(configurableBeanFactory, dsFactoryConfig, agroalDataSource);
+                        configurableBeanFactory.registerSingleton("dataSource", forageDataSource.dataSource());
+                        createAggregationRepository(
+                                configurableBeanFactory, dsFactoryConfig, forageDataSource.dataSource());
+                        createIdempotentRepository(
+                                configurableBeanFactory,
+                                dsFactoryConfig,
+                                forageDataSource.dataSource(),
+                                forageDataSource.forageIdRepository());
                         log.info("Registered default DataSource bean using: {}", name);
                         isDataSourceCrated = true;
                     }
@@ -97,10 +106,15 @@ public class ForageDataSourceAutoConfiguration implements BeanFactoryAware {
                 log.info(
                         "Creating default DataSource using single provider: {}",
                         providers.get(0).type().getName());
-                AgroalDataSource agroalDataSource =
-                        (AgroalDataSource) providers.get(0).get().create();
-                configurableBeanFactory.registerSingleton("dataSource", agroalDataSource);
-                createAggregationRepository(configurableBeanFactory, config, agroalDataSource);
+                ForageDataSource forageDataSource = doCreateDataSource(providers.get(0), null);
+
+                configurableBeanFactory.registerSingleton("dataSource", forageDataSource.dataSource());
+                createAggregationRepository(configurableBeanFactory, config, forageDataSource.dataSource());
+                createIdempotentRepository(
+                        configurableBeanFactory,
+                        config,
+                        forageDataSource.dataSource(),
+                        forageDataSource.forageIdRepository());
                 log.info("Registered default DataSource bean");
             } else {
                 log.error(
@@ -112,7 +126,7 @@ public class ForageDataSourceAutoConfiguration implements BeanFactoryAware {
         }
     }
 
-    private synchronized AgroalDataSource newDataSource(DataSourceFactoryConfig dataSourceFactoryConfig, String name) {
+    private synchronized ForageDataSource newDataSource(DataSourceFactoryConfig dataSourceFactoryConfig, String name) {
         log.debug("Creating new DataSource for name: {} with dbKind: {}", name, dataSourceFactoryConfig.dbKind());
         final String dataSourceProviderClass =
                 DataSourceCommonExportHelper.transformDbKindIntoProviderClass(dataSourceFactoryConfig.dbKind());
@@ -142,7 +156,7 @@ public class ForageDataSourceAutoConfiguration implements BeanFactoryAware {
         return doCreateDataSource(dataSourceProvider, name);
     }
 
-    private AgroalDataSource doCreateDataSource(ServiceLoader.Provider<DataSourceProvider> provider, String name) {
+    private ForageDataSource doCreateDataSource(ServiceLoader.Provider<DataSourceProvider> provider, String name) {
         log.debug(
                 "Creating DataSource instance using provider: {} for name: {}",
                 provider.type().getName(),
@@ -150,7 +164,13 @@ public class ForageDataSourceAutoConfiguration implements BeanFactoryAware {
         final DataSourceProvider dataSourceProvider = provider.get();
         AgroalDataSource dataSource = (AgroalDataSource) dataSourceProvider.create(name);
         log.debug("Successfully created DataSource instance for: {}", name);
-        return dataSource;
+
+        ForageIdRepository forageIdRepository = null;
+        if (dataSourceProvider instanceof ForageIdRepository forageIdRepo) {
+            forageIdRepository = forageIdRepo;
+        }
+
+        return new ForageDataSource(dataSource, forageIdRepository);
     }
 
     private List<ServiceLoader.Provider<DataSourceProvider>> findDataSourceProviders() {
@@ -181,6 +201,20 @@ public class ForageDataSourceAutoConfiguration implements BeanFactoryAware {
                             agroalDataSource,
                             com.arjuna.ats.jta.TransactionManager.transactionManager(),
                             dsFactoryConfig));
+        }
+    }
+
+    private void createIdempotentRepository(
+            ConfigurableBeanFactory configurableBeanFactory,
+            DataSourceFactoryConfig config,
+            DataSource agroalDataSource,
+            ForageIdRepository forageIdRepository) {
+        if (config.enableIdempotentRepository()) {
+            ForageJdbcMessageIdRepository forageJdbcMessageIdRepository =
+                    new ForageJdbcMessageIdRepository(config, agroalDataSource, forageIdRepository);
+
+            configurableBeanFactory.registerSingleton(
+                    config.idempotentRepositoryTableName(), forageJdbcMessageIdRepository);
         }
     }
 

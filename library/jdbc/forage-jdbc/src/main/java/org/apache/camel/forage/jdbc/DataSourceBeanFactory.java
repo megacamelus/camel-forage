@@ -12,7 +12,10 @@ import org.apache.camel.forage.core.jdbc.DataSourceProvider;
 import org.apache.camel.forage.core.util.config.ConfigStore;
 import org.apache.camel.forage.jdbc.common.DataSourceCommonExportHelper;
 import org.apache.camel.forage.jdbc.common.DataSourceFactoryConfig;
+import org.apache.camel.forage.jdbc.common.ForageDataSource;
 import org.apache.camel.forage.jdbc.common.aggregation.ForageAggregationRepository;
+import org.apache.camel.forage.jdbc.common.idempotent.ForageIdRepository;
+import org.apache.camel.forage.jdbc.common.idempotent.ForageJdbcMessageIdRepository;
 import org.apache.camel.forage.jdbc.jta.MandatoryJtaTransactionPolicy;
 import org.apache.camel.forage.jdbc.jta.NeverJtaTransactionPolicy;
 import org.apache.camel.forage.jdbc.jta.NotSupportedJtaTransactionPolicy;
@@ -53,9 +56,11 @@ public class DataSourceBeanFactory implements BeanFactory {
             for (String name : prefixes) {
                 if (camelContext.getRegistry().lookupByNameAndType(name, DataSource.class) == null) {
                     DataSourceFactoryConfig dsFactoryConfig = new DataSourceFactoryConfig(name);
-                    DataSource agroalDataSource = newDataSource(dsFactoryConfig, name);
-                    camelContext.getRegistry().bind(name, agroalDataSource);
-                    createAggregationRepository(dsFactoryConfig, agroalDataSource);
+                    ForageDataSource forageDataSource = newDataSource(dsFactoryConfig, name);
+                    camelContext.getRegistry().bind(name, forageDataSource.dataSource());
+                    createAggregationRepository(dsFactoryConfig, forageDataSource.dataSource());
+                    createIdempotentRepository(
+                            dsFactoryConfig, forageDataSource.dataSource(), forageDataSource.forageIdRepository());
                 }
             }
         } else {
@@ -64,9 +69,11 @@ public class DataSourceBeanFactory implements BeanFactory {
                     final List<ServiceLoader.Provider<DataSourceProvider>> providers =
                             findProviders(DataSourceProvider.class);
                     if (providers.size() == 1) {
-                        DataSource agroalDataSource = providers.get(0).get().create();
-                        camelContext.getRegistry().bind(DEFAULT_DATASOURCE, agroalDataSource);
-                        createAggregationRepository(config, agroalDataSource);
+                        ForageDataSource forageDataSource = doCreateDataSource(providers.get(0), null);
+                        camelContext.getRegistry().bind(DEFAULT_DATASOURCE, forageDataSource.dataSource());
+                        createAggregationRepository(config, forageDataSource.dataSource());
+                        createIdempotentRepository(
+                                config, forageDataSource.dataSource(), forageDataSource.forageIdRepository());
                     } else {
                         throw new IllegalArgumentException("No dataSource implementation is present in the classpath");
                     }
@@ -74,6 +81,16 @@ public class DataSourceBeanFactory implements BeanFactory {
             } catch (Exception ex) {
                 LOG.debug(ex.getMessage(), ex);
             }
+        }
+    }
+
+    private void createIdempotentRepository(
+            DataSourceFactoryConfig config, DataSource agroalDataSource, ForageIdRepository forageIdRepository) {
+        if (config.enableIdempotentRepository()) {
+            ForageJdbcMessageIdRepository forageJdbcMessageIdRepository =
+                    new ForageJdbcMessageIdRepository(config, agroalDataSource, forageIdRepository);
+
+            camelContext.getRegistry().bind(config.idempotentRepositoryTableName(), forageJdbcMessageIdRepository);
         }
     }
 
@@ -94,7 +111,7 @@ public class DataSourceBeanFactory implements BeanFactory {
         }
     }
 
-    private synchronized DataSource newDataSource(DataSourceFactoryConfig dataSourceFactoryConfig, String name) {
+    private synchronized ForageDataSource newDataSource(DataSourceFactoryConfig dataSourceFactoryConfig, String name) {
         final String dataSourceProviderClass =
                 DataSourceCommonExportHelper.transformDbKindIntoProviderClass(dataSourceFactoryConfig.dbKind());
         LOG.info("Creating DataSource of type {}", dataSourceProviderClass);
@@ -112,9 +129,13 @@ public class DataSourceBeanFactory implements BeanFactory {
         return doCreateDataSource(dataSourceProvider, name);
     }
 
-    private DataSource doCreateDataSource(ServiceLoader.Provider<DataSourceProvider> provider, String name) {
+    private ForageDataSource doCreateDataSource(ServiceLoader.Provider<DataSourceProvider> provider, String name) {
         final DataSourceProvider dataSourceProvider = provider.get();
-        return dataSourceProvider.create(name);
+        ForageIdRepository forageIdRepository = null;
+        if (dataSourceProvider instanceof ForageIdRepository forageIdRepo) {
+            forageIdRepository = forageIdRepo;
+        }
+        return new ForageDataSource(dataSourceProvider.create(name), forageIdRepository);
     }
 
     @Override

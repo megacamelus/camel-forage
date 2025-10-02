@@ -5,6 +5,7 @@ import org.apache.camel.forage.core.util.config.Config;
 import org.apache.camel.forage.core.util.config.ConfigModule;
 import org.apache.camel.forage.core.util.config.ConfigStore;
 import org.apache.camel.forage.core.util.config.MissingConfigException;
+import org.apache.camel.forage.jdbc.common.idempotent.ForageJdbcMessageIdRepository;
 
 /**
  * Configuration for data source factory with JDBC connection settings and pool parameters.
@@ -261,5 +262,31 @@ public class DataSourceFactoryConfig implements Config {
         return ConfigStore.getInstance()
                 .get(DataSourceFactoryConfigEntries.AGGREGATION_REPOSITORY_PROPAGATION_BEHAVIOUR_NAME.asNamed(prefix))
                 .orElse(null);
+    }
+
+    public boolean enableIdempotentRepository() {
+        return ConfigStore.getInstance()
+                .get(DataSourceFactoryConfigEntries.ENABLE_IDEMPOTENT_REPOSITORY.asNamed(prefix))
+                .map(Boolean::parseBoolean)
+                .orElse(false);
+    }
+
+    public String idempotentRepositoryTableName() {
+        return ConfigStore.getInstance()
+                .get(DataSourceFactoryConfigEntries.IDEMPOTENT_REPOSITORY_TABLE_NAME.asNamed(prefix))
+                .orElse(ForageJdbcMessageIdRepository.DEFAULT_TABLENAME);
+    }
+
+    public boolean enableIdempotentRepositoryTableCreate() {
+        return ConfigStore.getInstance()
+                .get(DataSourceFactoryConfigEntries.IDEMPOTENT_REPOSITORY_TABLE_IF_NOT_EXISTS.asNamed(prefix))
+                .map(Boolean::parseBoolean)
+                .orElse(true);
+    }
+
+    public String idempotentRepositoryProcessorName() {
+        return ConfigStore.getInstance()
+                .get(DataSourceFactoryConfigEntries.IDEMPOTENT_REPOSITORY_TABLE_IF_NOT_EXISTS.asNamed(prefix))
+                .orElse("FORAGE_PROCESSOR_" + idempotentRepositoryTableName());
     }
 }

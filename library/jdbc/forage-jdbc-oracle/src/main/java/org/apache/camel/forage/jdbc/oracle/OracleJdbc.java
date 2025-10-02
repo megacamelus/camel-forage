@@ -28,4 +28,9 @@ public class OracleJdbc extends PooledDataSource {
     public String getTestQuery() {
         return "SELECT banner FROM v$version WHERE ROWNUM = 1";
     }
+
+    @Override
+    public String createString() {
+        return "CREATE TABLE CAMEL_MESSAGEPROCESSED (processorName VARCHAR2(255), messageId VARCHAR2(100), createdAt TIMESTAMP, PRIMARY KEY (processorName, messageId))";
+    }
 }
