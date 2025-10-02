@@ -26,7 +26,7 @@ public class ForageDataSourceQuarkusConfigSource implements ConfigSource {
                 configureDs(name, dsFactoryConfig);
             }
         } else {
-            configureDs(null, config);
+            configureDs("dataSource", config);
         }
     }
 
