@@ -26,6 +26,6 @@ public class HsqldbJdbc extends PooledDataSource {
 
     @Override
     public String getTestQuery() {
-        return "SELECT 'HSQLDB ' || database_version() FROM INFORMATION_SCHEMA.SYSTEM_VERSIONS";
+        return "SELECT 'HSQLDB ' || database_version() FROM INFORMATION_SCHEMA.SYSTEM_TABLES WHERE TABLE_SCHEM = 'INFORMATION_SCHEMA' LIMIT 1";
     }
 }
