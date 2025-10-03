@@ -17,6 +17,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.env.Environment;
 
 /**
  * Centralized configuration store for the Camel Forage framework that manages configuration values
@@ -327,6 +328,30 @@ public final class ConfigStore {
             return Optional.of(propertyValue);
         }
 
+        // Check spring-boot
+        Environment springEnvironment = SpringPropertiesContextHelper.getEnvironment();
+        if (springEnvironment != null) {
+            LOG.info("Checking spring boot environment for {}", module.propertyName());
+            String springBootValue = springEnvironment.getProperty(module.propertyName());
+            if (springBootValue != null) {
+                LOG.info("Found {} for {}", springBootValue, module.propertyName());
+                return Optional.of(springBootValue);
+            }
+        }
+
+        /*
+        Checking quarkus may be something like this
+
+        SmallRyeConfig config = QuarkusPropertiesContextHelper.getConfig();
+        if (config != null) {
+            LOG.info("Checking Quarkus config for {}", module.propertyName());
+            String quarkusValue = config.getValue(module.propertyName(), String.class);
+            if (quarkusValue != null) {
+                LOG.info("Found {} for {}", quarkusValue, module.propertyName());
+                return Optional.of(quarkusValue);
+            }
+        }
+        */
         return Optional.empty();
     }
 
