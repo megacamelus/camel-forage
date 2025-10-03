@@ -79,7 +79,7 @@ public class DataSourceBeanFactory implements BeanFactory {
                     }
                 }
             } catch (Exception ex) {
-                LOG.debug(ex.getMessage(), ex);
+                LOG.error(ex.getMessage(), ex);
             }
         }
     }
