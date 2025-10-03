@@ -25,7 +25,7 @@
         <module>forage-jdbc-mssql</module>
         <module>forage-jdbc-mysql</module>
         <module>forage-jdbc-oracle</module>
-        <module>forage-jdbc-postgres</module>
+        <module>forage-jdbc-postgresql</module>
         <module>spring-boot</module>
     </modules>
 

@@ -9,8 +9,8 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>forage-jdbc-postgres</artifactId>
-    <name>Camel Forage :: Library :: JDBC :: Postgres</name>
+    <artifactId>forage-jdbc-postgresql</artifactId>
+    <name>Camel Forage :: Library :: JDBC :: Postgresql</name>
 
     <properties>
         <postgresql.version>42.7.7</postgresql.version>

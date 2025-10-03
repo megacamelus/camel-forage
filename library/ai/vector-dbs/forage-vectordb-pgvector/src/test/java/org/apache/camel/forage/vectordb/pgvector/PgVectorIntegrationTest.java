@@ -25,7 +25,7 @@ public class PgVectorIntegrationTest {
     private static final int EMBEDDING_DIMENSION = 4;
 
     @Container
-    public static final PostgreSQLContainer<?> postgresContainer = new PostgreSQLContainer<>("pgvector/pgvector:pg16")
+    public static final PostgreSQLContainer<?> postgresqlContainer = new PostgreSQLContainer<>("pgvector/pgvector:pg16")
             .withDatabaseName("test_vectordb")
             .withUsername("test_user")
             .withPassword("test_password")
@@ -33,13 +33,13 @@ public class PgVectorIntegrationTest {
 
     @BeforeAll
     public static void setupPgVectorConfiguration() {
-        LOG.info("Starting PostgreSQL container with pgvector: {}", postgresContainer.getDockerImageName());
+        LOG.info("Starting PostgreSQL container with pgvector: {}", postgresqlContainer.getDockerImageName());
 
-        String host = postgresContainer.getHost();
-        Integer port = postgresContainer.getMappedPort(PostgreSQLContainer.POSTGRESQL_PORT);
-        String database = postgresContainer.getDatabaseName();
-        String username = postgresContainer.getUsername();
-        String password = postgresContainer.getPassword();
+        String host = postgresqlContainer.getHost();
+        Integer port = postgresqlContainer.getMappedPort(PostgreSQLContainer.POSTGRESQL_PORT);
+        String database = postgresqlContainer.getDatabaseName();
+        String username = postgresqlContainer.getUsername();
+        String password = postgresqlContainer.getPassword();
 
         LOG.info("PostgreSQL container started - Host: {}, Port: {}, Database: {}", host, port, database);
 

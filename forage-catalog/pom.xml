@@ -141,7 +141,7 @@
 
         <dependency>
             <groupId>org.apache.camel.forage</groupId>
-            <artifactId>forage-jdbc-postgres</artifactId>
+            <artifactId>forage-jdbc-postgresql</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

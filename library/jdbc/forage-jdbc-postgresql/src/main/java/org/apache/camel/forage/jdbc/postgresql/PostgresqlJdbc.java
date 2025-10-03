@@ -1,4 +1,4 @@
-package org.apache.camel.forage.jdbc.postgres;
+package org.apache.camel.forage.jdbc.postgresql;
 
 import org.apache.camel.forage.core.annotations.ForageBean;
 import org.apache.camel.forage.jdbc.common.PooledDataSource;
@@ -10,10 +10,10 @@ import org.postgresql.xa.PGXADataSource;
  * Provides PostgreSQL-specific connection provider configuration.
  */
 @ForageBean(
-        value = "postgres",
+        value = "postgresql",
         components = {"camel-sql", "camel-jdbc", "camel-spring-jdbc"},
-        description = "Postgres database DataSource Provider")
-public class PostgresJdbc extends PooledDataSource {
+        description = "Postgresql database DataSource Provider")
+public class PostgresqlJdbc extends PooledDataSource {
 
     @Override
     protected Class getConnectionProviderClass() {

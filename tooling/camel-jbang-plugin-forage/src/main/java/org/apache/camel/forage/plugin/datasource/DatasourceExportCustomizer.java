@@ -8,7 +8,6 @@ import java.util.Set;
 import org.apache.camel.forage.core.common.ExportCustomizer;
 import org.apache.camel.forage.core.common.RuntimeType;
 import org.apache.camel.forage.core.util.config.ConfigStore;
-import org.apache.camel.forage.jdbc.common.DataSourceCommonExportHelper;
 import org.apache.camel.forage.jdbc.common.DataSourceFactoryConfig;
 import org.apache.camel.forage.plugin.DataSourceExportHelper;
 
@@ -78,14 +77,11 @@ public class DatasourceExportCustomizer implements ExportCustomizer {
             if (!prefixes.isEmpty()) {
                 for (String name : prefixes) {
                     DataSourceFactoryConfig dsFactoryConfig = new DataSourceFactoryConfig(name);
-                    dependencies.add(depPrefix
-                            + DataSourceCommonExportHelper.getDbKindNameForRuntime(dsFactoryConfig.dbKind(), runtime)
-                            + depVersion);
+                    // todoo get quarkus version
+                    dependencies.add(depPrefix + dsFactoryConfig.dbKind() + depVersion);
                 }
             } else {
-                dependencies.add(depPrefix
-                        + DataSourceCommonExportHelper.getDbKindNameForRuntime(config.dbKind(), runtime)
-                        + depVersion);
+                dependencies.add(depPrefix + config.dbKind() + depVersion);
             }
 
             if (config.transactionEnabled()) {

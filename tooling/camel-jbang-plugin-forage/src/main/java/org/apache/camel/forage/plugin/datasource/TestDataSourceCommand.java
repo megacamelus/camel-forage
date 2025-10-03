@@ -51,10 +51,6 @@ public class TestDataSourceCommand extends CamelCommand {
         try {
             DataSourceFactoryConfig dsFactoryConfig = new DataSourceFactoryConfig(dataSourceName);
             String dbKind = dsFactoryConfig.dbKind().toLowerCase();
-            // TODO Either align everything to postgresql or postgres
-            if (dbKind.equals("postgresql")) {
-                dbKind = "postgres";
-            }
 
             printer().println("Testing connection for database: " + dbKind);
             if (dataSourceName != null) {
