@@ -27,6 +27,7 @@
         <module>forage-jdbc-oracle</module>
         <module>forage-jdbc-postgresql</module>
         <module>spring-boot</module>
+        <module>forage-jdbc-test</module>
     </modules>
 
 </project>

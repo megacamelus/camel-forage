@@ -26,6 +26,6 @@ public class Db2Jdbc extends PooledDataSource {
 
     @Override
     public String getTestQuery() {
-        return "SELECT service_level, current_schema, current_user FROM sysibm.sysversions";
+        return "SELECT service_level, fixpack_num, bld_level FROM TABLE (sysproc.env_get_inst_info()) as A";
     }
 }
