@@ -28,7 +28,9 @@ public class PostgresqlDataSourceTest extends DataSourceTest {
     @Override
     protected void setUpDataSource(String dataSourceName) {
         System.setProperty(dataSourceName + ".jdbc.db.kind", "postgresql");
-        System.setProperty(dataSourceName + ".jdbc.url", "jdbc:postgresql://localhost:" + postgresql.getMappedPort(5432) + "/postgresql");
+        System.setProperty(
+                dataSourceName + ".jdbc.url",
+                "jdbc:postgresql://localhost:" + postgresql.getMappedPort(5432) + "/postgresql");
         System.setProperty(dataSourceName + ".jdbc.username", "postgresql");
         System.setProperty(dataSourceName + ".jdbc.password", "postgresql");
     }
@@ -37,9 +39,7 @@ public class PostgresqlDataSourceTest extends DataSourceTest {
     protected void validateTestQueryResult(ResultSet rs) throws SQLException {
         rs.next();
 
-        Assertions.assertThat(rs.getString(1))
-                        .contains("PostgreSQL");
-        Assertions.assertThat(rs.getString(2))
-                .contains("postgresql");
+        Assertions.assertThat(rs.getString(1)).contains("PostgreSQL");
+        Assertions.assertThat(rs.getString(2)).contains("postgresql");
     }
 }

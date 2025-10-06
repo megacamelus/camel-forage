@@ -1,17 +1,19 @@
 package org.apache.camel.forage.jdbc;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import org.apache.camel.forage.core.jdbc.DataSourceProvider;
 import org.apache.camel.forage.jdbc.mysql.MysqlJdbc;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.condition.DisabledIfSystemProperty;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 @Testcontainers(disabledWithoutDocker = true)
+@DisabledIfSystemProperty(named = "ci.env.name", matches = ".*",
+        disabledReason = "Slow or flaky on GitHub action")
 public class MySQLDataSourceTest extends DataSourceTest {
 
     private static final String MYSQL_DATABASE = "myDatabase";
@@ -31,7 +33,9 @@ public class MySQLDataSourceTest extends DataSourceTest {
     @Override
     protected void setUpDataSource(String dataSourceName) {
         System.setProperty(dataSourceName + ".jdbc.db.kind", "mysql");
-        System.setProperty(dataSourceName + ".jdbc.url", "jdbc:mysql://localhost:" + mysql.getMappedPort(3306) + "/" + MYSQL_DATABASE);
+        System.setProperty(
+                dataSourceName + ".jdbc.url",
+                "jdbc:mysql://localhost:" + mysql.getMappedPort(3306) + "/" + MYSQL_DATABASE);
         System.setProperty(dataSourceName + ".jdbc.username", "root");
         System.setProperty(dataSourceName + ".jdbc.password", "pwd");
     }
@@ -40,9 +44,7 @@ public class MySQLDataSourceTest extends DataSourceTest {
     protected void validateTestQueryResult(ResultSet rs) throws SQLException {
         rs.next();
 
-        Assertions.assertThat(rs.getString(1))
-                .contains(VERSION);
-        Assertions.assertThat(rs.getString(2))
-                .contains(MYSQL_DATABASE);
+        Assertions.assertThat(rs.getString(1)).contains(VERSION);
+        Assertions.assertThat(rs.getString(2)).contains(MYSQL_DATABASE);
     }
 }

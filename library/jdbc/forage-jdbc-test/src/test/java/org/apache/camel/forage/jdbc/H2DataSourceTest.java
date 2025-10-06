@@ -5,7 +5,6 @@ import java.sql.SQLException;
 import org.apache.camel.forage.core.jdbc.DataSourceProvider;
 import org.apache.camel.forage.jdbc.h2.H2Jdbc;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.Test;
 
 public class H2DataSourceTest extends DataSourceTest {
 

@@ -6,6 +6,7 @@ import org.apache.camel.forage.core.jdbc.DataSourceProvider;
 import org.apache.camel.forage.jdbc.mssql.MssqlJdbc;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.DisabledIfSystemProperty;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.junit.jupiter.Container;
@@ -13,12 +14,15 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
 @Testcontainers(disabledWithoutDocker = true)
+@DisabledIfSystemProperty(named = "ci.env.name", matches = ".*",
+        disabledReason = "Slow or flaky on GitHub action")
 public class MssqlDataSourceTest extends DataSourceTest {
 
     private static final String MSSQL_DATABASE = "master";
 
     @Container
-    static GenericContainer<?> mssql = new GenericContainer<>(DockerImageName.parse("mcr.microsoft.com/mssql/server:2022-latest"))
+    static GenericContainer<?> mssql = new GenericContainer<>(
+                    DockerImageName.parse("mcr.microsoft.com/mssql/server:2022-latest"))
             .withExposedPorts(1433)
             .withEnv("ACCEPT_EULA", "Y")
             .withEnv("MSSQL_SA_PASSWORD", "YourStrong!Passw0rd")

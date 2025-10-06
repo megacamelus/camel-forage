@@ -1,10 +1,13 @@
 package org.apache.camel.forage.jdbc;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.Duration;
 import org.apache.camel.forage.core.jdbc.DataSourceProvider;
 import org.apache.camel.forage.jdbc.db2.Db2Jdbc;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.DisabledIfSystemProperty;
 import org.junit.jupiter.api.condition.DisabledOnOs;
 import org.junit.jupiter.api.condition.OS;
 import org.testcontainers.containers.GenericContainer;
@@ -13,12 +16,10 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.time.Duration;
-
 @Testcontainers(disabledWithoutDocker = true)
 @DisabledOnOs(OS.MAC) // The test is really slow on mac
+@DisabledIfSystemProperty(named = "ci.env.name", matches = ".*",
+        disabledReason = "Slow or flaky on GitHub action")
 public class Db2DataSourceTest extends DataSourceTest {
 
     @Container
@@ -41,7 +42,8 @@ public class Db2DataSourceTest extends DataSourceTest {
     @Override
     protected void setUpDataSource(String dataSourceName) {
         System.setProperty(dataSourceName + ".jdbc.db.kind", "db2");
-        System.setProperty(dataSourceName + ".jdbc.url", "jdbc:db2://localhost:" + db2.getMappedPort(50000) + "/testdb");
+        System.setProperty(
+                dataSourceName + ".jdbc.url", "jdbc:db2://localhost:" + db2.getMappedPort(50000) + "/testdb");
         System.setProperty(dataSourceName + ".jdbc.username", "db2inst1");
         System.setProperty(dataSourceName + ".jdbc.password", "password");
     }
@@ -50,8 +52,7 @@ public class Db2DataSourceTest extends DataSourceTest {
     protected void validateTestQueryResult(ResultSet rs) throws SQLException {
         rs.next();
 
-        Assertions.assertThat(rs.getString(1))
-                .contains("DB2");
+        Assertions.assertThat(rs.getString(1)).contains("DB2");
     }
 
     @Test

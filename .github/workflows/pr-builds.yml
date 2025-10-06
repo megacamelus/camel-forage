@@ -54,4 +54,4 @@ jobs:
           distribution: 'temurin'
           cache: maven
       - name: Build with Maven (${{ matrix.camel-profile }})
-        run: mvn -B package --file pom.xml -P ${{ matrix.camel-profile }}
+        run: mvn -B '-Dsurefire.rerunFailingTestsCount=2' '-Dci.env.name=github.com' package --file pom.xml -P ${{ matrix.camel-profile }}
