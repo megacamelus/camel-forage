@@ -148,11 +148,9 @@
                 <property>
                     <name>camel-lts</name>
                 </property>
-                <activeByDefault>false</activeByDefault>
             </activation>
             <properties>
                 <camel.version>4.14.1</camel.version>
-                <camel-lts>true</camel-lts>
                 <langchain4j-version>1.3.0</langchain4j-version>
                 <langchain4j-beta-version>1.3.0-beta9</langchain4j-beta-version>
                 <langchain4j-community-version>1.3.0-beta9</langchain4j-community-version>
@@ -161,7 +159,6 @@
         <profile>
             <id>camel-next</id>
             <activation>
-                <activeByDefault>true</activeByDefault>
                 <property>
                     <name>!camel-lts</name>
                 </property>
