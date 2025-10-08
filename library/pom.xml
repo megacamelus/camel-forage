@@ -29,6 +29,7 @@
             </activation>
             <modules>
                 <module>jdbc</module>
+                <module>jms</module>
             </modules>
         </profile>
     </profiles>

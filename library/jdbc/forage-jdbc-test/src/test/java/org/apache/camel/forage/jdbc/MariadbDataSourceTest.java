@@ -12,8 +12,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
 @Testcontainers(disabledWithoutDocker = true)
-@DisabledIfSystemProperty(named = "ci.env.name", matches = ".*",
-        disabledReason = "Slow or flaky on GitHub action")
+@DisabledIfSystemProperty(named = "ci.env.name", matches = ".*", disabledReason = "Slow or flaky on GitHub action")
 public class MariadbDataSourceTest extends DataSourceTest {
 
     private static final String MARIADB_DATABASE = "myDatabase";
