@@ -14,7 +14,7 @@ public interface ForageAgentWithoutMemory {
     String chat(@UserMessage String userMessage);
 
     @SystemMessage("{{prompt}}")
-    String chat(String userMessage, @V("prompt") String systemMessage);
+    String chat(@UserMessage String userMessage, @V("prompt") String systemMessage);
 
     String chat(@UserMessage String userMessage, @UserMessage List<Content> contents);
 }

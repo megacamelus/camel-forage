@@ -19,6 +19,8 @@
         <module>forage-core-ai</module>
         <module>forage-core-vectordb</module>
         <module>forage-core-jdbc</module>
+        <module>forage-core-jms</module>
+        <module>forage-core-jta</module>
     </modules>
 
 </project>

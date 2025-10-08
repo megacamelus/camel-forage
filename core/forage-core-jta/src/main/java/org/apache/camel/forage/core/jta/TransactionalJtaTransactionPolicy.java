@@ -1,4 +1,4 @@
-package org.apache.camel.forage.jdbc.jta;
+package org.apache.camel.forage.core.jta;
 
 import jakarta.transaction.HeuristicMixedException;
 import jakarta.transaction.HeuristicRollbackException;
