@@ -18,7 +18,21 @@
         <module>agents</module>
         <module>chat-memory</module>
         <module>models</module>
-        <module>vector-dbs</module>
     </modules>
+
+    <profiles>
+        <profile>
+            <id>camel-next</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+                <property>
+                    <name>!camel-lts</name>
+                </property>
+            </activation>
+            <modules>
+                <module>vector-dbs</module>
+            </modules>
+        </profile>
+    </profiles>
 
 </project>

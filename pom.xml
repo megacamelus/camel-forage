@@ -145,6 +145,9 @@
         <profile>
             <id>camel-lts</id>
             <activation>
+                <property>
+                    <name>camel-lts</name>
+                </property>
                 <activeByDefault>false</activeByDefault>
             </activation>
             <properties>
@@ -168,7 +171,6 @@
                 <langchain4j-version>1.6.0</langchain4j-version>
                 <langchain4j-beta-version>1.6.0-beta12</langchain4j-beta-version>
                 <langchain4j-community-version>1.6.0-beta12</langchain4j-community-version>
-
             </properties>
 
             <repositories>
