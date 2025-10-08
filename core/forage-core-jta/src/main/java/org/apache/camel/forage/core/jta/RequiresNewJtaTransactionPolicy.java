@@ -1,15 +1,15 @@
-package org.apache.camel.forage.jdbc.jta;
+package org.apache.camel.forage.core.jta;
 
 import jakarta.transaction.Transaction;
 
-public final class NotSupportedJtaTransactionPolicy extends TransactionalJtaTransactionPolicy {
+public final class RequiresNewJtaTransactionPolicy extends TransactionalJtaTransactionPolicy {
 
     @Override
     public void run(final Runnable runnable) throws Throwable {
         Transaction suspendedTransaction = null;
         try {
             suspendedTransaction = suspendTransaction();
-            runnable.run();
+            runWithTransaction(runnable, true);
         } finally {
             resumeTransaction(suspendedTransaction);
         }

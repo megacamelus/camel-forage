@@ -18,8 +18,7 @@ import org.testcontainers.utility.DockerImageName;
 
 @Testcontainers(disabledWithoutDocker = true)
 @DisabledOnOs(OS.MAC) // The test is really slow on mac
-@DisabledIfSystemProperty(named = "ci.env.name", matches = ".*",
-        disabledReason = "Slow or flaky on GitHub action")
+@DisabledIfSystemProperty(named = "ci.env.name", matches = ".*", disabledReason = "Slow or flaky on GitHub action")
 public class Db2DataSourceTest extends DataSourceTest {
 
     @Container

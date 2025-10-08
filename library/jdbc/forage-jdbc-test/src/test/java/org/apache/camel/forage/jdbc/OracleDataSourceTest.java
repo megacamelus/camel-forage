@@ -14,8 +14,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
 @Testcontainers(disabledWithoutDocker = true)
-@DisabledIfSystemProperty(named = "ci.env.name", matches = ".*",
-        disabledReason = "Slow or flaky on GitHub action")
+@DisabledIfSystemProperty(named = "ci.env.name", matches = ".*", disabledReason = "Slow or flaky on GitHub action")
 public class OracleDataSourceTest extends DataSourceTest {
 
     @Container
