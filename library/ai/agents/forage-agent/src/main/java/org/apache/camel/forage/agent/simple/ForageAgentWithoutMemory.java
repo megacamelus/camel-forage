@@ -1,5 +1,9 @@
 package org.apache.camel.forage.agent.simple;
 
+import dev.langchain4j.data.message.Content;
+import dev.langchain4j.service.UserMessage;
+import java.util.List;
+
 public interface ForageAgentWithoutMemory {
 
     /**
@@ -8,4 +12,6 @@ public interface ForageAgentWithoutMemory {
     String chat(String userMessage);
 
     String chat(String userMessage, String systemMessage);
+
+    String chat(@UserMessage String userMessage, @UserMessage List<Content> contents);
 }

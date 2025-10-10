@@ -1,5 +1,6 @@
 package org.apache.camel.forage.agent.simple;
 
+import dev.langchain4j.data.message.Content;
 import dev.langchain4j.service.AiServices;
 import dev.langchain4j.service.tool.ToolProvider;
 import java.util.List;
@@ -44,6 +45,14 @@ public class SimpleAgent implements Agent, ConfigurationAware {
         } else {
             LOG.info("Chatting without memory");
             ForageAgentWithoutMemory agentService = createAiAgentService(toolProvider, ForageAgentWithoutMemory.class);
+
+            if (aiAgentBody.getContent() != null) {
+                if (aiAgentBody.getContent() instanceof List contents) {
+                    return agentService.chat(aiAgentBody.getUserMessage(), contents);
+                } else if (aiAgentBody.getContent() instanceof Content content) {
+                    return agentService.chat(aiAgentBody.getUserMessage(), List.of(content));
+                }
+            }
 
             return aiAgentBody.getSystemMessage() != null
                     ? agentService.chat(aiAgentBody.getUserMessage(), aiAgentBody.getSystemMessage())

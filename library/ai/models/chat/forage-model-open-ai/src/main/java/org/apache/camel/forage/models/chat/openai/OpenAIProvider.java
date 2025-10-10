@@ -1,7 +1,9 @@
 package org.apache.camel.forage.models.chat.openai;
 
+import dev.langchain4j.http.client.jdk.JdkHttpClientBuilder;
 import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.openai.OpenAiChatModel;
+import java.net.http.HttpClient;
 import org.apache.camel.forage.core.ai.ModelProvider;
 import org.apache.camel.forage.core.annotations.ForageBean;
 import org.slf4j.Logger;
@@ -116,6 +118,18 @@ public class OpenAIProvider implements ModelProvider {
 
         if (logResponses != null) {
             builder.logResponses(logResponses);
+        }
+
+        if (config.timeout() != null) {
+            builder.timeout(config.timeout());
+        }
+
+        if (config.http1_1()) {
+            JdkHttpClientBuilder clientBuilder = new JdkHttpClientBuilder();
+
+            clientBuilder.httpClientBuilder(HttpClient.newBuilder().version(HttpClient.Version.HTTP_1_1));
+
+            builder.httpClientBuilder(clientBuilder);
         }
 
         return builder.build();
