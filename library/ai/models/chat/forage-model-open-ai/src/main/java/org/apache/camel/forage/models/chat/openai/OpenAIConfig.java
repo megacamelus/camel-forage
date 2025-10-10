@@ -3,14 +3,17 @@ package org.apache.camel.forage.models.chat.openai;
 import static org.apache.camel.forage.models.chat.openai.OpenAIConfigEntries.API_KEY;
 import static org.apache.camel.forage.models.chat.openai.OpenAIConfigEntries.BASE_URL;
 import static org.apache.camel.forage.models.chat.openai.OpenAIConfigEntries.FREQUENCY_PENALTY;
+import static org.apache.camel.forage.models.chat.openai.OpenAIConfigEntries.HTTP1_1;
 import static org.apache.camel.forage.models.chat.openai.OpenAIConfigEntries.LOG_REQUESTS;
 import static org.apache.camel.forage.models.chat.openai.OpenAIConfigEntries.LOG_RESPONSES;
 import static org.apache.camel.forage.models.chat.openai.OpenAIConfigEntries.MAX_TOKENS;
 import static org.apache.camel.forage.models.chat.openai.OpenAIConfigEntries.MODEL_NAME;
 import static org.apache.camel.forage.models.chat.openai.OpenAIConfigEntries.PRESENCE_PENALTY;
 import static org.apache.camel.forage.models.chat.openai.OpenAIConfigEntries.TEMPERATURE;
+import static org.apache.camel.forage.models.chat.openai.OpenAIConfigEntries.TIMEOUT;
 import static org.apache.camel.forage.models.chat.openai.OpenAIConfigEntries.TOP_P;
 
+import java.time.Duration;
 import java.util.Optional;
 import org.apache.camel.forage.core.util.config.Config;
 import org.apache.camel.forage.core.util.config.ConfigModule;
@@ -389,6 +392,20 @@ public class OpenAIConfig implements Config {
     public Boolean logResponses() {
         return ConfigStore.getInstance()
                 .get(LOG_RESPONSES.asNamed(prefix))
+                .map(Boolean::parseBoolean)
+                .orElse(null);
+    }
+
+    public Duration timeout() {
+        return ConfigStore.getInstance()
+                .get(TIMEOUT.asNamed(prefix))
+                .map(Duration::parse)
+                .orElseThrow(null);
+    }
+
+    public Boolean http1_1() {
+        return ConfigStore.getInstance()
+                .get(HTTP1_1.asNamed(prefix))
                 .map(Boolean::parseBoolean)
                 .orElse(null);
     }

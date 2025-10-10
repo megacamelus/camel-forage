@@ -20,6 +20,8 @@ public final class OpenAIConfigEntries extends ConfigEntries {
     public static final ConfigModule PRESENCE_PENALTY = ConfigModule.of(OpenAIConfig.class, "openai.presence.penalty");
     public static final ConfigModule LOG_REQUESTS = ConfigModule.of(OpenAIConfig.class, "openai.log.requests");
     public static final ConfigModule LOG_RESPONSES = ConfigModule.of(OpenAIConfig.class, "openai.log.responses");
+    public static final ConfigModule TIMEOUT = ConfigModule.of(OpenAIConfig.class, "openai.timeout");
+    public static final ConfigModule HTTP1_1 = ConfigModule.of(OpenAIConfig.class, "openai.http1");
 
     private static final Map<ConfigModule, ConfigEntry> CONFIG_MODULES = new ConcurrentHashMap<>();
 
@@ -38,6 +40,8 @@ public final class OpenAIConfigEntries extends ConfigEntries {
         CONFIG_MODULES.put(PRESENCE_PENALTY, ConfigEntry.fromModule());
         CONFIG_MODULES.put(LOG_REQUESTS, ConfigEntry.fromModule());
         CONFIG_MODULES.put(LOG_RESPONSES, ConfigEntry.fromModule());
+        CONFIG_MODULES.put(TIMEOUT, ConfigEntry.fromModule());
+        CONFIG_MODULES.put(HTTP1_1, ConfigEntry.fromModule());
     }
 
     public static Map<ConfigModule, ConfigEntry> entries() {
