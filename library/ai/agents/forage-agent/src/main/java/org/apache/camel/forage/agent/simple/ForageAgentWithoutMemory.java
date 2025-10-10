@@ -1,11 +1,16 @@
 package org.apache.camel.forage.agent.simple;
 
+import dev.langchain4j.service.SystemMessage;
+import dev.langchain4j.service.UserMessage;
+import dev.langchain4j.service.V;
+
 public interface ForageAgentWithoutMemory {
 
     /**
      * Simple AI service interface without memory support
      */
-    String chat(String userMessage);
+    String chat(@UserMessage String userMessage);
 
-    String chat(String userMessage, String systemMessage);
+    @SystemMessage("{{prompt}}")
+    String chat(@UserMessage String userMessage, @V("prompt") String systemMessage);
 }
