@@ -327,7 +327,7 @@ public final class ConfigStore {
             return Optional.of(propertyValue);
         }
 
-        String value = null;
+        Optional<String> value = null;
         switch (ConfigHelper.getRuntime()) {
             case springBoot:
                 value = ConfigHelper.getSpringBootProperty(module.propertyName());
@@ -339,8 +339,9 @@ public final class ConfigStore {
                 value = ConfigHelper.getCamelMainProperty(module.propertyName());
                 break;
         }
-        if (value != null) {
-            return Optional.of(value);
+
+        if (value != null && (!value.isEmpty())) {
+            return value;
         }
 
         return Optional.empty();

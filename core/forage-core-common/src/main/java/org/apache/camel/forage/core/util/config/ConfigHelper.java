@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
+import org.apache.camel.forage.core.common.RuntimeType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -77,23 +78,23 @@ public final class ConfigHelper {
         return runtime;
     }
 
-    public static String getSpringBootProperty(String propertyName) {
+    public static Optional<String> getSpringBootProperty(String propertyName) {
         Properties springBootProps = ConfigHelper.getSpringBootConfig();
         if (springBootProps != null) {
             LOG.info("Loading {} from Spring Boot", propertyName);
             String propertyValue = (String) springBootProps.get(propertyName);
             if (propertyValue != null) {
-                return propertyValue;
+                return Optional.of(propertyValue);
             }
         }
         return null;
     }
 
-    public static String getQuarkusProperty(String propertyName) {
+    public static Optional<String> getQuarkusProperty(String propertyName) {
         SmallRyeConfig config = ConfigHelper.getQuarkusConfig();
         if (config != null) {
             LOG.info("Loading {} from Quarkus", propertyName);
-            String quarkusValue = config.getValue(propertyName, String.class);
+            Optional<String> quarkusValue = config.getOptionalValue(propertyName, String.class);
             if (quarkusValue != null) {
                 return quarkusValue;
             }
@@ -101,13 +102,13 @@ public final class ConfigHelper {
         return null;
     }
 
-    public static String getCamelMainProperty(String propertyName) {
+    public static Optional<String> getCamelMainProperty(String propertyName) {
         Properties camelMainProps = ConfigHelper.getCamelMainConfig();
         if (camelMainProps != null) {
             LOG.info("Loading {} from Camel main", propertyName);
             String mainPropertyValue = (String) camelMainProps.get(propertyName);
             if (mainPropertyValue != null) {
-                return mainPropertyValue;
+                return Optional.of(mainPropertyValue);
             }
         }
         return null;
