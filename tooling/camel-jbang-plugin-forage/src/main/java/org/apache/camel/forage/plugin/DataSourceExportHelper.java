@@ -31,11 +31,20 @@ public final class DataSourceExportHelper {
     }
 
     /**
+     * Gets the camel version from the versions.properties file. (which is populated during buildtime)
+     *
+     * @return the project version
+     */
+    public static String getCamelVersion() {
+        return getString("camel.version", "Could not determine quarkus version from properties file.");
+    }
+
+    /**
      * Gets the quarkus version from the versions.properties file. (which is populated during buildtime)
      *
      * @return the project version
      */
-    public static String geProjectVersion() {
+    public static String getProjectVersion() {
         return getString("jdbc.dependency.version", "Could not determine project version from properties file.");
     }
 

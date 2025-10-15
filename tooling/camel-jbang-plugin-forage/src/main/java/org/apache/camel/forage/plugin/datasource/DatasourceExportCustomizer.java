@@ -31,7 +31,7 @@ public class DatasourceExportCustomizer implements ExportCustomizer {
                 listDependencies(
                         dependencies,
                         Arrays.asList("mvn:org.apache.camel.forage:forage-quarkus-jdbc-configurer:"
-                                + DataSourceExportHelper.geProjectVersion()),
+                                + DataSourceExportHelper.getProjectVersion()),
                         "mvn:io.quarkus:quarkus-jdbc-",
                         ":" + DataSourceExportHelper.getQuarkusVersion(),
                         runtime);
@@ -41,19 +41,19 @@ public class DatasourceExportCustomizer implements ExportCustomizer {
                         dependencies,
                         Arrays.asList(
                                 "mvn:org.apache.camel.forage:forage-jdbc-starter:"
-                                        + DataSourceExportHelper.geProjectVersion(),
-                                "mvn:org.apache.camel.forage:forage-jdbc:" + DataSourceExportHelper.geProjectVersion()),
+                                        + DataSourceExportHelper.getProjectVersion(),
+                                "mvn:org.apache.camel.forage:forage-jdbc:" + DataSourceExportHelper.getProjectVersion()),
                         "mvn:org.apache.camel.forage:forage-jdbc-",
-                        ":" + DataSourceExportHelper.geProjectVersion(),
+                        ":" + DataSourceExportHelper.getProjectVersion(),
                         runtime);
             }
             case main -> {
                 listDependencies(
                         dependencies,
                         Collections.singletonList(
-                                "mvn:org.apache.camel.forage:forage-jdbc:" + DataSourceExportHelper.geProjectVersion()),
+                                "mvn:org.apache.camel.forage:forage-jdbc:" + DataSourceExportHelper.getProjectVersion()),
                         "mvn:org.apache.camel.forage:forage-jdbc-",
-                        ":" + DataSourceExportHelper.geProjectVersion(),
+                        ":" + DataSourceExportHelper.getProjectVersion(),
                         runtime);
             }
         }
