@@ -12,10 +12,6 @@
     <artifactId>forage-jdbc-mysql</artifactId>
     <name>Camel Forage :: Library :: JDBC :: MySQL</name>
 
-    <properties>
-        <mysql.version>9.1.0</mysql.version>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.apache.camel.forage</groupId>

@@ -19,6 +19,7 @@
         <spotless.version>2.46.1</spotless.version>
         <testcontainers.version>1.21.3</testcontainers.version>
         <junit-jupiter.version>5.13.4</junit-jupiter.version>
+        <junit-jupiter-suite.version>1.13.4</junit-jupiter-suite.version>
         <assertj-core.version>3.27.4</assertj-core.version>
         <testcontainers.version>1.21.3</testcontainers.version>
         <agroal.version>2.8</agroal.version>
@@ -37,6 +38,11 @@
         <narayana.version>7.2.2.Final</narayana.version>
         <pooled-jms.version>3.1.7</pooled-jms.version>
         <vertx.version>4.5.20</vertx.version>
+        <testcontainers.version>1.21.3</testcontainers.version>
+        <postgresql.version>42.7.7</postgresql.version>
+        <mysql.version>9.1.0</mysql.version>
+        <citrus.version>4.8.2</citrus.version>
+        <surefire-plugin.version>3.5.4</surefire-plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -112,6 +118,7 @@
 
     <modules>
         <module>core</module>
+        <module>integration-tests</module>
         <module>library</module>
         <module>tooling</module>
         <module>forage-catalog</module>

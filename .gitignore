@@ -40,3 +40,4 @@ build/
 
 .ObjectStore
 .PutObjectStoreDirHeres
+.citrus-jbang

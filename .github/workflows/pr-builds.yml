@@ -33,7 +33,7 @@ jobs:
     continue-on-error: ${{ matrix.experimental }}
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        os: [macos-latest]
         camel-profile: [camel-current, camel-next]
         experimental: [false]
         include:
@@ -53,5 +53,40 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
           cache: maven
-      - name: Build with Maven (${{ matrix.camel-profile }})
-        run: mvn -B '-Dsurefire.rerunFailingTestsCount=2' '-Dci.env.name=github.com' package --file pom.xml -P ${{ matrix.camel-profile }}
+#    - name: Build with Maven (${{ matrix.camel-profile }})
+#        run: mvn -B '-Dsurefire.rerunFailingTestsCount=2' '-Dci.env.name=github.com' package --file pom.xml -P ${{ matrix.camel-profile }}
+
+  build-and-integration-tests:
+    runs-on: ${{ matrix.os }}
+    continue-on-error: ${{ matrix.experimental }}
+    strategy:
+      matrix:
+        os: [ ubuntu-latest ]
+        camel-profile: [ camel-current, camel-next ]
+        experimental: [ false ]
+      fail-fast: true
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+      - name: install-jbang
+        run: curl -Ls https://sh.jbang.dev | bash -s - app setup
+        shell: bash
+      - name: install-camel-jbang
+        run: |
+          ~/.jbang/bin/jbang trust add https://github.com/apache/camel/
+          echo "jbang installed"
+          ~/.jbang/bin/jbang app install camel@apache/camel
+          echo "camel installed"
+          ls -ll ~/.jbang/bin
+          ~/.jbang/bin/jbang camel plugin add forage --command='forage' --description='Forage Camel JBang Plugin' --artifactId='camel-jbang-plugin-forage' --groupId='org.apache.camel.forage' --version='1.0-SNAPSHOT' --gav='org.apache.camel.forage:camel-jbang-plugin-forage:1.0-SNAPSHOT'
+          echo "forage installed"
+        shell: bash
+      - name: Build with Maven (${{ matrix.camel-profile }}) and run integration tests
+        run: mvn -B '-Dsurefire.rerunFailingTestsCount=2' '-Dci.env.name=github.com' package failsafe:integration-test failsafe:verify --file pom.xml -P ${{ matrix.camel-profile }}
+
