@@ -1,0 +1,93 @@
+- route:
+    id: route-2362
+    from:
+      id: from-4124
+      uri: timer
+      parameters:
+        period: "1000"
+        timerName: template
+      steps:
+        - to:
+            id: to-3877
+            uri: sql
+            parameters:
+              dataSource: "#ds1"
+              query: select * from bar
+        - log:
+            id: log-2176
+            message: from sql postgresql ds - ${body}
+        - to:
+            id: to-1832
+            uri: sql
+            parameters:
+              dataSource: "#ds2"
+              query: select * from test.foo
+        - log:
+            id: log-1980
+            message: from sql mysql - ${body}
+- route:
+    id: route-2362-3853
+    from:
+      id: from-4124-3053
+      uri: timer
+      parameters:
+        period: "1000"
+        timerName: template
+      steps:
+        - setBody:
+            id: setBody-4165
+            simple:
+              expression: select * from bar
+        - to:
+            id: to-2601
+            uri: jdbc
+            parameters:
+              dataSourceName: ds1
+        - log:
+            id: log-2176-3777
+            message: from jdbc postgresql - ${body}
+        - setBody:
+            id: setBody-2643
+            simple:
+              expression: select * from test.foo
+        - to:
+            id: to-1729
+            uri: jdbc
+            parameters:
+              dataSourceName: ds2
+        - log:
+            id: log-8472
+            message: from jdbc mysql - ${body}
+- route:
+    id: route-2362-3853-3892
+    from:
+      id: from-4124-3053-2241
+      uri: timer
+      parameters:
+        period: "1000"
+        timerName: template
+      steps:
+        - setBody:
+            id: setBody-4165-2569
+            simple:
+              expression: select * from bar
+        - to:
+            id: to-3702
+            uri: spring-jdbc
+            parameters:
+              dataSourceName: ds1
+        - log:
+            id: log-2176-3777-4035
+            message: from jdbc postgresql - ${body}
+        - setBody:
+            id: setBody-2643-3720
+            simple:
+              expression: select * from test.foo
+        - to:
+            id: to-3070
+            uri: spring-jdbc
+            parameters:
+              dataSourceName: ds2
+        - log:
+            id: log-8472-1184
+            message: from jdbc mysql - ${body}
