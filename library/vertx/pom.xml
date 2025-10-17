@@ -6,22 +6,16 @@
 
     <parent>
         <groupId>org.apache.camel.forage</groupId>
-        <artifactId>camel-forage</artifactId>
+        <artifactId>library</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>core</artifactId>
+    <artifactId>vertx</artifactId>
     <packaging>pom</packaging>
-    <name>Camel Forage :: Core</name>
+    <name>Camel Forage :: Library :: Vert.x</name>
 
     <modules>
-        <module>forage-core-common</module>
-        <module>forage-core-ai</module>
-        <module>forage-core-vectordb</module>
-        <module>forage-core-jdbc</module>
-        <module>forage-core-jms</module>
-        <module>forage-core-jta</module>
-        <module>forage-core-vertx</module>
+        <module>forage-vertx</module>
     </modules>
 
 </project>
