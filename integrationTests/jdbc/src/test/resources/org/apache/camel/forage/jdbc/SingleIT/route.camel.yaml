@@ -1,0 +1,21 @@
+- route:
+    id: route
+    from:
+      id: from-4124-3053
+      uri: timer
+      parameters:
+        period: "1000"
+        timerName: template
+      steps:
+        - setBody:
+            id: setBody-4165
+            simple:
+              expression: select * from bar
+        - to:
+            id: to-2601
+            uri: jdbc
+            parameters:
+              dataSourceName: dataSource
+        - log:
+            id: log-2176-3777
+            message: from jdbc default ds - ${body}
