@@ -2,6 +2,9 @@ package org.apache.camel.forage.vertx;
 
 import io.vertx.core.Vertx;
 import io.vertx.core.VertxOptions;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import org.apache.camel.forage.core.annotations.ForageBean;
 import org.apache.camel.forage.core.vertx.VertxProvider;
 import org.slf4j.Logger;
@@ -53,30 +56,40 @@ public class DefaultVertxProvider implements VertxProvider {
     public Vertx create(String id) {
         final VertxConfig config = new VertxConfig(id);
 
-        Integer workerPoolSize = config.workerPoolSize();
-        Integer eventLoopPoolSize = config.eventLoopPoolSize();
         Boolean clustered = config.clustered();
 
-        LOG.trace(
-                "Creating Vert.x instance with configuration: workerPoolSize={}, eventLoopPoolSize={}, clustered={}",
-                workerPoolSize,
-                eventLoopPoolSize,
-                clustered);
+        LOG.trace("Creating Vert.x instance with configuration: clustered={}", clustered);
 
-        VertxOptions options = new VertxOptions();
-
-        if (workerPoolSize != null) {
-            options.setWorkerPoolSize(workerPoolSize);
-        }
-
-        if (eventLoopPoolSize != null) {
-            options.setEventLoopPoolSize(eventLoopPoolSize);
-        }
+        VertxOptions options = new VertxOptions()
+                .setEventLoopPoolSize(config.eventLoopPoolSize())
+                .setWorkerPoolSize(config.workerPoolSize())
+                .setBlockedThreadCheckInterval(config.blockedThreadCheckInterval())
+                .setMaxEventLoopExecuteTime(config.maxEventLoopExecuteTime())
+                .setMaxWorkerExecuteTime(config.maxEventLoopExecuteTime())
+                .setInternalBlockingPoolSize(config.internalBlockingPoolSize())
+                .setHAEnabled(config.haEnabled())
+                .setQuorumSize(config.quorumSize())
+                .setHAGroup(config.haGroup())
+                .setWarningExceptionTime(config.warningExceptionTime())
+                .setPreferNativeTransport(config.preferNativeTransport())
+                .setMaxEventLoopExecuteTimeUnit(config.maxEventLoopExecuteTimeUnit())
+                .setMaxWorkerExecuteTimeUnit(config.maxWorkerExecuteTimeUnit())
+                .setWarningExceptionTimeUnit(config.warningExceptionTimeUnit())
+                .setBlockedThreadCheckIntervalUnit(config.blockedThreadCheckIntervalUnit())
+                .setDisableTCCL(config.disableTccl())
+                .setUseDaemonThread(config.useDaemonThread());
 
         if (clustered != null && clustered) {
-            LOG.warn("Clustered mode is enabled but not yet implemented. Creating non-clustered instance.");
+            try {
+                Vertx vertx = Vertx.clusteredVertx(options)
+                        .toCompletionStage()
+                        .toCompletableFuture()
+                        .get(30, TimeUnit.SECONDS);
+                return vertx;
+            } catch (TimeoutException | InterruptedException | ExecutionException ie) {
+                throw new RuntimeException(ie);
+            }
         }
-
         return Vertx.vertx(options);
     }
 }

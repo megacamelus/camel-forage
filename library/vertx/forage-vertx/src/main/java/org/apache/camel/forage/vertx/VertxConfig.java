@@ -1,10 +1,27 @@
 package org.apache.camel.forage.vertx;
 
+import static org.apache.camel.forage.vertx.VertxConfigEntries.BLOCKED_THREAD_CHECK_INTERVAL;
+import static org.apache.camel.forage.vertx.VertxConfigEntries.BLOCKED_THREAD_CHECK_INTERVAL_UNIT;
 import static org.apache.camel.forage.vertx.VertxConfigEntries.CLUSTERED;
+import static org.apache.camel.forage.vertx.VertxConfigEntries.DISABLE_TCCL;
 import static org.apache.camel.forage.vertx.VertxConfigEntries.EVENT_LOOP_POOL_SIZE;
+import static org.apache.camel.forage.vertx.VertxConfigEntries.HA_ENABLED;
+import static org.apache.camel.forage.vertx.VertxConfigEntries.HA_GROUP;
+import static org.apache.camel.forage.vertx.VertxConfigEntries.INTERNAL_BLOCKING_POOL_SIZE;
+import static org.apache.camel.forage.vertx.VertxConfigEntries.MAX_EVENT_LOOP_EXECUTE_TIME;
+import static org.apache.camel.forage.vertx.VertxConfigEntries.MAX_EVENT_LOOP_EXECUTE_TIME_UNIT;
+import static org.apache.camel.forage.vertx.VertxConfigEntries.MAX_WORKER_EXECUTE_TIME;
+import static org.apache.camel.forage.vertx.VertxConfigEntries.MAX_WORKER_EXECUTE_TIME_UNIT;
+import static org.apache.camel.forage.vertx.VertxConfigEntries.PREFER_NATIVE_TRANSPORT;
+import static org.apache.camel.forage.vertx.VertxConfigEntries.QUORUM_SIZE;
+import static org.apache.camel.forage.vertx.VertxConfigEntries.USE_DAEMON_THREAD;
+import static org.apache.camel.forage.vertx.VertxConfigEntries.WARNING_EXCEPTION_TIME;
+import static org.apache.camel.forage.vertx.VertxConfigEntries.WARNING_EXCEPTION_TIME_UNIT;
 import static org.apache.camel.forage.vertx.VertxConfigEntries.WORKER_POOL_SIZE;
 
+import io.vertx.core.VertxOptions;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 import org.apache.camel.forage.core.util.config.Config;
 import org.apache.camel.forage.core.util.config.ConfigModule;
 import org.apache.camel.forage.core.util.config.ConfigStore;
@@ -14,21 +31,35 @@ import org.apache.camel.forage.core.util.config.ConfigStore;
  *
  * <p>This configuration class manages the settings required to create and configure
  * Vert.x instances. It handles Vert.x options such as worker pool size, event loop
- * pool size, and clustering configuration through environment variables with appropriate
- * fallback mechanisms and default values.
+ * pool size, clustering, high availability, threading, and performance tuning configuration
+ * through environment variables with appropriate fallback mechanisms and default values.
  *
  * <p><strong>Configuration Parameters:</strong>
  * <ul>
  *   <li><strong>VERTX_WORKER_POOL_SIZE</strong> - The size of the worker thread pool (no default)</li>
  *   <li><strong>VERTX_EVENT_LOOP_POOL_SIZE</strong> - The size of the event loop thread pool (no default)</li>
+ *   <li><strong>VERTX_INTERNAL_BLOCKING_POOL_SIZE</strong> - The size of the internal blocking pool (no default)</li>
+ *   <li><strong>VERTX_BLOCKED_THREAD_CHECK_INTERVAL</strong> - Interval for checking blocked threads in time units (no default)</li>
+ *   <li><strong>VERTX_MAX_EVENT_LOOP_EXECUTE_TIME</strong> - Maximum event loop execution time in time units (no default)</li>
+ *   <li><strong>VERTX_MAX_WORKER_EXECUTE_TIME</strong> - Maximum worker execution time in time units (no default)</li>
+ *   <li><strong>VERTX_HA_ENABLED</strong> - Whether to enable high availability (default: false)</li>
+ *   <li><strong>VERTX_QUORUM_SIZE</strong> - The quorum size for HA (no default)</li>
+ *   <li><strong>VERTX_HA_GROUP</strong> - The HA group name (no default)</li>
+ *   <li><strong>VERTX_WARNING_EXCEPTION_TIME</strong> - Time threshold for warning exceptions in time units (no default)</li>
+ *   <li><strong>VERTX_PREFER_NATIVE_TRANSPORT</strong> - Whether to prefer native transport (default: false)</li>
+ *   <li><strong>VERTX_MAX_EVENT_LOOP_EXECUTE_TIME_UNIT</strong> - Time unit for max event loop execute time (no default)</li>
+ *   <li><strong>VERTX_MAX_WORKER_EXECUTE_TIME_UNIT</strong> - Time unit for max worker execute time (no default)</li>
+ *   <li><strong>VERTX_BLOCKED_THREAD_CHECK_INTERVAL_UNIT</strong> - Time unit for blocked thread check interval (no default)</li>
+ *   <li><strong>VERTX_DISABLE_TCCL</strong> - Whether to disable thread context class loader (default: false)</li>
+ *   <li><strong>VERTX_USE_DAEMON_THREAD</strong> - Whether to use daemon threads (default: false)</li>
  *   <li><strong>VERTX_CLUSTERED</strong> - Whether to create a clustered Vert.x instance (default: false)</li>
  * </ul>
  *
  * <p><strong>Configuration Sources:</strong>
  * Configuration values are resolved in the following order of precedence:
  * <ol>
- *   <li>Environment variables (VERTX_WORKER_POOL_SIZE, VERTX_EVENT_LOOP_POOL_SIZE, VERTX_CLUSTERED)</li>
- *   <li>System properties (vertx.worker.pool.size, vertx.event.loop.pool.size, vertx.clustered)</li>
+ *   <li>Environment variables (e.g., VERTX_WORKER_POOL_SIZE, VERTX_HA_ENABLED)</li>
+ *   <li>System properties (e.g., vertx.worker.pool.size, vertx.ha.enabled)</li>
  *   <li>forage-vertx.properties file in classpath</li>
  *   <li>Default values if none of the above are provided</li>
  * </ol>
@@ -38,19 +69,37 @@ import org.apache.camel.forage.core.util.config.ConfigStore;
  * // Set environment variables (optional)
  * export VERTX_WORKER_POOL_SIZE="20"
  * export VERTX_EVENT_LOOP_POOL_SIZE="8"
- * export VERTX_CLUSTERED="true"
+ * export VERTX_HA_ENABLED="true"
+ * export VERTX_QUORUM_SIZE="3"
+ * export VERTX_PREFER_NATIVE_TRANSPORT="true"
  *
  * // Create and use configuration
  * VertxConfig config = new VertxConfig();
  * Integer workerPoolSize = config.workerPoolSize();
  * Integer eventLoopPoolSize = config.eventLoopPoolSize();
- * Boolean clustered = config.clustered();
+ * Boolean haEnabled = config.haEnabled();
+ * Integer quorumSize = config.quorumSize();
+ * Boolean preferNativeTransport = config.preferNativeTransport();
  * }</pre>
  *
  * <p><strong>Default Values:</strong>
  * <ul>
  *   <li>Worker Pool Size: null (uses Vert.x default)</li>
  *   <li>Event Loop Pool Size: null (uses Vert.x default)</li>
+ *   <li>Internal Blocking Pool Size: null (uses Vert.x default)</li>
+ *   <li>Blocked Thread Check Interval: null (uses Vert.x default)</li>
+ *   <li>Max Event Loop Execute Time: null (uses Vert.x default)</li>
+ *   <li>Max Worker Execute Time: null (uses Vert.x default)</li>
+ *   <li>HA Enabled: false</li>
+ *   <li>Quorum Size: null</li>
+ *   <li>HA Group: null</li>
+ *   <li>Warning Exception Time: null (uses Vert.x default)</li>
+ *   <li>Prefer Native Transport: false</li>
+ *   <li>Max Event Loop Execute Time Unit: null (uses Vert.x default)</li>
+ *   <li>Max Worker Execute Time Unit: null (uses Vert.x default)</li>
+ *   <li>Blocked Thread Check Interval Unit: null (uses Vert.x default)</li>
+ *   <li>Disable TCCL: false</li>
+ *   <li>Use Daemon Thread: false</li>
  *   <li>Clustered: false</li>
  * </ul>
  *
@@ -72,10 +121,9 @@ public class VertxConfig implements Config {
      *
      * <p>During construction, this class:
      * <ul>
-     *   <li>Registers the worker pool size configuration</li>
-     *   <li>Registers the event loop pool size configuration</li>
-     *   <li>Registers the clustered mode configuration</li>
+     *   <li>Registers all Vert.x configuration parameters (pool sizes, HA settings, threading options, etc.)</li>
      *   <li>Attempts to load additional properties from forage-vertx.properties</li>
+     *   <li>Loads overrides from environment variables and system properties</li>
      * </ul>
      *
      * <p>Configuration values are resolved when this constructor is called, with default values
@@ -143,7 +191,7 @@ public class VertxConfig implements Config {
         return ConfigStore.getInstance()
                 .get(WORKER_POOL_SIZE.asNamed(prefix))
                 .map(Integer::parseInt)
-                .orElse(null);
+                .orElse(VertxOptions.DEFAULT_WORKER_POOL_SIZE);
     }
 
     /**
@@ -166,7 +214,7 @@ public class VertxConfig implements Config {
         return ConfigStore.getInstance()
                 .get(EVENT_LOOP_POOL_SIZE.asNamed(prefix))
                 .map(Integer::parseInt)
-                .orElse(null);
+                .orElse(VertxOptions.DEFAULT_EVENT_LOOP_POOL_SIZE);
     }
 
     /**
@@ -191,5 +239,107 @@ public class VertxConfig implements Config {
                 .get(CLUSTERED.asNamed(prefix))
                 .map(Boolean::parseBoolean)
                 .orElse(false);
+    }
+
+    public Integer internalBlockingPoolSize() {
+        return ConfigStore.getInstance()
+                .get(INTERNAL_BLOCKING_POOL_SIZE.asNamed(prefix))
+                .map(Integer::parseInt)
+                .orElse(VertxOptions.DEFAULT_INTERNAL_BLOCKING_POOL_SIZE);
+    }
+
+    public Long blockedThreadCheckInterval() {
+        return ConfigStore.getInstance()
+                .get(BLOCKED_THREAD_CHECK_INTERVAL.asNamed(prefix))
+                .map(Long::parseLong)
+                .orElse(VertxOptions.DEFAULT_BLOCKED_THREAD_CHECK_INTERVAL);
+    }
+
+    public Long maxEventLoopExecuteTime() {
+        return ConfigStore.getInstance()
+                .get(MAX_EVENT_LOOP_EXECUTE_TIME.asNamed(prefix))
+                .map(Long::parseLong)
+                .orElse(VertxOptions.DEFAULT_MAX_WORKER_EXECUTE_TIME);
+    }
+
+    public Long maxWorkerExecuteTime() {
+        return ConfigStore.getInstance()
+                .get(MAX_WORKER_EXECUTE_TIME.asNamed(prefix))
+                .map(Long::parseLong)
+                .orElse(VertxOptions.DEFAULT_MAX_WORKER_EXECUTE_TIME);
+    }
+
+    public Boolean haEnabled() {
+        return ConfigStore.getInstance()
+                .get(HA_ENABLED.asNamed(prefix))
+                .map(Boolean::parseBoolean)
+                .orElse(VertxOptions.DEFAULT_HA_ENABLED);
+    }
+
+    public Integer quorumSize() {
+        return ConfigStore.getInstance()
+                .get(QUORUM_SIZE.asNamed(prefix))
+                .map(Integer::parseInt)
+                .orElse(VertxOptions.DEFAULT_QUORUM_SIZE);
+    }
+
+    public String haGroup() {
+        return ConfigStore.getInstance().get(HA_GROUP.asNamed(prefix)).orElse(VertxOptions.DEFAULT_HA_GROUP);
+    }
+
+    public Long warningExceptionTime() {
+        return ConfigStore.getInstance()
+                .get(WARNING_EXCEPTION_TIME.asNamed(prefix))
+                .map(Long::parseLong)
+                .orElse(TimeUnit.SECONDS.toNanos(5));
+    }
+
+    public TimeUnit warningExceptionTimeUnit() {
+        return ConfigStore.getInstance()
+                .get(WARNING_EXCEPTION_TIME_UNIT.asNamed(prefix))
+                .map(TimeUnit::valueOf)
+                .orElse(VertxOptions.DEFAULT_WARNING_EXCEPTION_TIME_UNIT);
+    }
+
+    public Boolean preferNativeTransport() {
+        return ConfigStore.getInstance()
+                .get(PREFER_NATIVE_TRANSPORT.asNamed(prefix))
+                .map(Boolean::parseBoolean)
+                .orElse(VertxOptions.DEFAULT_PREFER_NATIVE_TRANSPORT);
+    }
+
+    public TimeUnit maxEventLoopExecuteTimeUnit() {
+        return ConfigStore.getInstance()
+                .get(MAX_EVENT_LOOP_EXECUTE_TIME_UNIT.asNamed(prefix))
+                .map(TimeUnit::valueOf)
+                .orElse(VertxOptions.DEFAULT_MAX_EVENT_LOOP_EXECUTE_TIME_UNIT);
+    }
+
+    public TimeUnit maxWorkerExecuteTimeUnit() {
+        return ConfigStore.getInstance()
+                .get(MAX_WORKER_EXECUTE_TIME_UNIT.asNamed(prefix))
+                .map(TimeUnit::valueOf)
+                .orElse(VertxOptions.DEFAULT_MAX_WORKER_EXECUTE_TIME_UNIT);
+    }
+
+    public TimeUnit blockedThreadCheckIntervalUnit() {
+        return ConfigStore.getInstance()
+                .get(BLOCKED_THREAD_CHECK_INTERVAL_UNIT.asNamed(prefix))
+                .map(TimeUnit::valueOf)
+                .orElse(VertxOptions.DEFAULT_BLOCKED_THREAD_CHECK_INTERVAL_UNIT);
+    }
+
+    public Boolean disableTccl() {
+        return ConfigStore.getInstance()
+                .get(DISABLE_TCCL.asNamed(prefix))
+                .map(Boolean::parseBoolean)
+                .orElse(VertxOptions.DEFAULT_DISABLE_TCCL);
+    }
+
+    public Boolean useDaemonThread() {
+        return ConfigStore.getInstance()
+                .get(USE_DAEMON_THREAD.asNamed(prefix))
+                .map(Boolean::parseBoolean)
+                .orElse(VertxOptions.DEFAULT_USE_DAEMON_THREAD);
     }
 }
