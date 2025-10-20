@@ -33,6 +33,7 @@
         <jackson.version>2.15.2</jackson.version>
         <maven-plugin-testing-harness.version>3.3.0</maven-plugin-testing-harness.version>
         <narayana.version>7.2.2.Final</narayana.version>
+        <pooled-jms.version>3.1.7</pooled-jms.version>
     </properties>
 
     <dependencyManagement>
@@ -56,6 +57,14 @@
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-bom</artifactId>
                 <version>${slf4j.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

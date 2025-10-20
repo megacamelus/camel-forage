@@ -5,37 +5,41 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.apache.camel.forage</groupId>
-        <artifactId>spring-boot</artifactId>
+        <artifactId>common</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>forage-jdbc-starter</artifactId>
-    <name>Camel Forage :: Library :: JDBC :: Spring Boot :: DataSource Starter</name>
+    <artifactId>forage-spring-boot-common</artifactId>
+    <name>Camel Forage :: Library :: Common :: Spring Boot :: Common Components</name>
 
     <dependencies>
         <dependency>
             <groupId>org.apache.camel.forage</groupId>
-            <artifactId>forage-jdbc-common</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.camel.forage</groupId>
-            <artifactId>forage-spring-boot-common</artifactId>
+            <artifactId>forage-core-common</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-spring</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-jdbc</artifactId>
+            <artifactId>spring-boot-starter</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.agroal</groupId>
-            <artifactId>agroal-spring-boot-starter</artifactId>
-            <version>${agroal.version}</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.narayana.jta</groupId>
+            <artifactId>narayana-jta</artifactId>
+            <version>${narayana.version}</version>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.transaction</groupId>
+            <artifactId>jakarta.transaction-api</artifactId>
+            <optional>true</optional>
         </dependency>
     </dependencies>
 

@@ -1,7 +1,7 @@
-package org.apache.camel.forage.springboot.jdbc.jta;
+package org.apache.camel.forage.springboot.jms.jta;
 
 import jakarta.annotation.PostConstruct;
-import org.apache.camel.forage.jdbc.common.DataSourceFactoryConfig;
+import org.apache.camel.forage.jms.common.ConnectionFactoryConfig;
 import org.apache.camel.forage.springboot.common.ConditionalOnForageProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,8 +10,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @ConditionalOnForageProperty(
-        configClass = DataSourceFactoryConfig.class,
-        property = "jdbc.transaction.enabled",
+        configClass = ConnectionFactoryConfig.class,
+        property = "jms.transaction.enabled",
         havingValue = "true")
 @EnableTransactionManagement
 public class ForageTransactionManagementAutoConfiguration
@@ -21,6 +21,6 @@ public class ForageTransactionManagementAutoConfiguration
 
     @PostConstruct
     public void init() {
-        log.info("JDBC ForageTransactionManagementAutoConfiguration initialized - transaction management enabled");
+        log.info("JMS ForageTransactionManagementAutoConfiguration initialized - transaction management enabled");
     }
 }

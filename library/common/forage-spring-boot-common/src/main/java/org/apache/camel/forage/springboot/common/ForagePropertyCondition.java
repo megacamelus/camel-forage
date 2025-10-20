@@ -1,4 +1,4 @@
-package org.apache.camel.forage.springboot.jdbc;
+package org.apache.camel.forage.springboot.common;
 
 import java.lang.reflect.Constructor;
 import java.util.Set;

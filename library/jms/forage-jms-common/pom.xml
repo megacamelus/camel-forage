@@ -12,10 +12,6 @@
     <artifactId>forage-jms-common</artifactId>
     <name>Camel Forage :: Library :: JMS :: Common</name>
 
-    <properties>
-        <pooled-jms.version>3.1.7</pooled-jms.version>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.apache.camel.forage</groupId>

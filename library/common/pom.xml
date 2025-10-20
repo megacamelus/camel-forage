@@ -10,16 +10,12 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>jms</artifactId>
+    <artifactId>common</artifactId>
     <packaging>pom</packaging>
-    <name>Camel Forage :: Library :: JMS</name>
+    <name>Camel Forage :: Library :: Common</name>
 
     <modules>
-        <module>forage-jms-common</module>
-        <module>forage-jms</module>
-        <module>forage-jms-artemis</module>
-        <module>forage-jms-ibmmq</module>
-        <module>spring-boot</module>
+        <module>forage-spring-boot-common</module>
     </modules>
 
 </project>

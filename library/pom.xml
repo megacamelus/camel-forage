@@ -16,6 +16,7 @@
 
     <modules>
         <module>ai</module>
+        <module>common</module>
     </modules>
 
     <profiles>
