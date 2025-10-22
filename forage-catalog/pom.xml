@@ -179,6 +179,27 @@
             <artifactId>forage-jdbc-oracle</artifactId>
             <version>${project.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.apache.camel.forage</groupId>
+            <artifactId>forage-jms</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel.forage</groupId>
+            <artifactId>forage-jms-artemis</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel.forage</groupId>
+            <artifactId>forage-jms-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel.forage</groupId>
+            <artifactId>forage-jms-ibmmq</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
