@@ -394,15 +394,9 @@ public class CodeScanner {
             if (field.isStatic() && field.isFinal()) {
                 field.getVariables().forEach(variable -> {
                     if (isConfigModuleField(field, variable)) {
-                        String configKey = extractConfigModuleKey(variable);
-                        if (configKey != null && !configKey.isEmpty()) {
-                            ConfigurationProperty configProp = new ConfigurationProperty();
-                            configProp.setName(configKey);
-                            configProp.setType("String"); // Most config properties are strings
-                            configProp.setDescription(configKey);
-                            configProp.setRequired(false); // Default to not required
-
-                            log.debug("Extracted configuration property: " + configKey);
+                        ConfigurationProperty configProp = extractConfigurationProperty(variable);
+                        if (configProp != null) {
+                            log.debug("Extracted configuration property: " + configProp.getName());
                             configProperties.add(configProp);
                         }
                     }
@@ -421,10 +415,12 @@ public class CodeScanner {
     }
 
     /**
-     * Extracts the configuration key from a ConfigModule field initialization.
-     * Expects patterns like: ConfigModule.of(SomeConfig.class, "config.key.name")
+     * Extracts a ConfigurationProperty from a ConfigModule field initialization.
+     * Supports two patterns:
+     * 1. ConfigModule.of(SomeConfig.class, "config.key.name")
+     * 2. ConfigModule.of(SomeConfig.class, "config.key.name", description, label, defaultValue, type, required, configTag)
      */
-    private String extractConfigModuleKey(VariableDeclarator variable) {
+    private ConfigurationProperty extractConfigurationProperty(VariableDeclarator variable) {
         if (variable.getInitializer().isPresent()) {
             var initializer = variable.getInitializer().get();
 
@@ -433,16 +429,101 @@ public class CodeScanner {
 
                 // Check if it's a call to ConfigModule.of()
                 if (isConfigModuleOfCall(methodCall)) {
-                    // Extract the second argument (the config key string)
-                    if (methodCall.getArguments().size() >= 2) {
+                    // Extract the configuration property based on the number of arguments
+                    int argCount = methodCall.getArguments().size();
+
+                    if (argCount >= 2) {
+                        ConfigurationProperty configProp = new ConfigurationProperty();
+
+                        // Extract the config key (second argument)
                         var secondArg = methodCall.getArguments().get(1);
                         if (secondArg instanceof StringLiteralExpr) {
-                            return ((StringLiteralExpr) secondArg).asString();
+                            String configKey = ((StringLiteralExpr) secondArg).asString();
+                            configProp.setName(configKey);
+
+                            // If there are additional arguments, extract them
+                            if (argCount >= 8) {
+                                // Full form: ConfigModule.of(Config.class, name, description, label, defaultValue,
+                                // type, required, configTag)
+
+                                // Description (3rd argument)
+                                if (methodCall.getArguments().get(2) instanceof StringLiteralExpr) {
+                                    configProp.setDescription(((StringLiteralExpr)
+                                                    methodCall.getArguments().get(2))
+                                            .asString());
+                                }
+
+                                // Label (4th argument)
+                                if (methodCall.getArguments().get(3) instanceof StringLiteralExpr) {
+                                    configProp.setLabel(((StringLiteralExpr)
+                                                    methodCall.getArguments().get(3))
+                                            .asString());
+                                }
+
+                                // Default value (5th argument)
+                                if (methodCall.getArguments().get(4) instanceof StringLiteralExpr) {
+                                    configProp.setDefaultValue(((StringLiteralExpr)
+                                                    methodCall.getArguments().get(4))
+                                            .asString());
+                                }
+
+                                // Type (6th argument)
+                                if (methodCall.getArguments().get(5) instanceof StringLiteralExpr) {
+                                    configProp.setType(((StringLiteralExpr)
+                                                    methodCall.getArguments().get(5))
+                                            .asString());
+                                } else {
+                                    configProp.setType("String"); // Default to String
+                                }
+
+                                // Required (7th argument)
+                                if (methodCall.getArguments().get(6) instanceof BooleanLiteralExpr) {
+                                    configProp.setRequired(((BooleanLiteralExpr)
+                                                    methodCall.getArguments().get(6))
+                                            .getValue());
+                                } else {
+                                    configProp.setRequired(false); // Default to not required
+                                }
+
+                                // ConfigTag (8th argument) - this is an enum, so we need to extract the enum constant
+                                // name
+                                var configTagArg = methodCall.getArguments().get(7);
+                                String configTagValue = extractConfigTagValue(configTagArg);
+                                if (configTagValue != null) {
+                                    configProp.setConfigTag(configTagValue);
+                                }
+                            } else {
+                                // Simple form: ConfigModule.of(Config.class, name)
+                                // Set defaults
+                                configProp.setType("String");
+                                configProp.setDescription(configKey);
+                                configProp.setRequired(false);
+                            }
+
+                            return configProp;
                         }
                     }
                 }
             }
         }
+        return null;
+    }
+
+    /**
+     * Extracts the ConfigTag enum value from an expression.
+     * Handles patterns like ConfigTag.COMMON, ConfigTag.SECURITY, etc.
+     */
+    private String extractConfigTagValue(Expression expression) {
+        String exprString = expression.toString();
+
+        // Check if it's a field access expression (e.g., ConfigTag.COMMON)
+        if (exprString.contains("ConfigTag.")) {
+            String[] parts = exprString.split("\\.");
+            if (parts.length >= 2) {
+                return parts[parts.length - 1]; // Return the enum constant name (e.g., "COMMON")
+            }
+        }
+
         return null;
     }
 

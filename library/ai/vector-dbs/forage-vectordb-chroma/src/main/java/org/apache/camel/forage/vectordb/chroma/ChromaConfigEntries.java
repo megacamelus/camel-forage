@@ -7,13 +7,54 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.apache.camel.forage.core.util.config.ConfigEntries;
 import org.apache.camel.forage.core.util.config.ConfigEntry;
 import org.apache.camel.forage.core.util.config.ConfigModule;
+import org.apache.camel.forage.core.util.config.ConfigTag;
 
 public final class ChromaConfigEntries extends ConfigEntries {
-    public static final ConfigModule URL = ConfigModule.of(ChromaConfig.class, "chroma.url");
-    public static final ConfigModule COLLECTION_NAME = ConfigModule.of(ChromaConfig.class, "chroma.collection.name");
-    public static final ConfigModule TIMEOUT = ConfigModule.of(ChromaConfig.class, "chroma.timeout");
-    public static final ConfigModule LOG_REQUESTS = ConfigModule.of(ChromaConfig.class, "chroma.log.requests");
-    public static final ConfigModule LOG_RESPONSES = ConfigModule.of(ChromaConfig.class, "chroma.log.responses");
+    public static final ConfigModule URL = ConfigModule.of(
+            ChromaConfig.class,
+            "chroma.url",
+            "The URL of the Chroma server",
+            "URL",
+            null,
+            "string",
+            true,
+            ConfigTag.COMMON);
+    public static final ConfigModule COLLECTION_NAME = ConfigModule.of(
+            ChromaConfig.class,
+            "chroma.collection.name",
+            "The name of the collection to use",
+            "Collection Name",
+            null,
+            "string",
+            true,
+            ConfigTag.COMMON);
+    public static final ConfigModule TIMEOUT = ConfigModule.of(
+            ChromaConfig.class,
+            "chroma.timeout",
+            "Request timeout in seconds",
+            "Timeout",
+            "5",
+            "integer",
+            false,
+            ConfigTag.ADVANCED);
+    public static final ConfigModule LOG_REQUESTS = ConfigModule.of(
+            ChromaConfig.class,
+            "chroma.log.requests",
+            "Enable request logging",
+            "Log Requests",
+            "true",
+            "boolean",
+            false,
+            ConfigTag.ADVANCED);
+    public static final ConfigModule LOG_RESPONSES = ConfigModule.of(
+            ChromaConfig.class,
+            "chroma.log.responses",
+            "Enable response logging",
+            "Log Responses",
+            "true",
+            "boolean",
+            false,
+            ConfigTag.ADVANCED);
 
     private static final Map<ConfigModule, ConfigEntry> CONFIG_MODULES = new ConcurrentHashMap<>();
 

@@ -147,7 +147,7 @@ public class MistralAiConfig implements Config {
      * @return the model name, defaults to "mistral-large-latest" if not configured
      */
     public String modelName() {
-        return ConfigStore.getInstance().get(MODEL_NAME.asNamed(prefix)).orElse("mistral-large-latest");
+        return ConfigStore.getInstance().get(MODEL_NAME.asNamed(prefix)).orElse(MODEL_NAME.defaultValue());
     }
 
     /**

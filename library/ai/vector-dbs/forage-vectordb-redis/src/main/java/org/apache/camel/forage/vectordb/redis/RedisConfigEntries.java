@@ -7,17 +7,90 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.apache.camel.forage.core.util.config.ConfigEntries;
 import org.apache.camel.forage.core.util.config.ConfigEntry;
 import org.apache.camel.forage.core.util.config.ConfigModule;
+import org.apache.camel.forage.core.util.config.ConfigTag;
 
 public final class RedisConfigEntries extends ConfigEntries {
-    public static final ConfigModule HOST = ConfigModule.of(RedisConfig.class, "redis.host");
-    public static final ConfigModule PORT = ConfigModule.of(RedisConfig.class, "redis.port");
-    public static final ConfigModule USER = ConfigModule.of(RedisConfig.class, "redis.user");
-    public static final ConfigModule PASSWORD = ConfigModule.of(RedisConfig.class, "redis.password");
-    public static final ConfigModule DIMENSION = ConfigModule.of(RedisConfig.class, "redis.dimension");
-    public static final ConfigModule PREFIX = ConfigModule.of(RedisConfig.class, "redis.prefix");
-    public static final ConfigModule INDEX_NAME = ConfigModule.of(RedisConfig.class, "redis.index.name");
-    public static final ConfigModule METADATA_FIELDS = ConfigModule.of(RedisConfig.class, "redis.metadata.fields");
-    public static final ConfigModule DISTANCE_METRIC = ConfigModule.of(RedisConfig.class, "redis.distance.metric");
+    public static final ConfigModule HOST = ConfigModule.of(
+            RedisConfig.class,
+            "redis.host",
+            "Redis server host address",
+            "Host",
+            "localhost",
+            "string",
+            false,
+            ConfigTag.COMMON);
+    public static final ConfigModule PORT = ConfigModule.of(
+            RedisConfig.class,
+            "redis.port",
+            "Redis server port number",
+            "Port",
+            "6379",
+            "integer",
+            false,
+            ConfigTag.COMMON);
+    public static final ConfigModule USER = ConfigModule.of(
+            RedisConfig.class,
+            "redis.user",
+            "Username for authentication",
+            "User",
+            null,
+            "string",
+            false,
+            ConfigTag.SECURITY);
+    public static final ConfigModule PASSWORD = ConfigModule.of(
+            RedisConfig.class,
+            "redis.password",
+            "Password for authentication",
+            "Password",
+            null,
+            "password",
+            false,
+            ConfigTag.SECURITY);
+    public static final ConfigModule DIMENSION = ConfigModule.of(
+            RedisConfig.class,
+            "redis.dimension",
+            "Vector dimension size",
+            "Dimension",
+            null,
+            "integer",
+            true,
+            ConfigTag.COMMON);
+    public static final ConfigModule PREFIX = ConfigModule.of(
+            RedisConfig.class,
+            "redis.prefix",
+            "Key prefix for vector storage",
+            "Prefix",
+            "embedding:",
+            "string",
+            false,
+            ConfigTag.ADVANCED);
+    public static final ConfigModule INDEX_NAME = ConfigModule.of(
+            RedisConfig.class,
+            "redis.index.name",
+            "Name of the vector index",
+            "Index Name",
+            "embedding-index",
+            "string",
+            false,
+            ConfigTag.COMMON);
+    public static final ConfigModule METADATA_FIELDS = ConfigModule.of(
+            RedisConfig.class,
+            "redis.metadata.fields",
+            "Comma-separated list of metadata fields",
+            "Metadata Fields",
+            null,
+            "string",
+            false,
+            ConfigTag.ADVANCED);
+    public static final ConfigModule DISTANCE_METRIC = ConfigModule.of(
+            RedisConfig.class,
+            "redis.distance.metric",
+            "Distance metric for similarity search (COSINE, L2, IP)",
+            "Distance Metric",
+            "COSINE",
+            "string",
+            false,
+            ConfigTag.ADVANCED);
 
     private static final Map<ConfigModule, ConfigEntry> CONFIG_MODULES = new ConcurrentHashMap<>();
 
@@ -45,10 +118,6 @@ public final class RedisConfigEntries extends ConfigEntries {
         return find(CONFIG_MODULES, prefix, name);
     }
 
-    /**
-     * Registers new known configuration if a prefix is provided (otherwise is ignored)
-     * @param prefix the prefix to register
-     */
     public static void register(String prefix) {
         if (prefix != null) {
             for (Map.Entry<ConfigModule, ConfigEntry> entry : entries().entrySet()) {
@@ -58,10 +127,6 @@ public final class RedisConfigEntries extends ConfigEntries {
         }
     }
 
-    /**
-     * Load override configurations (which are defined via environment variables and/or system properties)
-     * @param prefix and optional prefix to use
-     */
     public static void loadOverrides(String prefix) {
         load(CONFIG_MODULES, prefix);
     }

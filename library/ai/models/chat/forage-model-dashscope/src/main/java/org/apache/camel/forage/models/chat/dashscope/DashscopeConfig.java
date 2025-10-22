@@ -150,7 +150,7 @@ public class DashscopeConfig implements Config {
      * @return the model name, defaults to "qwen-turbo" if not configured
      */
     public String modelName() {
-        return ConfigStore.getInstance().get(MODEL_NAME.asNamed(prefix)).orElse("qwen-turbo");
+        return ConfigStore.getInstance().get(MODEL_NAME.asNamed(prefix)).orElse(MODEL_NAME.defaultValue());
     }
 
     /**

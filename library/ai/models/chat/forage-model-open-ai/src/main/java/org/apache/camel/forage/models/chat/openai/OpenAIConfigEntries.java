@@ -7,21 +7,117 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.apache.camel.forage.core.util.config.ConfigEntries;
 import org.apache.camel.forage.core.util.config.ConfigEntry;
 import org.apache.camel.forage.core.util.config.ConfigModule;
+import org.apache.camel.forage.core.util.config.ConfigTag;
 
 public final class OpenAIConfigEntries extends ConfigEntries {
-    public static final ConfigModule API_KEY = ConfigModule.of(OpenAIConfig.class, "openai.api.key");
-    public static final ConfigModule MODEL_NAME = ConfigModule.of(OpenAIConfig.class, "openai.model.name");
-    public static final ConfigModule BASE_URL = ConfigModule.of(OpenAIConfig.class, "openai.base.url");
-    public static final ConfigModule TEMPERATURE = ConfigModule.of(OpenAIConfig.class, "openai.temperature");
-    public static final ConfigModule MAX_TOKENS = ConfigModule.of(OpenAIConfig.class, "openai.max.tokens");
-    public static final ConfigModule TOP_P = ConfigModule.of(OpenAIConfig.class, "openai.top.p");
-    public static final ConfigModule FREQUENCY_PENALTY =
-            ConfigModule.of(OpenAIConfig.class, "openai.frequency.penalty");
-    public static final ConfigModule PRESENCE_PENALTY = ConfigModule.of(OpenAIConfig.class, "openai.presence.penalty");
-    public static final ConfigModule LOG_REQUESTS = ConfigModule.of(OpenAIConfig.class, "openai.log.requests");
-    public static final ConfigModule LOG_RESPONSES = ConfigModule.of(OpenAIConfig.class, "openai.log.responses");
-    public static final ConfigModule TIMEOUT = ConfigModule.of(OpenAIConfig.class, "openai.timeout");
-    public static final ConfigModule HTTP1_1 = ConfigModule.of(OpenAIConfig.class, "openai.http1");
+    public static final ConfigModule API_KEY = ConfigModule.of(
+            OpenAIConfig.class,
+            "openai.api.key",
+            "OpenAI API key for authentication",
+            "API Key",
+            null,
+            "password",
+            false,
+            ConfigTag.SECURITY);
+    public static final ConfigModule MODEL_NAME = ConfigModule.of(
+            OpenAIConfig.class,
+            "openai.model.name",
+            "The specific OpenAI model to use",
+            "Model Name",
+            "gpt-3.5-turbo",
+            "string",
+            true,
+            ConfigTag.COMMON);
+    public static final ConfigModule BASE_URL = ConfigModule.of(
+            OpenAIConfig.class,
+            "openai.base.url",
+            "Custom base URL for OpenAI API",
+            "Base URL",
+            null,
+            "string",
+            true,
+            ConfigTag.COMMON);
+    public static final ConfigModule TEMPERATURE = ConfigModule.of(
+            OpenAIConfig.class,
+            "openai.temperature",
+            "Temperature for response randomness (0.0-2.0)",
+            "Temperature",
+            null,
+            "double",
+            false,
+            ConfigTag.COMMON);
+    public static final ConfigModule MAX_TOKENS = ConfigModule.of(
+            OpenAIConfig.class,
+            "openai.max.tokens",
+            "Maximum number of tokens to generate",
+            "Max Tokens",
+            null,
+            "integer",
+            false,
+            ConfigTag.ADVANCED);
+    public static final ConfigModule TOP_P = ConfigModule.of(
+            OpenAIConfig.class,
+            "openai.top.p",
+            "Top-P (nucleus) sampling parameter (0.0-1.0)",
+            "Top P",
+            null,
+            "double",
+            false,
+            ConfigTag.ADVANCED);
+    public static final ConfigModule FREQUENCY_PENALTY = ConfigModule.of(
+            OpenAIConfig.class,
+            "openai.frequency.penalty",
+            "Frequency penalty (-2.0 to 2.0)",
+            "Frequency Penalty",
+            null,
+            "double",
+            false,
+            ConfigTag.ADVANCED);
+    public static final ConfigModule PRESENCE_PENALTY = ConfigModule.of(
+            OpenAIConfig.class,
+            "openai.presence.penalty",
+            "Presence penalty (-2.0 to 2.0)",
+            "Presence Penalty",
+            null,
+            "double",
+            false,
+            ConfigTag.ADVANCED);
+    public static final ConfigModule LOG_REQUESTS = ConfigModule.of(
+            OpenAIConfig.class,
+            "openai.log.requests",
+            "Enable request logging",
+            "Log Requests",
+            null,
+            "boolean",
+            false,
+            ConfigTag.ADVANCED);
+    public static final ConfigModule LOG_RESPONSES = ConfigModule.of(
+            OpenAIConfig.class,
+            "openai.log.responses",
+            "Enable response logging",
+            "Log Responses",
+            null,
+            "boolean",
+            false,
+            ConfigTag.ADVANCED);
+    public static final ConfigModule TIMEOUT = ConfigModule.of(
+            OpenAIConfig.class,
+            "openai.timeout",
+            "Request timeout duration",
+            "Timeout",
+            null,
+            "string",
+            false,
+            ConfigTag.ADVANCED);
+    public static final ConfigModule HTTP1_1 = ConfigModule.of(
+            OpenAIConfig.class,
+            "openai.http1",
+            "Use HTTP/1.1 instead of HTTP/2",
+            "Use HTTP/1.1",
+            null,
+            "boolean",
+            false,
+            ConfigTag.ADVANCED);
 
     private static final Map<ConfigModule, ConfigEntry> CONFIG_MODULES = new ConcurrentHashMap<>();
 

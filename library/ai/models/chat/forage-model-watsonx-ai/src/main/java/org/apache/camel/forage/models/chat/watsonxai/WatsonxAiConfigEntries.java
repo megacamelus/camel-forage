@@ -7,28 +7,144 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.apache.camel.forage.core.util.config.ConfigEntries;
 import org.apache.camel.forage.core.util.config.ConfigEntry;
 import org.apache.camel.forage.core.util.config.ConfigModule;
+import org.apache.camel.forage.core.util.config.ConfigTag;
 
 public final class WatsonxAiConfigEntries extends ConfigEntries {
-    public static final ConfigModule API_KEY = ConfigModule.of(WatsonxAiConfig.class, "watsonxai.api.key");
-    public static final ConfigModule URL = ConfigModule.of(WatsonxAiConfig.class, "watsonxai.url");
-    public static final ConfigModule PROJECT_ID = ConfigModule.of(WatsonxAiConfig.class, "watsonxai.project.id");
-    public static final ConfigModule MODEL_NAME = ConfigModule.of(WatsonxAiConfig.class, "watsonxai.model.name");
-    public static final ConfigModule TEMPERATURE = ConfigModule.of(WatsonxAiConfig.class, "watsonxai.temperature");
-    public static final ConfigModule MAX_NEW_TOKENS =
-            ConfigModule.of(WatsonxAiConfig.class, "watsonxai.max.new.tokens");
-    public static final ConfigModule TOP_P = ConfigModule.of(WatsonxAiConfig.class, "watsonxai.top.p");
-    public static final ConfigModule TOP_K = ConfigModule.of(WatsonxAiConfig.class, "watsonxai.top.k");
-    public static final ConfigModule RANDOM_SEED = ConfigModule.of(WatsonxAiConfig.class, "watsonxai.random.seed");
-    public static final ConfigModule REPETITION_PENALTY =
-            ConfigModule.of(WatsonxAiConfig.class, "watsonxai.repetition.penalty");
-    public static final ConfigModule MIN_NEW_TOKENS =
-            ConfigModule.of(WatsonxAiConfig.class, "watsonxai.min.new.tokens");
-    public static final ConfigModule STOP_SEQUENCES =
-            ConfigModule.of(WatsonxAiConfig.class, "watsonxai.stop.sequences");
-    public static final ConfigModule TIMEOUT = ConfigModule.of(WatsonxAiConfig.class, "watsonxai.timeout");
-    public static final ConfigModule MAX_RETRIES = ConfigModule.of(WatsonxAiConfig.class, "watsonxai.max.retries");
-    public static final ConfigModule LOG_REQUESTS_AND_RESPONSES =
-            ConfigModule.of(WatsonxAiConfig.class, "watsonxai.log.requests.and.responses");
+    public static final ConfigModule API_KEY = ConfigModule.of(
+            WatsonxAiConfig.class,
+            "watsonxai.api.key",
+            "IBM Cloud API key for authentication",
+            "API Key",
+            null,
+            "password",
+            true,
+            ConfigTag.COMMON);
+    public static final ConfigModule URL = ConfigModule.of(
+            WatsonxAiConfig.class,
+            "watsonxai.url",
+            "The Watsonx.ai service URL (e.g., https://us-south.ml.cloud.ibm.com)",
+            "Service URL",
+            null,
+            "string",
+            true,
+            ConfigTag.COMMON);
+    public static final ConfigModule PROJECT_ID = ConfigModule.of(
+            WatsonxAiConfig.class,
+            "watsonxai.project.id",
+            "The Watsonx.ai project ID",
+            "Project ID",
+            null,
+            "string",
+            true,
+            ConfigTag.COMMON);
+    public static final ConfigModule MODEL_NAME = ConfigModule.of(
+            WatsonxAiConfig.class,
+            "watsonxai.model.name",
+            "The foundation model to use",
+            "Model Name",
+            "llama-3-405b-instruct",
+            "string",
+            false,
+            ConfigTag.COMMON);
+    public static final ConfigModule TEMPERATURE = ConfigModule.of(
+            WatsonxAiConfig.class,
+            "watsonxai.temperature",
+            "Temperature for response generation (0.0-2.0)",
+            "Temperature",
+            null,
+            "double",
+            false,
+            ConfigTag.COMMON);
+    public static final ConfigModule MAX_NEW_TOKENS = ConfigModule.of(
+            WatsonxAiConfig.class,
+            "watsonxai.max.new.tokens",
+            "Maximum number of new tokens in response",
+            "Max New Tokens",
+            null,
+            "integer",
+            false,
+            ConfigTag.ADVANCED);
+    public static final ConfigModule TOP_P = ConfigModule.of(
+            WatsonxAiConfig.class,
+            "watsonxai.top.p",
+            "Top-p (nucleus sampling) parameter (0.0-1.0)",
+            "Top P",
+            null,
+            "double",
+            false,
+            ConfigTag.ADVANCED);
+    public static final ConfigModule TOP_K = ConfigModule.of(
+            WatsonxAiConfig.class,
+            "watsonxai.top.k",
+            "Top-k sampling parameter",
+            "Top K",
+            null,
+            "integer",
+            false,
+            ConfigTag.ADVANCED);
+    public static final ConfigModule RANDOM_SEED = ConfigModule.of(
+            WatsonxAiConfig.class,
+            "watsonxai.random.seed",
+            "Random seed for reproducible results",
+            "Random Seed",
+            null,
+            "integer",
+            false,
+            ConfigTag.ADVANCED);
+    public static final ConfigModule REPETITION_PENALTY = ConfigModule.of(
+            WatsonxAiConfig.class,
+            "watsonxai.repetition.penalty",
+            "Penalty for repetition (1.0-2.0)",
+            "Repetition Penalty",
+            null,
+            "double",
+            false,
+            ConfigTag.ADVANCED);
+    public static final ConfigModule MIN_NEW_TOKENS = ConfigModule.of(
+            WatsonxAiConfig.class,
+            "watsonxai.min.new.tokens",
+            "Minimum number of new tokens in response",
+            "Min New Tokens",
+            null,
+            "integer",
+            false,
+            ConfigTag.ADVANCED);
+    public static final ConfigModule STOP_SEQUENCES = ConfigModule.of(
+            WatsonxAiConfig.class,
+            "watsonxai.stop.sequences",
+            "Stop sequences for response generation (comma-separated)",
+            "Stop Sequences",
+            null,
+            "string",
+            false,
+            ConfigTag.ADVANCED);
+    public static final ConfigModule TIMEOUT = ConfigModule.of(
+            WatsonxAiConfig.class,
+            "watsonxai.timeout",
+            "Request timeout in seconds",
+            "Timeout",
+            null,
+            "integer",
+            false,
+            ConfigTag.ADVANCED);
+    public static final ConfigModule MAX_RETRIES = ConfigModule.of(
+            WatsonxAiConfig.class,
+            "watsonxai.max.retries",
+            "Maximum number of retry attempts",
+            "Max Retries",
+            null,
+            "integer",
+            false,
+            ConfigTag.ADVANCED);
+    public static final ConfigModule LOG_REQUESTS_AND_RESPONSES = ConfigModule.of(
+            WatsonxAiConfig.class,
+            "watsonxai.log.requests.and.responses",
+            "Enable request and response logging",
+            "Log Requests/Responses",
+            null,
+            "boolean",
+            false,
+            ConfigTag.ADVANCED);
 
     private static final Map<ConfigModule, ConfigEntry> CONFIG_MODULES = new ConcurrentHashMap<>();
 

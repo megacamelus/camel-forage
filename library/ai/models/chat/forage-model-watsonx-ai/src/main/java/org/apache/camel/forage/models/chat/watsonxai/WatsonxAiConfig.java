@@ -214,7 +214,7 @@ public class WatsonxAiConfig implements Config {
      * @return the model name, defaults to "llama-3-405b-instruct" if not configured
      */
     public String modelName() {
-        return ConfigStore.getInstance().get(MODEL_NAME.asNamed(prefix)).orElse("llama-3-405b-instruct");
+        return ConfigStore.getInstance().get(MODEL_NAME.asNamed(prefix)).orElse(MODEL_NAME.defaultValue());
     }
 
     /**

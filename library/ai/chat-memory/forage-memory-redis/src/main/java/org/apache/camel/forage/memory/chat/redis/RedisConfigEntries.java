@@ -7,24 +7,117 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.apache.camel.forage.core.util.config.ConfigEntries;
 import org.apache.camel.forage.core.util.config.ConfigEntry;
 import org.apache.camel.forage.core.util.config.ConfigModule;
+import org.apache.camel.forage.core.util.config.ConfigTag;
 
 public final class RedisConfigEntries extends ConfigEntries {
-    public static final ConfigModule HOST = ConfigModule.of(RedisConfig.class, "redis.host");
-    public static final ConfigModule PORT = ConfigModule.of(RedisConfig.class, "redis.port");
-    public static final ConfigModule PASSWORD = ConfigModule.of(RedisConfig.class, "redis.password");
-    public static final ConfigModule DATABASE = ConfigModule.of(RedisConfig.class, "redis.database");
-    public static final ConfigModule TIMEOUT = ConfigModule.of(RedisConfig.class, "redis.timeout");
-    public static final ConfigModule POOL_MAX_TOTAL = ConfigModule.of(RedisConfig.class, "redis.pool.max-total");
-    public static final ConfigModule POOL_MAX_IDLE = ConfigModule.of(RedisConfig.class, "redis.pool.max-idle");
-    public static final ConfigModule POOL_MIN_IDLE = ConfigModule.of(RedisConfig.class, "redis.pool.min-idle");
-    public static final ConfigModule POOL_TEST_ON_BORROW =
-            ConfigModule.of(RedisConfig.class, "redis.pool.test-on-borrow");
-    public static final ConfigModule POOL_TEST_ON_RETURN =
-            ConfigModule.of(RedisConfig.class, "redis.pool.test-on-return");
-    public static final ConfigModule POOL_TEST_WHILE_IDLE =
-            ConfigModule.of(RedisConfig.class, "redis.pool.test-while-idle");
-    public static final ConfigModule POOL_MAX_WAIT_MILLIS =
-            ConfigModule.of(RedisConfig.class, "redis.pool.max-wait-millis");
+    public static final ConfigModule HOST = ConfigModule.of(
+            RedisConfig.class,
+            "redis.host",
+            "Redis server hostname or IP address",
+            "Host",
+            "localhost",
+            "string",
+            true,
+            ConfigTag.COMMON);
+    public static final ConfigModule PORT = ConfigModule.of(
+            RedisConfig.class,
+            "redis.port",
+            "Redis server port number",
+            "Port",
+            "6379",
+            "integer",
+            true,
+            ConfigTag.COMMON);
+    public static final ConfigModule PASSWORD = ConfigModule.of(
+            RedisConfig.class,
+            "redis.password",
+            "Redis authentication password (optional)",
+            "Password",
+            null,
+            "password",
+            false,
+            ConfigTag.SECURITY);
+    public static final ConfigModule DATABASE = ConfigModule.of(
+            RedisConfig.class,
+            "redis.database",
+            "Redis database number to connect to",
+            "Database",
+            "0",
+            "integer",
+            false,
+            ConfigTag.COMMON);
+    public static final ConfigModule TIMEOUT = ConfigModule.of(
+            RedisConfig.class,
+            "redis.timeout",
+            "Connection timeout in milliseconds",
+            "Timeout",
+            "2000",
+            "integer",
+            false,
+            ConfigTag.ADVANCED);
+    public static final ConfigModule POOL_MAX_TOTAL = ConfigModule.of(
+            RedisConfig.class,
+            "redis.pool.max-total",
+            "Maximum number of connections in the pool",
+            "Pool Max Total",
+            "10",
+            "integer",
+            false,
+            ConfigTag.ADVANCED);
+    public static final ConfigModule POOL_MAX_IDLE = ConfigModule.of(
+            RedisConfig.class,
+            "redis.pool.max-idle",
+            "Maximum number of idle connections in the pool",
+            "Pool Max Idle",
+            "5",
+            "integer",
+            false,
+            ConfigTag.ADVANCED);
+    public static final ConfigModule POOL_MIN_IDLE = ConfigModule.of(
+            RedisConfig.class,
+            "redis.pool.min-idle",
+            "Minimum number of idle connections in the pool",
+            "Pool Min Idle",
+            "1",
+            "integer",
+            false,
+            ConfigTag.ADVANCED);
+    public static final ConfigModule POOL_TEST_ON_BORROW = ConfigModule.of(
+            RedisConfig.class,
+            "redis.pool.test-on-borrow",
+            "Test connections when borrowing from pool",
+            "Test On Borrow",
+            "true",
+            "boolean",
+            false,
+            ConfigTag.ADVANCED);
+    public static final ConfigModule POOL_TEST_ON_RETURN = ConfigModule.of(
+            RedisConfig.class,
+            "redis.pool.test-on-return",
+            "Test connections when returning to pool",
+            "Test On Return",
+            "true",
+            "boolean",
+            false,
+            ConfigTag.ADVANCED);
+    public static final ConfigModule POOL_TEST_WHILE_IDLE = ConfigModule.of(
+            RedisConfig.class,
+            "redis.pool.test-while-idle",
+            "Test idle connections periodically",
+            "Test While Idle",
+            "true",
+            "boolean",
+            false,
+            ConfigTag.ADVANCED);
+    public static final ConfigModule POOL_MAX_WAIT_MILLIS = ConfigModule.of(
+            RedisConfig.class,
+            "redis.pool.max-wait-millis",
+            "Maximum time to wait for a connection from the pool in milliseconds",
+            "Pool Max Wait",
+            "2000",
+            "integer",
+            false,
+            ConfigTag.ADVANCED);
 
     private static final Map<ConfigModule, ConfigEntry> CONFIG_MODULES = new ConcurrentHashMap<>();
 

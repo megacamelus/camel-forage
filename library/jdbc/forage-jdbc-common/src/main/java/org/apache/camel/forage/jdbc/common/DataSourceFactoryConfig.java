@@ -1,5 +1,43 @@
 package org.apache.camel.forage.jdbc.common;
 
+import static org.apache.camel.forage.jdbc.common.DataSourceFactoryConfigEntries.ACQUISITION_TIMEOUT_SECONDS;
+import static org.apache.camel.forage.jdbc.common.DataSourceFactoryConfigEntries.AGGREGATION_REPOSITORY_ALLOW_SERIALIZED_HEADERS;
+import static org.apache.camel.forage.jdbc.common.DataSourceFactoryConfigEntries.AGGREGATION_REPOSITORY_DEAD_LETTER_URI;
+import static org.apache.camel.forage.jdbc.common.DataSourceFactoryConfigEntries.AGGREGATION_REPOSITORY_HEADERS_TO_STORE;
+import static org.apache.camel.forage.jdbc.common.DataSourceFactoryConfigEntries.AGGREGATION_REPOSITORY_MAXIMUM_REDELIVERIES;
+import static org.apache.camel.forage.jdbc.common.DataSourceFactoryConfigEntries.AGGREGATION_REPOSITORY_NAME;
+import static org.apache.camel.forage.jdbc.common.DataSourceFactoryConfigEntries.AGGREGATION_REPOSITORY_PROPAGATION_BEHAVIOUR_NAME;
+import static org.apache.camel.forage.jdbc.common.DataSourceFactoryConfigEntries.AGGREGATION_REPOSITORY_STORE_BODY;
+import static org.apache.camel.forage.jdbc.common.DataSourceFactoryConfigEntries.AGGREGATION_REPOSITORY_USE_RECOVERY;
+import static org.apache.camel.forage.jdbc.common.DataSourceFactoryConfigEntries.DB_KIND;
+import static org.apache.camel.forage.jdbc.common.DataSourceFactoryConfigEntries.ENABLE_IDEMPOTENT_REPOSITORY;
+import static org.apache.camel.forage.jdbc.common.DataSourceFactoryConfigEntries.IDEMPOTENT_REPOSITORY_PROCESSOR_NAME;
+import static org.apache.camel.forage.jdbc.common.DataSourceFactoryConfigEntries.IDEMPOTENT_REPOSITORY_TABLE_IF_NOT_EXISTS;
+import static org.apache.camel.forage.jdbc.common.DataSourceFactoryConfigEntries.IDEMPOTENT_REPOSITORY_TABLE_NAME;
+import static org.apache.camel.forage.jdbc.common.DataSourceFactoryConfigEntries.IDLE_VALIDATION_TIMEOUT_MINUTES;
+import static org.apache.camel.forage.jdbc.common.DataSourceFactoryConfigEntries.INITIAL_SIZE;
+import static org.apache.camel.forage.jdbc.common.DataSourceFactoryConfigEntries.JDBC_URL;
+import static org.apache.camel.forage.jdbc.common.DataSourceFactoryConfigEntries.LEAK_TIMEOUT_MINUTES;
+import static org.apache.camel.forage.jdbc.common.DataSourceFactoryConfigEntries.MAX_SIZE;
+import static org.apache.camel.forage.jdbc.common.DataSourceFactoryConfigEntries.MIN_SIZE;
+import static org.apache.camel.forage.jdbc.common.DataSourceFactoryConfigEntries.PASSWORD;
+import static org.apache.camel.forage.jdbc.common.DataSourceFactoryConfigEntries.TRANSACTION_ENABLED;
+import static org.apache.camel.forage.jdbc.common.DataSourceFactoryConfigEntries.TRANSACTION_ENABLE_RECOVERY;
+import static org.apache.camel.forage.jdbc.common.DataSourceFactoryConfigEntries.TRANSACTION_EXPIRY_SCANNERS;
+import static org.apache.camel.forage.jdbc.common.DataSourceFactoryConfigEntries.TRANSACTION_NODE_ID;
+import static org.apache.camel.forage.jdbc.common.DataSourceFactoryConfigEntries.TRANSACTION_OBJECT_STORE_CREATE_TABLE;
+import static org.apache.camel.forage.jdbc.common.DataSourceFactoryConfigEntries.TRANSACTION_OBJECT_STORE_DATASOURCE;
+import static org.apache.camel.forage.jdbc.common.DataSourceFactoryConfigEntries.TRANSACTION_OBJECT_STORE_DIRECTORY;
+import static org.apache.camel.forage.jdbc.common.DataSourceFactoryConfigEntries.TRANSACTION_OBJECT_STORE_DROP_TABLE;
+import static org.apache.camel.forage.jdbc.common.DataSourceFactoryConfigEntries.TRANSACTION_OBJECT_STORE_ID;
+import static org.apache.camel.forage.jdbc.common.DataSourceFactoryConfigEntries.TRANSACTION_OBJECT_STORE_TABLE_PREFIX;
+import static org.apache.camel.forage.jdbc.common.DataSourceFactoryConfigEntries.TRANSACTION_OBJECT_STORE_TYPE;
+import static org.apache.camel.forage.jdbc.common.DataSourceFactoryConfigEntries.TRANSACTION_RECOVERY_MODULES;
+import static org.apache.camel.forage.jdbc.common.DataSourceFactoryConfigEntries.TRANSACTION_TIMEOUT_SECONDS;
+import static org.apache.camel.forage.jdbc.common.DataSourceFactoryConfigEntries.TRANSACTION_XA_RESOURCE_ORPHAN_FILTERS;
+import static org.apache.camel.forage.jdbc.common.DataSourceFactoryConfigEntries.USERNAME;
+import static org.apache.camel.forage.jdbc.common.DataSourceFactoryConfigEntries.VALIDATION_TIMEOUT_SECONDS;
+
 import java.util.Optional;
 import org.apache.camel.forage.core.util.config.Config;
 import org.apache.camel.forage.core.util.config.ConfigModule;
@@ -46,247 +84,243 @@ public class DataSourceFactoryConfig implements Config {
     // Database connection methods
     public String dbKind() {
         return ConfigStore.getInstance()
-                .get(DataSourceFactoryConfigEntries.DB_KIND.asNamed(prefix))
+                .get(DB_KIND.asNamed(prefix))
                 .orElseThrow(() -> new MissingConfigException("Db kind is required but not configured"));
     }
 
     public String jdbcUrl() {
         return ConfigStore.getInstance()
-                .get(DataSourceFactoryConfigEntries.JDBC_URL.asNamed(prefix))
+                .get(JDBC_URL.asNamed(prefix))
                 .orElseThrow(() -> new MissingConfigException("JDBC URL is required but not configured"));
     }
 
     public String username() {
         return ConfigStore.getInstance()
-                .get(DataSourceFactoryConfigEntries.USERNAME.asNamed(prefix))
+                .get(USERNAME.asNamed(prefix))
                 .orElseThrow(() -> new MissingConfigException("Database username is required but not configured"));
     }
 
     public String password() {
         return ConfigStore.getInstance()
-                .get(DataSourceFactoryConfigEntries.PASSWORD.asNamed(prefix))
+                .get(PASSWORD.asNamed(prefix))
                 .orElseThrow(() -> new MissingConfigException("Database password is required but not configured"));
     }
 
     // Connection pool configuration methods
     public int initialSize() {
         return ConfigStore.getInstance()
-                .get(DataSourceFactoryConfigEntries.INITIAL_SIZE.asNamed(prefix))
+                .get(INITIAL_SIZE.asNamed(prefix))
                 .map(Integer::parseInt)
-                .orElse(5);
+                .orElse(Integer.parseInt(INITIAL_SIZE.defaultValue()));
     }
 
     public int minSize() {
         return ConfigStore.getInstance()
-                .get(DataSourceFactoryConfigEntries.MIN_SIZE.asNamed(prefix))
+                .get(MIN_SIZE.asNamed(prefix))
                 .map(Integer::parseInt)
-                .orElse(2);
+                .orElse(Integer.parseInt(MIN_SIZE.defaultValue()));
     }
 
     public int maxSize() {
         return ConfigStore.getInstance()
-                .get(DataSourceFactoryConfigEntries.MAX_SIZE.asNamed(prefix))
+                .get(MAX_SIZE.asNamed(prefix))
                 .map(Integer::parseInt)
-                .orElse(20);
+                .orElse(Integer.parseInt(MAX_SIZE.defaultValue()));
     }
 
     public int acquisitionTimeoutSeconds() {
         return ConfigStore.getInstance()
-                .get(DataSourceFactoryConfigEntries.ACQUISITION_TIMEOUT_SECONDS.asNamed(prefix))
+                .get(ACQUISITION_TIMEOUT_SECONDS.asNamed(prefix))
                 .map(Integer::parseInt)
-                .orElse(5);
+                .orElse(Integer.parseInt(ACQUISITION_TIMEOUT_SECONDS.defaultValue()));
     }
 
     public int validationTimeoutSeconds() {
         return ConfigStore.getInstance()
-                .get(DataSourceFactoryConfigEntries.VALIDATION_TIMEOUT_SECONDS.asNamed(prefix))
+                .get(VALIDATION_TIMEOUT_SECONDS.asNamed(prefix))
                 .map(Integer::parseInt)
-                .orElse(3);
+                .orElse(Integer.parseInt(VALIDATION_TIMEOUT_SECONDS.defaultValue()));
     }
 
     public int leakTimeoutMinutes() {
         return ConfigStore.getInstance()
-                .get(DataSourceFactoryConfigEntries.LEAK_TIMEOUT_MINUTES.asNamed(prefix))
+                .get(LEAK_TIMEOUT_MINUTES.asNamed(prefix))
                 .map(Integer::parseInt)
-                .orElse(10);
+                .orElse(Integer.parseInt(LEAK_TIMEOUT_MINUTES.defaultValue()));
     }
 
     public int idleValidationTimeoutMinutes() {
         return ConfigStore.getInstance()
-                .get(DataSourceFactoryConfigEntries.IDLE_VALIDATION_TIMEOUT_MINUTES.asNamed(prefix))
+                .get(IDLE_VALIDATION_TIMEOUT_MINUTES.asNamed(prefix))
                 .map(Integer::parseInt)
-                .orElse(3);
+                .orElse(Integer.parseInt(IDLE_VALIDATION_TIMEOUT_MINUTES.defaultValue()));
     }
 
     // Transaction configuration methods
     public int transactionTimeoutSeconds() {
         return ConfigStore.getInstance()
-                .get(DataSourceFactoryConfigEntries.TRANSACTION_TIMEOUT_SECONDS.asNamed(prefix))
+                .get(TRANSACTION_TIMEOUT_SECONDS.asNamed(prefix))
                 .map(Integer::parseInt)
-                .orElse(30);
+                .orElse(Integer.parseInt(TRANSACTION_TIMEOUT_SECONDS.defaultValue()));
     }
 
     public boolean transactionEnabled() {
         return ConfigStore.getInstance()
-                .get(DataSourceFactoryConfigEntries.TRANSACTION_ENABLED.asNamed(prefix))
+                .get(TRANSACTION_ENABLED.asNamed(prefix))
                 .map(Boolean::parseBoolean)
-                .orElse(false);
+                .orElse(Boolean.parseBoolean(TRANSACTION_ENABLED.defaultValue()));
     }
 
     public String transactionNodeId() {
         return ConfigStore.getInstance()
-                .get(DataSourceFactoryConfigEntries.TRANSACTION_NODE_ID.asNamed(prefix))
+                .get(TRANSACTION_NODE_ID.asNamed(prefix))
                 .orElse(null);
     }
 
     public String transactionObjectStoreId() {
         return ConfigStore.getInstance()
-                .get(DataSourceFactoryConfigEntries.TRANSACTION_OBJECT_STORE_ID.asNamed(prefix))
+                .get(TRANSACTION_OBJECT_STORE_ID.asNamed(prefix))
                 .orElse(null);
     }
 
     public boolean transactionEnableRecovery() {
         return ConfigStore.getInstance()
-                .get(DataSourceFactoryConfigEntries.TRANSACTION_ENABLE_RECOVERY.asNamed(prefix))
+                .get(TRANSACTION_ENABLE_RECOVERY.asNamed(prefix))
                 .map(Boolean::parseBoolean)
-                .orElse(false);
+                .orElse(Boolean.parseBoolean(TRANSACTION_ENABLE_RECOVERY.defaultValue()));
     }
 
     public String transactionRecoveryModules() {
         return ConfigStore.getInstance()
-                .get(DataSourceFactoryConfigEntries.TRANSACTION_RECOVERY_MODULES.asNamed(prefix))
-                .orElse("com.arjuna.ats.internal.arjuna.recovery.AtomicActionRecoveryModule,"
-                        + "com.arjuna.ats.internal.jta.recovery.arjunacore.XARecoveryModule");
+                .get(TRANSACTION_RECOVERY_MODULES.asNamed(prefix))
+                .orElse(TRANSACTION_RECOVERY_MODULES.defaultValue());
     }
 
     public String transactionExpiryScanners() {
         return ConfigStore.getInstance()
-                .get(DataSourceFactoryConfigEntries.TRANSACTION_EXPIRY_SCANNERS.asNamed(prefix))
-                .orElse("com.arjuna.ats.internal.arjuna.recovery.ExpiredTransactionStatusManagerScanner");
+                .get(TRANSACTION_EXPIRY_SCANNERS.asNamed(prefix))
+                .orElse(TRANSACTION_EXPIRY_SCANNERS.defaultValue());
     }
 
     public String transactionXaResourceOrphanFilters() {
         return ConfigStore.getInstance()
-                .get(DataSourceFactoryConfigEntries.TRANSACTION_XA_RESOURCE_ORPHAN_FILTERS.asNamed(prefix))
-                .orElse(
-                        "com.arjuna.ats.internal.jta.recovery.arjunacore.JTATransactionLogXAResourceOrphanFilter,"
-                                + "com.arjuna.ats.internal.jta.recovery.arjunacore.JTANodeNameXAResourceOrphanFilter,"
-                                + "com.arjuna.ats.internal.jta.recovery.arjunacore.JTAActionStatusServiceXAResourceOrphanFilter");
+                .get(TRANSACTION_XA_RESOURCE_ORPHAN_FILTERS.asNamed(prefix))
+                .orElse(TRANSACTION_XA_RESOURCE_ORPHAN_FILTERS.defaultValue());
     }
 
     public String transactionObjectStoreDirectory() {
         return ConfigStore.getInstance()
-                .get(DataSourceFactoryConfigEntries.TRANSACTION_OBJECT_STORE_DIRECTORY.asNamed(prefix))
-                .orElse("ObjectStore");
+                .get(TRANSACTION_OBJECT_STORE_DIRECTORY.asNamed(prefix))
+                .orElse(TRANSACTION_OBJECT_STORE_DIRECTORY.defaultValue());
     }
 
     public String transactionObjectStoreType() {
         return ConfigStore.getInstance()
-                .get(DataSourceFactoryConfigEntries.TRANSACTION_OBJECT_STORE_TYPE.asNamed(prefix))
-                .orElse("file-system");
+                .get(TRANSACTION_OBJECT_STORE_TYPE.asNamed(prefix))
+                .orElse(TRANSACTION_OBJECT_STORE_TYPE.defaultValue());
     }
 
     public String transactionObjectStoreDataSource() {
         return ConfigStore.getInstance()
-                .get(DataSourceFactoryConfigEntries.TRANSACTION_OBJECT_STORE_DATASOURCE.asNamed(prefix))
+                .get(TRANSACTION_OBJECT_STORE_DATASOURCE.asNamed(prefix))
                 .orElse(null);
     }
 
     public boolean transactionObjectStoreCreateTable() {
         return ConfigStore.getInstance()
-                .get(DataSourceFactoryConfigEntries.TRANSACTION_OBJECT_STORE_CREATE_TABLE.asNamed(prefix))
+                .get(TRANSACTION_OBJECT_STORE_CREATE_TABLE.asNamed(prefix))
                 .map(Boolean::parseBoolean)
-                .orElse(false);
+                .orElse(Boolean.parseBoolean(TRANSACTION_OBJECT_STORE_CREATE_TABLE.defaultValue()));
     }
 
     public boolean transactionObjectStoreDropTable() {
         return ConfigStore.getInstance()
-                .get(DataSourceFactoryConfigEntries.TRANSACTION_OBJECT_STORE_DROP_TABLE.asNamed(prefix))
+                .get(TRANSACTION_OBJECT_STORE_DROP_TABLE.asNamed(prefix))
                 .map(Boolean::parseBoolean)
-                .orElse(false);
+                .orElse(Boolean.parseBoolean(TRANSACTION_OBJECT_STORE_DROP_TABLE.defaultValue()));
     }
 
     public String transactionObjectStoreTablePrefix() {
         return ConfigStore.getInstance()
-                .get(DataSourceFactoryConfigEntries.TRANSACTION_OBJECT_STORE_TABLE_PREFIX.asNamed(prefix))
-                .orElse("forage_");
+                .get(TRANSACTION_OBJECT_STORE_TABLE_PREFIX.asNamed(prefix))
+                .orElse(TRANSACTION_OBJECT_STORE_TABLE_PREFIX.defaultValue());
     }
 
     public String aggregationRepositoryName() {
         return ConfigStore.getInstance()
-                .get(DataSourceFactoryConfigEntries.AGGREGATION_REPOSITORY_NAME.asNamed(prefix))
+                .get(AGGREGATION_REPOSITORY_NAME.asNamed(prefix))
                 .orElse(null);
     }
 
     public String aggregationRepositoryHeadersToStore() {
         return ConfigStore.getInstance()
-                .get(DataSourceFactoryConfigEntries.AGGREGATION_REPOSITORY_HEADERS_TO_STORE.asNamed(prefix))
+                .get(AGGREGATION_REPOSITORY_HEADERS_TO_STORE.asNamed(prefix))
                 .orElse(null);
     }
 
     public Boolean aggregationRepositoryStoreBody() {
         return ConfigStore.getInstance()
-                .get(DataSourceFactoryConfigEntries.AGGREGATION_REPOSITORY_STORE_BODY.asNamed(prefix))
+                .get(AGGREGATION_REPOSITORY_STORE_BODY.asNamed(prefix))
                 .map(Boolean::parseBoolean)
                 .orElse(null);
     }
 
     public String aggregationRepositoryDeadLetterUri() {
         return ConfigStore.getInstance()
-                .get(DataSourceFactoryConfigEntries.AGGREGATION_REPOSITORY_DEAD_LETTER_URI.asNamed(prefix))
+                .get(AGGREGATION_REPOSITORY_DEAD_LETTER_URI.asNamed(prefix))
                 .orElse(null);
     }
 
     public Boolean aggregationRepositoryAllowSerializedHeaders() {
         return ConfigStore.getInstance()
-                .get(DataSourceFactoryConfigEntries.AGGREGATION_REPOSITORY_ALLOW_SERIALIZED_HEADERS.asNamed(prefix))
+                .get(AGGREGATION_REPOSITORY_ALLOW_SERIALIZED_HEADERS.asNamed(prefix))
                 .map(Boolean::parseBoolean)
                 .orElse(null);
     }
 
     public Integer aggregationRepositoryMaximumRedeliveries() {
         return ConfigStore.getInstance()
-                .get(DataSourceFactoryConfigEntries.AGGREGATION_REPOSITORY_MAXIMUM_REDELIVERIES.asNamed(prefix))
+                .get(AGGREGATION_REPOSITORY_MAXIMUM_REDELIVERIES.asNamed(prefix))
                 .map(Integer::parseInt)
                 .orElse(null);
     }
 
     public Boolean aggregationRepositoryUseRecovery() {
         return ConfigStore.getInstance()
-                .get(DataSourceFactoryConfigEntries.AGGREGATION_REPOSITORY_USE_RECOVERY.asNamed(prefix))
+                .get(AGGREGATION_REPOSITORY_USE_RECOVERY.asNamed(prefix))
                 .map(Boolean::parseBoolean)
                 .orElse(null);
     }
 
     public String aggregationRepositoryPropagationBehaviourName() {
         return ConfigStore.getInstance()
-                .get(DataSourceFactoryConfigEntries.AGGREGATION_REPOSITORY_PROPAGATION_BEHAVIOUR_NAME.asNamed(prefix))
+                .get(AGGREGATION_REPOSITORY_PROPAGATION_BEHAVIOUR_NAME.asNamed(prefix))
                 .orElse(null);
     }
 
     public boolean enableIdempotentRepository() {
         return ConfigStore.getInstance()
-                .get(DataSourceFactoryConfigEntries.ENABLE_IDEMPOTENT_REPOSITORY.asNamed(prefix))
+                .get(ENABLE_IDEMPOTENT_REPOSITORY.asNamed(prefix))
                 .map(Boolean::parseBoolean)
-                .orElse(false);
+                .orElse(Boolean.parseBoolean(ENABLE_IDEMPOTENT_REPOSITORY.defaultValue()));
     }
 
     public String idempotentRepositoryTableName() {
         return ConfigStore.getInstance()
-                .get(DataSourceFactoryConfigEntries.IDEMPOTENT_REPOSITORY_TABLE_NAME.asNamed(prefix))
+                .get(IDEMPOTENT_REPOSITORY_TABLE_NAME.asNamed(prefix))
                 .orElse(ForageJdbcMessageIdRepository.DEFAULT_TABLENAME);
     }
 
     public boolean enableIdempotentRepositoryTableCreate() {
         return ConfigStore.getInstance()
-                .get(DataSourceFactoryConfigEntries.IDEMPOTENT_REPOSITORY_TABLE_IF_NOT_EXISTS.asNamed(prefix))
+                .get(IDEMPOTENT_REPOSITORY_TABLE_IF_NOT_EXISTS.asNamed(prefix))
                 .map(Boolean::parseBoolean)
-                .orElse(true);
+                .orElse(Boolean.parseBoolean(IDEMPOTENT_REPOSITORY_TABLE_IF_NOT_EXISTS.defaultValue()));
     }
 
     public String idempotentRepositoryProcessorName() {
         return ConfigStore.getInstance()
-                .get(DataSourceFactoryConfigEntries.IDEMPOTENT_REPOSITORY_TABLE_IF_NOT_EXISTS.asNamed(prefix))
+                .get(IDEMPOTENT_REPOSITORY_PROCESSOR_NAME.asNamed(prefix))
                 .orElse("FORAGE_PROCESSOR_" + idempotentRepositoryTableName());
     }
 }

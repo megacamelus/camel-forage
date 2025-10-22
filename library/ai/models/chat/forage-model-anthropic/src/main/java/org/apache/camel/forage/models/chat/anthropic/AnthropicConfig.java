@@ -148,7 +148,7 @@ public class AnthropicConfig implements Config {
      * @return the model name, defaults to "claude-3-haiku-20240307" if not configured
      */
     public String modelName() {
-        return ConfigStore.getInstance().get(MODEL_NAME.asNamed(prefix)).orElse("claude-3-haiku-20240307");
+        return ConfigStore.getInstance().get(MODEL_NAME.asNamed(prefix)).orElse(MODEL_NAME.defaultValue());
     }
 
     /**

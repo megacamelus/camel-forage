@@ -81,8 +81,6 @@ import org.apache.camel.forage.core.util.config.ConfigStore;
  */
 public class OllamaConfig implements Config {
 
-    private static final String DEFAULT_BASE_URL = "http://localhost:11434";
-    private static final String DEFAULT_MODEL_NAME = "llama3";
     private final String prefix;
 
     /**
@@ -167,7 +165,7 @@ public class OllamaConfig implements Config {
      * @return the Ollama server base URL, never null
      */
     public String baseUrl() {
-        return ConfigStore.getInstance().get(BASE_URL.asNamed(prefix)).orElse(DEFAULT_BASE_URL);
+        return ConfigStore.getInstance().get(BASE_URL.asNamed(prefix)).orElse(BASE_URL.defaultValue());
     }
 
     /**
@@ -197,7 +195,7 @@ public class OllamaConfig implements Config {
      * @return the Ollama model name, never null
      */
     public String modelName() {
-        return ConfigStore.getInstance().get(MODEL_NAME.asNamed(prefix)).orElse(DEFAULT_MODEL_NAME);
+        return ConfigStore.getInstance().get(MODEL_NAME.asNamed(prefix)).orElse(MODEL_NAME.defaultValue());
     }
 
     /**

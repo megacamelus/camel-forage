@@ -50,7 +50,7 @@ public class WeaviateConfig implements Config {
     }
 
     public String apiKey() {
-        return ConfigStore.getInstance().get(API_KEY).orElse(null);
+        return ConfigStore.getInstance().get(API_KEY.asNamed(prefix)).orElse(null);
     }
 
     public String scheme() {
@@ -107,7 +107,7 @@ public class WeaviateConfig implements Config {
     }
 
     public String consistencyLevel() {
-        return ConfigStore.getInstance().get(CONSISTENCY_LEVEL).orElse("ALL");
+        return ConfigStore.getInstance().get(CONSISTENCY_LEVEL.asNamed(prefix)).orElse("ALL");
     }
 
     public Collection<String> metadataKeys() {

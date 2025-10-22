@@ -7,14 +7,63 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.apache.camel.forage.core.util.config.ConfigEntries;
 import org.apache.camel.forage.core.util.config.ConfigEntry;
 import org.apache.camel.forage.core.util.config.ConfigModule;
+import org.apache.camel.forage.core.util.config.ConfigTag;
 
 public final class QdrantConfigEntries extends ConfigEntries {
-    public static final ConfigModule COLLECTION_NAME = ConfigModule.of(QdrantConfig.class, "qdrant.collection.name");
-    public static final ConfigModule HOST = ConfigModule.of(QdrantConfig.class, "qdrant.host");
-    public static final ConfigModule PORT = ConfigModule.of(QdrantConfig.class, "qdrant.port");
-    public static final ConfigModule USE_TLS = ConfigModule.of(QdrantConfig.class, "qdrant.use.tls");
-    public static final ConfigModule PAYLOAD_TEXT_KEY = ConfigModule.of(QdrantConfig.class, "qdrant.payload.text.key");
-    public static final ConfigModule API_KEY = ConfigModule.of(QdrantConfig.class, "qdrant.api.key");
+    public static final ConfigModule COLLECTION_NAME = ConfigModule.of(
+            QdrantConfig.class,
+            "qdrant.collection.name",
+            "Name of the Qdrant collection",
+            "Collection Name",
+            null,
+            "string",
+            true,
+            ConfigTag.COMMON);
+    public static final ConfigModule HOST = ConfigModule.of(
+            QdrantConfig.class,
+            "qdrant.host",
+            "Qdrant server host address",
+            "Host",
+            null,
+            "string",
+            true,
+            ConfigTag.COMMON);
+    public static final ConfigModule PORT = ConfigModule.of(
+            QdrantConfig.class,
+            "qdrant.port",
+            "Qdrant server port number",
+            "Port",
+            null,
+            "integer",
+            true,
+            ConfigTag.COMMON);
+    public static final ConfigModule USE_TLS = ConfigModule.of(
+            QdrantConfig.class,
+            "qdrant.use.tls",
+            "Enable TLS for secure connections",
+            "Use TLS",
+            "false",
+            "boolean",
+            false,
+            ConfigTag.SECURITY);
+    public static final ConfigModule PAYLOAD_TEXT_KEY = ConfigModule.of(
+            QdrantConfig.class,
+            "qdrant.payload.text.key",
+            "Payload key for storing text content",
+            "Payload Text Key",
+            "text_segment",
+            "string",
+            false,
+            ConfigTag.ADVANCED);
+    public static final ConfigModule API_KEY = ConfigModule.of(
+            QdrantConfig.class,
+            "qdrant.api.key",
+            "API key for authentication",
+            "API Key",
+            null,
+            "password",
+            false,
+            ConfigTag.SECURITY);
 
     private static final Map<ConfigModule, ConfigEntry> CONFIG_MODULES = new ConcurrentHashMap<>();
 

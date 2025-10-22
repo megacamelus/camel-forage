@@ -128,7 +128,7 @@ public class InfinispanConfig implements Config {
      * @return the server list in format "host1:port1,host2:port2", defaults to "localhost:11222" if not configured
      */
     public String serverList() {
-        return ConfigStore.getInstance().get(SERVER_LIST.asNamed(prefix)).orElse("localhost:11222");
+        return ConfigStore.getInstance().get(SERVER_LIST.asNamed(prefix)).orElse(SERVER_LIST.defaultValue());
     }
 
     /**
@@ -137,7 +137,7 @@ public class InfinispanConfig implements Config {
      * @return the cache name, defaults to "chat-memory" if not configured
      */
     public String cacheName() {
-        return ConfigStore.getInstance().get(CACHE_NAME.asNamed(prefix)).orElse("chat-memory");
+        return ConfigStore.getInstance().get(CACHE_NAME.asNamed(prefix)).orElse(CACHE_NAME.defaultValue());
     }
 
     /**
@@ -146,7 +146,7 @@ public class InfinispanConfig implements Config {
      * @return the username, or {@code null} if no authentication is required
      */
     public String username() {
-        return ConfigStore.getInstance().get(USERNAME.asNamed(prefix)).orElse(null);
+        return ConfigStore.getInstance().get(USERNAME.asNamed(prefix)).orElse(USERNAME.defaultValue());
     }
 
     /**
@@ -155,7 +155,7 @@ public class InfinispanConfig implements Config {
      * @return the password, or {@code null} if no authentication is required
      */
     public String password() {
-        return ConfigStore.getInstance().get(PASSWORD.asNamed(prefix)).orElse(null);
+        return ConfigStore.getInstance().get(PASSWORD.asNamed(prefix)).orElse(PASSWORD.defaultValue());
     }
 
     /**
@@ -164,7 +164,7 @@ public class InfinispanConfig implements Config {
      * @return the realm, defaults to "default" if not configured
      */
     public String realm() {
-        return ConfigStore.getInstance().get(REALM.asNamed(prefix)).orElse("default");
+        return ConfigStore.getInstance().get(REALM.asNamed(prefix)).orElse(REALM.defaultValue());
     }
 
     /**
@@ -173,7 +173,7 @@ public class InfinispanConfig implements Config {
      * @return the SASL mechanism, defaults to "DIGEST-MD5" if not configured
      */
     public String saslMechanism() {
-        return ConfigStore.getInstance().get(SASL_MECHANISM.asNamed(prefix)).orElse("DIGEST-MD5");
+        return ConfigStore.getInstance().get(SASL_MECHANISM.asNamed(prefix)).orElse(SASL_MECHANISM.defaultValue());
     }
 
     /**
@@ -192,7 +192,7 @@ public class InfinispanConfig implements Config {
                         throw new IllegalArgumentException("Invalid Infinispan connection timeout value: " + value, e);
                     }
                 })
-                .orElse(60000);
+                .orElse(Integer.parseInt(CONNECTION_TIMEOUT.defaultValue()));
     }
 
     /**
@@ -211,7 +211,7 @@ public class InfinispanConfig implements Config {
                         throw new IllegalArgumentException("Invalid Infinispan socket timeout value: " + value, e);
                     }
                 })
-                .orElse(60000);
+                .orElse(Integer.parseInt(SOCKET_TIMEOUT.defaultValue()));
     }
 
     /**
@@ -230,7 +230,7 @@ public class InfinispanConfig implements Config {
                         throw new IllegalArgumentException("Invalid Infinispan max retries value: " + value, e);
                     }
                 })
-                .orElse(3);
+                .orElse(Integer.parseInt(MAX_RETRIES.defaultValue()));
     }
 
     /**
@@ -249,7 +249,7 @@ public class InfinispanConfig implements Config {
                         throw new IllegalArgumentException("Invalid Infinispan pool max-active value: " + value, e);
                     }
                 })
-                .orElse(20);
+                .orElse(Integer.parseInt(POOL_MAX_ACTIVE.defaultValue()));
     }
 
     /**
@@ -268,7 +268,7 @@ public class InfinispanConfig implements Config {
                         throw new IllegalArgumentException("Invalid Infinispan pool min-idle value: " + value, e);
                     }
                 })
-                .orElse(1);
+                .orElse(Integer.parseInt(POOL_MIN_IDLE.defaultValue()));
     }
 
     /**
@@ -287,7 +287,7 @@ public class InfinispanConfig implements Config {
                         throw new IllegalArgumentException("Invalid Infinispan pool max-wait value: " + value, e);
                     }
                 })
-                .orElse(3000);
+                .orElse(Integer.parseInt(POOL_MAX_WAIT.defaultValue()));
     }
 
     /**

@@ -7,21 +7,108 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.apache.camel.forage.core.util.config.ConfigEntries;
 import org.apache.camel.forage.core.util.config.ConfigEntry;
 import org.apache.camel.forage.core.util.config.ConfigModule;
+import org.apache.camel.forage.core.util.config.ConfigTag;
 
 public final class PineconeConfigEntries extends ConfigEntries {
-    public static final ConfigModule API_KEY = ConfigModule.of(PineconeConfig.class, "pinecone.api.key");
-    public static final ConfigModule INDEX = ConfigModule.of(PineconeConfig.class, "pinecone.index");
-    public static final ConfigModule NAME_SPACE = ConfigModule.of(PineconeConfig.class, "pinecone.name.space");
-    public static final ConfigModule METADATA_TEXT_KEY =
-            ConfigModule.of(PineconeConfig.class, "pinecone.metadata.text.key");
-    public static final ConfigModule CREATE_INDEX = ConfigModule.of(PineconeConfig.class, "pinecone.create.index");
-    public static final ConfigModule ENVIRONMENT = ConfigModule.of(PineconeConfig.class, "pinecone.environment");
-    public static final ConfigModule PROJECT_ID = ConfigModule.of(PineconeConfig.class, "pinecone.project.id");
-    public static final ConfigModule DIMENSION = ConfigModule.of(PineconeConfig.class, "pinecone.dimension");
-    public static final ConfigModule CLOUD = ConfigModule.of(PineconeConfig.class, "pinecone.cloud");
-    public static final ConfigModule REGION = ConfigModule.of(PineconeConfig.class, "pinecone.region");
-    public static final ConfigModule DELETION_PROTECTION =
-            ConfigModule.of(PineconeConfig.class, "pinecone.deletion.protection");
+    public static final ConfigModule API_KEY = ConfigModule.of(
+            PineconeConfig.class,
+            "pinecone.api.key",
+            "Pinecone API key for authentication",
+            "API Key",
+            null,
+            "password",
+            true,
+            ConfigTag.SECURITY);
+    public static final ConfigModule INDEX = ConfigModule.of(
+            PineconeConfig.class,
+            "pinecone.index",
+            "Name of the Pinecone index",
+            "Index",
+            null,
+            "string",
+            true,
+            ConfigTag.COMMON);
+    public static final ConfigModule NAME_SPACE = ConfigModule.of(
+            PineconeConfig.class,
+            "pinecone.name.space",
+            "Namespace within the index",
+            "Namespace",
+            "default",
+            "string",
+            false,
+            ConfigTag.COMMON);
+    public static final ConfigModule METADATA_TEXT_KEY = ConfigModule.of(
+            PineconeConfig.class,
+            "pinecone.metadata.text.key",
+            "Metadata key for storing text content",
+            "Metadata Text Key",
+            "text_segment",
+            "string",
+            false,
+            ConfigTag.ADVANCED);
+    public static final ConfigModule CREATE_INDEX = ConfigModule.of(
+            PineconeConfig.class,
+            "pinecone.create.index",
+            "Create index if it does not exist",
+            "Create Index",
+            null,
+            "boolean",
+            false,
+            ConfigTag.ADVANCED);
+    public static final ConfigModule ENVIRONMENT = ConfigModule.of(
+            PineconeConfig.class,
+            "pinecone.environment",
+            "Pinecone environment (deprecated)",
+            "Environment",
+            null,
+            "string",
+            false,
+            ConfigTag.ADVANCED);
+    public static final ConfigModule PROJECT_ID = ConfigModule.of(
+            PineconeConfig.class,
+            "pinecone.project.id",
+            "Pinecone project ID (deprecated)",
+            "Project ID",
+            null,
+            "string",
+            false,
+            ConfigTag.ADVANCED);
+    public static final ConfigModule DIMENSION = ConfigModule.of(
+            PineconeConfig.class,
+            "pinecone.dimension",
+            "Vector dimension size",
+            "Dimension",
+            null,
+            "integer",
+            true,
+            ConfigTag.COMMON);
+    public static final ConfigModule CLOUD = ConfigModule.of(
+            PineconeConfig.class,
+            "pinecone.cloud",
+            "Cloud provider (e.g., aws, gcp, azure)",
+            "Cloud",
+            null,
+            "string",
+            true,
+            ConfigTag.COMMON);
+    public static final ConfigModule REGION = ConfigModule.of(
+            PineconeConfig.class,
+            "pinecone.region",
+            "Cloud region for the index",
+            "Region",
+            null,
+            "string",
+            true,
+            ConfigTag.COMMON);
+    public static final ConfigModule DELETION_PROTECTION = ConfigModule.of(
+            PineconeConfig.class,
+            "pinecone.deletion.protection",
+            "Enable deletion protection (ENABLED or DISABLED)",
+            "Deletion Protection",
+            "ENABLED",
+            "string",
+            false,
+            ConfigTag.ADVANCED);
 
     private static final Map<ConfigModule, ConfigEntry> CONFIG_MODULES = new ConcurrentHashMap<>();
 

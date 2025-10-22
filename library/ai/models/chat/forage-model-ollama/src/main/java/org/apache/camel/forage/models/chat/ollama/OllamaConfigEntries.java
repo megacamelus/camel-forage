@@ -7,17 +7,90 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.apache.camel.forage.core.util.config.ConfigEntries;
 import org.apache.camel.forage.core.util.config.ConfigEntry;
 import org.apache.camel.forage.core.util.config.ConfigModule;
+import org.apache.camel.forage.core.util.config.ConfigTag;
 
 public final class OllamaConfigEntries extends ConfigEntries {
-    public static final ConfigModule BASE_URL = ConfigModule.of(OllamaConfig.class, "ollama.base.url");
-    public static final ConfigModule MODEL_NAME = ConfigModule.of(OllamaConfig.class, "ollama.model.name");
-    public static final ConfigModule TEMPERATURE = ConfigModule.of(OllamaConfig.class, "ollama.temperature");
-    public static final ConfigModule TOP_K = ConfigModule.of(OllamaConfig.class, "ollama.top.k");
-    public static final ConfigModule TOP_P = ConfigModule.of(OllamaConfig.class, "ollama.top.p");
-    public static final ConfigModule MIN_P = ConfigModule.of(OllamaConfig.class, "ollama.min.p");
-    public static final ConfigModule NUM_CTX = ConfigModule.of(OllamaConfig.class, "ollama.num.ctx");
-    public static final ConfigModule LOG_REQUESTS = ConfigModule.of(OllamaConfig.class, "ollama.log.requests");
-    public static final ConfigModule LOG_RESPONSES = ConfigModule.of(OllamaConfig.class, "ollama.log.responses");
+    public static final ConfigModule BASE_URL = ConfigModule.of(
+            OllamaConfig.class,
+            "ollama.base.url",
+            "The base URL of the Ollama server",
+            "Base URL",
+            "http://localhost:11434",
+            "string",
+            false,
+            ConfigTag.COMMON);
+    public static final ConfigModule MODEL_NAME = ConfigModule.of(
+            OllamaConfig.class,
+            "ollama.model.name",
+            "The Ollama model to use",
+            "Model Name",
+            "llama3",
+            "string",
+            false,
+            ConfigTag.COMMON);
+    public static final ConfigModule TEMPERATURE = ConfigModule.of(
+            OllamaConfig.class,
+            "ollama.temperature",
+            "Temperature for response randomness (0.0-2.0)",
+            "Temperature",
+            null,
+            "double",
+            false,
+            ConfigTag.COMMON);
+    public static final ConfigModule TOP_K = ConfigModule.of(
+            OllamaConfig.class,
+            "ollama.top.k",
+            "Top-K sampling parameter",
+            "Top K",
+            null,
+            "integer",
+            false,
+            ConfigTag.ADVANCED);
+    public static final ConfigModule TOP_P = ConfigModule.of(
+            OllamaConfig.class,
+            "ollama.top.p",
+            "Top-P (nucleus) sampling parameter (0.0-1.0)",
+            "Top P",
+            null,
+            "double",
+            false,
+            ConfigTag.ADVANCED);
+    public static final ConfigModule MIN_P = ConfigModule.of(
+            OllamaConfig.class,
+            "ollama.min.p",
+            "Minimum probability threshold (0.0-1.0)",
+            "Min P",
+            null,
+            "double",
+            false,
+            ConfigTag.ADVANCED);
+    public static final ConfigModule NUM_CTX = ConfigModule.of(
+            OllamaConfig.class,
+            "ollama.num.ctx",
+            "Context window size",
+            "Context Size",
+            null,
+            "integer",
+            false,
+            ConfigTag.COMMON);
+    public static final ConfigModule LOG_REQUESTS = ConfigModule.of(
+            OllamaConfig.class,
+            "ollama.log.requests",
+            "Enable request logging",
+            "Log Requests",
+            null,
+            "boolean",
+            false,
+            ConfigTag.ADVANCED);
+    public static final ConfigModule LOG_RESPONSES = ConfigModule.of(
+            OllamaConfig.class,
+            "ollama.log.responses",
+            "Enable response logging",
+            "Log Responses",
+            null,
+            "boolean",
+            false,
+            ConfigTag.ADVANCED);
 
     private static final Map<ConfigModule, ConfigEntry> CONFIG_MODULES = new ConcurrentHashMap<>();
 

@@ -85,7 +85,6 @@ import org.apache.camel.forage.core.util.config.MissingConfigException;
  */
 public class OpenAIConfig implements Config {
 
-    private static final String DEFAULT_MODEL_NAME = "gpt-3.5-turbo";
     private final String prefix;
 
     /**
@@ -193,7 +192,7 @@ public class OpenAIConfig implements Config {
      * @return the OpenAI model name, never null
      */
     public String modelName() {
-        return ConfigStore.getInstance().get(MODEL_NAME.asNamed(prefix)).orElse(DEFAULT_MODEL_NAME);
+        return ConfigStore.getInstance().get(MODEL_NAME.asNamed(prefix)).orElse(MODEL_NAME.defaultValue());
     }
 
     /**

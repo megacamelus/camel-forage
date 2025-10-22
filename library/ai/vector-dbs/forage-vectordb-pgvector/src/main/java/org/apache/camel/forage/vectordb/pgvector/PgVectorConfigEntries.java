@@ -7,23 +7,117 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.apache.camel.forage.core.util.config.ConfigEntries;
 import org.apache.camel.forage.core.util.config.ConfigEntry;
 import org.apache.camel.forage.core.util.config.ConfigModule;
+import org.apache.camel.forage.core.util.config.ConfigTag;
 
 public final class PgVectorConfigEntries extends ConfigEntries {
-    public static final ConfigModule HOST = ConfigModule.of(PgVectorConfig.class, "pgvector.host");
-    public static final ConfigModule PORT = ConfigModule.of(PgVectorConfig.class, "pgvector.port");
-    public static final ConfigModule USER = ConfigModule.of(PgVectorConfig.class, "pgvector.user");
-    public static final ConfigModule PASSWORD = ConfigModule.of(PgVectorConfig.class, "pgvector.password");
-    public static final ConfigModule DATABASE = ConfigModule.of(PgVectorConfig.class, "pgvector.database");
-    public static final ConfigModule TABLE = ConfigModule.of(PgVectorConfig.class, "pgvector.table");
-    public static final ConfigModule DIMENSION = ConfigModule.of(PgVectorConfig.class, "pgvector.dimension");
-    public static final ConfigModule USE_INDEX = ConfigModule.of(PgVectorConfig.class, "pgvector.use.index");
-    public static final ConfigModule INDEX_LIST_SIZE =
-            ConfigModule.of(PgVectorConfig.class, "pgvector.index.list.size");
-    public static final ConfigModule CREATE_TABLE = ConfigModule.of(PgVectorConfig.class, "pgvector.create.table");
-    public static final ConfigModule DROP_TABLE_FIRST =
-            ConfigModule.of(PgVectorConfig.class, "pgvector.drop.table.first");
-    public static final ConfigModule METADATA_STORAGE_CONFIG =
-            ConfigModule.of(PgVectorConfig.class, "pgvector.metadata.storage.config");
+    public static final ConfigModule HOST = ConfigModule.of(
+            PgVectorConfig.class,
+            "pgvector.host",
+            "PostgreSQL server host address",
+            "Host",
+            null,
+            "string",
+            true,
+            ConfigTag.COMMON);
+    public static final ConfigModule PORT = ConfigModule.of(
+            PgVectorConfig.class,
+            "pgvector.port",
+            "PostgreSQL server port number",
+            "Port",
+            null,
+            "integer",
+            true,
+            ConfigTag.COMMON);
+    public static final ConfigModule USER = ConfigModule.of(
+            PgVectorConfig.class,
+            "pgvector.user",
+            "Database username",
+            "User",
+            null,
+            "string",
+            true,
+            ConfigTag.SECURITY);
+    public static final ConfigModule PASSWORD = ConfigModule.of(
+            PgVectorConfig.class,
+            "pgvector.password",
+            "Database password",
+            "Password",
+            null,
+            "password",
+            true,
+            ConfigTag.SECURITY);
+    public static final ConfigModule DATABASE = ConfigModule.of(
+            PgVectorConfig.class,
+            "pgvector.database",
+            "Database name",
+            "Database",
+            null,
+            "string",
+            true,
+            ConfigTag.COMMON);
+    public static final ConfigModule TABLE = ConfigModule.of(
+            PgVectorConfig.class,
+            "pgvector.table",
+            "Table name for storing vectors",
+            "Table",
+            null,
+            "string",
+            true,
+            ConfigTag.COMMON);
+    public static final ConfigModule DIMENSION = ConfigModule.of(
+            PgVectorConfig.class,
+            "pgvector.dimension",
+            "Vector dimension size",
+            "Dimension",
+            null,
+            "integer",
+            true,
+            ConfigTag.COMMON);
+    public static final ConfigModule USE_INDEX = ConfigModule.of(
+            PgVectorConfig.class,
+            "pgvector.use.index",
+            "Enable vector index for faster search",
+            "Use Index",
+            "false",
+            "boolean",
+            false,
+            ConfigTag.ADVANCED);
+    public static final ConfigModule INDEX_LIST_SIZE = ConfigModule.of(
+            PgVectorConfig.class,
+            "pgvector.index.list.size",
+            "Index list size for IVFFlat index",
+            "Index List Size",
+            "100",
+            "integer",
+            false,
+            ConfigTag.ADVANCED);
+    public static final ConfigModule CREATE_TABLE = ConfigModule.of(
+            PgVectorConfig.class,
+            "pgvector.create.table",
+            "Automatically create table if it does not exist",
+            "Create Table",
+            "true",
+            "boolean",
+            false,
+            ConfigTag.ADVANCED);
+    public static final ConfigModule DROP_TABLE_FIRST = ConfigModule.of(
+            PgVectorConfig.class,
+            "pgvector.drop.table.first",
+            "Drop table before creating (for testing)",
+            "Drop Table First",
+            "false",
+            "boolean",
+            false,
+            ConfigTag.ADVANCED);
+    public static final ConfigModule METADATA_STORAGE_CONFIG = ConfigModule.of(
+            PgVectorConfig.class,
+            "pgvector.metadata.storage.config",
+            "Metadata storage configuration",
+            "Metadata Storage Config",
+            null,
+            "string",
+            false,
+            ConfigTag.ADVANCED);
 
     private static final Map<ConfigModule, ConfigEntry> CONFIG_MODULES = new ConcurrentHashMap<>();
 

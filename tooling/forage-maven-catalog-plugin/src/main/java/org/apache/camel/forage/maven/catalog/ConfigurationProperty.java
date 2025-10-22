@@ -25,6 +25,12 @@ public class ConfigurationProperty {
     @JsonProperty("example")
     private String example;
 
+    @JsonProperty("label")
+    private String label;
+
+    @JsonProperty("configTag")
+    private String configTag;
+
     public ConfigurationProperty() {}
 
     public ConfigurationProperty(String name, String type, String description, boolean required) {
@@ -80,5 +86,21 @@ public class ConfigurationProperty {
 
     public void setExample(String example) {
         this.example = example;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
+    }
+
+    public String getConfigTag() {
+        return configTag;
+    }
+
+    public void setConfigTag(String configTag) {
+        this.configTag = configTag;
     }
 }

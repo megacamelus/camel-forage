@@ -47,11 +47,44 @@ public class ConfigModule {
     private final Class<? extends Config> config;
     private final String name;
     private final String prefix;
+    private final String description;
+    private final String label;
+    private final String defaultValue;
+    private final String type;
+    private final boolean required;
+    private final ConfigTag configTag;
 
     public ConfigModule(Class<? extends Config> config, String name, String prefix) {
         this.config = config;
         this.name = name;
         this.prefix = prefix;
+        this.description = null;
+        this.label = null;
+        this.defaultValue = null;
+        this.type = null;
+        this.required = false;
+        this.configTag = null;
+    }
+
+    public ConfigModule(
+            Class<? extends Config> config,
+            String name,
+            String prefix,
+            String description,
+            String label,
+            String defaultValue,
+            String type,
+            boolean required,
+            ConfigTag configTag) {
+        this.config = config;
+        this.name = name;
+        this.prefix = prefix;
+        this.description = description;
+        this.label = label;
+        this.defaultValue = defaultValue;
+        this.type = type;
+        this.required = required;
+        this.configTag = configTag;
     }
 
     /**
@@ -67,6 +100,18 @@ public class ConfigModule {
      */
     public static ConfigModule of(Class<? extends Config> config, String name) {
         return new ConfigModule(config, name, null);
+    }
+
+    public static ConfigModule of(
+            Class<? extends Config> config,
+            String name,
+            String description,
+            String label,
+            String defaultValue,
+            String type,
+            boolean required,
+            ConfigTag configTag) {
+        return new ConfigModule(config, name, null, description, label, defaultValue, type, required, configTag);
     }
 
     /**
@@ -140,6 +185,30 @@ public class ConfigModule {
 
     public Class<? extends Config> config() {
         return config;
+    }
+
+    public String description() {
+        return description;
+    }
+
+    public String label() {
+        return label;
+    }
+
+    public String defaultValue() {
+        return defaultValue;
+    }
+
+    public String type() {
+        return type;
+    }
+
+    public boolean required() {
+        return required;
+    }
+
+    public ConfigTag configTag() {
+        return configTag;
     }
 
     @Override

@@ -123,7 +123,7 @@ public class RedisConfig implements Config {
      * @return the Redis server hostname, defaults to "localhost" if not configured
      */
     public String host() {
-        return ConfigStore.getInstance().get(HOST.asNamed(prefix)).orElse("localhost");
+        return ConfigStore.getInstance().get(HOST.asNamed(prefix)).orElse(HOST.defaultValue());
     }
 
     /**
@@ -142,7 +142,7 @@ public class RedisConfig implements Config {
                         throw new IllegalArgumentException("Invalid Redis port number: " + value, e);
                     }
                 })
-                .orElse(6379);
+                .orElse(Integer.parseInt(PORT.defaultValue()));
     }
 
     /**
@@ -151,7 +151,7 @@ public class RedisConfig implements Config {
      * @return the Redis password, or {@code null} if no authentication is required
      */
     public String password() {
-        return ConfigStore.getInstance().get(PASSWORD.asNamed(prefix)).orElse(null);
+        return ConfigStore.getInstance().get(PASSWORD.asNamed(prefix)).orElse(PASSWORD.defaultValue());
     }
 
     /**
@@ -170,7 +170,7 @@ public class RedisConfig implements Config {
                         throw new IllegalArgumentException("Invalid Redis database number: " + value, e);
                     }
                 })
-                .orElse(0);
+                .orElse(Integer.parseInt(DATABASE.defaultValue()));
     }
 
     /**
@@ -189,7 +189,7 @@ public class RedisConfig implements Config {
                         throw new IllegalArgumentException("Invalid Redis timeout value: " + value, e);
                     }
                 })
-                .orElse(2000);
+                .orElse(Integer.parseInt(TIMEOUT.defaultValue()));
     }
 
     /**
@@ -208,7 +208,7 @@ public class RedisConfig implements Config {
                         throw new IllegalArgumentException("Invalid Redis pool max-total value: " + value, e);
                     }
                 })
-                .orElse(10);
+                .orElse(Integer.parseInt(POOL_MAX_TOTAL.defaultValue()));
     }
 
     /**
@@ -227,7 +227,7 @@ public class RedisConfig implements Config {
                         throw new IllegalArgumentException("Invalid Redis pool max-idle value: " + value, e);
                     }
                 })
-                .orElse(5);
+                .orElse(Integer.parseInt(POOL_MAX_IDLE.defaultValue()));
     }
 
     /**
@@ -246,7 +246,7 @@ public class RedisConfig implements Config {
                         throw new IllegalArgumentException("Invalid Redis pool min-idle value: " + value, e);
                     }
                 })
-                .orElse(1);
+                .orElse(Integer.parseInt(POOL_MIN_IDLE.defaultValue()));
     }
 
     /**
@@ -265,7 +265,7 @@ public class RedisConfig implements Config {
                     throw new IllegalArgumentException(
                             "Invalid Redis pool test-on-borrow value: " + value + " (must be true or false)");
                 })
-                .orElse(true);
+                .orElse(Boolean.parseBoolean(POOL_TEST_ON_BORROW.defaultValue()));
     }
 
     /**
@@ -284,7 +284,7 @@ public class RedisConfig implements Config {
                     throw new IllegalArgumentException(
                             "Invalid Redis pool test-on-return value: " + value + " (must be true or false)");
                 })
-                .orElse(true);
+                .orElse(Boolean.parseBoolean(POOL_TEST_ON_RETURN.defaultValue()));
     }
 
     /**
@@ -303,7 +303,7 @@ public class RedisConfig implements Config {
                     throw new IllegalArgumentException(
                             "Invalid Redis pool test-while-idle value: " + value + " (must be true or false)");
                 })
-                .orElse(true);
+                .orElse(Boolean.parseBoolean(POOL_TEST_WHILE_IDLE.defaultValue()));
     }
 
     /**
@@ -322,7 +322,7 @@ public class RedisConfig implements Config {
                         throw new IllegalArgumentException("Invalid Redis pool max-wait-millis value: " + value, e);
                     }
                 })
-                .orElse(2000);
+                .orElse(Integer.parseInt(POOL_MAX_WAIT_MILLIS.defaultValue()));
     }
 
     /**
