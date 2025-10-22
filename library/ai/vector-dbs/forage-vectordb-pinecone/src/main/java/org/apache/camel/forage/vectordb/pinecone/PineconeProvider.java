@@ -45,7 +45,7 @@ import org.slf4j.LoggerFactory;
 @ForageBean(
         value = "pinecone",
         components = {"camel-langchain4j-embeddings"},
-        description = "Pinecone managed vector database provider")
+        description = "Pinecone managed vector database service")
 public class PineconeProvider implements EmbeddingStoreProvider {
     private static final Logger LOG = LoggerFactory.getLogger(PineconeProvider.class);
 

@@ -46,7 +46,7 @@ import org.slf4j.LoggerFactory;
 @ForageBean(
         value = "qdrant",
         components = {"camel-langchain4j-embeddings"},
-        description = "Qdrant vector database provider")
+        description = "Qdrant vector database")
 public class QdrantProvider implements EmbeddingStoreProvider {
     private static final Logger LOG = LoggerFactory.getLogger(QdrantProvider.class);
 

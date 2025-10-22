@@ -50,7 +50,7 @@ import org.slf4j.LoggerFactory;
 @ForageBean(
         value = "neo4j",
         components = {"camel-langchain4j-embeddings"},
-        description = "Neo4j database provider")
+        description = "Neo4j graph database with vector support")
 public class Neo4jProvider implements EmbeddingStoreProvider {
     private static final Logger LOG = LoggerFactory.getLogger(Neo4jProvider.class);
 

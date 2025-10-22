@@ -37,4 +37,12 @@ public @interface ForageBean {
      * @return the bean description
      */
     String description() default "";
+
+    /**
+     * Group different features for the same components
+     * for example, camel-langchain4j-agent "Chat Model" and "Memory"
+     *
+     * @return
+     */
+    String feature() default "";
 }

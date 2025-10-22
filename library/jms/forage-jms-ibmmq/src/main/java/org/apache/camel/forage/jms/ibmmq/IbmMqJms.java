@@ -17,7 +17,7 @@ import org.apache.camel.forage.jms.common.PooledConnectionFactory;
 @ForageBean(
         value = "ibmmq",
         components = {"camel-jms"},
-        description = "IBM MQ JMS ConnectionFactory Provider")
+        description = "IBM MQ message broker")
 public class IbmMqJms extends PooledConnectionFactory {
 
     @Override

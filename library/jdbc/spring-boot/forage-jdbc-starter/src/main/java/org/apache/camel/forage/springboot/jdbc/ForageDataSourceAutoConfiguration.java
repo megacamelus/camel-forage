@@ -35,7 +35,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @ForageFactory(
         value = "CamelSpringBootDataSourceFactory",
-        components = {"camel-sql", "camel-jdbc", "camel-spring-jdbc"},
+        components = {"camel-sql"},
         description = "Default Spring Boot DataSource factory with ServiceLoader discovery",
         factoryType = "DataSource",
         autowired = true)

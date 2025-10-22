@@ -12,7 +12,7 @@ import org.apache.camel.forage.jdbc.common.PooledDataSource;
 @ForageBean(
         value = "mssql",
         components = {"camel-sql", "camel-jdbc", "camel-spring-jdbc"},
-        description = "MSSQL database DataSource Provider")
+        description = "Microsoft SQL Server database")
 public class MssqlJdbc extends PooledDataSource {
 
     @Override

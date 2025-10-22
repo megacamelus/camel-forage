@@ -28,7 +28,8 @@ import org.slf4j.LoggerFactory;
 @ForageBean(
         value = "dashscope",
         components = {"camel-langchain4j-agent"},
-        description = "Alibaba Dashscope Qwen chat model provider (placeholder)")
+        feature = "Chat Model",
+        description = "Alibaba Cloud Qwen models via DashScope (placeholder)")
 public class DashscopeProvider implements ModelProvider {
     private static final Logger LOG = LoggerFactory.getLogger(DashscopeProvider.class);
 

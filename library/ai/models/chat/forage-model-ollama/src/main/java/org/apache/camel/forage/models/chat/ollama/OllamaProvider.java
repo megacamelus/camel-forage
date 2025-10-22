@@ -41,7 +41,8 @@ import org.slf4j.LoggerFactory;
 @ForageBean(
         value = "ollama",
         components = {"camel-langchain4j-agent"},
-        description = "Ollama local chat model provider")
+        feature = "Chat Model",
+        description = "Locally-hosted models via Ollama (Llama, Mistral, etc.)")
 public class OllamaProvider implements ModelProvider {
     private static final Logger LOG = LoggerFactory.getLogger(OllamaProvider.class);
 

@@ -47,7 +47,8 @@ import org.slf4j.LoggerFactory;
 @ForageBean(
         value = "watsonx-ai",
         components = {"camel-langchain4j-agent"},
-        description = "IBM Watsonx.ai chat model provider")
+        feature = "Chat Model",
+        description = "IBM Watsonx.ai models")
 public class WatsonxAiProvider implements ModelProvider {
     private static final Logger LOG = LoggerFactory.getLogger(WatsonxAiProvider.class);
 

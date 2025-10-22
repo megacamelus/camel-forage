@@ -12,7 +12,7 @@ import org.apache.camel.forage.jdbc.common.PooledDataSource;
 @ForageBean(
         value = "mysql",
         components = {"camel-sql", "camel-jdbc", "camel-spring-jdbc"},
-        description = "MySQL database DataSource Provider")
+        description = "MySQL database")
 public class MysqlJdbc extends PooledDataSource {
 
     @Override

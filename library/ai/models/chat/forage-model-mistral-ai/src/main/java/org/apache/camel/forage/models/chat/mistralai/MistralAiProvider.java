@@ -43,7 +43,8 @@ import org.slf4j.LoggerFactory;
 @ForageBean(
         value = "mistral-ai",
         components = {"camel-langchain4j-agent"},
-        description = "MistralAI chat model provider")
+        feature = "Chat Model",
+        description = "Mistral AI models")
 public class MistralAiProvider implements ModelProvider {
     private static final Logger LOG = LoggerFactory.getLogger(MistralAiProvider.class);
 

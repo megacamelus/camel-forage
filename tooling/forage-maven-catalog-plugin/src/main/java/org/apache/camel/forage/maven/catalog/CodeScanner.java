@@ -271,6 +271,7 @@ public class CodeScanner {
         String name = "";
         List<String> components = new ArrayList<>();
         String description = "";
+        String feature = "";
 
         // Extract annotation values
         if (annotation instanceof SingleMemberAnnotationExpr) {
@@ -298,6 +299,11 @@ public class CodeScanner {
                             description = ((StringLiteralExpr) value).asString();
                         }
                         break;
+                    case "feature":
+                        if (value instanceof StringLiteralExpr) {
+                            feature = ((StringLiteralExpr) value).asString();
+                        }
+                        break;
                 }
             }
         }
@@ -305,7 +311,7 @@ public class CodeScanner {
         // Get the fully qualified class name
         String className = getFullyQualifiedClassName(classDecl, cu);
 
-        return new ForgeBeanInfo(name, components, description, className);
+        return new ForgeBeanInfo(name, components, description, className, feature);
     }
 
     /**

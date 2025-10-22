@@ -45,7 +45,8 @@ import org.slf4j.LoggerFactory;
 @ForageBean(
         value = "infinispan",
         components = {"camel-langchain4j-agent"},
-        description = "Infinispan distributed chat memory factory")
+        feature = "Memory",
+        description = "Distributed storage using Infinispan")
 public class InfinispanMemoryBeanProvider implements ChatMemoryBeanProvider {
     private static final Logger LOG = LoggerFactory.getLogger(InfinispanMemoryBeanProvider.class);
     private static final int DEFAULT_MAX_MESSAGES = 10;

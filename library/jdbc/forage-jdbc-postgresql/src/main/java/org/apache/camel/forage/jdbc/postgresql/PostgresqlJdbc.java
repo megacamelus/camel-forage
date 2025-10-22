@@ -12,7 +12,7 @@ import org.postgresql.xa.PGXADataSource;
 @ForageBean(
         value = "postgresql",
         components = {"camel-sql", "camel-jdbc", "camel-spring-jdbc"},
-        description = "Postgresql database DataSource Provider")
+        description = "PostgreSQL database")
 public class PostgresqlJdbc extends PooledDataSource {
 
     @Override

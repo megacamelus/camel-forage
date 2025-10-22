@@ -12,7 +12,7 @@ import org.apache.camel.forage.jdbc.common.PooledDataSource;
 @ForageBean(
         value = "db2",
         components = {"camel-sql", "camel-jdbc", "camel-spring-jdbc"},
-        description = "DB2 database DataSource Provider")
+        description = "IBM DB2 database")
 public class Db2Jdbc extends PooledDataSource {
 
     @Override
