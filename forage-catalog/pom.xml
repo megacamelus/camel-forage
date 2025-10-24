@@ -200,6 +200,11 @@
             <artifactId>forage-jms-ibmmq</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.camel.forage</groupId>
+            <artifactId>forage-jms-starter</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
