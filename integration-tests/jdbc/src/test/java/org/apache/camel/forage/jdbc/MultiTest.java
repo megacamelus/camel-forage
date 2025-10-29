@@ -62,6 +62,7 @@ public class MultiTest implements TestActionSupport, ForageIntegrationTest {
 
     @Override
     public void runBeforeAll(TestCaseRunner runner, Consumer<AutoCloseable> afterAll) {
+
         runner.when((camel())
                 .jbang()
                 .custom("forage", "run")

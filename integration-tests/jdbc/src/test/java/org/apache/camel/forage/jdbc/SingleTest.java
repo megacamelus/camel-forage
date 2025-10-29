@@ -25,6 +25,7 @@ import org.citrusframework.annotations.CitrusTest;
 import org.citrusframework.junit.jupiter.CitrusSupport;
 import org.citrusframework.spi.Resources;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -32,6 +33,7 @@ import org.testcontainers.utility.DockerImageName;
 
 @CitrusSupport
 @Testcontainers
+@ExtendWith(IntegrationTestSetupExtension.class)
 public class SingleTest implements TestActionSupport {
 
     @Container
@@ -46,7 +48,7 @@ public class SingleTest implements TestActionSupport {
     @Test
     @CitrusTest()
     public void singleIT(@CitrusResource GherkinTestActionRunner runner) {
-        // running jbang forage run with required resources and required runtime
+        //         running jbang forage run with required resources and required runtime
         runner.when(camel().jbang()
                 .custom("forage", "run")
                 .processName("route")

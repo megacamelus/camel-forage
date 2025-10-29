@@ -2,7 +2,9 @@ package org.apache.camel.forage.integration.tests;
 
 import java.util.ArrayList;
 import java.util.Map;
+import org.citrusframework.TestActionBuilder;
 import org.citrusframework.TestCaseRunner;
+import org.citrusframework.camel.actions.CamelActionBuilder;
 import org.citrusframework.context.TestContext;
 import org.citrusframework.junit.jupiter.CitrusExtensionHelper;
 import org.junit.jupiter.api.extension.AfterAllCallback;
@@ -44,6 +46,7 @@ public class IntegrationTestSetupExtension implements BeforeEachCallback, AfterA
     public void beforeEach(ExtensionContext context) throws Exception {
         if (!runBeforeAll) {
             runBeforeAll = true;
+            internalBeforeAll(context);
             runBeforeAll(context);
         }
         // save test context variables
@@ -81,5 +84,22 @@ public class IntegrationTestSetupExtension implements BeforeEachCallback, AfterA
             }
         });
         closeables.clear();
+    }
+
+    private void internalBeforeAll(ExtensionContext context) throws Exception {
+
+        TestCaseRunner runner = CitrusExtensionHelper.getTestRunner(context);
+        CamelActionBuilder camel =
+                (CamelActionBuilder) TestActionBuilder.lookup("camel").get();
+        // install forage plugin if needed
+        CitrusExtensionHelper.getTestRunner(context)
+                .when(camel.jbang()
+                        .plugin()
+                        .add()
+                        .pluginName("forage")
+                        .withArg("--artifactId", "camel-jbang-plugin-forage")
+                        .withArg("--groupId", "org.apache.camel.forage")
+                        .withArg("--version", "1.0-SNAPSHOT")
+                        .withArg("--gav", "org.apache.camel.forage:camel-jbang-plugin-forage:1.0-SNAPSHOT"));
     }
 }

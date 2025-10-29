@@ -22,6 +22,11 @@
         </dependency>
         <dependency>
             <groupId>org.citrusframework</groupId>
+            <artifactId>citrus-base</artifactId>
+            <version>${citrus.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.citrusframework</groupId>
             <artifactId>citrus-camel</artifactId>
             <version>${citrus.version}</version>
         </dependency>
@@ -51,4 +56,32 @@
         </dependency>
     </dependencies>
 
+
+    <profiles>
+        <profile>
+            <id>virtualDependencies</id>
+            <activation>
+                <property>
+                    <name>!noVirtualDependencies</name>
+                </property>
+            </activation>
+            <dependencies>
+                <!-- Integration tests require a lot of dependencies are required for forage plugin. Depending on the catalog
+                ensures that -->
+                <dependency>
+                    <groupId>org.apache.camel.forage</groupId>
+                    <artifactId>forage-catalog</artifactId>
+                    <version>${project.version}</version>
+                    <type>pom</type>
+                    <scope>test</scope>
+                    <exclusions>
+                        <exclusion>
+                            <groupId>*</groupId>
+                            <artifactId>*</artifactId>
+                        </exclusion>
+                    </exclusions>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
 </project>
