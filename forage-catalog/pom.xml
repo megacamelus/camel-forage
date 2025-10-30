@@ -138,6 +138,11 @@
             <artifactId>forage-jdbc-starter</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.camel.forage</groupId>
+            <artifactId>forage-quarkus-jdbc-configurer</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>org.apache.camel.forage</groupId>

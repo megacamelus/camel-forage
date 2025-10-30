@@ -2,7 +2,6 @@ package org.apache.camel.forage.integration.tests;
 
 import java.util.ArrayList;
 import java.util.Map;
-
 import org.apache.camel.forage.plugin.DataSourceExportHelper;
 import org.citrusframework.TestActionBuilder;
 import org.citrusframework.TestCaseRunner;
