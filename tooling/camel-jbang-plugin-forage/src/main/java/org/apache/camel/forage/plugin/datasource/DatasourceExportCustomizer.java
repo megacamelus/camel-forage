@@ -42,7 +42,8 @@ public class DatasourceExportCustomizer implements ExportCustomizer {
                         Arrays.asList(
                                 "mvn:org.apache.camel.forage:forage-jdbc-starter:"
                                         + DataSourceExportHelper.getProjectVersion(),
-                                "mvn:org.apache.camel.forage:forage-jdbc:" + DataSourceExportHelper.getProjectVersion()),
+                                "mvn:org.apache.camel.forage:forage-jdbc:"
+                                        + DataSourceExportHelper.getProjectVersion()),
                         "mvn:org.apache.camel.forage:forage-jdbc-",
                         ":" + DataSourceExportHelper.getProjectVersion(),
                         runtime);
@@ -50,8 +51,8 @@ public class DatasourceExportCustomizer implements ExportCustomizer {
             case main -> {
                 listDependencies(
                         dependencies,
-                        Collections.singletonList(
-                                "mvn:org.apache.camel.forage:forage-jdbc:" + DataSourceExportHelper.getProjectVersion()),
+                        Collections.singletonList("mvn:org.apache.camel.forage:forage-jdbc:"
+                                + DataSourceExportHelper.getProjectVersion()),
                         "mvn:org.apache.camel.forage:forage-jdbc-",
                         ":" + DataSourceExportHelper.getProjectVersion(),
                         runtime);
