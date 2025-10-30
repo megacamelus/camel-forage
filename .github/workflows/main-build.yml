@@ -31,4 +31,4 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build with Maven
-      run: mvn -B '-Dsurefire.rerunFailingTestsCount=2' '-Dci.env.name=github.com' package failsafe:integration-test failsafe:verify --file pom.xml
+      run: mvn -B '-Dsurefire.rerunFailingTestsCount=2' '-Dci.env.name=github.com' install failsafe:integration-test failsafe:verify --file pom.xml
