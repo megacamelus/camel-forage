@@ -13,7 +13,7 @@
     <name>Camel Forage :: Library :: JDBC :: Oracle</name>
 
     <properties>
-        <oracle.version>23.6.0.24.10</oracle.version>
+        <oracle.version>23.26.0.0.0</oracle.version>
     </properties>
 
     <dependencies>
