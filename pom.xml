@@ -27,7 +27,7 @@
         <spring-boot.version>3.5.5</spring-boot.version>
         <quarkus.version>3.26.4</quarkus.version>
         <microprofile.version>3.1</microprofile.version>
-        <smallrye.version>3.14.0</smallrye.version>
+        <smallrye.version>3.14.1</smallrye.version>
         <maven.version>3.9.11</maven.version>
         <maven-plugin-api.version>3.9.11</maven-plugin-api.version>
         <maven-plugin-annotations.version>3.15.1</maven-plugin-annotations.version>
