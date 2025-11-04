@@ -78,7 +78,7 @@
                 <!-- The following dependencies guarantee that this module is built after them. -->
                 <dependency>
                     <groupId>org.apache.camel.forage</groupId>
-                    <artifactId>forage-quarkus-jdbc-configurer</artifactId>
+                    <artifactId>forage-quarkus-jdbc-deployment</artifactId>
                     <version>${project.version}</version>
                     <type>pom</type>
                     <scope>test</scope>

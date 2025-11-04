@@ -4,6 +4,7 @@ import io.smallrye.config.SmallRyeConfig;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -264,5 +265,14 @@ public final class ConfigHelper {
 
         String valueList = valueHolder.get();
         return List.of(valueList.split(","));
+    }
+
+    /**
+     * Returns list of getter method, which are methods with no parameter and return type != void
+     */
+    public static List<Method> getGetterMethods(Class<?> type) {
+        return Arrays.stream(type.getDeclaredMethods())
+                .filter(m -> m.getParameterCount() == 0 && !m.getReturnType().equals(void.class))
+                .toList();
     }
 }

@@ -7,7 +7,7 @@ import org.apache.camel.forage.core.util.config.ConfigStore;
 import org.apache.camel.forage.jdbc.common.DataSourceFactoryConfig;
 import org.eclipse.microprofile.config.spi.ConfigSource;
 
-public class ForageDataSourceQuarkusConfigSource implements ConfigSource {
+public class ForageJdbcConfigSource implements ConfigSource {
 
     private static final Map<String, String> configuration = new HashMap<>();
 
@@ -103,6 +103,6 @@ public class ForageDataSourceQuarkusConfigSource implements ConfigSource {
 
     @Override
     public String getName() {
-        return ForageDataSourceQuarkusConfigSource.class.getSimpleName();
+        return ForageJdbcConfigSource.class.getSimpleName();
     }
 }

@@ -1,9 +1,7 @@
 package org.apache.camel.forage.plugin.datasource;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import org.apache.camel.forage.core.common.ExportCustomizer;
 import org.apache.camel.forage.core.common.RuntimeType;
@@ -30,8 +28,7 @@ public class DatasourceExportCustomizer implements ExportCustomizer {
             case quarkus -> {
                 listDependencies(
                         dependencies,
-                        Arrays.asList("mvn:org.apache.camel.forage:forage-quarkus-jdbc-configurer:"
-                                + DataSourceExportHelper.getProjectVersion()),
+                        DataSourceExportHelper.getQuarkusDependencies(),
                         "mvn:io.quarkus:quarkus-jdbc-",
                         ":" + DataSourceExportHelper.getQuarkusVersion(),
                         runtime);
@@ -39,11 +36,7 @@ public class DatasourceExportCustomizer implements ExportCustomizer {
             case springBoot -> {
                 listDependencies(
                         dependencies,
-                        Arrays.asList(
-                                "mvn:org.apache.camel.forage:forage-jdbc-starter:"
-                                        + DataSourceExportHelper.getProjectVersion(),
-                                "mvn:org.apache.camel.forage:forage-jdbc:"
-                                        + DataSourceExportHelper.getProjectVersion()),
+                        DataSourceExportHelper.getQSpringBootDependencies(),
                         "mvn:org.apache.camel.forage:forage-jdbc-",
                         ":" + DataSourceExportHelper.getProjectVersion(),
                         runtime);
@@ -51,8 +44,7 @@ public class DatasourceExportCustomizer implements ExportCustomizer {
             case main -> {
                 listDependencies(
                         dependencies,
-                        Collections.singletonList("mvn:org.apache.camel.forage:forage-jdbc:"
-                                + DataSourceExportHelper.getProjectVersion()),
+                        DataSourceExportHelper.getPlainDependencies(),
                         "mvn:org.apache.camel.forage:forage-jdbc-",
                         ":" + DataSourceExportHelper.getProjectVersion(),
                         runtime);
@@ -64,11 +56,11 @@ public class DatasourceExportCustomizer implements ExportCustomizer {
 
     private static void listDependencies(
             Set<String> dependencies,
-            List<String> newDependencies,
+            String basicDependencies,
             String depPrefix,
             String depVersion,
             RuntimeType runtime) {
-        dependencies.addAll(newDependencies);
+        dependencies.addAll(Arrays.asList(basicDependencies.split(",")));
 
         try {
             DataSourceFactoryConfig config = new DataSourceFactoryConfig();

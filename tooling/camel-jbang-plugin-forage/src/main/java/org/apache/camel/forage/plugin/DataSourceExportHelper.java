@@ -49,6 +49,32 @@ public final class DataSourceExportHelper {
     }
 
     /**
+     * Gets the plain dependencies from the versions.properties file. (which is populated during buildtime)
+     *
+     * @return the project version
+     */
+    public static String getPlainDependencies() {
+        return getString("plain.dependencies", "Could not determine dependencies from properties file.");
+    }
+    /**
+     * Gets the spring-boot dependencies from the versions.properties file. (which is populated during buildtime)
+     *
+     * @return the project version
+     */
+    public static String getQSpringBootDependencies() {
+        return getString(
+                "springBoot.dependencies", "Could not determine spring-boot dependencies from properties file.");
+    }
+    /**
+     * Gets the quarkus dependencies from the versions.properties file. (which is populated during buildtime)
+     *
+     * @return the project version
+     */
+    public static String getQuarkusDependencies() {
+        return getString("quarkus.dependencies", "Could not determine quarkus dependencies from properties file.");
+    }
+
+    /**
      * Reads property from the file versions.properties (which contains build time resolved versions)
      */
     private static String getString(String key, String error) {
