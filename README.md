@@ -83,7 +83,16 @@ The `org.apache.camel.forage.agent.factory.DefaultAgentFactory` class is a facto
 - **forage-memory-message-window** - Message window chat memory with persistent storage
 
 #### Vector Databases
-- **vector-dbs** - Vector database integrations (coming soon)
+- **forage-vectordb-default** - Core vector database functionality
+- **forage-vectordb-chroma** - Chroma vector database provider
+- **forage-vectordb-infinispan** - Infinispan vector database provider
+- **forage-vectordb-mariadb** - MariaDB vector database provider
+- **forage-vectordb-milvus** - Milvus vector database provider
+- **forage-vectordb-neo4j** - Neo4j vector database provider
+- **forage-vectordb-pgvector** - Postgres Vector vector database provider
+- **forage-vectordb-qdrant** - Qdrant vector database provider
+- **forage-vectordb-redis** - Redis vector database provider
+- **forage-vectordb-weaviate** - Weaviate vector database prodiver
 
 #### Embeddings
 - **embeddings** - Embedding model providers (coming soon)
