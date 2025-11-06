@@ -11,6 +11,11 @@
     <name>Camel Forage</name>
 
     <properties>
+        <camel.version>4.16.0</camel.version>
+        <langchain4j-version>1.7.1</langchain4j-version>
+        <langchain4j-beta-version>1.6.0-beta12</langchain4j-beta-version>
+        <langchain4j-community-version>1.6.0-beta12</langchain4j-community-version>
+
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -160,50 +165,19 @@
         </plugins>
     </build>
 
-    <profiles>
-        <profile>
-            <id>camel-current</id>
-            <activation>
-                <property>
-                    <name>camel-current</name>
-                </property>
-            </activation>
-            <properties>
-                <camel.version>4.15.0</camel.version>
-                <langchain4j-version>1.6.0</langchain4j-version>
-                <langchain4j-beta-version>1.6.0-beta12</langchain4j-beta-version>
-                <langchain4j-community-version>1.6.0-beta12</langchain4j-community-version>
-            </properties>
-        </profile>
-        <profile>
-            <id>camel-next</id>
-            <activation>
-                <property>
-                    <name>!camel-current</name>
-                </property>
-            </activation>
-            <properties>
-                <camel.version>4.16.0-SNAPSHOT</camel.version>
-                <langchain4j-version>1.7.1</langchain4j-version>
-                <langchain4j-beta-version>1.6.0-beta12</langchain4j-beta-version>
-                <langchain4j-community-version>1.6.0-beta12</langchain4j-community-version>
-            </properties>
 
-            <repositories>
-                <repository>
-                    <id>apache.snapshots</id>
-                    <name>Apache Snapshot Repository</name>
-                    <url>https://repository.apache.org/snapshots</url>
-                    <releases>
-                        <enabled>false</enabled>
-                    </releases>
-                    <snapshots>
-                        <enabled>true</enabled>
-                    </snapshots>
-                </repository>
-            </repositories>
-        </profile>
-
-    </profiles>
+    <repositories>
+        <repository>
+            <id>apache.snapshots</id>
+            <name>Apache Snapshot Repository</name>
+            <url>https://repository.apache.org/snapshots</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 
 </project>

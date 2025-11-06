@@ -17,22 +17,9 @@
     <modules>
         <module>ai</module>
         <module>common</module>
+        <module>jdbc</module>
+        <module>jms</module>
         <module>vertx</module>
     </modules>
-
-    <profiles>
-        <profile>
-            <id>camel-next</id>
-            <activation>
-                <property>
-                    <name>!camel-lts</name>
-                </property>
-            </activation>
-            <modules>
-                <module>jdbc</module>
-                <module>jms</module>
-            </modules>
-        </profile>
-    </profiles>
 
 </project>
