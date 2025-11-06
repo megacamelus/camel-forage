@@ -13,8 +13,8 @@
     <name>Camel Forage :: Library :: Cloud :: Azure Event Hubs</name>
 
     <properties>
-        <azure.messaging.eventhubs.version>5.18.0</azure.messaging.eventhubs.version>
-        <azure.identity.version>1.11.0</azure.identity.version>
+        <azure.messaging.eventhubs.version>5.21.2</azure.messaging.eventhubs.version>
+        <azure.identity.version>1.18.1</azure.identity.version>
     </properties>
 
     <dependencies>
