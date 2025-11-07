@@ -41,7 +41,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <quarkus.version>3.29.0</quarkus.version>
         <slf4j.version>2.0.17</slf4j.version>
-        <smallrye.version>3.14.0</smallrye.version>
+        <smallrye.version>3.14.1</smallrye.version>
         <spotless.version>2.46.1</spotless.version>
         <spring-boot.version>3.5.5</spring-boot.version>
         <spring.version>6.2.11</spring.version>
