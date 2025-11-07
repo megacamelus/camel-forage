@@ -12,11 +12,6 @@
     <artifactId>forage-azure-eventhubs</artifactId>
     <name>Camel Forage :: Library :: Cloud :: Azure Event Hubs</name>
 
-    <properties>
-        <azure.messaging.eventhubs.version>5.21.2</azure.messaging.eventhubs.version>
-        <azure.identity.version>1.18.1</azure.identity.version>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.apache.camel.forage</groupId>

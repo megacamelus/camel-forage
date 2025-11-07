@@ -13,10 +13,6 @@
     <name>Camel Forage :: Core :: Cloud</name>
     <description>Core interfaces and utilities for cloud service providers</description>
 
-    <properties>
-        <azure.messaging.eventhubs.version>5.18.0</azure.messaging.eventhubs.version>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.apache.camel.forage</groupId>
