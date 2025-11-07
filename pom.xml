@@ -16,38 +16,38 @@
         <langchain4j-beta-version>1.6.0-beta12</langchain4j-beta-version>
         <langchain4j-community-version>1.6.0-beta12</langchain4j-community-version>
 
+        <agroal.version>2.8</agroal.version>
+        <assertj-core.version>3.27.4</assertj-core.version>
+        <azure.identity.version>1.18.1</azure.identity.version>
+        <azure.messaging.eventhubs.version>5.21.2</azure.messaging.eventhubs.version>
+        <citrus.version>4.8.2</citrus.version>
+        <jackson.version>2.15.2</jackson.version>
+        <javaparser.version>3.27.1</javaparser.version>
+        <junit-jupiter-suite.version>1.13.4</junit-jupiter-suite.version>
+        <junit-jupiter.version>5.13.4</junit-jupiter.version>
+        <log4j.version>2.25.2</log4j.version>
+        <maven-plugin-annotations.version>3.15.1</maven-plugin-annotations.version>
+        <maven-plugin-api.version>3.9.11</maven-plugin-api.version>
+        <maven-plugin-plugin.version>3.8.1</maven-plugin-plugin.version>
+        <maven-plugin-testing-harness.version>3.3.0</maven-plugin-testing-harness.version>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <slf4j.version>2.0.17</slf4j.version>
-        <log4j.version>2.25.2</log4j.version>
-        <spotless.version>2.46.1</spotless.version>
-        <testcontainers.version>1.21.3</testcontainers.version>
-        <junit-jupiter.version>5.13.4</junit-jupiter.version>
-        <junit-jupiter-suite.version>1.13.4</junit-jupiter-suite.version>
-        <assertj-core.version>3.27.4</assertj-core.version>
-        <testcontainers.version>1.21.3</testcontainers.version>
-        <agroal.version>2.8</agroal.version>
-        <spring.version>6.2.11</spring.version>
-        <spring-boot.version>3.5.5</spring-boot.version>
-        <quarkus.version>3.29.0</quarkus.version>
-        <microprofile.version>3.1</microprofile.version>
-        <smallrye.version>3.14.0</smallrye.version>
         <maven.version>3.9.11</maven.version>
-        <maven-plugin-api.version>3.9.11</maven-plugin-api.version>
-        <maven-plugin-annotations.version>3.15.1</maven-plugin-annotations.version>
-        <maven-plugin-plugin.version>3.8.1</maven-plugin-plugin.version>
-        <javaparser.version>3.27.1</javaparser.version>
-        <jackson.version>2.15.2</jackson.version>
-        <maven-plugin-testing-harness.version>3.3.0</maven-plugin-testing-harness.version>
+        <microprofile.version>3.1</microprofile.version>
+        <mysql.version>9.1.0</mysql.version>
         <narayana.version>7.2.2.Final</narayana.version>
         <pooled-jms.version>3.1.7</pooled-jms.version>
-        <vertx.version>4.5.20</vertx.version>
-        <testcontainers.version>1.21.3</testcontainers.version>
         <postgresql.version>42.7.7</postgresql.version>
-        <mysql.version>9.1.0</mysql.version>
-        <citrus.version>4.8.2</citrus.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <quarkus.version>3.29.0</quarkus.version>
+        <slf4j.version>2.0.17</slf4j.version>
+        <smallrye.version>3.14.0</smallrye.version>
+        <spotless.version>2.46.1</spotless.version>
+        <spring-boot.version>3.5.5</spring-boot.version>
+        <spring.version>6.2.11</spring.version>
         <surefire-plugin.version>3.5.4</surefire-plugin.version>
+        <testcontainers.version>1.21.3</testcontainers.version>
+        <vertx.version>4.5.20</vertx.version>
     </properties>
 
     <dependencyManagement>
