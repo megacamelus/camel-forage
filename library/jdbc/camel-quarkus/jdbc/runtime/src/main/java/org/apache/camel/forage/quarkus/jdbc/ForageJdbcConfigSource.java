@@ -46,6 +46,7 @@ public class ForageJdbcConfigSource implements ConfigSource {
         configuration.put(property + "jdbc.leak-detection-interval", config.leakTimeoutMinutes() + "M");
 
         if (config.transactionEnabled()) {
+            configuration.put("quarkus.datasource.transaction-isolation", "READ_COMMITTED");
             configuration.put(
                     "quarkus.transaction-manager.default-transaction-timeout",
                     config.transactionTimeoutSeconds() + "S");

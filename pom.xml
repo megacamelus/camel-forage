@@ -20,6 +20,7 @@
         <assertj-core.version>3.27.4</assertj-core.version>
         <azure.identity.version>1.18.1</azure.identity.version>
         <azure.messaging.eventhubs.version>5.21.2</azure.messaging.eventhubs.version>
+        <camel-quarkus.version>3.29.0</camel-quarkus.version>
         <citrus.version>4.8.2</citrus.version>
         <jackson.version>2.15.2</jackson.version>
         <javaparser.version>3.27.1</javaparser.version>

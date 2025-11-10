@@ -34,6 +34,54 @@
 
         <dependency>
             <groupId>org.apache.camel.forage</groupId>
+            <artifactId>forage-jdbc-postgresql</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.camel.forage</groupId>
+            <artifactId>forage-jdbc-db2</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.camel.forage</groupId>
+            <artifactId>forage-jdbc-h2</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.camel.forage</groupId>
+            <artifactId>forage-jdbc-hsqldb</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.camel.forage</groupId>
+            <artifactId>forage-jdbc-mariadb</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.camel.forage</groupId>
+            <artifactId>forage-jdbc-mssql</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.camel.forage</groupId>
+            <artifactId>forage-jdbc-mysql</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.camel.forage</groupId>
+            <artifactId>forage-jdbc-oracle</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.camel.forage</groupId>
             <artifactId>forage-jdbc</artifactId>
             <version>${project.version}</version>
         </dependency>

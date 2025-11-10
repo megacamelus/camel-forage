@@ -32,6 +32,7 @@ import org.apache.camel.forage.core.util.config.ConfigStore;
 import org.apache.camel.forage.jdbc.common.DataSourceFactoryConfig;
 import org.apache.camel.forage.quarkus.jdbc.ForageJdbcRecorder;
 import org.apache.camel.processor.aggregate.jdbc.JdbcAggregationRepository;
+import org.apache.camel.processor.idempotent.jdbc.JdbcMessageIdRepository;
 import org.apache.camel.quarkus.core.deployment.spi.CamelContextBuildItem;
 import org.apache.camel.quarkus.core.deployment.spi.CamelRuntimeBeanBuildItem;
 import org.jboss.logging.Logger;
@@ -69,8 +70,8 @@ class ForageJdbcProcessor {
         for (Map.Entry<String, DataSourceFactoryConfig> entry : configs.entrySet()) {
             if (StringUtils.isNotBlank(entry.getValue().aggregationRepositoryName())) {
                 // create aggregation repository
-                RuntimeValue<JdbcAggregationRepository> aggRepo =
-                        recorder.configureAggregator(entry.getKey(), context.getCamelContext(), entry.getValue());
+                RuntimeValue<JdbcAggregationRepository> aggRepo = recorder.createAggregationRepository(
+                        entry.getKey(), context.getCamelContext(), entry.getValue());
                 if (aggRepo != null) {
                     beans.produce(new CamelRuntimeBeanBuildItem(
                             entry.getValue().aggregationRepositoryName(),
@@ -79,21 +80,47 @@ class ForageJdbcProcessor {
                 }
             } else {
                 // if aggregation name is blank,but there is another aggregation property, show warning
-                ConfigHelper.getGetterMethods(DataSourceFactoryConfig.class).stream()
-                        .filter(m -> m.getName().toLowerCase().contains("aggregation"))
-                        .forEach(m -> {
-                            try {
-                                Object value = m.invoke(entry.getValue());
-                                if (value != null && StringUtils.isNotBlank(value.toString())) {
-                                    LOG.warn(
-                                            "Aggregation name has to be provided in order to create aggregation repositories (`%s` is already provided)"
-                                                    .formatted(m.getName()));
-                                }
-                            } catch (Exception e) {
-                                // ignore any error
-                            }
-                        });
+                logMissingMandatoryProperty(
+                        "aggregation",
+                        entry,
+                        "Aggregation name has to be provided in order to create aggregation repositories (`%s` is already provided)");
+            }
+
+            if (entry.getValue().enableIdempotentRepository()) {
+                if (StringUtils.isNotBlank(entry.getValue().idempotentRepositoryTableName())) {
+                    // create idempotent repository
+                    RuntimeValue<JdbcMessageIdRepository> idRepo = recorder.createIdempotentRepository(
+                            entry.getKey(), context.getCamelContext(), entry.getValue());
+                    if (idRepo != null) {
+                        beans.produce(new CamelRuntimeBeanBuildItem(
+                                entry.getValue().idempotentRepositoryTableName(),
+                                JdbcMessageIdRepository.class.getName(),
+                                idRepo));
+                    }
+                } else {
+                    // if idempotent table name is blank,but there is another idempotent property, show warning
+                    logMissingMandatoryProperty(
+                            "idempotent",
+                            entry,
+                            "Idempotent repository table name has to be provided in order to create idempotent repository (`%s` is already provided)");
+                }
             }
         }
+    }
+
+    private static void logMissingMandatoryProperty(
+            String aggregation, Map.Entry<String, DataSourceFactoryConfig> entry, String warnMsg) {
+        ConfigHelper.getGetterMethods(DataSourceFactoryConfig.class).stream()
+                .filter(m -> m.getName().toLowerCase().contains(aggregation))
+                .forEach(m -> {
+                    try {
+                        Object value = m.invoke(entry.getValue());
+                        if (value != null && StringUtils.isNotBlank(value.toString())) {
+                            LOG.warn(warnMsg.formatted(m.getName()));
+                        }
+                    } catch (Exception e) {
+                        // ignore any error
+                    }
+                });
     }
 }

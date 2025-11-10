@@ -56,7 +56,6 @@ public class IntegrationTestSetupExtension implements BeforeEachCallback, AfterA
             testContext.getVariables().putAll(previousTestContext.getVariables());
         } else {
             previousTestContext = testContext;
-            ;
         }
     }
 
