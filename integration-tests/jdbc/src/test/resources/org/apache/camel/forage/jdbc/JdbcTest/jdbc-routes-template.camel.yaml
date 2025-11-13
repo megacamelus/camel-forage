@@ -1,0 +1,76 @@
+- route:
+    id: route
+    from:
+      id: from-4124-3053
+      uri: timer
+      parameters:
+        period: "1000"
+        timerName: template
+      steps:
+        - setBody:
+            id: setBody-4165
+            simple:
+              expression: select * from bar
+        - to:
+            id: to-2601
+            uri: jdbc
+            parameters:
+              dataSourceName: dataSource
+        - log:
+            id: log-2176-3777
+            message: from jdbc default ds - ${body}
+- route:
+    id: event-batching
+    from:
+      id: from-events
+      uri: direct
+      parameters:
+        name: events
+      steps:
+        - log:
+            id: log-received
+            message: "Received event with id :${header.eventId} and body: ${body}"
+        - aggregate:
+            id: aggregate-batch
+            steps:
+              - log:
+                  id: log-complete
+                  message: "Batch complete with ${exchangeProperty.CamelAggregatedSize} event id:
+                    ${header.eventId} and events: ${body}"
+            aggregationRepository: "#event_aggregation"
+            aggregationStrategy: "#groupedBodyAggregationStrategy"
+            completionSize: 3
+            completionTimeout: "30000"
+            correlationExpression:
+              header:
+                expression: eventId
+- route:
+    id: route-1585
+    from:
+      id: from-1110
+      uri: file
+      parameters:
+        delay: 500
+        delete: true
+        directoryName: ${path}
+        idempotent: false
+        idempotentEager: false
+        initialDelay: 500
+        noop: false
+        sortBy: file:modified
+      steps:
+        - log:
+            id: log-1509
+            message: "Discovered file: ${header.CamelFileName} (size:
+              ${header.CamelFileLength} bytes)\n"
+        - idempotentConsumer:
+            id: idempotentConsumer-1332
+            header:
+              expression: CamelFileName
+            idempotentRepository: "#camel_idempotent"
+        - log:
+            id: log-1430
+            message: "Processed file: ${header.CamelFileName} with content: ${body}\n"
+- beans:
+    - name: groupedBodyAggregationStrategy
+      type: org.apache.camel.test.MyAggregationStrategy

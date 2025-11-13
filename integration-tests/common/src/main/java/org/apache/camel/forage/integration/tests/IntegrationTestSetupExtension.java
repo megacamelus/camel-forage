@@ -36,7 +36,7 @@ public class IntegrationTestSetupExtension implements BeforeEachCallback, AfterA
 
     private final Logger LOG = LoggerFactory.getLogger(IntegrationTestSetupExtension.class);
 
-    public static final String RUNTIME_PROPERTY = "integration_test_runtime+property";
+    public static final String RUNTIME_PROPERTY = "INTEGRATION_TEST_RUNTIME";
 
     private boolean runBeforeAll = false;
     private Map<String, Object> variables;

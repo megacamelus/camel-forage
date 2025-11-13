@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 /**
  * Helper class for Suites.
  */
-class TestSuiteHelper {
+public class TestSuiteHelper {
 
     public static void afterSuite() {
         System.clearProperty(IntegrationTestSetupExtension.RUNTIME_PROPERTY);
@@ -16,15 +16,14 @@ class TestSuiteHelper {
 
     public static void beforeSuite(String runtimeValue, Logger log) {
         if (!runtimeValue.startsWith("<")) {
-            System.setProperty(IntegrationTestSetupExtension.RUNTIME_PROPERTY, "--runtime=" + runtimeValue);
+            System.setProperty(IntegrationTestSetupExtension.RUNTIME_PROPERTY, runtimeValue);
         } else {
             System.clearProperty(IntegrationTestSetupExtension.RUNTIME_PROPERTY);
         }
         System.setProperty("citrus.camel.jbang.version", DataSourceExportHelper.getCamelVersion());
-        logText(runtimeValue, log);
     }
 
-    private static void logText(String text, Logger log) {
+    public static void logText(String text, Logger log) {
 
         int totalLength = 80;
 

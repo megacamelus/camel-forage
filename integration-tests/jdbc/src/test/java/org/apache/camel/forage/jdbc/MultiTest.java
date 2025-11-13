@@ -1,22 +1,4 @@
-/*
- * Copyright the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package org.apache.camel.forage.jdbc;
-
-import static org.citrusframework.camel.dsl.CamelSupport.camel;
 
 import java.util.Map;
 import java.util.function.Consumer;
@@ -57,13 +39,13 @@ public class MultiTest implements TestActionSupport, ForageIntegrationTest {
             .withUsername("test")
             .withPassword("test")
             .withDatabaseName("postgresql")
-            .withInitScript("singleITInitScript.sql");
+            .withInitScript("singleTest-postgresql-initScript.sql");
 
     @Container
     static MySQLContainer<?> mysql = new MySQLContainer<>(
                     DockerImageName.parse(MYSQL_IMAGE_NAME).asCompatibleSubstituteFor("mysql"))
             .withExposedPorts(3306)
-            .withInitScript("multiITmysqlInitScript.sql");
+            .withInitScript("multiITest-mysql-initScript.sql");
 
     @Override
     public void runBeforeAll(TestCaseRunner runner, Consumer<AutoCloseable> afterAll) {
@@ -74,9 +56,9 @@ public class MultiTest implements TestActionSupport, ForageIntegrationTest {
                 .addResource(Resources.fromClasspath(getClass().getSimpleName() + "/route.camel.yaml", getClass()))
                 .addResource(Resources.fromClasspath(
                         getClass().getSimpleName() + "/forage-datasource-factory.properties", getClass()))
-                .withArg(System.getProperty(IntegrationTestSetupExtension.RUNTIME_PROPERTY))
-                .dumpIntegrationOutput(true)
+                // required if more test are using the same route
                 .autoRemove(false)
+                .dumpIntegrationOutput(true)
                 .withEnvs(Map.of("DS1_JDBC_URL", postgres.getJdbcUrl(), "DS2_JDBC_URL", mysql.getJdbcUrl())));
 
         afterAll.accept(() -> runner.then(camel().jbang().stop().integration("route")));
