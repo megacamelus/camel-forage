@@ -74,9 +74,52 @@
                     </execution>
                 </executions>
             </plugin>
-
-
+            <plugin>
+                <groupId>org.citrusframework.mvn</groupId>
+                <artifactId>citrus-maven-plugin</artifactId>
+                <version>${citrus.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.gmavenplus</groupId>
+                <artifactId>gmavenplus-plugin</artifactId>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.groovy</groupId>
+                        <artifactId>groovy</artifactId>
+                        <version>${groovy.version}</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>generate-test-container-config</id>
+                        <phase>process-test-classes</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                            <skipScriptExecution>${skip-test-containers-config-generation}</skipScriptExecution>
+                            <scripts>
+                                <script>file:${project.basedir}/../../tooling/scripts/generate-test-containers-config-properties.groovy</script>
+                            </scripts>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>skip-test-container-config-generation</id>
+            <activation>
+                <file>
+                    <missing>../../tooling/scripts/generate-test-containers-config-properties.groovy</missing>
+                </file>
+            </activation>
+            <properties>
+                <skip-test-containers-config-generation>true</skip-test-containers-config-generation>
+            </properties>
+        </profile>
+    </profiles>
 
 </project>

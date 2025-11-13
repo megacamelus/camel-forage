@@ -8,6 +8,7 @@ import org.citrusframework.annotations.CitrusResource;
 import org.citrusframework.annotations.CitrusTest;
 import org.citrusframework.junit.jupiter.CitrusSupport;
 import org.citrusframework.spi.Resources;
+import org.eclipse.microprofile.config.ConfigProvider;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.testcontainers.containers.PostgreSQLContainer;
@@ -20,9 +21,11 @@ import org.testcontainers.utility.DockerImageName;
 @ExtendWith(IntegrationTestSetupExtension.class)
 public class AggregationTest implements TestActionSupport {
 
+    static final String IMAGE_NAME = ConfigProvider.getConfig().getValue("postgres.container.image", String.class);
+
     @Container
     static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>(
-                    DockerImageName.parse("mirror.gcr.io/postgres:15.0").asCompatibleSubstituteFor("postgres"))
+                    DockerImageName.parse(IMAGE_NAME).asCompatibleSubstituteFor("postgres"))
             .withExposedPorts(5432)
             .withUsername("test")
             .withPassword("test")
