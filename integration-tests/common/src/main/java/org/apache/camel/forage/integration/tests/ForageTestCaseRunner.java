@@ -1,6 +1,5 @@
 package org.apache.camel.forage.integration.tests;
 
-import org.apache.camel.forage.integration.tests.suites.TestSuiteHelper;
 import org.apache.camel.forage.plugin.DataSourceExportHelper;
 import org.citrusframework.DefaultTestCaseRunner;
 import org.citrusframework.GherkinTestActionRunner;
@@ -49,7 +48,27 @@ public class ForageTestCaseRunner extends DefaultTestCaseRunner {
                 System.getenv(IntegrationTestSetupExtension.RUNTIME_PROPERTY));
         if (runtime != null) {
             builder.withArg("--runtime=" + runtime);
-            TestSuiteHelper.logText(runtime, LOG);
         }
+        logTextInBox(runtime);
+    }
+
+    private void logTextInBox(String text) {
+
+        int totalLength = 80;
+
+        var _text = text == null ? "<plain>" : text;
+
+        String paddedText = " " + _text + " ";
+        int textLength = paddedText.length();
+
+        int dashLength = totalLength - textLength;
+        int leftDashes = dashLength / 2;
+        int rightDashes = dashLength - leftDashes;
+
+        String line = "-".repeat(leftDashes) + paddedText + "-".repeat(rightDashes);
+
+        LOG.info("-".repeat(totalLength));
+        LOG.info(line);
+        LOG.info("-".repeat(totalLength));
     }
 }
