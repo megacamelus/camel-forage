@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 /**
  * Helper class for Suites.
  */
-public class TestSuiteHelper {
+class TestSuiteHelper {
 
     public static void afterSuite() {
         System.clearProperty(IntegrationTestSetupExtension.RUNTIME_PROPERTY);
@@ -21,28 +21,5 @@ public class TestSuiteHelper {
             System.clearProperty(IntegrationTestSetupExtension.RUNTIME_PROPERTY);
         }
         System.setProperty("citrus.camel.jbang.version", DataSourceExportHelper.getCamelVersion());
-    }
-
-    public static void logText(String text, Logger log) {
-
-        int totalLength = 80;
-
-        if (log != null) {
-            String paddedText = " " + text + " ";
-            int textLength = paddedText.length();
-
-            int dashLength = totalLength - textLength;
-            int leftDashes = dashLength / 2;
-            int rightDashes = dashLength - leftDashes;
-
-            StringBuilder line = new StringBuilder();
-            line.append("-".repeat(leftDashes));
-            line.append(paddedText);
-            line.append("-".repeat(rightDashes));
-
-            log.info("-".repeat(totalLength));
-            log.info(line.toString());
-            log.info("-".repeat(totalLength));
-        }
     }
 }

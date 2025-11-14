@@ -3,14 +3,10 @@ package org.apache.camel.forage.jdbc;
 import java.util.Map;
 import java.util.function.Consumer;
 import org.apache.camel.forage.integration.tests.ForageIntegrationTest;
+import org.apache.camel.forage.integration.tests.ForageTestCaseRunner;
 import org.apache.camel.forage.integration.tests.IntegrationTestSetupExtension;
-import org.citrusframework.GherkinTestActionRunner;
-import org.citrusframework.TestActionSupport;
-import org.citrusframework.TestCaseRunner;
-import org.citrusframework.annotations.CitrusResource;
 import org.citrusframework.annotations.CitrusTest;
 import org.citrusframework.junit.jupiter.CitrusSupport;
-import org.citrusframework.spi.Resources;
 import org.eclipse.microprofile.config.ConfigProvider;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,7 +22,7 @@ import org.testcontainers.utility.DockerImageName;
 @CitrusSupport
 @Testcontainers
 @ExtendWith(IntegrationTestSetupExtension.class)
-public class MultiTest implements TestActionSupport, ForageIntegrationTest {
+public class MultiTest implements ForageIntegrationTest {
 
     static final String POSTGRES_IMAGE_NAME =
             ConfigProvider.getConfig().getValue("postgres.container.image", String.class);
@@ -48,25 +44,19 @@ public class MultiTest implements TestActionSupport, ForageIntegrationTest {
             .withInitScript("multiITest-mysql-initScript.sql");
 
     @Override
-    public void runBeforeAll(TestCaseRunner runner, Consumer<AutoCloseable> afterAll) {
-        runner.when((camel())
-                .jbang()
-                .custom("forage", "run")
-                .processName("route")
-                .addResource(Resources.fromClasspath(getClass().getSimpleName() + "/route.camel.yaml", getClass()))
-                .addResource(Resources.fromClasspath(
-                        getClass().getSimpleName() + "/forage-datasource-factory.properties", getClass()))
+    public String runBeforeAll(ForageTestCaseRunner runner, Consumer<AutoCloseable> afterAll) {
+        runner.when(forageRun("route", "forage-datasource-factory.properties", "route.camel.yaml")
                 // required if more test are using the same route
                 .autoRemove(false)
                 .dumpIntegrationOutput(true)
                 .withEnvs(Map.of("DS1_JDBC_URL", postgres.getJdbcUrl(), "DS2_JDBC_URL", mysql.getJdbcUrl())));
 
-        afterAll.accept(() -> runner.then(camel().jbang().stop().integration("route")));
+        return "route";
     }
 
     @Test
     @CitrusTest()
-    public void postgresql(@CitrusResource GherkinTestActionRunner runner) {
+    public void postgresql(ForageTestCaseRunner runner) {
         // validation of logged message
         runner.then(camel().jbang()
                 .verify()
@@ -76,7 +66,7 @@ public class MultiTest implements TestActionSupport, ForageIntegrationTest {
 
     @Test
     @CitrusTest()
-    public void mysql(@CitrusResource GherkinTestActionRunner runner) {
+    public void mysql(ForageTestCaseRunner runner) {
         // validation of logged message
         runner.then(camel().jbang()
                 .verify()
