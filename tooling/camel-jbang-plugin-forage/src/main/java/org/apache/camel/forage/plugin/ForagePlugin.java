@@ -19,15 +19,16 @@ package org.apache.camel.forage.plugin;
 import java.nio.file.Path;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 import org.apache.camel.dsl.jbang.core.commands.CamelJBangMain;
 import org.apache.camel.dsl.jbang.core.commands.Export;
 import org.apache.camel.dsl.jbang.core.common.CamelJBangPlugin;
 import org.apache.camel.dsl.jbang.core.common.Plugin;
 import org.apache.camel.dsl.jbang.core.common.PluginExporter;
 import org.apache.camel.dsl.jbang.core.common.Printer;
+import org.apache.camel.forage.core.common.ExportCustomizer;
 import org.apache.camel.forage.core.common.RuntimeType;
 import org.apache.camel.forage.plugin.datasource.DataSourceCommand;
-import org.apache.camel.forage.plugin.datasource.DatasourceExportCustomizer;
 import org.apache.camel.forage.plugin.datasource.TestDataSourceCommand;
 import picocli.CommandLine;
 
@@ -56,8 +57,13 @@ public class ForagePlugin implements Plugin {
         return Optional.of(new PluginExporter() {
             @Override
             public Set<String> getDependencies(org.apache.camel.dsl.jbang.core.common.RuntimeType runtimeType) {
-                return new DatasourceExportCustomizer()
-                        .resolveRuntimeDependencies(RuntimeType.valueOf(runtimeType.name()));
+                // gather dependencies across all (enabled) export customizers for the specific runtime
+                return ExportHelper.getAllCustomizers()
+                        .filter(ExportCustomizer::isEnabled)
+                        .map(exportCustomizer ->
+                                exportCustomizer.resolveRuntimeDependencies(RuntimeType.fromValue(runtimeType.name())))
+                        .flatMap(Set::stream)
+                        .collect(Collectors.toSet());
             }
 
             @Override

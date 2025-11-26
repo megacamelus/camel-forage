@@ -2,53 +2,47 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-
     <modelVersion>4.0.0</modelVersion>
-
     <parent>
         <groupId>org.apache.camel.forage</groupId>
-        <artifactId>tooling</artifactId>
+        <artifactId>jms-camel-quarkus</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>camel-jbang-plugin-forage</artifactId>
-    <name>Camel Forage :: Tooling :: Camel JBang Plugin</name>
-    <description>Forage Camel JBang plugin</description>
+    <artifactId>forage-quarkus-jms</artifactId>
+    <name>Camel Forage :: Library :: JMS :: Quarkus :: Runtime</name>
 
     <dependencies>
+
         <dependency>
-            <groupId>org.apache.camel</groupId>
-            <artifactId>camel-jbang-core</artifactId>
+            <groupId>org.apache.camel.quarkus</groupId>
+            <artifactId>camel-quarkus-core</artifactId>
+            <version>${camel-quarkus.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.apache.camel.forage</groupId>
-            <artifactId>forage-jdbc-common</artifactId>
+            <artifactId>forage-core-jms</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.apache.camel.forage</groupId>
-            <artifactId>forage-jms-common</artifactId>
+            <artifactId>forage-core-common</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>org.reflections</groupId>
-            <artifactId>reflections</artifactId>
-            <version>0.10.2</version>
+            <groupId>org.apache.camel.forage</groupId>
+            <artifactId>forage-jms-artemis</artifactId>
+            <version>${project.version}</version>
         </dependency>
 
-        <!-- Test dependencies -->
+        <dependency>
+            <groupId>io.smallrye.config</groupId>
+            <artifactId>smallrye-config</artifactId>
+        </dependency>
+
     </dependencies>
-
-    <build>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-            </resource>
-        </resources>
-    </build>
 
 </project>

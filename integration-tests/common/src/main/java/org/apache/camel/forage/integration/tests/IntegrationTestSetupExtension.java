@@ -2,7 +2,7 @@ package org.apache.camel.forage.integration.tests;
 
 import java.util.ArrayList;
 import java.util.Map;
-import org.apache.camel.forage.plugin.DataSourceExportHelper;
+import org.apache.camel.forage.plugin.ExportHelper;
 import org.citrusframework.TestActionBuilder;
 import org.citrusframework.camel.actions.CamelActionBuilder;
 import org.citrusframework.context.TestContext;
@@ -97,7 +97,7 @@ public class IntegrationTestSetupExtension implements BeforeEachCallback, AfterA
     }
 
     private void internalBeforeAll(ExtensionContext context, CamelActionBuilder camel) throws Exception {
-        String projectVersion = DataSourceExportHelper.getProjectVersion();
+        String projectVersion = ExportHelper.getProjectVersion();
         // ensure, that forage plugin is installed
         CitrusExtensionHelper.getTestRunner(context)
                 .when(camel.jbang()

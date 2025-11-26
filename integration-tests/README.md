@@ -68,15 +68,9 @@ You do not need to take care of runtimes when writing an integration tests.
 (Implementation, taking care of runtimes, is located in `org.apache.camel.forage.integration.tests.ForageTestCaseRunner`).
 
 When you run the integration test via IDE or via cmd, the test runs `<plain Camel>` runtime.
-To change runtime either
-* add a system property `INTEGRATION_TEST_RUNTIME` with value `quarkus`or `spring-boot' 
-* or export such property as environmental property.
+To select runtime, export `INTEGRATION_TEST_RUNTIME` property as an environmental property.
 
 Example:
-```bash
-mvn clean verify -f integration-tests/jdbc -Dit.test=JdbcTest -DINTEGRATION_TEST_RUNTIME=quarkus
-```
-or
 ```bash
 export INTEGRATION_TEST_RUNTIME=quarkus
 mvn clean verify -f integration-tests/jdbc -Dit.test=JdbcTest
@@ -98,7 +92,11 @@ Whole example:
   runner.when(forageRun("route", "forage-datasource-factory.properties", "route.camel.yaml")
                 .dumpIntegrationOutput(true));  
   ```
-  
+* In case you'd like to debug the camel route from the background, add following parameter to the runner execution:  
+  ```
+  .withArg("--jvm-debug", "5005")
+  ```
+  The background camel process waits and listens on a port 5005 for java remote debug,
 * If you need to find the runtime folder of the Camel process (from the background), please look into `target/test-classes/${full-test-class-path}` 
 
 * Be aware that test for runtimes (`quarkus` or `spring-boot`) runs in a sub-folder with exported application.

@@ -39,6 +39,7 @@
     <modules>
         <module>common</module>
         <module>jdbc</module>
+        <module>jms</module>
     </modules>
 
     <build>
@@ -64,6 +65,8 @@
                     </includes>
                     <systemPropertyVariables>
                         <citrus.camel.jbang.work.dir>${project.build.directory}/.run</citrus.camel.jbang.work.dir>
+                        <!-- todo remove workaround for docker 29.0.0, see https://github.com/testcontainers/testcontainers-java/issues/11212-->
+                        <api.version>1.44</api.version>
                     </systemPropertyVariables>
                 </configuration>
                 <executions>

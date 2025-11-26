@@ -127,6 +127,7 @@ public class ConnectionFactoryConfig implements Config {
                 .orElse(Long.parseLong(EXPIRY_TIMEOUT_MILLIS.defaultValue()));
     }
 
+    // todo this property is not used, should we remove it?
     public long connectionTimeoutMillis() {
         return ConfigStore.getInstance()
                 .get(CONNECTION_TIMEOUT_MILLIS.asNamed(prefix))

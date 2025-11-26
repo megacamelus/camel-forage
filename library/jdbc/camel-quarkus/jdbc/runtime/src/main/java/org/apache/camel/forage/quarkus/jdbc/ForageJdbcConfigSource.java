@@ -3,12 +3,15 @@ package org.apache.camel.forage.quarkus.jdbc;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import org.apache.camel.forage.core.util.config.ConfigHelper;
 import org.apache.camel.forage.core.util.config.ConfigStore;
 import org.apache.camel.forage.jdbc.common.DataSourceFactoryConfig;
 import org.eclipse.microprofile.config.spi.ConfigSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ForageJdbcConfigSource implements ConfigSource {
-
+    private static final Logger LOG = LoggerFactory.getLogger(ForageJdbcConfigSource.class);
     private static final Map<String, String> configuration = new HashMap<>();
 
     static {
@@ -16,15 +19,20 @@ public class ForageJdbcConfigSource implements ConfigSource {
 
         // try loading multiDatasource properties
         DataSourceFactoryConfig config = new DataSourceFactoryConfig();
-        Set<String> prefixes = ConfigStore.getInstance().readPrefixes(config, "(.+).jdbc\\..*");
+        Set<String> prefixes =
+                ConfigStore.getInstance().readPrefixes(config, ConfigHelper.getNamedPropertyRegexp("jdbc"));
 
         if (!prefixes.isEmpty()) {
             for (String name : prefixes) {
                 DataSourceFactoryConfig dsFactoryConfig = new DataSourceFactoryConfig(name);
                 configureDs(name, dsFactoryConfig);
             }
-        } else {
+        } else if (!ConfigStore.getInstance()
+                .readPrefixes(config, ConfigHelper.getDefaultPropertyRegexp("jdbc"))
+                .isEmpty()) {
             configureDs("dataSource", config);
+        } else {
+            LOG.trace("No jdbc config found.");
         }
     }
 

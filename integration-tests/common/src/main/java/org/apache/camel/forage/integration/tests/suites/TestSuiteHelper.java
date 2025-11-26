@@ -1,7 +1,7 @@
 package org.apache.camel.forage.integration.tests.suites;
 
 import org.apache.camel.forage.integration.tests.IntegrationTestSetupExtension;
-import org.apache.camel.forage.plugin.DataSourceExportHelper;
+import org.apache.camel.forage.plugin.ExportHelper;
 import org.slf4j.Logger;
 
 /**
@@ -20,6 +20,6 @@ class TestSuiteHelper {
         } else {
             System.clearProperty(IntegrationTestSetupExtension.RUNTIME_PROPERTY);
         }
-        System.setProperty("citrus.camel.jbang.version", DataSourceExportHelper.getCamelVersion());
+        System.setProperty("citrus.camel.jbang.version", ExportHelper.getCamelVersion());
     }
 }

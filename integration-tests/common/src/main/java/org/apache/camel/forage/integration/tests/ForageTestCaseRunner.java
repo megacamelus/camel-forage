@@ -1,6 +1,6 @@
 package org.apache.camel.forage.integration.tests;
 
-import org.apache.camel.forage.plugin.DataSourceExportHelper;
+import org.apache.camel.forage.plugin.ExportHelper;
 import org.citrusframework.DefaultTestCaseRunner;
 import org.citrusframework.GherkinTestActionRunner;
 import org.citrusframework.TestAction;
@@ -42,7 +42,7 @@ public class ForageTestCaseRunner extends DefaultTestCaseRunner {
     }
 
     private <T extends TestAction> void initializeTestAction(CamelIntegrationRunCustomizedActionBuilder<?, ?> builder) {
-        builder.withSystemProperty("camel.jbang.quarkusVersion", DataSourceExportHelper.getQuarkusVersion());
+        builder.withSystemProperty("camel.jbang.quarkusVersion", ExportHelper.getQuarkusVersion());
         String runtime = System.getProperty(
                 IntegrationTestSetupExtension.RUNTIME_PROPERTY,
                 System.getenv(IntegrationTestSetupExtension.RUNTIME_PROPERTY));
@@ -56,7 +56,7 @@ public class ForageTestCaseRunner extends DefaultTestCaseRunner {
 
         int totalLength = 80;
 
-        var _text = text == null ? "<plain>" : text;
+        var _text = "runtime: " + (text == null || text.isBlank() ? "camel-main" : text);
 
         String paddedText = " " + _text + " ";
         int textLength = paddedText.length();

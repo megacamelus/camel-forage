@@ -55,6 +55,8 @@ import org.slf4j.LoggerFactory;
  */
 public final class ConfigHelper {
     private static final Logger LOG = LoggerFactory.getLogger(ConfigHelper.class);
+    private static final String DEFAULT_PROPERTY_REGEXP = "(%s)..+";
+    private static final String NAMED_PROPERTY_REGEXP = "(.+).%s..+";
 
     /**
      * Private constructor to prevent instantiation of this utility class.
@@ -268,11 +270,57 @@ public final class ConfigHelper {
     }
 
     /**
-     * Returns list of getter method, which are methods with no parameter and return type != void
+     * Returns list of getter method - methods with no parameter and return type != void
      */
     public static List<Method> getGetterMethods(Class<?> type) {
         return Arrays.stream(type.getDeclaredMethods())
                 .filter(m -> m.getParameterCount() == 0 && !m.getReturnType().equals(void.class))
                 .toList();
+    }
+
+    /**
+     * Returns java regexp usable by {@link org.apache.camel.forage.core.util.config.ConfigStore#readPrefixes(Config, String)} (Config)} .
+     *
+     * <p>
+     *      In case of regexp based on `jdbc` from
+     *      <pre>
+     *          ds1.jdbc.url=jdbc:postgresql://localhost:5432/postgres
+     *          ds2.jdbc.url=jdbc:mysql://localhost:3306/test
+     *      </pre>
+     *      empty Set is returned, because there is no <Strong>jdbc...</Strong> property (without named prefix).
+     * </p>
+     * <p>
+     *      In case of regexp based on `jdbc` from
+     *      <pre>
+     *          jdbc.url=jdbc:postgresql://localhost:5432/postgres
+     *      </pre>
+     *      <Strong>jdbc</Strong> value is returned.
+     * </p>
+     */
+    public static String getDefaultPropertyRegexp(String prefix) {
+        return DEFAULT_PROPERTY_REGEXP.formatted(prefix);
+    }
+
+    /**
+     * Returns java regexp usable by {@link org.apache.camel.forage.core.util.config.ConfigStore#readPrefixes(Config, String)} (Config)} .
+     *
+     * <p>
+     *      In case of regexp based on `jdbc` from
+     *      <pre>
+     *          ds1.jdbc.url=jdbc:postgresql://localhost:5432/postgres
+     *          ds2.jdbc.url=jdbc:mysql://localhost:3306/test
+     *      </pre>
+     *      both <Strong>ds1, ds2</Strong> prefixes are returned.
+     * </p>
+     * <p>
+     *      In case of regexp based on `jdbc` from
+     *      <pre>
+     *          jdbc.url=jdbc:postgresql://localhost:5432/postgres
+     *      </pre>
+     *      empty Set is returned, because there is no named jdbc property.
+     * </p>
+     */
+    public static String getNamedPropertyRegexp(String prefix) {
+        return NAMED_PROPERTY_REGEXP.formatted(prefix);
     }
 }

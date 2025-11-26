@@ -1,9 +1,10 @@
 package org.apache.camel.forage.plugin;
 
+import java.util.Set;
 import org.apache.camel.dsl.jbang.core.commands.CamelJBangMain;
 import org.apache.camel.dsl.jbang.core.commands.Run;
+import org.apache.camel.forage.core.common.ExportCustomizer;
 import org.apache.camel.forage.core.common.RuntimeType;
-import org.apache.camel.forage.plugin.datasource.DatasourceExportCustomizer;
 
 public class ForageRun extends Run {
     public ForageRun(CamelJBangMain main) {
@@ -17,8 +18,14 @@ public class ForageRun extends Run {
      */
     @Override
     protected void addDependencies(String... deps) {
-        super.addDependencies(new DatasourceExportCustomizer()
-                .resolveRuntimeDependencies(RuntimeType.main)
-                .toArray(new String[0]));
+        // gather dependencies across all (enabled) export customizers for the runtime `camel-main`
+        var dependencies = ExportHelper.getAllCustomizers()
+                .filter(ExportCustomizer::isEnabled)
+                .map(exportCustomizer -> exportCustomizer.resolveRuntimeDependencies(RuntimeType.main))
+                .flatMap(Set::stream)
+                .distinct()
+                .toArray(String[]::new);
+
+        super.addDependencies(dependencies);
     }
 }

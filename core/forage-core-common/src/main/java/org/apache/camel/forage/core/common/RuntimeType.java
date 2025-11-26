@@ -14,7 +14,7 @@ public enum RuntimeType {
     public static RuntimeType fromValue(String value) {
         value = value.toLowerCase(Locale.ROOT);
         return switch (value) {
-            case "springBoot", "spring-boot", "camel-spring-boot" -> RuntimeType.springBoot;
+            case "springboot", "spring-boot", "camel-spring-boot" -> RuntimeType.springBoot;
             case "quarkus", "camel-quarkus" -> RuntimeType.quarkus;
             case "main", "camel-main" -> RuntimeType.main;
             default -> throw new IllegalArgumentException("Unsupported runtime " + value);

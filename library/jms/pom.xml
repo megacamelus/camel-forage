@@ -15,6 +15,7 @@
     <name>Camel Forage :: Library :: JMS</name>
 
     <modules>
+        <module>camel-quarkus</module>
         <module>forage-jms-common</module>
         <module>forage-jms</module>
         <module>forage-jms-artemis</module>
