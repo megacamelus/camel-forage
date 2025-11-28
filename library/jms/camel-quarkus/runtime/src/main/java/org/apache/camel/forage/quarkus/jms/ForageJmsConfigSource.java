@@ -92,6 +92,8 @@ public class ForageJmsConfigSource extends AbstractConfigSource {
                 builder.add(
                         "quarkus.transaction-manager.object-store.directory", config::transactionObjectStoreDirectory);
             }
+        } else if ("ibmmq".equals(config.jmsKind())) {
+            // configuration is created via recorder, na property is required
         } else {
             throw new IllegalArgumentException(
                     "`%s` Jms kind is not supported by Quarkus runtime.".formatted(config.jmsKind()));

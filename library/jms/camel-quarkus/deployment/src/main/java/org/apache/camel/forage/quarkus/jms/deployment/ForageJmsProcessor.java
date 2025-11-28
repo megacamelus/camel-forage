@@ -16,9 +16,24 @@
  */
 package org.apache.camel.forage.quarkus.jms.deployment;
 
+import io.quarkus.deployment.annotations.BuildProducer;
 import io.quarkus.deployment.annotations.BuildStep;
+import io.quarkus.deployment.annotations.ExecutionTime;
+import io.quarkus.deployment.annotations.Record;
 import io.quarkus.deployment.builditem.FeatureBuildItem;
+import io.quarkus.runtime.RuntimeValue;
+import jakarta.jms.ConnectionFactory;
+import java.util.Collections;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.apache.camel.forage.core.annotations.ForageFactory;
+import org.apache.camel.forage.core.util.config.ConfigHelper;
+import org.apache.camel.forage.core.util.config.ConfigStore;
+import org.apache.camel.forage.jms.common.ConnectionFactoryConfig;
+import org.apache.camel.forage.quarkus.jms.ForageJmsRecorder;
+import org.apache.camel.quarkus.core.deployment.spi.CamelRuntimeBeanBuildItem;
 import org.jboss.logging.Logger;
 
 @ForageFactory(
@@ -35,5 +50,34 @@ class ForageJmsProcessor {
     @BuildStep
     FeatureBuildItem feature() {
         return new FeatureBuildItem(FEATURE);
+    }
+
+    @BuildStep
+    @Record(value = ExecutionTime.STATIC_INIT)
+    void registerIbmMqConnectionFactory(ForageJmsRecorder recorder, BuildProducer<CamelRuntimeBeanBuildItem> beans)
+            throws Exception {
+
+        ConnectionFactoryConfig config = new ConnectionFactoryConfig();
+        Set<String> named = ConfigStore.getInstance().readPrefixes(config, ConfigHelper.getNamedPropertyRegexp("jms"));
+
+        Map<String, ConnectionFactoryConfig> configs = named.isEmpty()
+                ? Collections.singletonMap((String) null, config)
+                : named.stream().collect(Collectors.toMap(n -> n, ConnectionFactoryConfig::new));
+
+        for (Map.Entry<String, ConnectionFactoryConfig> entry : configs.entrySet()) {
+            if ("ibmmq".equals(entry.getValue().jmsKind())) {
+                LOG.info("Recording IBMMMQ connection factory for url: "
+                        + entry.getValue().brokerUrl());
+                // create connection factory
+                RuntimeValue<ConnectionFactory> connectionFactory =
+                        recorder.createIbmMQConnectionFactory(entry.getKey());
+                if (connectionFactory != null) {
+                    beans.produce(new CamelRuntimeBeanBuildItem(
+                            Optional.ofNullable(entry.getValue().name()).orElse(entry.getKey()),
+                            ConnectionFactory.class.getName(),
+                            connectionFactory));
+                }
+            }
+        }
     }
 }

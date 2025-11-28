@@ -1,0 +1,106 @@
+- route:
+    id: producer-route
+    from:
+      id: timer-producer
+      uri: timer
+      parameters:
+        includeMetadata: true
+        period: "5000"
+        repeatCount: 3
+        timerName: producer
+      steps:
+        - setBody:
+            id: set-message
+            simple:
+              expression: Transactional message ${exchangeProperty.CamelTimerCounter}
+        - setHeader:
+            id: setHeader-5933
+            name: counter
+            simple:
+              expression: ${exchangeProperty.CamelTimerCounter}
+        - log:
+            id: log-1795
+            message: "Message sent: ${body}"
+        - to:
+            id: send-to-input
+            uri: jms
+            parameters:
+              destinationName: input.queue
+              destinationType: queue
+        - log:
+            id: log-sent
+            message: Sent message to input queue
+- route:
+    id: transactional-consumer-route
+    from:
+      id: jms-consumer
+      uri: jms
+      parameters:
+        destinationName: input.queue
+        destinationType: queue
+        transacted: "true"
+      steps:
+        - transacted:
+            id: xa-transaction
+            ref: PROPAGATION_REQUIRED
+        - log:
+            id: log-processing
+            message: "Processing message: ${body}"
+        - choice:
+            id: error-simulation
+            otherwise:
+              id: success-path
+              steps:
+                - log:
+                    id: log-success
+                    message: Processing successful - committing transaction
+                - to:
+                    id: send-to-output
+                    uri: jms
+                    parameters:
+                      destinationName: output.queue
+                      destinationType: queue
+                - log:
+                    id: log-forwarded
+                    message: Message forwarded to output queue
+            when:
+              - steps:
+                  - log:
+                      id: log-error
+                      message: "Simulating error - message will be rolled back "
+                  - throwException:
+                      id: throw-error
+                      exceptionType: java.lang.RuntimeException
+                      message: Simulated processing error
+                simple:
+                  expression: ${header.counter} < 3
+- route:
+    id: output-consumer-route
+    from:
+      id: output-consumer
+      uri: jms
+      parameters:
+        destinationName: output.queue
+        destinationType: queue
+      steps:
+        - log:
+            id: log-processed
+            message: "Successfully processed message: ${body}"
+- route:
+    id: dlq-consumer-route
+    from:
+      id: dlq-consumer
+      uri: jms
+      parameters:
+        destinationName: DLQ2
+        destinationType: queue
+      steps:
+        - log:
+            id: log-dlq
+            message: "Message sent to DLQ after max redeliveries: ${body}"
+- errorHandler:
+    deadLetterChannel:
+      deadLetterUri: jms:DLQ
+      redeliveryPolicy:
+        maximumRedeliveries: 2
+      useOriginalBody: true

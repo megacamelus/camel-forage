@@ -39,9 +39,18 @@ public class JmsExportCustomizer extends AbstractExportCustomizer<ConnectionFact
         Set<String> dependencies =
                 new LinkedHashSet<>(Arrays.asList(ExportHelper.getDependencies(runtime, ExportHelper.ResourceType.jms)
                         .split(",")));
+
         dependencies.addAll(jmsKinds.stream()
-                .map(jmsKind -> ExportHelper.getString(runtime.name() + ".jmsKind", ExportHelper.ResourceType.jms)
-                        .replaceAll("\\$\\{jmsKind}", jmsKind))
+                .map(jmsKind -> {
+                    // get ${runtime}.${jmsKind} value at first
+                    String deps = ExportHelper.getString(runtime.name() + "." + jmsKind, ExportHelper.ResourceType.jms);
+                    // if value is null, try to read ${runtime}.jmsKind and replace "${jmsKind}" withthe real value
+                    if (deps == null || deps.isEmpty()) {
+                        deps = ExportHelper.getString(runtime.name() + ".jmsKind", ExportHelper.ResourceType.jms)
+                                .replaceAll("\\$\\{jmsKind}", jmsKind);
+                    }
+                    return deps;
+                })
                 .toList());
 
         if (runtime == RuntimeType.quarkus) {
@@ -57,6 +66,9 @@ public class JmsExportCustomizer extends AbstractExportCustomizer<ConnectionFact
                 dependencies.add(ExportHelper.getString("quarkus.narayana-jta", ExportHelper.ResourceType.jms));
             }
         }
+
+        LOG.debug("Exported Dependencies:");
+        dependencies.forEach(LOG::debug);
 
         return dependencies;
     }
