@@ -1,22 +1,26 @@
-- errorHandler:
-    deadLetterChannel:
-      deadLetterUri: jms:DLQ
-      redeliveryPolicy:
-        maximumRedeliveries: 2
-      useOriginalBody: true
 - route:
     id: producer-route
     from:
       id: timer-producer
       uri: timer
       parameters:
+        includeMetadata: true
         period: "5000"
+        repeatCount: 3
         timerName: producer
       steps:
         - setBody:
             id: set-message
             simple:
-              expression: Transactional message
+              expression: Transactional message ${exchangeProperty.CamelTimerCounter}
+        - setHeader:
+            id: setHeader-5933
+            name: counter
+            simple:
+              expression: ${exchangeProperty.CamelTimerCounter}
+        - log:
+            id: log-1795
+            message: "Message sent: ${body}"
         - to:
             id: send-to-input
             uri: jms
@@ -63,12 +67,13 @@
               - steps:
                   - log:
                       id: log-error
-                      message: Simulating error - message will be rolled back
+                      message: "Simulating error - message will be rolled back "
                   - throwException:
                       id: throw-error
                       exceptionType: java.lang.RuntimeException
                       message: Simulated processing error
-                simple: ${random(0,10)} > 7
+                simple:
+                  expression: ${header.counter} < 3
 - route:
     id: output-consumer-route
     from:
@@ -93,3 +98,9 @@
         - log:
             id: log-dlq
             message: "Message sent to DLQ after max redeliveries: ${body}"
+- errorHandler:
+    deadLetterChannel:
+      deadLetterUri: jms:DLQ
+      redeliveryPolicy:
+        maximumRedeliveries: 2
+      useOriginalBody: true

@@ -23,6 +23,7 @@
         <camel-quarkus.version>3.29.0</camel-quarkus.version>
         <citrus.version>4.8.2</citrus.version>
         <groovy.version>4.0.28</groovy.version>
+        <ibmmq-client.version>9.4.3.0</ibmmq-client.version>
         <jackson.version>2.15.2</jackson.version>
         <javaparser.version>3.27.1</javaparser.version>
         <junit-jupiter-suite.version>1.13.4</junit-jupiter-suite.version>
@@ -57,6 +58,7 @@
         <postgres.container.image>mirror.gcr.io/postgres:17.5-alpine</postgres.container.image>
         <mysql.container.image>mirror.gcr.io/mysql:8.4</mysql.container.image>
         <activemq.artemis.container.image>mirror.gcr.io/apache/activemq-artemis:2.44.0</activemq.artemis.container.image>
+        <ibmmq.container.image>icr.io/ibm-messaging/mq:9.4.3.0-r1</ibmmq.container.image>
     </properties>
 
     <dependencyManagement>
