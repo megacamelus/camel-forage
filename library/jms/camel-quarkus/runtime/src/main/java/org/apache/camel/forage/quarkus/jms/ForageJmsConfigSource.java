@@ -15,6 +15,7 @@ public class ForageJmsConfigSource extends AbstractConfigSource {
 
     static {
         // try load named JMS properties
+        ConfigStore.getInstance().setClassLoader(Thread.currentThread().getContextClassLoader());
         ConnectionFactoryConfig config = new ConnectionFactoryConfig();
         Set<String> named = ConfigStore.getInstance().readPrefixes(config, ConfigHelper.getNamedPropertyRegexp("jms"));
 

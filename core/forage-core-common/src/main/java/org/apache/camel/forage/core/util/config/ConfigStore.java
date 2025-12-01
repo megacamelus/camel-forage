@@ -124,75 +124,10 @@ public final class ConfigStore {
         final String fileName = asProperties(instance);
         LOG.info("Adding {} to {}", clazz, fileName);
 
-        File file = Paths.get("", fileName).toAbsolutePath().toFile();
-        if (!file.exists()) {
-            final String property = System.getProperty("forage.config.dir");
-            if (property != null) {
-                file = Paths.get(property, fileName).toAbsolutePath().toFile();
-            } else {
-                final String environment = System.getenv("FORAGE_CONFIG_DIR");
-                if (environment != null) {
-                    file = Paths.get(environment, fileName).toAbsolutePath().toFile();
-                }
-            }
-        }
-
-        if (file.exists()) {
-            loadProperties(registerFunction, file);
-
-            return;
-        }
-
-        if (classLoader != null) {
-            LOG.info("Trying to use the classloader to read {}", file);
-            final URL resource = classLoader.getResource(asClasspathPath(instance));
-            if (resource != null) {
-                try (InputStream fis = resource.openStream()) {
-                    loadProperties(registerFunction, fis);
-
-                    return;
-                } catch (FileNotFoundException e) {
-                    throw new RuntimeException(e);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }
-
-        // Load defaults provided by the forage component itself
-        InputStream is = ConfigStore.class.getResourceAsStream("/" + instance.name() + ".properties");
-        if (is != null) {
-            LOG.info("Loading defaults from the forage component");
-            try {
-                loadProperties(registerFunction, is);
-
-                return;
-            } catch (FileNotFoundException e) {
-                throw new RuntimeException(e);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
+        loadProperties(registerFunction, loadPropertiesWithPriority(instance, fileName));
     }
 
-    private static void loadProperties(BiConsumer<String, String> registerFunction, File file) {
-        LOG.info("Found existing config file {}", file);
-
-        try (FileInputStream fis = new FileInputStream(file)) {
-            loadProperties(registerFunction, fis);
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private static void loadProperties(BiConsumer<String, String> registerFunction, InputStream inputStream)
-            throws IOException {
-        Properties props = new Properties();
-
-        props.load(inputStream);
-
+    private static void loadProperties(BiConsumer<String, String> registerFunction, Properties props) {
         props.forEach((k, v) -> registerFunction.accept((String) k, (String) v));
     }
 
@@ -216,6 +151,24 @@ public final class ConfigStore {
     public <T extends Config> Set<String> readPrefixes(T instance, String regexp) {
         final String fileName = asProperties(instance);
 
+        return readPrefixes(loadPropertiesWithPriority(instance, fileName), regexp);
+    }
+
+    /**
+     * Method for loading properties from different sources in proper order, defaulting to 'default' properties.
+     *
+     * <ul>
+     *     <li>File from a directory defined via properties `forage.config.dir` or `FORAGE_CONFIG_DIR`</li>
+     *     <li>File in the working directory</li>
+     *     <li>Properties read via specific classloader</li>
+     *     <li>Properties loaded by a default classloader</li>
+     * </ul>
+     *
+     * <p>Be aware, that <pre>Thread.currentThread().getContextClassLoader()</pre> has to be used as default classloader
+     * (to work as expected in Quarkus runtime)</p>
+     */
+    private <T extends Config> Properties loadPropertiesWithPriority(T instance, String fileName) {
+        InputStream is = null;
         File file = Paths.get("", fileName).toAbsolutePath().toFile();
         if (!file.exists()) {
             final String property = System.getProperty("forage.config.dir");
@@ -230,56 +183,54 @@ public final class ConfigStore {
         }
 
         if (file.exists()) {
-            return readPrefixes(file, regexp);
+            try {
+                is = new FileInputStream(file);
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            }
         }
 
-        if (classLoader != null) {
+        if (is == null && classLoader != null) {
             LOG.info("Trying to use the classloader to read {}", file);
             final URL resource = classLoader.getResource(asClasspathPath(instance));
             if (resource != null) {
-                try (InputStream fis = resource.openStream()) {
-                    return readPrefixes(fis, regexp);
-                } catch (FileNotFoundException e) {
-                    throw new RuntimeException(e);
+                try {
+                    is = resource.openStream();
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
             }
         }
 
-        // Load defaults provided by the forage component itself
-        InputStream is = ConfigStore.class.getResourceAsStream("/" + instance.name() + ".properties");
-        if (is != null) {
+        if (is == null) {
             LOG.info("Loading defaults from the forage component");
-            try {
-                return readPrefixes(is, regexp);
-            } catch (FileNotFoundException e) {
-                throw new RuntimeException(e);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            is = classLoader == null
+                    ? ConfigStore.class.getResourceAsStream("/" + instance.name() + ".properties")
+                    : classLoader.getResourceAsStream("/" + instance.name() + ".properties");
         }
-        return Collections.emptySet();
-    }
 
-    private static Set<String> readPrefixes(File file, String regexp) {
-        LOG.info("Found existing config file {}", file);
-
-        try (FileInputStream fis = new FileInputStream(file)) {
-            return readPrefixes(fis, regexp);
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+        try {
+            Properties props = new Properties();
+            if (is != null) {
+                LOG.info("Loading defaults from the forage component");
+                props.load(is);
+            }
+            return props;
         } catch (IOException e) {
             throw new RuntimeException(e);
+        } finally {
+            if (is != null) {
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    // do nothing
+                }
+            }
         }
     }
 
-    private static Set<String> readPrefixes(InputStream inputStream, String regexp) throws IOException {
+    private static Set<String> readPrefixes(Properties props, String regexp) {
         Pattern pattern = Pattern.compile(regexp);
-
-        Properties props = new Properties();
-
-        props.load(inputStream);
 
         return Collections.list(props.keys()).stream()
                 .map((key) -> {

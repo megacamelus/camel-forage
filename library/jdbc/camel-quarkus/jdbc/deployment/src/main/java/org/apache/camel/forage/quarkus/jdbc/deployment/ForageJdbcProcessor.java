@@ -59,7 +59,7 @@ class ForageJdbcProcessor {
     void registerAggregation(
             CamelContextBuildItem context, ForageJdbcRecorder recorder, BuildProducer<CamelRuntimeBeanBuildItem> beans)
             throws Exception {
-
+        ConfigStore.getInstance().setClassLoader(Thread.currentThread().getContextClassLoader());
         DataSourceFactoryConfig config = new DataSourceFactoryConfig();
         Set<String> prefixes = ConfigStore.getInstance().readPrefixes(config, "(.+).jdbc\\..*");
 

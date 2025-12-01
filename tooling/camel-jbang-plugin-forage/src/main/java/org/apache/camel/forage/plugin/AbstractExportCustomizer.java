@@ -52,7 +52,7 @@ public abstract class AbstractExportCustomizer<T extends Config> implements Expo
                     .readPrefixes(getConfig(), ConfigHelper.getNamedPropertyRegexp(getPrefix()));
 
             if (defaultProperties.isEmpty() && namedProperties.isEmpty()) {
-                Log.warn("No property required for %s (%s) is present. Configuration is not exported!"
+                Log.trace("No property for %s (%s) is present."
                         .formatted(getPrefix(), getConfig().name()));
                 return enabled = false;
             }

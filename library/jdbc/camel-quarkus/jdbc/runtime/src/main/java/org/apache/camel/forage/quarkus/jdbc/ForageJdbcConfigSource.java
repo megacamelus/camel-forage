@@ -18,6 +18,7 @@ public class ForageJdbcConfigSource implements ConfigSource {
         // there is no need to check. whether property already exists, because the priority solves it
 
         // try loading multiDatasource properties
+        ConfigStore.getInstance().setClassLoader(Thread.currentThread().getContextClassLoader());
         DataSourceFactoryConfig config = new DataSourceFactoryConfig();
         Set<String> prefixes =
                 ConfigStore.getInstance().readPrefixes(config, ConfigHelper.getNamedPropertyRegexp("jdbc"));
