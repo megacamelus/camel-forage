@@ -20,8 +20,8 @@ import org.testcontainers.utility.DockerImageName;
 @CitrusSupport
 @Testcontainers
 @ExtendWith(IntegrationTestSetupExtension.class)
-public class JmsTest implements ForageIntegrationTest {
-    private static final Logger LOG = LoggerFactory.getLogger(JmsTest.class);
+public class JmsArtemisTest implements ForageIntegrationTest {
+    private static final Logger LOG = LoggerFactory.getLogger(JmsArtemisTest.class);
 
     static final String ARTEMIS_IMAGE_NAME =
             ConfigProvider.getConfig().getValue("activemq.artemis.container.image", String.class);
@@ -37,7 +37,7 @@ public class JmsTest implements ForageIntegrationTest {
     @Override
     public String runBeforeAll(ForageTestCaseRunner runner, Consumer<AutoCloseable> afterAll) {
         // running jbang forage run with required resources and required runtime
-        runner.when(forageRun(INTEGRATION_NAME, "forage-connectionfactory.properties", "route.camel.yaml")
+        runner.when(forageRun(INTEGRATION_NAME, "forage-connectionfactory.properties", "route-artemis.camel.yaml")
                 .dumpIntegrationOutput(true)
                 .withEnvs(Collections.singletonMap(
                         "JMS_BROKER_URL", "tcp://" + artemis.getHost() + ":" + artemis.getMappedPort(61616))));
@@ -51,6 +51,7 @@ public class JmsTest implements ForageIntegrationTest {
     @Test
     @CitrusTest()
     public void artemisTransactional(ForageTestCaseRunner runner) {
+
         // validation of logged message
         runner.then(camel().jbang()
                 .verify()

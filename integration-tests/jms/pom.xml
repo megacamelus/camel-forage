@@ -41,6 +41,14 @@
             <artifactId>awaitility</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <!-- The JMS client library to test with -->
+        <dependency>
+            <groupId>com.ibm.mq</groupId>
+            <artifactId>com.ibm.mq.jakarta.client</artifactId>
+            <version>${ibmmq-client.version}</version>
+        </dependency>
+
     </dependencies>
 
     <build>

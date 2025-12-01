@@ -39,12 +39,13 @@ public class JmsExportCustomizer extends AbstractExportCustomizer<ConnectionFact
         Set<String> dependencies =
                 new LinkedHashSet<>(Arrays.asList(ExportHelper.getDependencies(runtime, ExportHelper.ResourceType.jms)
                         .split(",")));
-        dependencies.addAll(jmsKinds.stream()
-                .map(jmsKind -> ExportHelper.getString(runtime.name() + ".jmsKind", ExportHelper.ResourceType.jms)
-                        .replaceAll("\\$\\{jmsKind}", jmsKind))
-                .toList());
 
         if (runtime == RuntimeType.quarkus) {
+            if (jmsKinds.contains("artemis")) {
+                dependencies.addAll(jmsKinds.stream()
+                        .map(jmsKind -> ExportHelper.getString("quarkus.artemis", ExportHelper.ResourceType.jms))
+                        .toList());
+            }
             // in case of pooled quarkus.pooled-jms is required
             if (!readAllValuesFromProperty(ConnectionFactoryConfigEntries.POOL_ENABLED)
                     .isEmpty()) {
@@ -56,6 +57,11 @@ public class JmsExportCustomizer extends AbstractExportCustomizer<ConnectionFact
                 dependencies.add(ExportHelper.getString("quarkus.pooled-jms", ExportHelper.ResourceType.jms));
                 dependencies.add(ExportHelper.getString("quarkus.narayana-jta", ExportHelper.ResourceType.jms));
             }
+        } else {
+            dependencies.addAll(jmsKinds.stream()
+                    .map(jmsKind -> ExportHelper.getString(runtime.name() + ".jmsKind", ExportHelper.ResourceType.jms)
+                            .replaceAll("\\$\\{jmsKind}", jmsKind))
+                    .toList());
         }
 
         return dependencies;
