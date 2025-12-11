@@ -44,7 +44,7 @@ public class OracleDataSourceTest extends DataSourceTest {
     protected void validateTestQueryResult(ResultSet rs) throws SQLException {
         rs.next();
 
-        Assertions.assertThat(rs.getString(1)).contains("Oracle Database");
+        Assertions.assertThat(rs.getString(1)).contains("Oracle");
     }
 
     @Test

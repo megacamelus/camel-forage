@@ -38,6 +38,6 @@ build/
 ### Mac OS ###
 .DS_Store
 
-.ObjectStore
-.PutObjectStoreDirHeres
+ObjectStore/
+PutObjectStore/
 .citrus-jbang
