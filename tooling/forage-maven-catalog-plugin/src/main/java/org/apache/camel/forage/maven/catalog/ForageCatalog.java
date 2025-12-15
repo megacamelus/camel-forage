@@ -1,11 +1,14 @@
 package org.apache.camel.forage.maven.catalog;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /**
- * Root catalog data structure containing all discovered Forage components.
+ * Root catalog data structure containing all discovered Forage factories.
+ * This is the simplified catalog structure designed for Kaoto integration.
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ForageCatalog {
 
     @JsonProperty("version")
@@ -17,8 +20,8 @@ public class ForageCatalog {
     @JsonProperty("timestamp")
     private long timestamp;
 
-    @JsonProperty("components")
-    private List<ForageComponent> components;
+    @JsonProperty("factories")
+    private List<ForageFactory> factories;
 
     public ForageCatalog() {}
 
@@ -46,11 +49,11 @@ public class ForageCatalog {
         this.timestamp = timestamp;
     }
 
-    public List<ForageComponent> getComponents() {
-        return components;
+    public List<ForageFactory> getFactories() {
+        return factories;
     }
 
-    public void setComponents(List<ForageComponent> components) {
-        this.components = components;
+    public void setFactories(List<ForageFactory> factories) {
+        this.factories = factories;
     }
 }

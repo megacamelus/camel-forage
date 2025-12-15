@@ -10,6 +10,17 @@ import org.apache.camel.forage.core.util.config.ConfigModule;
 import org.apache.camel.forage.core.util.config.ConfigTag;
 
 public final class ConnectionFactoryConfigEntries extends ConfigEntries {
+    // Instance name - used as prefix for multi-connection factory configurations
+    public static final ConfigModule NAME = ConfigModule.of(
+            ConnectionFactoryConfig.class,
+            "jms.name",
+            "Instance name used as prefix for multi-connection factory configurations (e.g., cf1.jms.*, cf2.jms.*)",
+            "Instance Name",
+            null,
+            "prefix",
+            false,
+            ConfigTag.COMMON);
+
     // JMS connection configuration
     public static final ConfigModule JMS_KIND = ConfigModule.of(
             ConnectionFactoryConfig.class,
@@ -253,6 +264,7 @@ public final class ConnectionFactoryConfigEntries extends ConfigEntries {
     }
 
     static void init() {
+        CONFIG_MODULES.put(NAME, ConfigEntry.fromModule());
         CONFIG_MODULES.put(JMS_KIND, ConfigEntry.fromModule());
         CONFIG_MODULES.put(BROKER_URL, ConfigEntry.fromModule());
         CONFIG_MODULES.put(USERNAME, ConfigEntry.fromModule());
