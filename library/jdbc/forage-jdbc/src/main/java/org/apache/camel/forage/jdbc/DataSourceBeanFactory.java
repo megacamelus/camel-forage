@@ -5,6 +5,8 @@ import java.util.ServiceLoader;
 import java.util.Set;
 import javax.sql.DataSource;
 import org.apache.camel.CamelContext;
+import org.apache.camel.forage.core.annotations.ConditionalBean;
+import org.apache.camel.forage.core.annotations.ConditionalBeanGroup;
 import org.apache.camel.forage.core.annotations.ForageFactory;
 import org.apache.camel.forage.core.common.BeanFactory;
 import org.apache.camel.forage.core.common.ServiceLoaderHelper;
@@ -30,7 +32,60 @@ import org.slf4j.LoggerFactory;
         components = {"camel-sql", "camel-jdbc", "camel-spring-jdbc"},
         description = "Default DataSource factory with ServiceLoader discovery",
         factoryType = "DataSource",
-        autowired = true)
+        autowired = true,
+        conditionalBeans = {
+            @ConditionalBeanGroup(
+                    id = "jta-transaction-policies",
+                    description = "JTA Transaction Policy beans for Camel transacted routes",
+                    configEntry = "jdbc.transaction.enabled",
+                    beans = {
+                        @ConditionalBean(
+                                name = "PROPAGATION_REQUIRED",
+                                javaType = "org.apache.camel.spi.TransactedPolicy",
+                                description =
+                                        "Starts a new transaction if none exists, otherwise joins the existing one"),
+                        @ConditionalBean(
+                                name = "MANDATORY",
+                                javaType = "org.apache.camel.spi.TransactedPolicy",
+                                description = "Requires an existing transaction, throws exception if none exists"),
+                        @ConditionalBean(
+                                name = "NEVER",
+                                javaType = "org.apache.camel.spi.TransactedPolicy",
+                                description = "Must execute without a transaction, throws exception if one exists"),
+                        @ConditionalBean(
+                                name = "NOT_SUPPORTED",
+                                javaType = "org.apache.camel.spi.TransactedPolicy",
+                                description = "Suspends any existing transaction and executes without one"),
+                        @ConditionalBean(
+                                name = "REQUIRES_NEW",
+                                javaType = "org.apache.camel.spi.TransactedPolicy",
+                                description = "Always starts a new transaction, suspending any existing one"),
+                        @ConditionalBean(
+                                name = "SUPPORTS",
+                                javaType = "org.apache.camel.spi.TransactedPolicy",
+                                description = "Joins existing transaction if present, otherwise runs without one")
+                    }),
+            @ConditionalBeanGroup(
+                    id = "aggregation-repository",
+                    description = "JDBC-backed aggregation repository for Camel aggregator EIP",
+                    configEntry = "jdbc.aggregation.repository.enabled",
+                    beans = {
+                        @ConditionalBean(
+                                nameFromConfig = "jdbc.aggregation.repository.name",
+                                javaType = "org.apache.camel.processor.aggregate.jdbc.JdbcAggregationRepository",
+                                description = "Transactional JDBC aggregation repository")
+                    }),
+            @ConditionalBeanGroup(
+                    id = "idempotent-repository",
+                    description = "JDBC-backed idempotent repository for message deduplication",
+                    configEntry = "jdbc.idempotent.repository.enabled",
+                    beans = {
+                        @ConditionalBean(
+                                nameFromConfig = "jdbc.idempotent.repository.table.name",
+                                javaType = "org.apache.camel.processor.idempotent.jdbc.JdbcMessageIdRepository",
+                                description = "JDBC message ID repository for idempotent consumer")
+                    })
+        })
 public class DataSourceBeanFactory implements BeanFactory {
     private final Logger LOG = LoggerFactory.getLogger(DataSourceBeanFactory.class);
 

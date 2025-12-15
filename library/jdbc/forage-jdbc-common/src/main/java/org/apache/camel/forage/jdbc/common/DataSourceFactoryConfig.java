@@ -3,6 +3,7 @@ package org.apache.camel.forage.jdbc.common;
 import static org.apache.camel.forage.jdbc.common.DataSourceFactoryConfigEntries.ACQUISITION_TIMEOUT_SECONDS;
 import static org.apache.camel.forage.jdbc.common.DataSourceFactoryConfigEntries.AGGREGATION_REPOSITORY_ALLOW_SERIALIZED_HEADERS;
 import static org.apache.camel.forage.jdbc.common.DataSourceFactoryConfigEntries.AGGREGATION_REPOSITORY_DEAD_LETTER_URI;
+import static org.apache.camel.forage.jdbc.common.DataSourceFactoryConfigEntries.AGGREGATION_REPOSITORY_ENABLED;
 import static org.apache.camel.forage.jdbc.common.DataSourceFactoryConfigEntries.AGGREGATION_REPOSITORY_HEADERS_TO_STORE;
 import static org.apache.camel.forage.jdbc.common.DataSourceFactoryConfigEntries.AGGREGATION_REPOSITORY_MAXIMUM_REDELIVERIES;
 import static org.apache.camel.forage.jdbc.common.DataSourceFactoryConfigEntries.AGGREGATION_REPOSITORY_NAME;
@@ -296,6 +297,13 @@ public class DataSourceFactoryConfig implements Config {
         return ConfigStore.getInstance()
                 .get(AGGREGATION_REPOSITORY_PROPAGATION_BEHAVIOUR_NAME.asNamed(prefix))
                 .orElse(null);
+    }
+
+    public boolean aggregationRepositoryEnabled() {
+        return ConfigStore.getInstance()
+                .get(AGGREGATION_REPOSITORY_ENABLED.asNamed(prefix))
+                .map(Boolean::parseBoolean)
+                .orElse(Boolean.parseBoolean(AGGREGATION_REPOSITORY_ENABLED.defaultValue()));
     }
 
     public boolean enableIdempotentRepository() {

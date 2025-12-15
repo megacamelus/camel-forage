@@ -216,6 +216,7 @@ public class CodeScanner {
         String description = "";
         String factoryType = "";
         boolean autowired = false;
+        List<ConditionalBeanGroup> conditionalBeans = new ArrayList<>();
 
         // Extract annotation values
         if (annotation instanceof SingleMemberAnnotationExpr) {
@@ -253,6 +254,9 @@ public class CodeScanner {
                             autowired = ((BooleanLiteralExpr) value).getValue();
                         }
                         break;
+                    case "conditionalBeans":
+                        conditionalBeans = extractConditionalBeanGroupArray(value);
+                        break;
                 }
             }
         }
@@ -260,7 +264,148 @@ public class CodeScanner {
         // Get the fully qualified class name
         String className = getFullyQualifiedClassName(classDecl, cu);
 
-        return new FactoryInfo(name, components, description, factoryType, className, autowired);
+        FactoryInfo factoryInfo = new FactoryInfo(name, components, description, factoryType, className, autowired);
+        if (!conditionalBeans.isEmpty()) {
+            factoryInfo.setConditionalBeans(conditionalBeans);
+        }
+        return factoryInfo;
+    }
+
+    /**
+     * Extracts an array of ConditionalBeanGroup from an annotation value.
+     */
+    private List<ConditionalBeanGroup> extractConditionalBeanGroupArray(Expression value) {
+        List<ConditionalBeanGroup> groups = new ArrayList<>();
+
+        if (value instanceof ArrayInitializerExpr) {
+            ArrayInitializerExpr arrayExpr = (ArrayInitializerExpr) value;
+            for (Expression element : arrayExpr.getValues()) {
+                if (element instanceof NormalAnnotationExpr) {
+                    ConditionalBeanGroup group = extractConditionalBeanGroupInfo((NormalAnnotationExpr) element);
+                    if (group != null) {
+                        groups.add(group);
+                    }
+                }
+            }
+        }
+
+        return groups;
+    }
+
+    /**
+     * Extracts ConditionalBeanGroup from a @ConditionalBeanGroup annotation.
+     */
+    private ConditionalBeanGroup extractConditionalBeanGroupInfo(NormalAnnotationExpr annotation) {
+        String id = "";
+        String description = "";
+        String configEntry = "";
+        List<ConditionalBeanInfo> beans = new ArrayList<>();
+
+        for (MemberValuePair pair : annotation.getPairs()) {
+            String pairName = pair.getNameAsString();
+            Expression value = pair.getValue();
+
+            switch (pairName) {
+                case "id":
+                    if (value instanceof StringLiteralExpr) {
+                        id = ((StringLiteralExpr) value).asString();
+                    }
+                    break;
+                case "description":
+                    if (value instanceof StringLiteralExpr) {
+                        description = ((StringLiteralExpr) value).asString();
+                    }
+                    break;
+                case "configEntry":
+                    if (value instanceof StringLiteralExpr) {
+                        configEntry = ((StringLiteralExpr) value).asString();
+                    }
+                    break;
+                case "beans":
+                    beans = extractConditionalBeanArray(value);
+                    break;
+            }
+        }
+
+        if (id.isEmpty() || configEntry.isEmpty()) {
+            return null;
+        }
+
+        return new ConditionalBeanGroup(id, description, configEntry, beans);
+    }
+
+    /**
+     * Extracts an array of ConditionalBeanInfo from an annotation value.
+     */
+    private List<ConditionalBeanInfo> extractConditionalBeanArray(Expression value) {
+        List<ConditionalBeanInfo> beans = new ArrayList<>();
+
+        if (value instanceof ArrayInitializerExpr) {
+            ArrayInitializerExpr arrayExpr = (ArrayInitializerExpr) value;
+            for (Expression element : arrayExpr.getValues()) {
+                if (element instanceof NormalAnnotationExpr) {
+                    ConditionalBeanInfo beanInfo = extractConditionalBeanInfo((NormalAnnotationExpr) element);
+                    if (beanInfo != null) {
+                        beans.add(beanInfo);
+                    }
+                }
+            }
+        }
+
+        return beans;
+    }
+
+    /**
+     * Extracts ConditionalBeanInfo from a @ConditionalBean annotation.
+     */
+    private ConditionalBeanInfo extractConditionalBeanInfo(NormalAnnotationExpr annotation) {
+        String name = null;
+        String nameFromConfig = null;
+        String javaType = "";
+        String description = null;
+
+        for (MemberValuePair pair : annotation.getPairs()) {
+            String pairName = pair.getNameAsString();
+            Expression pairValue = pair.getValue();
+
+            switch (pairName) {
+                case "name":
+                    if (pairValue instanceof StringLiteralExpr) {
+                        String nameValue = ((StringLiteralExpr) pairValue).asString();
+                        if (!nameValue.isEmpty()) {
+                            name = nameValue;
+                        }
+                    }
+                    break;
+                case "nameFromConfig":
+                    if (pairValue instanceof StringLiteralExpr) {
+                        String nameFromConfigValue = ((StringLiteralExpr) pairValue).asString();
+                        if (!nameFromConfigValue.isEmpty()) {
+                            nameFromConfig = nameFromConfigValue;
+                        }
+                    }
+                    break;
+                case "javaType":
+                    if (pairValue instanceof StringLiteralExpr) {
+                        javaType = ((StringLiteralExpr) pairValue).asString();
+                    }
+                    break;
+                case "description":
+                    if (pairValue instanceof StringLiteralExpr) {
+                        String descValue = ((StringLiteralExpr) pairValue).asString();
+                        if (!descValue.isEmpty()) {
+                            description = descValue;
+                        }
+                    }
+                    break;
+            }
+        }
+
+        if (javaType.isEmpty()) {
+            return null;
+        }
+
+        return new ConditionalBeanInfo(name, nameFromConfig, javaType, description);
     }
 
     /**

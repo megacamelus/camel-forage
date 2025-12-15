@@ -52,4 +52,12 @@ public @interface ForageFactory {
      * @return
      */
     boolean autowired() default false;
+
+    /**
+     * Conditional beans that are automatically registered when certain config entries are enabled.
+     * Used by the catalog generator to inform UI wizards about beans created based on configuration.
+     *
+     * @return array of conditional bean groups
+     */
+    ConditionalBeanGroup[] conditionalBeans() default {};
 }

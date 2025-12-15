@@ -1,11 +1,13 @@
 package org.apache.camel.forage.maven.catalog;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import java.util.Arrays;
 import java.util.List;
 
 /**
  * Represents information about a ForageFactory annotation found in the codebase.
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class FactoryInfo {
     private String name;
     private List<String> components;
@@ -13,6 +15,7 @@ public class FactoryInfo {
     private String factoryType;
     private String className;
     private boolean autowired;
+    private List<ConditionalBeanGroup> conditionalBeans;
 
     public FactoryInfo() {}
 
@@ -86,6 +89,14 @@ public class FactoryInfo {
 
     public void setAutowired(boolean autowired) {
         this.autowired = autowired;
+    }
+
+    public List<ConditionalBeanGroup> getConditionalBeans() {
+        return conditionalBeans;
+    }
+
+    public void setConditionalBeans(List<ConditionalBeanGroup> conditionalBeans) {
+        this.conditionalBeans = conditionalBeans;
     }
 
     @Override

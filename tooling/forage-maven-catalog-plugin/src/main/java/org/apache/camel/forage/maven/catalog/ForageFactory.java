@@ -39,6 +39,9 @@ public class ForageFactory {
     @JsonProperty("beansByFeature")
     private Map<String, List<ForageBean>> beansByFeature;
 
+    @JsonProperty("conditionalBeans")
+    private List<ConditionalBeanGroup> conditionalBeans;
+
     public ForageFactory() {}
 
     public ForageFactory(String name, String factoryType, String description) {
@@ -117,6 +120,14 @@ public class ForageFactory {
 
     public void setBeansByFeature(Map<String, List<ForageBean>> beansByFeature) {
         this.beansByFeature = beansByFeature;
+    }
+
+    public List<ConditionalBeanGroup> getConditionalBeans() {
+        return conditionalBeans;
+    }
+
+    public void setConditionalBeans(List<ConditionalBeanGroup> conditionalBeans) {
+        this.conditionalBeans = conditionalBeans;
     }
 
     @Override

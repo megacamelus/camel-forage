@@ -357,6 +357,16 @@ public final class DataSourceFactoryConfigEntries extends ConfigEntries {
             false,
             ConfigTag.ADVANCED);
 
+    public static final ConfigModule AGGREGATION_REPOSITORY_ENABLED = ConfigModule.of(
+            DataSourceFactoryConfig.class,
+            "jdbc.aggregation.repository.enabled",
+            "Enable aggregation repository (requires transactions to be enabled)",
+            "Aggregation Repository Enabled",
+            "false",
+            "boolean",
+            false,
+            ConfigTag.COMMON);
+
     public static final ConfigModule ENABLE_IDEMPOTENT_REPOSITORY = ConfigModule.of(
             DataSourceFactoryConfig.class,
             "jdbc.idempotent.repository.enabled",
@@ -438,6 +448,7 @@ public final class DataSourceFactoryConfigEntries extends ConfigEntries {
         CONFIG_MODULES.put(AGGREGATION_REPOSITORY_MAXIMUM_REDELIVERIES, ConfigEntry.fromModule());
         CONFIG_MODULES.put(AGGREGATION_REPOSITORY_USE_RECOVERY, ConfigEntry.fromModule());
         CONFIG_MODULES.put(AGGREGATION_REPOSITORY_PROPAGATION_BEHAVIOUR_NAME, ConfigEntry.fromModule());
+        CONFIG_MODULES.put(AGGREGATION_REPOSITORY_ENABLED, ConfigEntry.fromModule());
         CONFIG_MODULES.put(ENABLE_IDEMPOTENT_REPOSITORY, ConfigEntry.fromModule());
         CONFIG_MODULES.put(IDEMPOTENT_REPOSITORY_TABLE_NAME, ConfigEntry.fromModule());
         CONFIG_MODULES.put(IDEMPOTENT_REPOSITORY_TABLE_IF_NOT_EXISTS, ConfigEntry.fromModule());

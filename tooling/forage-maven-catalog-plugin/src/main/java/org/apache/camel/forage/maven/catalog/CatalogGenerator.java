@@ -130,6 +130,12 @@ public class CatalogGenerator {
                     // Add this platform variant
                     FactoryVariant variant = new FactoryVariant(factoryInfo.getClassName(), gav);
                     factory.getVariants().put(platform, variant);
+
+                    // Copy conditional beans if present
+                    if (factoryInfo.getConditionalBeans() != null
+                            && !factoryInfo.getConditionalBeans().isEmpty()) {
+                        factory.setConditionalBeans(factoryInfo.getConditionalBeans());
+                    }
                 }
             }
 
@@ -329,7 +335,7 @@ public class CatalogGenerator {
         List<ForgeBeanInfo> beans = codeScanner.scanForForageBeans(artifact, rootProject);
         component.setBeans(beans);
 
-        // Scan for ForageFactory annotations
+        // Scan for ForageFactory annotations (conditionalBeans are now extracted directly from @ForageFactory)
         List<FactoryInfo> factories = codeScanner.scanForForageFactories(artifact, rootProject);
         component.setFactories(factories);
 
