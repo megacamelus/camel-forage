@@ -13,7 +13,6 @@ import org.apache.camel.component.langchain4j.agent.api.AgentConfiguration;
 import org.apache.camel.component.langchain4j.agent.api.AgentFactory;
 import org.apache.camel.forage.core.ai.ChatMemoryBeanProvider;
 import org.apache.camel.forage.core.ai.ModelProvider;
-import org.apache.camel.forage.core.annotations.ForageFactory;
 import org.apache.camel.forage.core.common.ServiceLoaderHelper;
 import org.apache.camel.forage.core.util.config.ConfigStore;
 import org.slf4j.Logger;
@@ -22,11 +21,6 @@ import org.slf4j.LoggerFactory;
 /**
  * Implementation of AgentFactory that uses ServiceLoader to discover and create multiple agents
  */
-@ForageFactory(
-        value = "multi-agent",
-        components = {"camel-langchain4j-agent"},
-        description = "Multi-agent factory with ServiceLoader discovery and configuration-based selection",
-        factoryType = "Agent")
 public class MultiAgentFactory implements AgentFactory {
     private static final Logger LOG = LoggerFactory.getLogger(MultiAgentFactory.class);
 

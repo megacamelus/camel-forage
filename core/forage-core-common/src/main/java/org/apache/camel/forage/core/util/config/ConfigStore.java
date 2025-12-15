@@ -368,6 +368,35 @@ public final class ConfigStore {
         properties.put(module, value);
     }
 
+    /**
+     * Sets a configuration value directly by string key.
+     *
+     * <p>This method bypasses the ConfigModule lookup and stores the value directly
+     * in the internal properties using the provided key. This is useful when mapping
+     * configuration values between different namespaces.
+     *
+     * @param key the configuration key (e.g., "google.api.key")
+     * @param value the configuration value to store
+     * @since 1.0
+     */
+    public void setDirect(String key, String value) {
+        properties.put(key, value);
+    }
+
+    /**
+     * Gets a configuration value directly by string key.
+     *
+     * <p>This method bypasses the ConfigModule lookup and retrieves the value directly
+     * from the internal properties using the provided key.
+     *
+     * @param key the configuration key (e.g., "google.api.key")
+     * @return an Optional containing the value if present, or empty if not found
+     * @since 1.0
+     */
+    public Optional<String> getDirect(String key) {
+        return Optional.ofNullable((String) properties.get(key));
+    }
+
     public ClassLoader getClassLoader() {
         return classLoader;
     }

@@ -22,6 +22,11 @@
             <artifactId>forage-agent-factories</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.camel.forage</groupId>
+            <artifactId>forage-agent</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
         <!-- Vector Database Modules -->
         <dependency>

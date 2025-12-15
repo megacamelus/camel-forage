@@ -19,6 +19,11 @@ public class SimpleAgent implements Agent, ConfigurationAware {
 
     private AgentConfiguration configuration;
 
+    // Cached AI service instances to avoid recreating proxies on every request
+    private ForageAgentWithMemory cachedMemoryService;
+    private ForageAgentWithoutMemory cachedNoMemoryService;
+    private ToolProvider lastToolProvider;
+
     public SimpleAgent() {}
 
     @Override
@@ -32,10 +37,10 @@ public class SimpleAgent implements Agent, ConfigurationAware {
 
     @Override
     public String chat(AiAgentBody aiAgentBody, ToolProvider toolProvider) {
-        LOG.info("Chatting using ForageAgent");
+        LOG.debug("Chatting using ForageAgent");
 
         if (hasMemory()) {
-            LOG.info("Chatting with memory");
+            LOG.debug("Chatting with memory");
             ForageAgentWithMemory agentService = createAiAgentService(toolProvider, ForageAgentWithMemory.class);
 
             return aiAgentBody.getSystemMessage() != null
@@ -43,7 +48,7 @@ public class SimpleAgent implements Agent, ConfigurationAware {
                             aiAgentBody.getMemoryId(), aiAgentBody.getUserMessage(), aiAgentBody.getSystemMessage())
                     : agentService.chat(aiAgentBody.getMemoryId(), aiAgentBody.getUserMessage());
         } else {
-            LOG.info("Chatting without memory");
+            LOG.debug("Chatting without memory");
             ForageAgentWithoutMemory agentService = createAiAgentService(toolProvider, ForageAgentWithoutMemory.class);
 
             if (aiAgentBody.getContent() != null) {
@@ -61,10 +66,28 @@ public class SimpleAgent implements Agent, ConfigurationAware {
     }
 
     /**
-     * Create AI service with a single universal tool that handles multiple Camel routes and Memory Provider
+     * Create AI service with a single universal tool that handles multiple Camel routes and Memory Provider.
+     * Services are cached to avoid recreating proxies on every request when the toolProvider is unchanged.
      */
+    @SuppressWarnings("unchecked")
     private <T> T createAiAgentService(ToolProvider toolProvider, Class<T> clazz) {
-        LOG.info("Creating of type {}", clazz.getSimpleName());
+        // Check if we can return a cached instance
+        if (toolProvider == lastToolProvider) {
+            if (clazz == ForageAgentWithMemory.class && cachedMemoryService != null) {
+                LOG.debug("Reusing cached ForageAgentWithMemory service");
+                return (T) cachedMemoryService;
+            } else if (clazz == ForageAgentWithoutMemory.class && cachedNoMemoryService != null) {
+                LOG.debug("Reusing cached ForageAgentWithoutMemory service");
+                return (T) cachedNoMemoryService;
+            }
+        } else {
+            // Tool provider changed, invalidate cache
+            cachedMemoryService = null;
+            cachedNoMemoryService = null;
+            lastToolProvider = toolProvider;
+        }
+
+        LOG.info("Creating new {} service", clazz.getSimpleName());
         AiServices<T> builder = AiServices.builder(clazz).chatModel(configuration.getChatModel());
 
         if (hasMemory()) {
@@ -93,6 +116,15 @@ public class SimpleAgent implements Agent, ConfigurationAware {
             builder.outputGuardrailClasses((List) configuration.getOutputGuardrailClasses());
         }
 
-        return builder.build();
+        T service = builder.build();
+
+        // Cache the service
+        if (clazz == ForageAgentWithMemory.class) {
+            cachedMemoryService = (ForageAgentWithMemory) service;
+        } else if (clazz == ForageAgentWithoutMemory.class) {
+            cachedNoMemoryService = (ForageAgentWithoutMemory) service;
+        }
+
+        return service;
     }
 }
