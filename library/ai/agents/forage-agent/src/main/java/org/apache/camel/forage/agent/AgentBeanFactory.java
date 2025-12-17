@@ -15,6 +15,7 @@ import org.apache.camel.forage.core.ai.ModelProvider;
 import org.apache.camel.forage.core.annotations.ForageBean;
 import org.apache.camel.forage.core.annotations.ForageFactory;
 import org.apache.camel.forage.core.common.BeanFactory;
+import org.apache.camel.forage.core.util.config.ConfigHelper;
 import org.apache.camel.forage.core.util.config.ConfigStore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,13 +61,22 @@ public class AgentBeanFactory implements BeanFactory {
         AgentConfig defaultConfig = new AgentConfig();
 
         // Auto-detect prefixes from properties like "google.agent.*", "ollama.agent.*"
-        Set<String> prefixes = ConfigStore.getInstance().readPrefixes(defaultConfig, "(.+)\\.agent\\..*");
+        Set<String> prefixes =
+                ConfigStore.getInstance().readPrefixes(defaultConfig, ConfigHelper.getNamedPropertyRegexp("agent"));
 
         if (!prefixes.isEmpty()) {
             LOG.info("Detected agent prefixes: {}", prefixes);
             configureMultiAgent(prefixes);
         } else {
-            LOG.debug("No agent configuration found, skipping agent registration");
+            // Check if there's a default (non-prefixed) agent configuration
+            Set<String> defaultPrefixes = ConfigStore.getInstance()
+                    .readPrefixes(defaultConfig, ConfigHelper.getDefaultPropertyRegexp("agent"));
+            if (!defaultPrefixes.isEmpty()) {
+                LOG.info("Detected default agent configuration");
+                configureDefaultAgent();
+            } else {
+                LOG.debug("No agent configuration found, skipping agent registration");
+            }
         }
     }
 
@@ -84,6 +94,22 @@ public class AgentBeanFactory implements BeanFactory {
                     LOG.warn("Failed to create agent '{}': {}", agentName, e.getMessage());
                     LOG.debug("Agent creation exception details", e);
                 }
+            }
+        }
+    }
+
+    private void configureDefaultAgent() {
+        if (camelContext.getRegistry().lookupByNameAndType(DEFAULT_AGENT, Agent.class) == null) {
+            try {
+                AgentConfig agentConfig = new AgentConfig();
+                Agent agent = createAgent(agentConfig, DEFAULT_AGENT);
+                if (agent != null) {
+                    camelContext.getRegistry().bind(DEFAULT_AGENT, agent);
+                    LOG.info("Registered default Agent bean with name: {}", DEFAULT_AGENT);
+                }
+            } catch (Exception e) {
+                LOG.warn("Failed to create default agent: {}", e.getMessage());
+                LOG.debug("Agent creation exception details", e);
             }
         }
     }
@@ -181,7 +207,9 @@ public class AgentBeanFactory implements BeanFactory {
 
     private void setSystemPropertyIfNotNull(String prefix, String providerPrefix, String key, Object value) {
         if (value != null) {
-            String fullKey = prefix != null ? prefix + "." + providerPrefix + "." + key : providerPrefix + "." + key;
+            String fullKey = prefix != null
+                    ? "forage." + prefix + "." + providerPrefix + "." + key
+                    : "forage." + providerPrefix + "." + key;
             System.setProperty(fullKey, String.valueOf(value));
             LOG.trace("Set system property: {}={}", fullKey, value);
         }

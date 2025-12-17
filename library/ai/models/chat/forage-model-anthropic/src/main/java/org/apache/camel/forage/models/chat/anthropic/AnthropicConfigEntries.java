@@ -12,7 +12,7 @@ import org.apache.camel.forage.core.util.config.ConfigTag;
 public final class AnthropicConfigEntries extends ConfigEntries {
     public static final ConfigModule API_KEY = ConfigModule.of(
             AnthropicConfig.class,
-            "anthropic.api.key",
+            "forage.anthropic.api.key",
             "Anthropic API key for authentication",
             "API Key",
             null,
@@ -21,7 +21,7 @@ public final class AnthropicConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule MODEL_NAME = ConfigModule.of(
             AnthropicConfig.class,
-            "anthropic.model.name",
+            "forage.anthropic.model.name",
             "Claude model name (e.g., claude-3-haiku-20240307, claude-3-sonnet-20240229, claude-3-opus-20240229)",
             "Model Name",
             "claude-3-haiku-20240307",
@@ -30,7 +30,7 @@ public final class AnthropicConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule TEMPERATURE = ConfigModule.of(
             AnthropicConfig.class,
-            "anthropic.temperature",
+            "forage.anthropic.temperature",
             "Temperature for response generation (0.0-1.0): lower values are more deterministic, higher values are more creative",
             "Temperature",
             null,
@@ -39,7 +39,7 @@ public final class AnthropicConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule MAX_TOKENS = ConfigModule.of(
             AnthropicConfig.class,
-            "anthropic.max.tokens",
+            "forage.anthropic.max.tokens",
             "Maximum number of tokens in the model's response",
             "Max Tokens",
             null,
@@ -48,7 +48,7 @@ public final class AnthropicConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule TOP_P = ConfigModule.of(
             AnthropicConfig.class,
-            "anthropic.top.p",
+            "forage.anthropic.top.p",
             "Top-p (nucleus sampling) probability threshold (0.0-1.0)",
             "Top P",
             null,
@@ -57,7 +57,7 @@ public final class AnthropicConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule TOP_K = ConfigModule.of(
             AnthropicConfig.class,
-            "anthropic.top.k",
+            "forage.anthropic.top.k",
             "Top-k sampling parameter: limits the model to consider only the top-k most probable tokens",
             "Top K",
             null,
@@ -66,7 +66,7 @@ public final class AnthropicConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule STOP_SEQUENCES = ConfigModule.of(
             AnthropicConfig.class,
-            "anthropic.stop.sequences",
+            "forage.anthropic.stop.sequences",
             "Comma-separated stop sequences that cause the model to stop generating further tokens",
             "Stop Sequences",
             null,
@@ -75,7 +75,7 @@ public final class AnthropicConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule TIMEOUT = ConfigModule.of(
             AnthropicConfig.class,
-            "anthropic.timeout",
+            "forage.anthropic.timeout",
             "Request timeout in seconds",
             "Timeout",
             null,
@@ -84,7 +84,7 @@ public final class AnthropicConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule MAX_RETRIES = ConfigModule.of(
             AnthropicConfig.class,
-            "anthropic.max.retries",
+            "forage.anthropic.max.retries",
             "Maximum number of retry attempts for failed requests",
             "Max Retries",
             null,
@@ -93,7 +93,7 @@ public final class AnthropicConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule LOG_REQUESTS_AND_RESPONSES = ConfigModule.of(
             AnthropicConfig.class,
-            "anthropic.log.requests.and.responses",
+            "forage.anthropic.log.requests.and.responses",
             "Enable logging of requests and responses (warning: may log sensitive data)",
             "Log Requests",
             null,

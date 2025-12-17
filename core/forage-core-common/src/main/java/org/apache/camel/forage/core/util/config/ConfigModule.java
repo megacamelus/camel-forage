@@ -139,7 +139,17 @@ public class ConfigModule {
      * @return the environment variable name, never null
      */
     public String envName() {
-        String envName = prefix == null ? name : prefix + "." + name;
+        String envName;
+        if (prefix == null) {
+            envName = name;
+        } else {
+            // Insert prefix after "forage." if the name starts with it
+            if (name.startsWith("forage.")) {
+                envName = "forage." + prefix + "." + name.substring(7);
+            } else {
+                envName = prefix + "." + name;
+            }
+        }
 
         if (envName != null && !envName.isEmpty()) {
             return envName.replace(".", "_").toUpperCase();
@@ -158,7 +168,17 @@ public class ConfigModule {
      * @return the system property name, never null
      */
     public String propertyName() {
-        String propertyName = prefix == null ? name : prefix + "." + name;
+        String propertyName;
+        if (prefix == null) {
+            propertyName = name;
+        } else {
+            // Insert prefix after "forage." if the name starts with it
+            if (name.startsWith("forage.")) {
+                propertyName = "forage." + prefix + "." + name.substring(7);
+            } else {
+                propertyName = prefix + "." + name;
+            }
+        }
 
         if (propertyName != null && !propertyName.isEmpty()) {
             return propertyName.replace("_", ".").toLowerCase();
@@ -173,14 +193,30 @@ public class ConfigModule {
                 return true;
             }
         } else {
-            return value.equals(String.format("%s.%s", prefix, name));
+            // Insert prefix after "forage." if the name starts with it
+            String expectedName;
+            if (name.startsWith("forage.")) {
+                expectedName = "forage." + prefix + "." + name.substring(7);
+            } else {
+                expectedName = prefix + "." + name;
+            }
+            return value.equals(expectedName);
         }
 
         return false;
     }
 
     public String name() {
-        return prefix == null ? name : prefix + "." + name;
+        if (prefix == null) {
+            return name;
+        } else {
+            // Insert prefix after "forage." if the name starts with it
+            if (name.startsWith("forage.")) {
+                return "forage." + prefix + "." + name.substring(7);
+            } else {
+                return prefix + "." + name;
+            }
+        }
     }
 
     public Class<? extends Config> config() {

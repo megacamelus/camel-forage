@@ -31,12 +31,12 @@ public class MySQLDataSourceTest extends DataSourceTest {
 
     @Override
     protected void setUpDataSource(String dataSourceName) {
-        System.setProperty(dataSourceName + ".jdbc.db.kind", "mysql");
+        System.setProperty("forage." + dataSourceName + ".jdbc.db.kind", "mysql");
         System.setProperty(
-                dataSourceName + ".jdbc.url",
+                "forage." + dataSourceName + ".jdbc.url",
                 "jdbc:mysql://localhost:" + mysql.getMappedPort(3306) + "/" + MYSQL_DATABASE);
-        System.setProperty(dataSourceName + ".jdbc.username", "root");
-        System.setProperty(dataSourceName + ".jdbc.password", "pwd");
+        System.setProperty("forage." + dataSourceName + ".jdbc.username", "root");
+        System.setProperty("forage." + dataSourceName + ".jdbc.password", "pwd");
     }
 
     @Override

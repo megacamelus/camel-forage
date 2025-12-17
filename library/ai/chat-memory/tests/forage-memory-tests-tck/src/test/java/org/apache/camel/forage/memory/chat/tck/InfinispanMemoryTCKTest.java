@@ -46,29 +46,29 @@ class InfinispanMemoryTCKTest extends ChatMemoryBeanProviderTCK {
         Integer infinispanPort = infinispan.getMappedPort(INFINISPAN_PORT);
 
         // Set system properties for Infinispan configuration
-        System.setProperty("infinispan.server-list", infinispanHost + ":" + infinispanPort);
-        System.setProperty("infinispan.cache-name", "chat-memory");
-        System.setProperty("infinispan.username", "admin");
-        System.setProperty("infinispan.password", "password");
-        System.setProperty("infinispan.realm", "default");
-        System.setProperty("infinispan.sasl-mechanism", "DIGEST-MD5");
-        System.setProperty("infinispan.connection-timeout", "60000");
-        System.setProperty("infinispan.socket-timeout", "60000");
-        System.setProperty("infinispan.max-retries", "3");
+        System.setProperty("forage.infinispan.server-list", infinispanHost + ":" + infinispanPort);
+        System.setProperty("forage.infinispan.cache-name", "chat-memory");
+        System.setProperty("forage.infinispan.username", "admin");
+        System.setProperty("forage.infinispan.password", "password");
+        System.setProperty("forage.infinispan.realm", "default");
+        System.setProperty("forage.infinispan.sasl-mechanism", "DIGEST-MD5");
+        System.setProperty("forage.infinispan.connection-timeout", "60000");
+        System.setProperty("forage.infinispan.socket-timeout", "60000");
+        System.setProperty("forage.infinispan.max-retries", "3");
     }
 
     @AfterAll
     static void tearDownInfinispan() {
         // Clean up Infinispan configuration
-        System.clearProperty("infinispan.server-list");
-        System.clearProperty("infinispan.cache-name");
-        System.clearProperty("infinispan.username");
-        System.clearProperty("infinispan.password");
-        System.clearProperty("infinispan.realm");
-        System.clearProperty("infinispan.sasl-mechanism");
-        System.clearProperty("infinispan.connection-timeout");
-        System.clearProperty("infinispan.socket-timeout");
-        System.clearProperty("infinispan.max-retries");
+        System.clearProperty("forage.infinispan.server-list");
+        System.clearProperty("forage.infinispan.cache-name");
+        System.clearProperty("forage.infinispan.username");
+        System.clearProperty("forage.infinispan.password");
+        System.clearProperty("forage.infinispan.realm");
+        System.clearProperty("forage.infinispan.sasl-mechanism");
+        System.clearProperty("forage.infinispan.connection-timeout");
+        System.clearProperty("forage.infinispan.socket-timeout");
+        System.clearProperty("forage.infinispan.max-retries");
 
         // Close Infinispan cache manager
         InfinispanMemoryBeanProvider.close();

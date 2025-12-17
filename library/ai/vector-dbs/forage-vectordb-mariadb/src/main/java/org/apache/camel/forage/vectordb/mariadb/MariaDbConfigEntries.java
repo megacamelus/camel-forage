@@ -12,7 +12,7 @@ import org.apache.camel.forage.core.util.config.ConfigTag;
 public final class MariaDbConfigEntries extends ConfigEntries {
     public static final ConfigModule URL = ConfigModule.of(
             MariaDbConfig.class,
-            "mariadb.url",
+            "forage.mariadb.url",
             "MariaDB JDBC URL (e.g., jdbc:mariadb://localhost:3306/vectordb)",
             "URL",
             null,
@@ -21,7 +21,7 @@ public final class MariaDbConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule USER = ConfigModule.of(
             MariaDbConfig.class,
-            "mariadb.user",
+            "forage.mariadb.user",
             "Database username for authentication",
             "User",
             null,
@@ -30,7 +30,7 @@ public final class MariaDbConfigEntries extends ConfigEntries {
             ConfigTag.SECURITY);
     public static final ConfigModule PASSWORD = ConfigModule.of(
             MariaDbConfig.class,
-            "mariadb.password",
+            "forage.mariadb.password",
             "Database password for authentication",
             "Password",
             null,
@@ -39,7 +39,7 @@ public final class MariaDbConfigEntries extends ConfigEntries {
             ConfigTag.SECURITY);
     public static final ConfigModule TABLE = ConfigModule.of(
             MariaDbConfig.class,
-            "mariadb.table",
+            "forage.mariadb.table",
             "Name of the table to store embeddings",
             "Table",
             "embeddings",
@@ -48,7 +48,7 @@ public final class MariaDbConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule ID_FIELD_NAME = ConfigModule.of(
             MariaDbConfig.class,
-            "mariadb.id.field.name",
+            "forage.mariadb.id.field.name",
             "Name of the ID field in the embeddings table",
             "ID Field Name",
             "id",
@@ -57,7 +57,7 @@ public final class MariaDbConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule EMBEDDING_FIELD_NAME = ConfigModule.of(
             MariaDbConfig.class,
-            "mariadb.embedding.field.name",
+            "forage.mariadb.embedding.field.name",
             "Name of the embedding vector field",
             "Embedding Field Name",
             "embedding",
@@ -66,7 +66,7 @@ public final class MariaDbConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule CONTENT_FIELD_NAME = ConfigModule.of(
             MariaDbConfig.class,
-            "mariadb.content.field.name",
+            "forage.mariadb.content.field.name",
             "Name of the content text field",
             "Content Field Name",
             "content",
@@ -75,7 +75,7 @@ public final class MariaDbConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule DISTANCE_TYPE = ConfigModule.of(
             MariaDbConfig.class,
-            "mariadb.distance.type",
+            "forage.mariadb.distance.type",
             "Distance calculation method: COSINE or EUCLIDEAN",
             "Distance Type",
             "COSINE",
@@ -84,7 +84,7 @@ public final class MariaDbConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule DIMENSION = ConfigModule.of(
             MariaDbConfig.class,
-            "mariadb.dimension",
+            "forage.mariadb.dimension",
             "Vector dimension size",
             "Dimension",
             "384",
@@ -93,7 +93,7 @@ public final class MariaDbConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule CREATE_TABLE = ConfigModule.of(
             MariaDbConfig.class,
-            "mariadb.create.table",
+            "forage.mariadb.create.table",
             "Whether to create the table if it doesn't exist",
             "Create Table",
             "true",
@@ -102,7 +102,7 @@ public final class MariaDbConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule DROP_TABLE_FIRST = ConfigModule.of(
             MariaDbConfig.class,
-            "mariadb.drop.table.first",
+            "forage.mariadb.drop.table.first",
             "Whether to drop the table before creating it",
             "Drop Table First",
             "false",

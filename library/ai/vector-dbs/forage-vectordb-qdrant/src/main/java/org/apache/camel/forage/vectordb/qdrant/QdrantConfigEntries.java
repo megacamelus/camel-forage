@@ -12,7 +12,7 @@ import org.apache.camel.forage.core.util.config.ConfigTag;
 public final class QdrantConfigEntries extends ConfigEntries {
     public static final ConfigModule COLLECTION_NAME = ConfigModule.of(
             QdrantConfig.class,
-            "qdrant.collection.name",
+            "forage.qdrant.collection.name",
             "Name of the Qdrant collection",
             "Collection Name",
             null,
@@ -21,7 +21,7 @@ public final class QdrantConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule HOST = ConfigModule.of(
             QdrantConfig.class,
-            "qdrant.host",
+            "forage.qdrant.host",
             "Qdrant server host address",
             "Host",
             null,
@@ -30,7 +30,7 @@ public final class QdrantConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule PORT = ConfigModule.of(
             QdrantConfig.class,
-            "qdrant.port",
+            "forage.qdrant.port",
             "Qdrant server port number",
             "Port",
             null,
@@ -39,7 +39,7 @@ public final class QdrantConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule USE_TLS = ConfigModule.of(
             QdrantConfig.class,
-            "qdrant.use.tls",
+            "forage.qdrant.use.tls",
             "Enable TLS for secure connections",
             "Use TLS",
             "false",
@@ -48,7 +48,7 @@ public final class QdrantConfigEntries extends ConfigEntries {
             ConfigTag.SECURITY);
     public static final ConfigModule PAYLOAD_TEXT_KEY = ConfigModule.of(
             QdrantConfig.class,
-            "qdrant.payload.text.key",
+            "forage.qdrant.payload.text.key",
             "Payload key for storing text content",
             "Payload Text Key",
             "text_segment",
@@ -57,7 +57,7 @@ public final class QdrantConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule API_KEY = ConfigModule.of(
             QdrantConfig.class,
-            "qdrant.api.key",
+            "forage.qdrant.api.key",
             "API key for authentication",
             "API Key",
             null,

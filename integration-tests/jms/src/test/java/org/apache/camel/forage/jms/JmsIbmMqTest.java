@@ -2,7 +2,6 @@ package org.apache.camel.forage.jms;
 
 import java.util.Collections;
 import java.util.Map;
-import java.util.Optional;
 import java.util.function.Consumer;
 import org.apache.camel.forage.integration.tests.ForageIntegrationTest;
 import org.apache.camel.forage.integration.tests.ForageTestCaseRunner;
@@ -11,7 +10,6 @@ import org.citrusframework.annotations.CitrusTest;
 import org.citrusframework.junit.jupiter.CitrusSupport;
 import org.eclipse.microprofile.config.ConfigProvider;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +20,6 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
-@EnabledIfSystemProperty(named = "ibm.mq.container.license", matches = "accept")
 @CitrusSupport
 @Testcontainers
 @ExtendWith(IntegrationTestSetupExtension.class)
@@ -43,12 +40,7 @@ public class JmsIbmMqTest implements ForageIntegrationTest {
     @Container
     static GenericContainer ibmmq = new GenericContainer<>(DockerImageName.parse(IBMMQ_IMAGE_NAME))
             .withExposedPorts(IBMMQ_PORT)
-            .withEnv(Map.of(
-                    "LICENSE",
-                    Optional.ofNullable(System.getProperty("ibm.mq.container.license"))
-                            .orElse(""),
-                    "MQ_QMGR_NAME",
-                    QUEUE_MANAGER_NAME))
+            .withEnv(Map.of("LICENSE", "accept", "MQ_QMGR_NAME", QUEUE_MANAGER_NAME))
             .withCopyToContainer(Transferable.of(PASSWORD), "/run/secrets/mqAdminPassword")
             .withCopyToContainer(Transferable.of(PASSWORD), "/run/secrets/mqAppPassword")
             .withCopyToContainer(Transferable.of(mqscConfig()), MQSC_FILE_CONTAINER_PATH)
@@ -86,7 +78,7 @@ public class JmsIbmMqTest implements ForageIntegrationTest {
                 .dumpIntegrationOutput(true)
                 //                .withArg("--jvm-debug", "5005")
                 .withEnvs(Collections.singletonMap(
-                        "JMS_BROKER_URL",
+                        "FORAGE_JMS_BROKER_URL",
                         "mq://%s:%d/%s/%s"
                                 .formatted(
                                         ibmmq.getHost(),

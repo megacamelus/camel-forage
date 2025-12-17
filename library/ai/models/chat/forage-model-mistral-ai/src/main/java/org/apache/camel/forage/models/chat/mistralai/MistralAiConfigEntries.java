@@ -12,7 +12,7 @@ import org.apache.camel.forage.core.util.config.ConfigTag;
 public final class MistralAiConfigEntries extends ConfigEntries {
     public static final ConfigModule API_KEY = ConfigModule.of(
             MistralAiConfig.class,
-            "mistralai.api.key",
+            "forage.mistralai.api.key",
             "MistralAI API key for authentication",
             "API Key",
             null,
@@ -21,7 +21,7 @@ public final class MistralAiConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule MODEL_NAME = ConfigModule.of(
             MistralAiConfig.class,
-            "mistralai.model.name",
+            "forage.mistralai.model.name",
             "The MistralAI model to use",
             "Model Name",
             "mistral-large-latest",
@@ -30,7 +30,7 @@ public final class MistralAiConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule TEMPERATURE = ConfigModule.of(
             MistralAiConfig.class,
-            "mistralai.temperature",
+            "forage.mistralai.temperature",
             "Temperature for response generation (0.0-1.0)",
             "Temperature",
             null,
@@ -39,7 +39,7 @@ public final class MistralAiConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule MAX_TOKENS = ConfigModule.of(
             MistralAiConfig.class,
-            "mistralai.max.tokens",
+            "forage.mistralai.max.tokens",
             "Maximum number of tokens for model responses",
             "Max Tokens",
             null,
@@ -48,7 +48,7 @@ public final class MistralAiConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule TOP_P = ConfigModule.of(
             MistralAiConfig.class,
-            "mistralai.top.p",
+            "forage.mistralai.top.p",
             "Top-p (nucleus sampling) parameter (0.0-1.0)",
             "Top P",
             null,
@@ -57,7 +57,7 @@ public final class MistralAiConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule RANDOM_SEED = ConfigModule.of(
             MistralAiConfig.class,
-            "mistralai.random.seed",
+            "forage.mistralai.random.seed",
             "Random seed for reproducible results",
             "Random Seed",
             null,
@@ -66,7 +66,7 @@ public final class MistralAiConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule TIMEOUT = ConfigModule.of(
             MistralAiConfig.class,
-            "mistralai.timeout",
+            "forage.mistralai.timeout",
             "Request timeout in seconds",
             "Timeout",
             null,
@@ -75,7 +75,7 @@ public final class MistralAiConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule MAX_RETRIES = ConfigModule.of(
             MistralAiConfig.class,
-            "mistralai.max.retries",
+            "forage.mistralai.max.retries",
             "Maximum number of retry attempts",
             "Max Retries",
             null,
@@ -84,7 +84,7 @@ public final class MistralAiConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule LOG_REQUESTS_AND_RESPONSES = ConfigModule.of(
             MistralAiConfig.class,
-            "mistralai.log.requests.and.responses",
+            "forage.mistralai.log.requests.and.responses",
             "Enable request and response logging",
             "Log Requests/Responses",
             null,

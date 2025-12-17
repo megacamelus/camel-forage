@@ -40,7 +40,7 @@ public class JmsArtemisTest implements ForageIntegrationTest {
         runner.when(forageRun(INTEGRATION_NAME, "forage-connectionfactory.properties", "route-artemis.camel.yaml")
                 .dumpIntegrationOutput(true)
                 .withEnvs(Collections.singletonMap(
-                        "JMS_BROKER_URL", "tcp://" + artemis.getHost() + ":" + artemis.getMappedPort(61616))));
+                        "FORAGE_JMS_BROKER_URL", "tcp://" + artemis.getHost() + ":" + artemis.getMappedPort(61616))));
 
         return INTEGRATION_NAME;
     }

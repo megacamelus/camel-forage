@@ -23,9 +23,9 @@ public class DefaultVertxProviderTest {
     public static void setupVertxConfiguration() {
         LOG.info("Setting up Vert.x configuration with system properties");
 
-        System.setProperty("vertx.worker.pool.size", "20");
-        System.setProperty("vertx.event.loop.pool.size", "8");
-        System.setProperty("vertx.clustered", "false");
+        System.setProperty("forage.vertx.worker.pool.size", "20");
+        System.setProperty("forage.vertx.event.loop.pool.size", "8");
+        System.setProperty("forage.vertx.clustered", "false");
 
         LOG.info("Vert.x configuration setup complete");
     }
@@ -34,9 +34,9 @@ public class DefaultVertxProviderTest {
     public static void cleanupVertxConfiguration() {
         LOG.info("Cleaning up Vert.x system properties");
 
-        System.clearProperty("vertx.worker.pool.size");
-        System.clearProperty("vertx.event.loop.pool.size");
-        System.clearProperty("vertx.clustered");
+        System.clearProperty("forage.vertx.worker.pool.size");
+        System.clearProperty("forage.vertx.event.loop.pool.size");
+        System.clearProperty("forage.vertx.clustered");
 
         LOG.info("Vert.x system properties cleared");
     }
@@ -77,8 +77,8 @@ public class DefaultVertxProviderTest {
     public void shouldCreateVertxWithNamedConfiguration() {
         LOG.info("Testing Vert.x instance creation with named configuration");
 
-        System.setProperty("custom.vertx.worker.pool.size", "30");
-        System.setProperty("custom.vertx.event.loop.pool.size", "16");
+        System.setProperty("forage.custom.vertx.worker.pool.size", "30");
+        System.setProperty("forage.custom.vertx.event.loop.pool.size", "16");
 
         try {
             DefaultVertxProvider provider = new DefaultVertxProvider();
@@ -89,8 +89,8 @@ public class DefaultVertxProviderTest {
 
             vertx.close();
         } finally {
-            System.clearProperty("custom.vertx.worker.pool.size");
-            System.clearProperty("custom.vertx.event.loop.pool.size");
+            System.clearProperty("forage.custom.vertx.worker.pool.size");
+            System.clearProperty("forage.custom.vertx.event.loop.pool.size");
         }
     }
 
@@ -98,9 +98,9 @@ public class DefaultVertxProviderTest {
     public void shouldCreateVertxWithDefaultConfiguration() {
         LOG.info("Testing Vert.x instance creation with default configuration");
 
-        System.clearProperty("vertx.worker.pool.size");
-        System.clearProperty("vertx.event.loop.pool.size");
-        System.clearProperty("vertx.clustered");
+        System.clearProperty("forage.vertx.worker.pool.size");
+        System.clearProperty("forage.vertx.event.loop.pool.size");
+        System.clearProperty("forage.vertx.clustered");
 
         try {
             DefaultVertxProvider provider = new DefaultVertxProvider();
@@ -111,9 +111,9 @@ public class DefaultVertxProviderTest {
 
             vertx.close();
         } finally {
-            System.setProperty("vertx.worker.pool.size", "20");
-            System.setProperty("vertx.event.loop.pool.size", "8");
-            System.setProperty("vertx.clustered", "false");
+            System.setProperty("forage.vertx.worker.pool.size", "20");
+            System.setProperty("forage.vertx.event.loop.pool.size", "8");
+            System.setProperty("forage.vertx.clustered", "false");
         }
     }
 }

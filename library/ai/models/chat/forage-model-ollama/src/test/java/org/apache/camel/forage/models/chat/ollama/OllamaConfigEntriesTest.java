@@ -38,15 +38,15 @@ class OllamaConfigEntriesTest {
         @Test
         @DisplayName("Should have correct ConfigModule names")
         void shouldHaveCorrectConfigModuleNames() {
-            assertThat(OllamaConfigEntries.BASE_URL.name()).isEqualTo("ollama.base.url");
-            assertThat(OllamaConfigEntries.MODEL_NAME.name()).isEqualTo("ollama.model.name");
-            assertThat(OllamaConfigEntries.TEMPERATURE.name()).isEqualTo("ollama.temperature");
-            assertThat(OllamaConfigEntries.TOP_K.name()).isEqualTo("ollama.top.k");
-            assertThat(OllamaConfigEntries.TOP_P.name()).isEqualTo("ollama.top.p");
-            assertThat(OllamaConfigEntries.MIN_P.name()).isEqualTo("ollama.min.p");
-            assertThat(OllamaConfigEntries.NUM_CTX.name()).isEqualTo("ollama.num.ctx");
-            assertThat(OllamaConfigEntries.LOG_REQUESTS.name()).isEqualTo("ollama.log.requests");
-            assertThat(OllamaConfigEntries.LOG_RESPONSES.name()).isEqualTo("ollama.log.responses");
+            assertThat(OllamaConfigEntries.BASE_URL.name()).isEqualTo("forage.ollama.base.url");
+            assertThat(OllamaConfigEntries.MODEL_NAME.name()).isEqualTo("forage.ollama.model.name");
+            assertThat(OllamaConfigEntries.TEMPERATURE.name()).isEqualTo("forage.ollama.temperature");
+            assertThat(OllamaConfigEntries.TOP_K.name()).isEqualTo("forage.ollama.top.k");
+            assertThat(OllamaConfigEntries.TOP_P.name()).isEqualTo("forage.ollama.top.p");
+            assertThat(OllamaConfigEntries.MIN_P.name()).isEqualTo("forage.ollama.min.p");
+            assertThat(OllamaConfigEntries.NUM_CTX.name()).isEqualTo("forage.ollama.num.ctx");
+            assertThat(OllamaConfigEntries.LOG_REQUESTS.name()).isEqualTo("forage.ollama.log.requests");
+            assertThat(OllamaConfigEntries.LOG_RESPONSES.name()).isEqualTo("forage.ollama.log.responses");
         }
 
         @Test
@@ -122,7 +122,7 @@ class OllamaConfigEntriesTest {
         @Test
         @DisplayName("Should find ConfigModule without prefix")
         void shouldFindConfigModuleWithoutPrefix() {
-            Optional<ConfigModule> found = OllamaConfigEntries.find(null, "ollama.base.url");
+            Optional<ConfigModule> found = OllamaConfigEntries.find(null, "forage.ollama.base.url");
 
             assertThat(found.get()).isEqualTo(OllamaConfigEntries.BASE_URL);
         }
@@ -187,7 +187,7 @@ class OllamaConfigEntriesTest {
             OllamaConfigEntries.register(prefix);
 
             // Verify that prefixed configuration works
-            System.setProperty(prefix + ".ollama.base.url", "http://prefixed-server:11434");
+            System.setProperty("forage." + prefix + ".ollama.base.url", "http://prefixed-server:11434");
 
             OllamaConfig config = new OllamaConfig(prefix);
             assertThat(config.baseUrl()).isEqualTo("http://prefixed-server:11434");
@@ -203,8 +203,8 @@ class OllamaConfigEntriesTest {
             OllamaConfigEntries.register(prefix2);
 
             // Set different values for each prefix
-            System.setProperty(prefix1 + ".ollama.model.name", "model1");
-            System.setProperty(prefix2 + ".ollama.model.name", "model2");
+            System.setProperty("forage." + prefix1 + ".ollama.model.name", "model1");
+            System.setProperty("forage." + prefix2 + ".ollama.model.name", "model2");
 
             OllamaConfig config1 = new OllamaConfig(prefix1);
             OllamaConfig config2 = new OllamaConfig(prefix2);

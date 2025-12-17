@@ -12,7 +12,7 @@ import org.apache.camel.forage.core.util.config.ConfigTag;
 public final class InfinispanConfigEntries extends ConfigEntries {
     public static final ConfigModule CACHE_NAME = ConfigModule.of(
             InfinispanConfig.class,
-            "infinispan.cache.name",
+            "forage.infinispan.cache.name",
             "Name of the Infinispan cache",
             "Cache Name",
             null,
@@ -21,7 +21,7 @@ public final class InfinispanConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule DIMENSION = ConfigModule.of(
             InfinispanConfig.class,
-            "infinispan.dimension",
+            "forage.infinispan.dimension",
             "Vector dimension for embeddings",
             "Dimension",
             null,
@@ -30,7 +30,7 @@ public final class InfinispanConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule DISTANCE = ConfigModule.of(
             InfinispanConfig.class,
-            "infinispan.distance",
+            "forage.infinispan.distance",
             "Distance metric for similarity (3 for cosine)",
             "Distance",
             "3",
@@ -39,7 +39,7 @@ public final class InfinispanConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule SIMILARITY = ConfigModule.of(
             InfinispanConfig.class,
-            "infinispan.similarity",
+            "forage.infinispan.similarity",
             "Similarity algorithm",
             "Similarity",
             "COSINE",
@@ -48,7 +48,7 @@ public final class InfinispanConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule CACHE_CONFIG = ConfigModule.of(
             InfinispanConfig.class,
-            "infinispan.cache.config",
+            "forage.infinispan.cache.config",
             "Cache configuration settings",
             "Cache Config",
             null,
@@ -57,7 +57,7 @@ public final class InfinispanConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule PACKAGE_NAME = ConfigModule.of(
             InfinispanConfig.class,
-            "infinispan.package.name",
+            "forage.infinispan.package.name",
             "Package name for generated classes",
             "Package Name",
             "org.apache.camel.forage.vectordb.infinispan.schema",
@@ -66,7 +66,7 @@ public final class InfinispanConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule FILE_NAME = ConfigModule.of(
             InfinispanConfig.class,
-            "infinispan.file.name",
+            "forage.infinispan.file.name",
             "Schema file name",
             "File Name",
             "langchain-item.proto",
@@ -75,7 +75,7 @@ public final class InfinispanConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule LANGCHAIN_ITEM_NAME = ConfigModule.of(
             InfinispanConfig.class,
-            "infinispan.langchain.item.name",
+            "forage.infinispan.langchain.item.name",
             "LangChain item class name",
             "LangChain Item Name",
             "LangChainItem",
@@ -84,7 +84,7 @@ public final class InfinispanConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule METADATA_ITEM_NAME = ConfigModule.of(
             InfinispanConfig.class,
-            "infinispan.metadata.item.name",
+            "forage.infinispan.metadata.item.name",
             "Metadata item class name",
             "Metadata Item Name",
             "MetadataItem",
@@ -93,7 +93,7 @@ public final class InfinispanConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule REGISTER_SCHEMA = ConfigModule.of(
             InfinispanConfig.class,
-            "infinispan.register.schema",
+            "forage.infinispan.register.schema",
             "Whether to register schema automatically",
             "Register Schema",
             "true",
@@ -102,7 +102,7 @@ public final class InfinispanConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule CREATE_CACHE = ConfigModule.of(
             InfinispanConfig.class,
-            "infinispan.create.cache",
+            "forage.infinispan.create.cache",
             "Whether to create cache if it doesn't exist",
             "Create Cache",
             "true",
@@ -111,7 +111,7 @@ public final class InfinispanConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule HOST = ConfigModule.of(
             InfinispanConfig.class,
-            "infinispan.host",
+            "forage.infinispan.host",
             "Infinispan server host address",
             "Host",
             "localhost",
@@ -120,7 +120,7 @@ public final class InfinispanConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule PORT = ConfigModule.of(
             InfinispanConfig.class,
-            "infinispan.port",
+            "forage.infinispan.port",
             "Infinispan server port number",
             "Port",
             "11222",
@@ -129,7 +129,7 @@ public final class InfinispanConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule USERNAME = ConfigModule.of(
             InfinispanConfig.class,
-            "infinispan.username",
+            "forage.infinispan.username",
             "Username for authentication",
             "Username",
             null,
@@ -138,7 +138,7 @@ public final class InfinispanConfigEntries extends ConfigEntries {
             ConfigTag.SECURITY);
     public static final ConfigModule PASSWORD = ConfigModule.of(
             InfinispanConfig.class,
-            "infinispan.password",
+            "forage.infinispan.password",
             "Password for authentication",
             "Password",
             null,

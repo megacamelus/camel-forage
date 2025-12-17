@@ -12,7 +12,7 @@ import org.apache.camel.forage.core.util.config.ConfigTag;
 public final class HuggingFaceConfigEntries extends ConfigEntries {
     public static final ConfigModule API_KEY = ConfigModule.of(
             HuggingFaceConfig.class,
-            "huggingface.api.key",
+            "forage.huggingface.api.key",
             "HuggingFace API key for authentication",
             "API Key",
             null,
@@ -21,7 +21,7 @@ public final class HuggingFaceConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule MODEL_ID = ConfigModule.of(
             HuggingFaceConfig.class,
-            "huggingface.model.id",
+            "forage.huggingface.model.id",
             "The HuggingFace model ID to use (e.g., microsoft/DialoGPT-medium)",
             "Model ID",
             null,
@@ -30,7 +30,7 @@ public final class HuggingFaceConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule TEMPERATURE = ConfigModule.of(
             HuggingFaceConfig.class,
-            "huggingface.temperature",
+            "forage.huggingface.temperature",
             "Temperature for response generation (0.0-2.0)",
             "Temperature",
             null,
@@ -39,7 +39,7 @@ public final class HuggingFaceConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule MAX_NEW_TOKENS = ConfigModule.of(
             HuggingFaceConfig.class,
-            "huggingface.max.new.tokens",
+            "forage.huggingface.max.new.tokens",
             "Maximum number of new tokens to generate",
             "Max New Tokens",
             null,
@@ -48,7 +48,7 @@ public final class HuggingFaceConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule TOP_K = ConfigModule.of(
             HuggingFaceConfig.class,
-            "huggingface.top.k",
+            "forage.huggingface.top.k",
             "Top-k sampling parameter",
             "Top K",
             null,
@@ -57,7 +57,7 @@ public final class HuggingFaceConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule TOP_P = ConfigModule.of(
             HuggingFaceConfig.class,
-            "huggingface.top.p",
+            "forage.huggingface.top.p",
             "Top-p (nucleus) sampling parameter",
             "Top P",
             null,
@@ -66,7 +66,7 @@ public final class HuggingFaceConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule DO_SAMPLE = ConfigModule.of(
             HuggingFaceConfig.class,
-            "huggingface.do.sample",
+            "forage.huggingface.do.sample",
             "Whether to use sampling for text generation",
             "Do Sample",
             null,
@@ -75,7 +75,7 @@ public final class HuggingFaceConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule REPETITION_PENALTY = ConfigModule.of(
             HuggingFaceConfig.class,
-            "huggingface.repetition.penalty",
+            "forage.huggingface.repetition.penalty",
             "Penalty for repeating tokens (1.0-2.0)",
             "Repetition Penalty",
             null,
@@ -84,7 +84,7 @@ public final class HuggingFaceConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule RETURN_FULL_TEXT = ConfigModule.of(
             HuggingFaceConfig.class,
-            "huggingface.return.full.text",
+            "forage.huggingface.return.full.text",
             "Whether to return full text including input",
             "Return Full Text",
             null,
@@ -93,7 +93,7 @@ public final class HuggingFaceConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule WAIT_FOR_MODEL = ConfigModule.of(
             HuggingFaceConfig.class,
-            "huggingface.wait.for.model",
+            "forage.huggingface.wait.for.model",
             "Whether to wait for the model to load if it's not ready",
             "Wait for Model",
             null,
@@ -102,7 +102,7 @@ public final class HuggingFaceConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule TIMEOUT = ConfigModule.of(
             HuggingFaceConfig.class,
-            "huggingface.timeout",
+            "forage.huggingface.timeout",
             "Request timeout in seconds",
             "Timeout",
             null,
@@ -111,7 +111,7 @@ public final class HuggingFaceConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule MAX_RETRIES = ConfigModule.of(
             HuggingFaceConfig.class,
-            "huggingface.max.retries",
+            "forage.huggingface.max.retries",
             "Maximum number of retry attempts",
             "Max Retries",
             null,
@@ -120,7 +120,7 @@ public final class HuggingFaceConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule LOG_REQUESTS_AND_RESPONSES = ConfigModule.of(
             HuggingFaceConfig.class,
-            "huggingface.log.requests.and.responses",
+            "forage.huggingface.log.requests.and.responses",
             "Enable request and response logging",
             "Log Requests/Responses",
             null,

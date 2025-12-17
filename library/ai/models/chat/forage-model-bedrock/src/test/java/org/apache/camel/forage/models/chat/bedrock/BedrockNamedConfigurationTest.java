@@ -14,33 +14,33 @@ class BedrockNamedConfigurationTest {
 
     @AfterEach
     void cleanup() {
-        System.clearProperty("bedrock.model.id");
-        System.clearProperty("bedrock.region");
-        System.clearProperty("bedrock.temperature");
-        System.clearProperty("bedrock.access.key.id");
-        System.clearProperty("bedrock.secret.access.key");
-        System.clearProperty("agent1.bedrock.model.id");
-        System.clearProperty("agent2.bedrock.model.id");
-        System.clearProperty("eu.bedrock.region");
-        System.clearProperty("asia.bedrock.region");
-        System.clearProperty("creative.bedrock.temperature");
-        System.clearProperty("precise.bedrock.temperature");
-        System.clearProperty("prod.bedrock.access.key.id");
-        System.clearProperty("prod.bedrock.secret.access.key");
-        System.clearProperty("multi1.bedrock.model.id");
-        System.clearProperty("multi2.bedrock.model.id");
-        System.clearProperty("multi2.bedrock.temperature");
-        System.clearProperty("multi3.bedrock.model.id");
-        System.clearProperty("multi3.bedrock.temperature");
-        System.clearProperty("multi3.bedrock.max.tokens");
+        System.clearProperty("forage.bedrock.model.id");
+        System.clearProperty("forage.bedrock.region");
+        System.clearProperty("forage.bedrock.temperature");
+        System.clearProperty("forage.bedrock.access.key.id");
+        System.clearProperty("forage.bedrock.secret.access.key");
+        System.clearProperty("forage.agent1.bedrock.model.id");
+        System.clearProperty("forage.agent2.bedrock.model.id");
+        System.clearProperty("forage.eu.bedrock.region");
+        System.clearProperty("forage.asia.bedrock.region");
+        System.clearProperty("forage.creative.bedrock.temperature");
+        System.clearProperty("forage.precise.bedrock.temperature");
+        System.clearProperty("forage.prod.bedrock.access.key.id");
+        System.clearProperty("forage.prod.bedrock.secret.access.key");
+        System.clearProperty("forage.multi1.bedrock.model.id");
+        System.clearProperty("forage.multi2.bedrock.model.id");
+        System.clearProperty("forage.multi2.bedrock.temperature");
+        System.clearProperty("forage.multi3.bedrock.model.id");
+        System.clearProperty("forage.multi3.bedrock.temperature");
+        System.clearProperty("forage.multi3.bedrock.max.tokens");
     }
 
     @Test
     @DisplayName("Should support named configurations with different model IDs")
     void shouldSupportNamedConfigurationsWithDifferentModelIds() {
-        System.setProperty("bedrock.model.id", "anthropic.claude-3-haiku-20240307-v1:0");
-        System.setProperty("agent1.bedrock.model.id", "anthropic.claude-3-5-sonnet-20240620-v1:0");
-        System.setProperty("agent2.bedrock.model.id", "meta.llama3-1-70b-instruct-v1:0");
+        System.setProperty("forage.bedrock.model.id", "anthropic.claude-3-haiku-20240307-v1:0");
+        System.setProperty("forage.agent1.bedrock.model.id", "anthropic.claude-3-5-sonnet-20240620-v1:0");
+        System.setProperty("forage.agent2.bedrock.model.id", "meta.llama3-1-70b-instruct-v1:0");
 
         BedrockConfig defaultConfig = new BedrockConfig();
         BedrockConfig agent1Config = new BedrockConfig("agent1");
@@ -54,9 +54,9 @@ class BedrockNamedConfigurationTest {
     @Test
     @DisplayName("Should support named configurations with different regions")
     void shouldSupportNamedConfigurationsWithDifferentRegions() {
-        System.setProperty("bedrock.region", "us-east-1");
-        System.setProperty("eu.bedrock.region", "eu-central-1");
-        System.setProperty("asia.bedrock.region", "ap-southeast-1");
+        System.setProperty("forage.bedrock.region", "us-east-1");
+        System.setProperty("forage.eu.bedrock.region", "eu-central-1");
+        System.setProperty("forage.asia.bedrock.region", "ap-southeast-1");
 
         BedrockConfig defaultConfig = new BedrockConfig();
         BedrockConfig euConfig = new BedrockConfig("eu");
@@ -70,9 +70,9 @@ class BedrockNamedConfigurationTest {
     @Test
     @DisplayName("Should support named configurations with different temperatures")
     void shouldSupportNamedConfigurationsWithDifferentTemperatures() {
-        System.setProperty("bedrock.temperature", "0.5");
-        System.setProperty("creative.bedrock.temperature", "0.9");
-        System.setProperty("precise.bedrock.temperature", "0.1");
+        System.setProperty("forage.bedrock.temperature", "0.5");
+        System.setProperty("forage.creative.bedrock.temperature", "0.9");
+        System.setProperty("forage.precise.bedrock.temperature", "0.1");
 
         BedrockConfig defaultConfig = new BedrockConfig();
         BedrockConfig creativeConfig = new BedrockConfig("creative");
@@ -86,10 +86,10 @@ class BedrockNamedConfigurationTest {
     @Test
     @DisplayName("Should support named configurations with different AWS credentials")
     void shouldSupportNamedConfigurationsWithDifferentAwsCredentials() {
-        System.setProperty("bedrock.access.key.id", "DEFAULT_KEY");
-        System.setProperty("bedrock.secret.access.key", "DEFAULT_SECRET");
-        System.setProperty("prod.bedrock.access.key.id", "PROD_KEY");
-        System.setProperty("prod.bedrock.secret.access.key", "PROD_SECRET");
+        System.setProperty("forage.bedrock.access.key.id", "DEFAULT_KEY");
+        System.setProperty("forage.bedrock.secret.access.key", "DEFAULT_SECRET");
+        System.setProperty("forage.prod.bedrock.access.key.id", "PROD_KEY");
+        System.setProperty("forage.prod.bedrock.secret.access.key", "PROD_SECRET");
 
         BedrockConfig defaultConfig = new BedrockConfig();
         BedrockConfig prodConfig = new BedrockConfig("prod");
@@ -103,12 +103,12 @@ class BedrockNamedConfigurationTest {
     @Test
     @DisplayName("Should support multiple named configurations independently")
     void shouldSupportMultipleNamedConfigurationsIndependently() {
-        System.setProperty("multi1.bedrock.model.id", "anthropic.claude-3-haiku-20240307-v1:0");
-        System.setProperty("multi2.bedrock.model.id", "anthropic.claude-3-haiku-20240307-v1:0");
-        System.setProperty("multi2.bedrock.temperature", "0.8");
-        System.setProperty("multi3.bedrock.model.id", "anthropic.claude-3-5-sonnet-20240620-v1:0");
-        System.setProperty("multi3.bedrock.temperature", "0.3");
-        System.setProperty("multi3.bedrock.max.tokens", "4096");
+        System.setProperty("forage.multi1.bedrock.model.id", "anthropic.claude-3-haiku-20240307-v1:0");
+        System.setProperty("forage.multi2.bedrock.model.id", "anthropic.claude-3-haiku-20240307-v1:0");
+        System.setProperty("forage.multi2.bedrock.temperature", "0.8");
+        System.setProperty("forage.multi3.bedrock.model.id", "anthropic.claude-3-5-sonnet-20240620-v1:0");
+        System.setProperty("forage.multi3.bedrock.temperature", "0.3");
+        System.setProperty("forage.multi3.bedrock.max.tokens", "4096");
 
         BedrockConfig config1 = new BedrockConfig("multi1");
         BedrockConfig config2 = new BedrockConfig("multi2");

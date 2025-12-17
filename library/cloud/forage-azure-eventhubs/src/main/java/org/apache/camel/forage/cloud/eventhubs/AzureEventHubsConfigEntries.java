@@ -14,7 +14,7 @@ public final class AzureEventHubsConfigEntries extends ConfigEntries {
 
     public static final ConfigModule CONSUMER_GROUP = ConfigModule.of(
             AzureEventHubsConfig.class,
-            "azure.eventhubs.consumer.group",
+            "forage.azure.eventhubs.consumer.group",
             "The consumer group name for Event Hubs",
             "Consumer Group",
             EventHubClientBuilder.DEFAULT_CONSUMER_GROUP_NAME,
@@ -24,7 +24,7 @@ public final class AzureEventHubsConfigEntries extends ConfigEntries {
 
     public static final ConfigModule EVENTHUB_NAME = ConfigModule.of(
             AzureEventHubsConfig.class,
-            "azure.eventhubs.eventhub.name",
+            "forage.azure.eventhubs.eventhub.name",
             "The Event Hub name",
             "Event Hub Name",
             null,
@@ -34,7 +34,7 @@ public final class AzureEventHubsConfigEntries extends ConfigEntries {
 
     public static final ConfigModule FULLY_QUALIFIED_NAMESPACE = ConfigModule.of(
             AzureEventHubsConfig.class,
-            "azure.eventhubs.fully.qualified.namespace",
+            "forage.azure.eventhubs.fully.qualified.namespace",
             "The fully qualified namespace for Event Hubs (e.g., <namespace>.servicebus.windows.net)",
             "Fully Qualified Namespace",
             null,
@@ -44,7 +44,7 @@ public final class AzureEventHubsConfigEntries extends ConfigEntries {
 
     public static final ConfigModule PREFETCH_COUNT = ConfigModule.of(
             AzureEventHubsConfig.class,
-            "azure.eventhubs.prefetch.count",
+            "forage.azure.eventhubs.prefetch.count",
             "The number of events to prefetch from Event Hubs",
             "Prefetch Count",
             "100",
@@ -54,7 +54,7 @@ public final class AzureEventHubsConfigEntries extends ConfigEntries {
 
     public static final ConfigModule CUSTOM_ENDPOINT_ADDRESS = ConfigModule.of(
             AzureEventHubsConfig.class,
-            "azure.eventhubs.custom.endpoint.address",
+            "forage.azure.eventhubs.custom.endpoint.address",
             "Custom endpoint address for Event Hubs (optional, for custom Azure environments)",
             "Custom Endpoint",
             null,

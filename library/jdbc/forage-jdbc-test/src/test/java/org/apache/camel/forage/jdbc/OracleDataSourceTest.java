@@ -32,12 +32,12 @@ public class OracleDataSourceTest extends DataSourceTest {
 
     @Override
     protected void setUpDataSource(String dataSourceName) {
-        System.setProperty(dataSourceName + ".jdbc.db.kind", "oracle");
+        System.setProperty("forage." + dataSourceName + ".jdbc.db.kind", "oracle");
         System.setProperty(
-                dataSourceName + ".jdbc.url",
+                "forage." + dataSourceName + ".jdbc.url",
                 "jdbc:oracle:thin:@localhost:" + oracle.getMappedPort(1521) + "/FREEPDB1");
-        System.setProperty(dataSourceName + ".jdbc.username", "testuser");
-        System.setProperty(dataSourceName + ".jdbc.password", "testpass");
+        System.setProperty("forage." + dataSourceName + ".jdbc.username", "testuser");
+        System.setProperty("forage." + dataSourceName + ".jdbc.password", "testpass");
     }
 
     @Override

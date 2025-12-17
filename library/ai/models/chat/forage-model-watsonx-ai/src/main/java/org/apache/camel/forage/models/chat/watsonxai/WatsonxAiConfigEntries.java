@@ -12,7 +12,7 @@ import org.apache.camel.forage.core.util.config.ConfigTag;
 public final class WatsonxAiConfigEntries extends ConfigEntries {
     public static final ConfigModule API_KEY = ConfigModule.of(
             WatsonxAiConfig.class,
-            "watsonxai.api.key",
+            "forage.watsonxai.api.key",
             "IBM Cloud API key for authentication",
             "API Key",
             null,
@@ -21,7 +21,7 @@ public final class WatsonxAiConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule URL = ConfigModule.of(
             WatsonxAiConfig.class,
-            "watsonxai.url",
+            "forage.watsonxai.url",
             "The Watsonx.ai service URL (e.g., https://us-south.ml.cloud.ibm.com)",
             "Service URL",
             null,
@@ -30,7 +30,7 @@ public final class WatsonxAiConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule PROJECT_ID = ConfigModule.of(
             WatsonxAiConfig.class,
-            "watsonxai.project.id",
+            "forage.watsonxai.project.id",
             "The Watsonx.ai project ID",
             "Project ID",
             null,
@@ -39,7 +39,7 @@ public final class WatsonxAiConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule MODEL_NAME = ConfigModule.of(
             WatsonxAiConfig.class,
-            "watsonxai.model.name",
+            "forage.watsonxai.model.name",
             "The foundation model to use",
             "Model Name",
             "llama-3-405b-instruct",
@@ -48,7 +48,7 @@ public final class WatsonxAiConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule TEMPERATURE = ConfigModule.of(
             WatsonxAiConfig.class,
-            "watsonxai.temperature",
+            "forage.watsonxai.temperature",
             "Temperature for response generation (0.0-2.0)",
             "Temperature",
             null,
@@ -57,7 +57,7 @@ public final class WatsonxAiConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule MAX_NEW_TOKENS = ConfigModule.of(
             WatsonxAiConfig.class,
-            "watsonxai.max.new.tokens",
+            "forage.watsonxai.max.new.tokens",
             "Maximum number of new tokens in response",
             "Max New Tokens",
             null,
@@ -66,7 +66,7 @@ public final class WatsonxAiConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule TOP_P = ConfigModule.of(
             WatsonxAiConfig.class,
-            "watsonxai.top.p",
+            "forage.watsonxai.top.p",
             "Top-p (nucleus sampling) parameter (0.0-1.0)",
             "Top P",
             null,
@@ -75,7 +75,7 @@ public final class WatsonxAiConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule TOP_K = ConfigModule.of(
             WatsonxAiConfig.class,
-            "watsonxai.top.k",
+            "forage.watsonxai.top.k",
             "Top-k sampling parameter",
             "Top K",
             null,
@@ -84,7 +84,7 @@ public final class WatsonxAiConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule RANDOM_SEED = ConfigModule.of(
             WatsonxAiConfig.class,
-            "watsonxai.random.seed",
+            "forage.watsonxai.random.seed",
             "Random seed for reproducible results",
             "Random Seed",
             null,
@@ -93,7 +93,7 @@ public final class WatsonxAiConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule REPETITION_PENALTY = ConfigModule.of(
             WatsonxAiConfig.class,
-            "watsonxai.repetition.penalty",
+            "forage.watsonxai.repetition.penalty",
             "Penalty for repetition (1.0-2.0)",
             "Repetition Penalty",
             null,
@@ -102,7 +102,7 @@ public final class WatsonxAiConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule MIN_NEW_TOKENS = ConfigModule.of(
             WatsonxAiConfig.class,
-            "watsonxai.min.new.tokens",
+            "forage.watsonxai.min.new.tokens",
             "Minimum number of new tokens in response",
             "Min New Tokens",
             null,
@@ -111,7 +111,7 @@ public final class WatsonxAiConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule STOP_SEQUENCES = ConfigModule.of(
             WatsonxAiConfig.class,
-            "watsonxai.stop.sequences",
+            "forage.watsonxai.stop.sequences",
             "Stop sequences for response generation (comma-separated)",
             "Stop Sequences",
             null,
@@ -120,7 +120,7 @@ public final class WatsonxAiConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule TIMEOUT = ConfigModule.of(
             WatsonxAiConfig.class,
-            "watsonxai.timeout",
+            "forage.watsonxai.timeout",
             "Request timeout in seconds",
             "Timeout",
             null,
@@ -129,7 +129,7 @@ public final class WatsonxAiConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule MAX_RETRIES = ConfigModule.of(
             WatsonxAiConfig.class,
-            "watsonxai.max.retries",
+            "forage.watsonxai.max.retries",
             "Maximum number of retry attempts",
             "Max Retries",
             null,
@@ -138,7 +138,7 @@ public final class WatsonxAiConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule LOG_REQUESTS_AND_RESPONSES = ConfigModule.of(
             WatsonxAiConfig.class,
-            "watsonxai.log.requests.and.responses",
+            "forage.watsonxai.log.requests.and.responses",
             "Enable request and response logging",
             "Log Requests/Responses",
             null,

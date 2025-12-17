@@ -12,7 +12,7 @@ import org.apache.camel.forage.core.util.config.ConfigTag;
 public final class InfinispanConfigEntries extends ConfigEntries {
     public static final ConfigModule SERVER_LIST = ConfigModule.of(
             InfinispanConfig.class,
-            "infinispan.server-list",
+            "forage.infinispan.server-list",
             "Comma-separated list of Infinispan server addresses in format 'host1:port1,host2:port2'",
             "Server List",
             "localhost:11222",
@@ -21,7 +21,7 @@ public final class InfinispanConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule CACHE_NAME = ConfigModule.of(
             InfinispanConfig.class,
-            "infinispan.cache-name",
+            "forage.infinispan.cache-name",
             "Name of the cache for storing chat messages",
             "Cache Name",
             "chat-memory",
@@ -30,7 +30,7 @@ public final class InfinispanConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule USERNAME = ConfigModule.of(
             InfinispanConfig.class,
-            "infinispan.username",
+            "forage.infinispan.username",
             "Username for authentication (optional)",
             "Username",
             null,
@@ -39,7 +39,7 @@ public final class InfinispanConfigEntries extends ConfigEntries {
             ConfigTag.SECURITY);
     public static final ConfigModule PASSWORD = ConfigModule.of(
             InfinispanConfig.class,
-            "infinispan.password",
+            "forage.infinispan.password",
             "Password for authentication (optional)",
             "Password",
             null,
@@ -48,7 +48,7 @@ public final class InfinispanConfigEntries extends ConfigEntries {
             ConfigTag.SECURITY);
     public static final ConfigModule REALM = ConfigModule.of(
             InfinispanConfig.class,
-            "infinispan.realm",
+            "forage.infinispan.realm",
             "Security realm for authentication",
             "Realm",
             "default",
@@ -57,7 +57,7 @@ public final class InfinispanConfigEntries extends ConfigEntries {
             ConfigTag.SECURITY);
     public static final ConfigModule SASL_MECHANISM = ConfigModule.of(
             InfinispanConfig.class,
-            "infinispan.sasl-mechanism",
+            "forage.infinispan.sasl-mechanism",
             "SASL mechanism for authentication",
             "SASL Mechanism",
             "DIGEST-MD5",
@@ -66,7 +66,7 @@ public final class InfinispanConfigEntries extends ConfigEntries {
             ConfigTag.SECURITY);
     public static final ConfigModule CONNECTION_TIMEOUT = ConfigModule.of(
             InfinispanConfig.class,
-            "infinispan.connection-timeout",
+            "forage.infinispan.connection-timeout",
             "Connection timeout in milliseconds",
             "Connection Timeout",
             "60000",
@@ -75,7 +75,7 @@ public final class InfinispanConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule SOCKET_TIMEOUT = ConfigModule.of(
             InfinispanConfig.class,
-            "infinispan.socket-timeout",
+            "forage.infinispan.socket-timeout",
             "Socket timeout in milliseconds",
             "Socket Timeout",
             "60000",
@@ -84,7 +84,7 @@ public final class InfinispanConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule MAX_RETRIES = ConfigModule.of(
             InfinispanConfig.class,
-            "infinispan.max-retries",
+            "forage.infinispan.max-retries",
             "Maximum number of connection retries",
             "Max Retries",
             "3",
@@ -93,7 +93,7 @@ public final class InfinispanConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule POOL_MAX_ACTIVE = ConfigModule.of(
             InfinispanConfig.class,
-            "infinispan.pool.max-active",
+            "forage.infinispan.pool.max-active",
             "Maximum number of active connections per server",
             "Pool Max Active",
             "20",
@@ -102,7 +102,7 @@ public final class InfinispanConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule POOL_MIN_IDLE = ConfigModule.of(
             InfinispanConfig.class,
-            "infinispan.pool.min-idle",
+            "forage.infinispan.pool.min-idle",
             "Minimum number of idle connections per server",
             "Pool Min Idle",
             "1",
@@ -111,7 +111,7 @@ public final class InfinispanConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule POOL_MAX_WAIT = ConfigModule.of(
             InfinispanConfig.class,
-            "infinispan.pool.max-wait",
+            "forage.infinispan.pool.max-wait",
             "Maximum time to wait for a connection in milliseconds",
             "Pool Max Wait",
             "3000",

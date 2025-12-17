@@ -12,7 +12,7 @@ import org.apache.camel.forage.core.util.config.ConfigTag;
 public final class RedisConfigEntries extends ConfigEntries {
     public static final ConfigModule HOST = ConfigModule.of(
             RedisConfig.class,
-            "redis.host",
+            "forage.redis.host",
             "Redis server hostname or IP address",
             "Host",
             "localhost",
@@ -21,7 +21,7 @@ public final class RedisConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule PORT = ConfigModule.of(
             RedisConfig.class,
-            "redis.port",
+            "forage.redis.port",
             "Redis server port number",
             "Port",
             "6379",
@@ -30,7 +30,7 @@ public final class RedisConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule PASSWORD = ConfigModule.of(
             RedisConfig.class,
-            "redis.password",
+            "forage.redis.password",
             "Redis authentication password (optional)",
             "Password",
             null,
@@ -39,7 +39,7 @@ public final class RedisConfigEntries extends ConfigEntries {
             ConfigTag.SECURITY);
     public static final ConfigModule DATABASE = ConfigModule.of(
             RedisConfig.class,
-            "redis.database",
+            "forage.redis.database",
             "Redis database number to connect to",
             "Database",
             "0",
@@ -48,7 +48,7 @@ public final class RedisConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule TIMEOUT = ConfigModule.of(
             RedisConfig.class,
-            "redis.timeout",
+            "forage.redis.timeout",
             "Connection timeout in milliseconds",
             "Timeout",
             "2000",
@@ -57,7 +57,7 @@ public final class RedisConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule POOL_MAX_TOTAL = ConfigModule.of(
             RedisConfig.class,
-            "redis.pool.max-total",
+            "forage.redis.pool.max-total",
             "Maximum number of connections in the pool",
             "Pool Max Total",
             "10",
@@ -66,7 +66,7 @@ public final class RedisConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule POOL_MAX_IDLE = ConfigModule.of(
             RedisConfig.class,
-            "redis.pool.max-idle",
+            "forage.redis.pool.max-idle",
             "Maximum number of idle connections in the pool",
             "Pool Max Idle",
             "5",
@@ -75,7 +75,7 @@ public final class RedisConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule POOL_MIN_IDLE = ConfigModule.of(
             RedisConfig.class,
-            "redis.pool.min-idle",
+            "forage.redis.pool.min-idle",
             "Minimum number of idle connections in the pool",
             "Pool Min Idle",
             "1",
@@ -84,7 +84,7 @@ public final class RedisConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule POOL_TEST_ON_BORROW = ConfigModule.of(
             RedisConfig.class,
-            "redis.pool.test-on-borrow",
+            "forage.redis.pool.test-on-borrow",
             "Test connections when borrowing from pool",
             "Test On Borrow",
             "true",
@@ -93,7 +93,7 @@ public final class RedisConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule POOL_TEST_ON_RETURN = ConfigModule.of(
             RedisConfig.class,
-            "redis.pool.test-on-return",
+            "forage.redis.pool.test-on-return",
             "Test connections when returning to pool",
             "Test On Return",
             "true",
@@ -102,7 +102,7 @@ public final class RedisConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule POOL_TEST_WHILE_IDLE = ConfigModule.of(
             RedisConfig.class,
-            "redis.pool.test-while-idle",
+            "forage.redis.pool.test-while-idle",
             "Test idle connections periodically",
             "Test While Idle",
             "true",
@@ -111,7 +111,7 @@ public final class RedisConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule POOL_MAX_WAIT_MILLIS = ConfigModule.of(
             RedisConfig.class,
-            "redis.pool.max-wait-millis",
+            "forage.redis.pool.max-wait-millis",
             "Maximum time to wait for a connection from the pool in milliseconds",
             "Pool Max Wait",
             "2000",

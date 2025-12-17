@@ -8,6 +8,13 @@ import java.util.Set;
 import org.apache.camel.forage.core.annotations.ForageFactory;
 import org.apache.camel.forage.core.common.ServiceLoaderHelper;
 import org.apache.camel.forage.core.jms.ConnectionFactoryProvider;
+import org.apache.camel.forage.core.jta.MandatoryJtaTransactionPolicy;
+import org.apache.camel.forage.core.jta.NeverJtaTransactionPolicy;
+import org.apache.camel.forage.core.jta.NotSupportedJtaTransactionPolicy;
+import org.apache.camel.forage.core.jta.RequiredJtaTransactionPolicy;
+import org.apache.camel.forage.core.jta.RequiresNewJtaTransactionPolicy;
+import org.apache.camel.forage.core.jta.SupportsJtaTransactionPolicy;
+import org.apache.camel.forage.core.util.config.ConfigHelper;
 import org.apache.camel.forage.core.util.config.ConfigStore;
 import org.apache.camel.forage.jms.common.ConnectionFactoryCommonExportHelper;
 import org.apache.camel.forage.jms.common.ConnectionFactoryConfig;
@@ -33,7 +40,7 @@ public class ForageConnectionFactoryAutoConfiguration implements BeanFactoryAwar
     private static final Logger log = LoggerFactory.getLogger(ForageConnectionFactoryAutoConfiguration.class);
 
     @Configuration
-    @ConditionalOnProperty(value = "jms.transaction.enabled", havingValue = "true")
+    @ConditionalOnProperty(value = "forage.jms.transaction.enabled", havingValue = "true")
     @EnableTransactionManagement
     class ForageTransactionManagement {
 
@@ -51,7 +58,20 @@ public class ForageConnectionFactoryAutoConfiguration implements BeanFactoryAwar
         ConfigurableBeanFactory configurableBeanFactory = (ConfigurableBeanFactory) beanFactory;
 
         ConnectionFactoryConfig config = new ConnectionFactoryConfig();
-        Set<String> prefixes = ConfigStore.getInstance().readPrefixes(config, "(.+).jms\\..*");
+
+        // Register transaction policy beans if transactions are enabled
+        if (config.transactionEnabled()) {
+            log.info("JMS transactions enabled, registering transaction policy beans");
+            configurableBeanFactory.registerSingleton("PROPAGATION_REQUIRED", new RequiredJtaTransactionPolicy());
+            configurableBeanFactory.registerSingleton("MANDATORY", new MandatoryJtaTransactionPolicy());
+            configurableBeanFactory.registerSingleton("NEVER", new NeverJtaTransactionPolicy());
+            configurableBeanFactory.registerSingleton("NOT_SUPPORTED", new NotSupportedJtaTransactionPolicy());
+            configurableBeanFactory.registerSingleton("REQUIRES_NEW", new RequiresNewJtaTransactionPolicy());
+            configurableBeanFactory.registerSingleton("SUPPORTS", new SupportsJtaTransactionPolicy());
+        }
+
+        Set<String> prefixes =
+                ConfigStore.getInstance().readPrefixes(config, ConfigHelper.getNamedPropertyRegexp("jms"));
         log.debug("Found {} prefixes for JMS configuration: {}", prefixes.size(), prefixes);
 
         if (!prefixes.isEmpty()) {

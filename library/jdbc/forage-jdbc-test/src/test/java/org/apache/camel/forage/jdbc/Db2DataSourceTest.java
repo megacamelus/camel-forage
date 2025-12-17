@@ -40,11 +40,12 @@ public class Db2DataSourceTest extends DataSourceTest {
 
     @Override
     protected void setUpDataSource(String dataSourceName) {
-        System.setProperty(dataSourceName + ".jdbc.db.kind", "db2");
+        System.setProperty("forage." + dataSourceName + ".jdbc.db.kind", "db2");
         System.setProperty(
-                dataSourceName + ".jdbc.url", "jdbc:db2://localhost:" + db2.getMappedPort(50000) + "/testdb");
-        System.setProperty(dataSourceName + ".jdbc.username", "db2inst1");
-        System.setProperty(dataSourceName + ".jdbc.password", "password");
+                "forage." + dataSourceName + ".jdbc.url",
+                "jdbc:db2://localhost:" + db2.getMappedPort(50000) + "/testdb");
+        System.setProperty("forage." + dataSourceName + ".jdbc.username", "db2inst1");
+        System.setProperty("forage." + dataSourceName + ".jdbc.password", "password");
     }
 
     @Override

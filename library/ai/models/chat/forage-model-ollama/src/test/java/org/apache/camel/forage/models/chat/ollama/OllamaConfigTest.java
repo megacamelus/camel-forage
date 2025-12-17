@@ -24,7 +24,7 @@ class OllamaConfigTest {
     @Test
     @DisplayName("Should load base URL from system property")
     void shouldLoadBaseUrlFromSystemProperty() {
-        System.setProperty("ollama.base.url", "http://custom-server:11434");
+        System.setProperty("forage.ollama.base.url", "http://custom-server:11434");
 
         OllamaConfig config = new OllamaConfig();
 
@@ -34,7 +34,7 @@ class OllamaConfigTest {
     @Test
     @DisplayName("Should load model name from system property")
     void shouldLoadModelNameFromSystemProperty() {
-        System.setProperty("ollama.model.name", "llama3.1");
+        System.setProperty("forage.ollama.model.name", "llama3.1");
 
         OllamaConfig config = new OllamaConfig();
 
@@ -44,13 +44,13 @@ class OllamaConfigTest {
     @Test
     @DisplayName("Should load all optional parameters from system properties")
     void shouldLoadOptionalParametersFromSystemProperties() {
-        System.setProperty("ollama.temperature", "0.7");
-        System.setProperty("ollama.top.k", "40");
-        System.setProperty("ollama.top.p", "0.9");
-        System.setProperty("ollama.min.p", "0.05");
-        System.setProperty("ollama.num.ctx", "2048");
-        System.setProperty("ollama.log.requests", "true");
-        System.setProperty("ollama.log.responses", "false");
+        System.setProperty("forage.ollama.temperature", "0.7");
+        System.setProperty("forage.ollama.top.k", "40");
+        System.setProperty("forage.ollama.top.p", "0.9");
+        System.setProperty("forage.ollama.min.p", "0.05");
+        System.setProperty("forage.ollama.num.ctx", "2048");
+        System.setProperty("forage.ollama.log.requests", "true");
+        System.setProperty("forage.ollama.log.responses", "false");
 
         OllamaConfig config = new OllamaConfig();
 

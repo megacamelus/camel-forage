@@ -15,10 +15,10 @@ public class HsqldbDataSourceTest extends DataSourceTest {
 
     @Override
     protected void setUpDataSource(String dataSourceName) {
-        System.setProperty(dataSourceName + ".jdbc.db.kind", "hsqldb");
-        System.setProperty(dataSourceName + ".jdbc.url", "jdbc:hsqldb:mem:testdb");
-        System.setProperty(dataSourceName + ".jdbc.username", "SA");
-        System.setProperty(dataSourceName + ".jdbc.password", "");
+        System.setProperty("forage." + dataSourceName + ".jdbc.db.kind", "hsqldb");
+        System.setProperty("forage." + dataSourceName + ".jdbc.url", "jdbc:hsqldb:mem:testdb");
+        System.setProperty("forage." + dataSourceName + ".jdbc.username", "SA");
+        System.setProperty("forage." + dataSourceName + ".jdbc.password", "");
     }
 
     @Override

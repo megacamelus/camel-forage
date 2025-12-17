@@ -12,7 +12,7 @@ import org.apache.camel.forage.core.util.config.ConfigTag;
 public final class OpenAIConfigEntries extends ConfigEntries {
     public static final ConfigModule API_KEY = ConfigModule.of(
             OpenAIConfig.class,
-            "openai.api.key",
+            "forage.openai.api.key",
             "OpenAI API key for authentication",
             "API Key",
             null,
@@ -21,7 +21,7 @@ public final class OpenAIConfigEntries extends ConfigEntries {
             ConfigTag.SECURITY);
     public static final ConfigModule MODEL_NAME = ConfigModule.of(
             OpenAIConfig.class,
-            "openai.model.name",
+            "forage.openai.model.name",
             "The specific OpenAI model to use",
             "Model Name",
             "gpt-3.5-turbo",
@@ -30,7 +30,7 @@ public final class OpenAIConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule BASE_URL = ConfigModule.of(
             OpenAIConfig.class,
-            "openai.base.url",
+            "forage.openai.base.url",
             "Custom base URL for OpenAI API",
             "Base URL",
             null,
@@ -39,7 +39,7 @@ public final class OpenAIConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule TEMPERATURE = ConfigModule.of(
             OpenAIConfig.class,
-            "openai.temperature",
+            "forage.openai.temperature",
             "Temperature for response randomness (0.0-2.0)",
             "Temperature",
             null,
@@ -48,7 +48,7 @@ public final class OpenAIConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule MAX_TOKENS = ConfigModule.of(
             OpenAIConfig.class,
-            "openai.max.tokens",
+            "forage.openai.max.tokens",
             "Maximum number of tokens to generate",
             "Max Tokens",
             null,
@@ -57,7 +57,7 @@ public final class OpenAIConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule TOP_P = ConfigModule.of(
             OpenAIConfig.class,
-            "openai.top.p",
+            "forage.openai.top.p",
             "Top-P (nucleus) sampling parameter (0.0-1.0)",
             "Top P",
             null,
@@ -66,7 +66,7 @@ public final class OpenAIConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule FREQUENCY_PENALTY = ConfigModule.of(
             OpenAIConfig.class,
-            "openai.frequency.penalty",
+            "forage.openai.frequency.penalty",
             "Frequency penalty (-2.0 to 2.0)",
             "Frequency Penalty",
             null,
@@ -75,7 +75,7 @@ public final class OpenAIConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule PRESENCE_PENALTY = ConfigModule.of(
             OpenAIConfig.class,
-            "openai.presence.penalty",
+            "forage.openai.presence.penalty",
             "Presence penalty (-2.0 to 2.0)",
             "Presence Penalty",
             null,
@@ -84,7 +84,7 @@ public final class OpenAIConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule LOG_REQUESTS = ConfigModule.of(
             OpenAIConfig.class,
-            "openai.log.requests",
+            "forage.openai.log.requests",
             "Enable request logging",
             "Log Requests",
             null,
@@ -93,7 +93,7 @@ public final class OpenAIConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule LOG_RESPONSES = ConfigModule.of(
             OpenAIConfig.class,
-            "openai.log.responses",
+            "forage.openai.log.responses",
             "Enable response logging",
             "Log Responses",
             null,
@@ -102,7 +102,7 @@ public final class OpenAIConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule TIMEOUT = ConfigModule.of(
             OpenAIConfig.class,
-            "openai.timeout",
+            "forage.openai.timeout",
             "Request timeout duration",
             "Timeout",
             null,
@@ -111,7 +111,7 @@ public final class OpenAIConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule HTTP1_1 = ConfigModule.of(
             OpenAIConfig.class,
-            "openai.http1",
+            "forage.openai.http1",
             "Use HTTP/1.1 instead of HTTP/2",
             "Use HTTP/1.1",
             null,

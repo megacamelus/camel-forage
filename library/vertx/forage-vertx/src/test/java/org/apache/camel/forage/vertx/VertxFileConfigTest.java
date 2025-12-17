@@ -70,13 +70,13 @@ public class VertxFileConfigTest {
     }
 
     private static void clearVertxSystemProperties() {
-        System.clearProperty("vertx.worker.pool.size");
-        System.clearProperty("vertx.event.loop.pool.size");
-        System.clearProperty("vertx.clustered");
+        System.clearProperty("forage.vertx.worker.pool.size");
+        System.clearProperty("forage.vertx.event.loop.pool.size");
+        System.clearProperty("forage.vertx.clustered");
 
-        System.clearProperty("worker.pool.size");
-        System.clearProperty("event.loop.pool.size");
-        System.clearProperty("clustered");
+        System.clearProperty("forage.worker.pool.size");
+        System.clearProperty("forage.event.loop.pool.size");
+        System.clearProperty("forage.clustered");
     }
 
     @Test

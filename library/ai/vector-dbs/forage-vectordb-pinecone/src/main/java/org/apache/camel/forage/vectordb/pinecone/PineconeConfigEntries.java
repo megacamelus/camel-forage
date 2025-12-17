@@ -12,7 +12,7 @@ import org.apache.camel.forage.core.util.config.ConfigTag;
 public final class PineconeConfigEntries extends ConfigEntries {
     public static final ConfigModule API_KEY = ConfigModule.of(
             PineconeConfig.class,
-            "pinecone.api.key",
+            "forage.pinecone.api.key",
             "Pinecone API key for authentication",
             "API Key",
             null,
@@ -21,7 +21,7 @@ public final class PineconeConfigEntries extends ConfigEntries {
             ConfigTag.SECURITY);
     public static final ConfigModule INDEX = ConfigModule.of(
             PineconeConfig.class,
-            "pinecone.index",
+            "forage.pinecone.index",
             "Name of the Pinecone index",
             "Index",
             null,
@@ -30,7 +30,7 @@ public final class PineconeConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule NAME_SPACE = ConfigModule.of(
             PineconeConfig.class,
-            "pinecone.name.space",
+            "forage.pinecone.name.space",
             "Namespace within the index",
             "Namespace",
             "default",
@@ -39,7 +39,7 @@ public final class PineconeConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule METADATA_TEXT_KEY = ConfigModule.of(
             PineconeConfig.class,
-            "pinecone.metadata.text.key",
+            "forage.pinecone.metadata.text.key",
             "Metadata key for storing text content",
             "Metadata Text Key",
             "text_segment",
@@ -48,7 +48,7 @@ public final class PineconeConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule CREATE_INDEX = ConfigModule.of(
             PineconeConfig.class,
-            "pinecone.create.index",
+            "forage.pinecone.create.index",
             "Create index if it does not exist",
             "Create Index",
             null,
@@ -57,7 +57,7 @@ public final class PineconeConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule ENVIRONMENT = ConfigModule.of(
             PineconeConfig.class,
-            "pinecone.environment",
+            "forage.pinecone.environment",
             "Pinecone environment (deprecated)",
             "Environment",
             null,
@@ -66,7 +66,7 @@ public final class PineconeConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule PROJECT_ID = ConfigModule.of(
             PineconeConfig.class,
-            "pinecone.project.id",
+            "forage.pinecone.project.id",
             "Pinecone project ID (deprecated)",
             "Project ID",
             null,
@@ -75,7 +75,7 @@ public final class PineconeConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule DIMENSION = ConfigModule.of(
             PineconeConfig.class,
-            "pinecone.dimension",
+            "forage.pinecone.dimension",
             "Vector dimension size",
             "Dimension",
             null,
@@ -84,7 +84,7 @@ public final class PineconeConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule CLOUD = ConfigModule.of(
             PineconeConfig.class,
-            "pinecone.cloud",
+            "forage.pinecone.cloud",
             "Cloud provider (e.g., aws, gcp, azure)",
             "Cloud",
             null,
@@ -93,7 +93,7 @@ public final class PineconeConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule REGION = ConfigModule.of(
             PineconeConfig.class,
-            "pinecone.region",
+            "forage.pinecone.region",
             "Cloud region for the index",
             "Region",
             null,
@@ -102,7 +102,7 @@ public final class PineconeConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule DELETION_PROTECTION = ConfigModule.of(
             PineconeConfig.class,
-            "pinecone.deletion.protection",
+            "forage.pinecone.deletion.protection",
             "Enable deletion protection (ENABLED or DISABLED)",
             "Deletion Protection",
             "ENABLED",

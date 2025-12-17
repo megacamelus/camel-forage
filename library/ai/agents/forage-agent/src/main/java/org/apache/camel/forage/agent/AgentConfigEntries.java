@@ -18,20 +18,20 @@ import org.apache.camel.forage.core.util.config.ConfigTag;
  * <p>Example configuration:
  * <pre>
  * # Single agent (no prefix)
- * agent.model.kind=ollama
- * agent.base.url=http://localhost:11434
- * agent.model.name=llama3
+ * forage.agent.model.kind=ollama
+ * forage.agent.base.url=http://localhost:11434
+ * forage.agent.model.name=llama3
  *
  * # Multiple agents (with prefix, auto-detected)
- * google.agent.model.kind=google-gemini
- * google.agent.features=memory
- * google.agent.memory.kind=message-window
- * google.agent.api.key=your-api-key
- * google.agent.model.name=gemini-2.0-flash
+ * forage.google.agent.model.kind=google-gemini
+ * forage.google.agent.features=memory
+ * forage.google.agent.memory.kind=message-window
+ * forage.google.agent.api.key=your-api-key
+ * forage.google.agent.model.name=gemini-2.0-flash
  *
- * ollama.agent.model.kind=ollama
- * ollama.agent.base.url=http://localhost:11434
- * ollama.agent.model.name=llama3
+ * forage.ollama.agent.model.kind=ollama
+ * forage.ollama.agent.base.url=http://localhost:11434
+ * forage.ollama.agent.model.name=llama3
  * </pre>
  */
 public final class AgentConfigEntries extends ConfigEntries {
@@ -39,7 +39,7 @@ public final class AgentConfigEntries extends ConfigEntries {
     // Core agent configuration
     public static final ConfigModule MODEL_KIND = ConfigModule.of(
             AgentConfig.class,
-            "agent.model.kind",
+            "forage.agent.model.kind",
             "The model provider kind (e.g., ollama, openai, google-gemini, azure-openai, anthropic)",
             "Model Kind",
             null,
@@ -49,7 +49,7 @@ public final class AgentConfigEntries extends ConfigEntries {
 
     public static final ConfigModule FEATURES = ConfigModule.of(
             AgentConfig.class,
-            "agent.features",
+            "forage.agent.features",
             "Comma-separated list of enabled features (e.g., memory)",
             "Features",
             null,
@@ -59,7 +59,7 @@ public final class AgentConfigEntries extends ConfigEntries {
 
     public static final ConfigModule MEMORY_KIND = ConfigModule.of(
             AgentConfig.class,
-            "agent.memory.kind",
+            "forage.agent.memory.kind",
             "The memory provider kind (e.g., message-window, redis, infinispan)",
             "Memory Kind",
             null,
@@ -70,7 +70,7 @@ public final class AgentConfigEntries extends ConfigEntries {
     // Common model configuration (shared across providers)
     public static final ConfigModule API_KEY = ConfigModule.of(
             AgentConfig.class,
-            "agent.api.key",
+            "forage.agent.api.key",
             "API key for authentication with the model provider",
             "API Key",
             null,
@@ -80,7 +80,7 @@ public final class AgentConfigEntries extends ConfigEntries {
 
     public static final ConfigModule BASE_URL = ConfigModule.of(
             AgentConfig.class,
-            "agent.base.url",
+            "forage.agent.base.url",
             "Base URL for the model provider API",
             "Base URL",
             null,
@@ -90,7 +90,7 @@ public final class AgentConfigEntries extends ConfigEntries {
 
     public static final ConfigModule MODEL_NAME = ConfigModule.of(
             AgentConfig.class,
-            "agent.model.name",
+            "forage.agent.model.name",
             "The specific model name to use",
             "Model Name",
             null,
@@ -100,7 +100,7 @@ public final class AgentConfigEntries extends ConfigEntries {
 
     public static final ConfigModule TEMPERATURE = ConfigModule.of(
             AgentConfig.class,
-            "agent.temperature",
+            "forage.agent.temperature",
             "Temperature for response randomness (0.0-2.0)",
             "Temperature",
             null,
@@ -110,7 +110,7 @@ public final class AgentConfigEntries extends ConfigEntries {
 
     public static final ConfigModule MAX_TOKENS = ConfigModule.of(
             AgentConfig.class,
-            "agent.max.tokens",
+            "forage.agent.max.tokens",
             "Maximum number of tokens in the response",
             "Max Tokens",
             null,
@@ -120,7 +120,7 @@ public final class AgentConfigEntries extends ConfigEntries {
 
     public static final ConfigModule TOP_P = ConfigModule.of(
             AgentConfig.class,
-            "agent.top.p",
+            "forage.agent.top.p",
             "Top-P (nucleus) sampling parameter (0.0-1.0)",
             "Top P",
             null,
@@ -130,7 +130,7 @@ public final class AgentConfigEntries extends ConfigEntries {
 
     public static final ConfigModule TOP_K = ConfigModule.of(
             AgentConfig.class,
-            "agent.top.k",
+            "forage.agent.top.k",
             "Top-K sampling parameter",
             "Top K",
             null,
@@ -141,7 +141,7 @@ public final class AgentConfigEntries extends ConfigEntries {
     // Azure OpenAI specific
     public static final ConfigModule ENDPOINT = ConfigModule.of(
             AgentConfig.class,
-            "agent.endpoint",
+            "forage.agent.endpoint",
             "Azure OpenAI resource endpoint URL",
             "Endpoint",
             null,
@@ -151,7 +151,7 @@ public final class AgentConfigEntries extends ConfigEntries {
 
     public static final ConfigModule DEPLOYMENT_NAME = ConfigModule.of(
             AgentConfig.class,
-            "agent.deployment.name",
+            "forage.agent.deployment.name",
             "Azure OpenAI deployment name",
             "Deployment Name",
             null,
@@ -162,7 +162,7 @@ public final class AgentConfigEntries extends ConfigEntries {
     // Logging
     public static final ConfigModule LOG_REQUESTS = ConfigModule.of(
             AgentConfig.class,
-            "agent.log.requests",
+            "forage.agent.log.requests",
             "Enable request logging",
             "Log Requests",
             null,
@@ -172,7 +172,7 @@ public final class AgentConfigEntries extends ConfigEntries {
 
     public static final ConfigModule LOG_RESPONSES = ConfigModule.of(
             AgentConfig.class,
-            "agent.log.responses",
+            "forage.agent.log.responses",
             "Enable response logging",
             "Log Responses",
             null,
@@ -183,7 +183,7 @@ public final class AgentConfigEntries extends ConfigEntries {
     // Memory configuration
     public static final ConfigModule MEMORY_MAX_MESSAGES = ConfigModule.of(
             AgentConfig.class,
-            "agent.memory.max.messages",
+            "forage.agent.memory.max.messages",
             "Maximum number of messages to retain in memory",
             "Max Messages",
             "20",
@@ -194,7 +194,7 @@ public final class AgentConfigEntries extends ConfigEntries {
     // Redis memory
     public static final ConfigModule MEMORY_REDIS_HOST = ConfigModule.of(
             AgentConfig.class,
-            "agent.memory.redis.host",
+            "forage.agent.memory.redis.host",
             "Redis server hostname",
             "Redis Host",
             "localhost",
@@ -204,7 +204,7 @@ public final class AgentConfigEntries extends ConfigEntries {
 
     public static final ConfigModule MEMORY_REDIS_PORT = ConfigModule.of(
             AgentConfig.class,
-            "agent.memory.redis.port",
+            "forage.agent.memory.redis.port",
             "Redis server port",
             "Redis Port",
             "6379",
@@ -214,7 +214,7 @@ public final class AgentConfigEntries extends ConfigEntries {
 
     public static final ConfigModule MEMORY_REDIS_PASSWORD = ConfigModule.of(
             AgentConfig.class,
-            "agent.memory.redis.password",
+            "forage.agent.memory.redis.password",
             "Redis authentication password",
             "Redis Password",
             null,
@@ -225,7 +225,7 @@ public final class AgentConfigEntries extends ConfigEntries {
     // Infinispan memory
     public static final ConfigModule MEMORY_INFINISPAN_SERVER_LIST = ConfigModule.of(
             AgentConfig.class,
-            "agent.memory.infinispan.server-list",
+            "forage.agent.memory.infinispan.server-list",
             "Comma-separated list of Infinispan servers",
             "Server List",
             "localhost:11222",
@@ -235,7 +235,7 @@ public final class AgentConfigEntries extends ConfigEntries {
 
     public static final ConfigModule MEMORY_INFINISPAN_CACHE_NAME = ConfigModule.of(
             AgentConfig.class,
-            "agent.memory.infinispan.cache-name",
+            "forage.agent.memory.infinispan.cache-name",
             "Infinispan cache name for storing messages",
             "Cache Name",
             "chat-memory",

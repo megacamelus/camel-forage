@@ -44,25 +44,25 @@ class RedisMemoryTCKTest extends ChatMemoryBeanProviderTCK {
         Integer redisPort = redis.getMappedPort(REDIS_PORT);
 
         // Set system properties for Redis configuration
-        System.setProperty("redis.host", redisHost);
-        System.setProperty("redis.port", redisPort.toString());
-        System.setProperty("redis.database", "0");
-        System.setProperty("redis.timeout", "2000");
-        System.setProperty("redis.pool.max.total", "8");
-        System.setProperty("redis.pool.max.idle", "8");
-        System.setProperty("redis.pool.min.idle", "0");
+        System.setProperty("forage.redis.host", redisHost);
+        System.setProperty("forage.redis.port", redisPort.toString());
+        System.setProperty("forage.redis.database", "0");
+        System.setProperty("forage.redis.timeout", "2000");
+        System.setProperty("forage.redis.pool.max.total", "8");
+        System.setProperty("forage.redis.pool.max.idle", "8");
+        System.setProperty("forage.redis.pool.min.idle", "0");
     }
 
     @AfterAll
     static void tearDownRedis() {
         // Clean up Redis configuration
-        System.clearProperty("redis.host");
-        System.clearProperty("redis.port");
-        System.clearProperty("redis.database");
-        System.clearProperty("redis.timeout");
-        System.clearProperty("redis.pool.max.total");
-        System.clearProperty("redis.pool.max.idle");
-        System.clearProperty("redis.pool.min.idle");
+        System.clearProperty("forage.redis.host");
+        System.clearProperty("forage.redis.port");
+        System.clearProperty("forage.redis.database");
+        System.clearProperty("forage.redis.timeout");
+        System.clearProperty("forage.redis.pool.max.total");
+        System.clearProperty("forage.redis.pool.max.idle");
+        System.clearProperty("forage.redis.pool.min.idle");
 
         // Close Redis connection pool
         RedisMemoryBeanProvider.close();

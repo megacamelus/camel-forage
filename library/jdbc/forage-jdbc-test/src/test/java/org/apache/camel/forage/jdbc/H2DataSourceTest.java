@@ -15,10 +15,10 @@ public class H2DataSourceTest extends DataSourceTest {
 
     @Override
     protected void setUpDataSource(String dataSourceName) {
-        System.setProperty(dataSourceName + ".jdbc.db.kind", "h2");
-        System.setProperty(dataSourceName + ".jdbc.url", "jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1");
-        System.setProperty(dataSourceName + ".jdbc.username", "sa");
-        System.setProperty(dataSourceName + ".jdbc.password", "");
+        System.setProperty("forage." + dataSourceName + ".jdbc.db.kind", "h2");
+        System.setProperty("forage." + dataSourceName + ".jdbc.url", "jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1");
+        System.setProperty("forage." + dataSourceName + ".jdbc.username", "sa");
+        System.setProperty("forage." + dataSourceName + ".jdbc.password", "");
     }
 
     @Override

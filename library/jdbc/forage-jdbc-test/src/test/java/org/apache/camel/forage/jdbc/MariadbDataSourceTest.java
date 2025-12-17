@@ -31,12 +31,12 @@ public class MariadbDataSourceTest extends DataSourceTest {
 
     @Override
     protected void setUpDataSource(String dataSourceName) {
-        System.setProperty(dataSourceName + ".jdbc.db.kind", "mariadb");
+        System.setProperty("forage." + dataSourceName + ".jdbc.db.kind", "mariadb");
         System.setProperty(
-                dataSourceName + ".jdbc.url",
+                "forage." + dataSourceName + ".jdbc.url",
                 "jdbc:mariadb://localhost:" + mariadb.getMappedPort(3306) + "/" + MARIADB_DATABASE);
-        System.setProperty(dataSourceName + ".jdbc.username", "root");
-        System.setProperty(dataSourceName + ".jdbc.password", "pwd");
+        System.setProperty("forage." + dataSourceName + ".jdbc.username", "root");
+        System.setProperty("forage." + dataSourceName + ".jdbc.password", "pwd");
     }
 
     @Override

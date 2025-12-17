@@ -12,7 +12,7 @@ import org.apache.camel.forage.core.util.config.ConfigTag;
 public final class MilvusConfigEntries extends ConfigEntries {
     public static final ConfigModule HOST = ConfigModule.of(
             MilvusConfig.class,
-            "milvus.host",
+            "forage.milvus.host",
             "Milvus server host address",
             "Host",
             null,
@@ -21,7 +21,7 @@ public final class MilvusConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule PORT = ConfigModule.of(
             MilvusConfig.class,
-            "milvus.port",
+            "forage.milvus.port",
             "Milvus server port number",
             "Port",
             null,
@@ -30,7 +30,7 @@ public final class MilvusConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule COLLECTION_NAME = ConfigModule.of(
             MilvusConfig.class,
-            "milvus.collection.name",
+            "forage.milvus.collection.name",
             "Name of the Milvus collection",
             "Collection Name",
             "default",
@@ -39,7 +39,7 @@ public final class MilvusConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule DIMENSION = ConfigModule.of(
             MilvusConfig.class,
-            "milvus.dimension",
+            "forage.milvus.dimension",
             "Vector dimension size",
             "Dimension",
             null,
@@ -48,7 +48,7 @@ public final class MilvusConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule INDEX_TYPE = ConfigModule.of(
             MilvusConfig.class,
-            "milvus.index.type",
+            "forage.milvus.index.type",
             "Index type for vector search (e.g., IVF_FLAT, HNSW)",
             "Index Type",
             "FLAT",
@@ -57,7 +57,7 @@ public final class MilvusConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule METRIC_TYPE = ConfigModule.of(
             MilvusConfig.class,
-            "milvus.metric.type",
+            "forage.milvus.metric.type",
             "Distance metric type (e.g., COSINE, L2, IP)",
             "Metric Type",
             "COSINE",
@@ -66,7 +66,7 @@ public final class MilvusConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule URI = ConfigModule.of(
             MilvusConfig.class,
-            "milvus.uri",
+            "forage.milvus.uri",
             "Milvus server URI (alternative to host/port)",
             "URI",
             null,
@@ -75,7 +75,7 @@ public final class MilvusConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule TOKEN = ConfigModule.of(
             MilvusConfig.class,
-            "milvus.token",
+            "forage.milvus.token",
             "Authentication token",
             "Token",
             null,
@@ -84,7 +84,7 @@ public final class MilvusConfigEntries extends ConfigEntries {
             ConfigTag.SECURITY);
     public static final ConfigModule USERNAME = ConfigModule.of(
             MilvusConfig.class,
-            "milvus.username",
+            "forage.milvus.username",
             "Username for authentication",
             "Username",
             "",
@@ -93,7 +93,7 @@ public final class MilvusConfigEntries extends ConfigEntries {
             ConfigTag.SECURITY);
     public static final ConfigModule PASSWORD = ConfigModule.of(
             MilvusConfig.class,
-            "milvus.password",
+            "forage.milvus.password",
             "Password for authentication",
             "Password",
             "",
@@ -102,7 +102,7 @@ public final class MilvusConfigEntries extends ConfigEntries {
             ConfigTag.SECURITY);
     public static final ConfigModule CONSISTENCY_LEVEL = ConfigModule.of(
             MilvusConfig.class,
-            "milvus.consistency.level",
+            "forage.milvus.consistency.level",
             "Consistency level for queries (e.g., STRONG, EVENTUALLY)",
             "Consistency Level",
             "EVENTUALLY",
@@ -111,7 +111,7 @@ public final class MilvusConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule RETRIEVE_EMBEDDINGS_ON_SEARCH = ConfigModule.of(
             MilvusConfig.class,
-            "milvus.retrieve.embeddings.on.search",
+            "forage.milvus.retrieve.embeddings.on.search",
             "Whether to retrieve embeddings in search results",
             "Retrieve Embeddings",
             "false",
@@ -120,7 +120,7 @@ public final class MilvusConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule AUTO_FLUSH_ON_INSERT = ConfigModule.of(
             MilvusConfig.class,
-            "milvus.auto.flush.on.insert",
+            "forage.milvus.auto.flush.on.insert",
             "Automatically flush data after insert operations",
             "Auto Flush",
             "false",
@@ -129,7 +129,7 @@ public final class MilvusConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule DATABASE_NAME = ConfigModule.of(
             MilvusConfig.class,
-            "milvus.database.name",
+            "forage.milvus.database.name",
             "Name of the Milvus database",
             "Database Name",
             null,
@@ -138,7 +138,7 @@ public final class MilvusConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule ID_FIELD_NAME = ConfigModule.of(
             MilvusConfig.class,
-            "milvus.id.field.name",
+            "forage.milvus.id.field.name",
             "Name of the ID field",
             "ID Field Name",
             "id",
@@ -147,7 +147,7 @@ public final class MilvusConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule TEXT_FIELD_NAME = ConfigModule.of(
             MilvusConfig.class,
-            "milvus.text.field.name",
+            "forage.milvus.text.field.name",
             "Name of the text field",
             "Text Field Name",
             "text",
@@ -156,7 +156,7 @@ public final class MilvusConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule METADATA_FIELD_NAME = ConfigModule.of(
             MilvusConfig.class,
-            "milvus.metadata.field.name",
+            "forage.milvus.metadata.field.name",
             "Name of the metadata field",
             "Metadata Field Name",
             "metadata",
@@ -165,7 +165,7 @@ public final class MilvusConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule VECTOR_FIELD_NAME = ConfigModule.of(
             MilvusConfig.class,
-            "milvus.vector.field.name",
+            "forage.milvus.vector.field.name",
             "Name of the vector field",
             "Vector Field Name",
             "vector",

@@ -11,7 +11,7 @@
     </parent>
 
     <artifactId>forage-model-mistral-ai</artifactId>
-    <name>Forage :: Models :: Chat :: MistralAI</name>
+    <name>Camel Forage :: Library :: AI :: Models :: Chat :: MistralAI</name>
     <description>MistralAI chat model provider for Camel Forage</description>
 
     <dependencies>

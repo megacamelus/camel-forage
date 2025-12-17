@@ -12,7 +12,7 @@ import org.apache.camel.forage.core.util.config.ConfigTag;
 public final class BedrockConfigEntries extends ConfigEntries {
     public static final ConfigModule REGION = ConfigModule.of(
             BedrockConfig.class,
-            "bedrock.region",
+            "forage.bedrock.region",
             "AWS region where Bedrock is available",
             "Region",
             "us-east-1",
@@ -21,7 +21,7 @@ public final class BedrockConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule MODEL_ID = ConfigModule.of(
             BedrockConfig.class,
-            "bedrock.model.id",
+            "forage.bedrock.model.id",
             "Bedrock model identifier (e.g., anthropic.claude-3-5-sonnet-20240620-v1:0)",
             "Model ID",
             null,
@@ -30,7 +30,7 @@ public final class BedrockConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule ACCESS_KEY_ID = ConfigModule.of(
             BedrockConfig.class,
-            "bedrock.access.key.id",
+            "forage.bedrock.access.key.id",
             "AWS access key ID (optional, uses default credential chain if not provided)",
             "Access Key ID",
             null,
@@ -39,7 +39,7 @@ public final class BedrockConfigEntries extends ConfigEntries {
             ConfigTag.SECURITY);
     public static final ConfigModule SECRET_ACCESS_KEY = ConfigModule.of(
             BedrockConfig.class,
-            "bedrock.secret.access.key",
+            "forage.bedrock.secret.access.key",
             "AWS secret access key (optional, uses default credential chain if not provided)",
             "Secret Access Key",
             null,
@@ -48,7 +48,7 @@ public final class BedrockConfigEntries extends ConfigEntries {
             ConfigTag.SECURITY);
     public static final ConfigModule TEMPERATURE = ConfigModule.of(
             BedrockConfig.class,
-            "bedrock.temperature",
+            "forage.bedrock.temperature",
             "Sampling temperature for response randomness (0.0-1.0)",
             "Temperature",
             null,
@@ -57,7 +57,7 @@ public final class BedrockConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule MAX_TOKENS = ConfigModule.of(
             BedrockConfig.class,
-            "bedrock.max.tokens",
+            "forage.bedrock.max.tokens",
             "Maximum number of tokens to generate",
             "Max Tokens",
             null,
@@ -66,7 +66,7 @@ public final class BedrockConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule TOP_P = ConfigModule.of(
             BedrockConfig.class,
-            "bedrock.top.p",
+            "forage.bedrock.top.p",
             "Top-P (nucleus) sampling parameter (0.0-1.0)",
             "Top P",
             null,

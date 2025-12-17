@@ -119,7 +119,7 @@ Each module requires two configuration classes:
 **ConfigEntries class** - Defines configuration modules:
 ```java
 public final class ExampleConfigEntries extends ConfigEntries {
-    public static final ConfigModule API_KEY = ConfigModule.of(ExampleConfig.class, "example.api.key");
+    public static final ConfigModule API_KEY = ConfigModule.of(ExampleConfig.class, "forage.example.api.key");
     private static final Map<ConfigModule, ConfigEntry> CONFIG_MODULES = new ConcurrentHashMap<>();
 
     static { init(); }
@@ -158,8 +158,8 @@ public class ExampleConfig implements Config {
 ```
 
 **Configuration precedence** (highest to lowest):
-1. Environment variables (`EXAMPLE_API_KEY`)
-2. System properties (`-Dexample.api.key=value`)
+1. Environment variables (`FORAGE_EXAMPLE_API_KEY`)
+2. System properties (`-Dforage.example.api.key=value`)
 3. Properties files (`<module-name>.properties`)
 
 ### 5. ServiceLoader Registration
@@ -170,8 +170,8 @@ Create `META-INF/services/<interface-name>` files listing implementation classes
 
 - **Artifacts**: `forage-<category>-<technology>` (e.g., `forage-model-openai`)
 - **Packages**: `org.apache.camel.forage.<category>.<technology>`
-- **Config env vars**: `<TECHNOLOGY>_<PROPERTY>` (e.g., `OPENAI_API_KEY`)
-- **Config properties**: `<technology>.<property>` (e.g., `openai.api.key`)
+- **Config env vars**: `FORAGE_<TECHNOLOGY>_<PROPERTY>` (e.g., `FORAGE_OPENAI_API_KEY`)
+- **Config properties**: `forage.<technology>.<property>` (e.g., `forage.openai.api.key`)
 
 ## Integration Tests
 

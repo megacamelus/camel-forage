@@ -12,7 +12,7 @@ import org.apache.camel.forage.core.util.config.ConfigTag;
 public final class LocalAiConfigEntries extends ConfigEntries {
     public static final ConfigModule API_KEY = ConfigModule.of(
             LocalAiConfig.class,
-            "localai.api.key",
+            "forage.localai.api.key",
             "LocalAI API key for authentication (optional)",
             "API Key",
             null,
@@ -21,7 +21,7 @@ public final class LocalAiConfigEntries extends ConfigEntries {
             ConfigTag.SECURITY);
     public static final ConfigModule BASE_URL = ConfigModule.of(
             LocalAiConfig.class,
-            "localai.base.url",
+            "forage.localai.base.url",
             "The LocalAI server endpoint URL",
             "Base URL",
             null,
@@ -30,7 +30,7 @@ public final class LocalAiConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule MODEL_NAME = ConfigModule.of(
             LocalAiConfig.class,
-            "localai.model.name",
+            "forage.localai.model.name",
             "The model to use (must be available on LocalAI server)",
             "Model Name",
             null,
@@ -39,7 +39,7 @@ public final class LocalAiConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule TEMPERATURE = ConfigModule.of(
             LocalAiConfig.class,
-            "localai.temperature",
+            "forage.localai.temperature",
             "Temperature for response generation (0.0-2.0)",
             "Temperature",
             null,
@@ -48,7 +48,7 @@ public final class LocalAiConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule MAX_TOKENS = ConfigModule.of(
             LocalAiConfig.class,
-            "localai.max.tokens",
+            "forage.localai.max.tokens",
             "Maximum number of tokens for model responses",
             "Max Tokens",
             null,
@@ -57,7 +57,7 @@ public final class LocalAiConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule TOP_P = ConfigModule.of(
             LocalAiConfig.class,
-            "localai.top.p",
+            "forage.localai.top.p",
             "Top-p (nucleus sampling) probability threshold (0.0-1.0)",
             "Top P",
             null,
@@ -66,7 +66,7 @@ public final class LocalAiConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule PRESENCE_PENALTY = ConfigModule.of(
             LocalAiConfig.class,
-            "localai.presence.penalty",
+            "forage.localai.presence.penalty",
             "Presence penalty for discouraging new topic introduction (-2.0 to 2.0)",
             "Presence Penalty",
             null,
@@ -75,7 +75,7 @@ public final class LocalAiConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule FREQUENCY_PENALTY = ConfigModule.of(
             LocalAiConfig.class,
-            "localai.frequency.penalty",
+            "forage.localai.frequency.penalty",
             "Frequency penalty for discouraging token repetition (-2.0 to 2.0)",
             "Frequency Penalty",
             null,
@@ -84,7 +84,7 @@ public final class LocalAiConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule SEED = ConfigModule.of(
             LocalAiConfig.class,
-            "localai.seed",
+            "forage.localai.seed",
             "Seed for deterministic response generation",
             "Seed",
             null,
@@ -93,7 +93,7 @@ public final class LocalAiConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule USER = ConfigModule.of(
             LocalAiConfig.class,
-            "localai.user",
+            "forage.localai.user",
             "User identifier for tracking and monitoring",
             "User",
             null,
@@ -102,7 +102,7 @@ public final class LocalAiConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule TIMEOUT = ConfigModule.of(
             LocalAiConfig.class,
-            "localai.timeout",
+            "forage.localai.timeout",
             "Request timeout in seconds",
             "Timeout",
             null,
@@ -111,7 +111,7 @@ public final class LocalAiConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule MAX_RETRIES = ConfigModule.of(
             LocalAiConfig.class,
-            "localai.max.retries",
+            "forage.localai.max.retries",
             "Maximum number of retry attempts for failed requests",
             "Max Retries",
             null,
@@ -120,7 +120,7 @@ public final class LocalAiConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule LOG_REQUESTS_AND_RESPONSES = ConfigModule.of(
             LocalAiConfig.class,
-            "localai.log.requests.and.responses",
+            "forage.localai.log.requests.and.responses",
             "Enable request and response logging",
             "Log Requests/Responses",
             null,

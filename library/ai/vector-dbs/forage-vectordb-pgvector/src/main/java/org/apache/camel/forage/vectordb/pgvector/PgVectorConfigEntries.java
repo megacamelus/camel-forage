@@ -12,7 +12,7 @@ import org.apache.camel.forage.core.util.config.ConfigTag;
 public final class PgVectorConfigEntries extends ConfigEntries {
     public static final ConfigModule HOST = ConfigModule.of(
             PgVectorConfig.class,
-            "pgvector.host",
+            "forage.pgvector.host",
             "PostgreSQL server host address",
             "Host",
             null,
@@ -21,7 +21,7 @@ public final class PgVectorConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule PORT = ConfigModule.of(
             PgVectorConfig.class,
-            "pgvector.port",
+            "forage.pgvector.port",
             "PostgreSQL server port number",
             "Port",
             null,
@@ -30,7 +30,7 @@ public final class PgVectorConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule USER = ConfigModule.of(
             PgVectorConfig.class,
-            "pgvector.user",
+            "forage.pgvector.user",
             "Database username",
             "User",
             null,
@@ -39,7 +39,7 @@ public final class PgVectorConfigEntries extends ConfigEntries {
             ConfigTag.SECURITY);
     public static final ConfigModule PASSWORD = ConfigModule.of(
             PgVectorConfig.class,
-            "pgvector.password",
+            "forage.pgvector.password",
             "Database password",
             "Password",
             null,
@@ -48,7 +48,7 @@ public final class PgVectorConfigEntries extends ConfigEntries {
             ConfigTag.SECURITY);
     public static final ConfigModule DATABASE = ConfigModule.of(
             PgVectorConfig.class,
-            "pgvector.database",
+            "forage.pgvector.database",
             "Database name",
             "Database",
             null,
@@ -57,7 +57,7 @@ public final class PgVectorConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule TABLE = ConfigModule.of(
             PgVectorConfig.class,
-            "pgvector.table",
+            "forage.pgvector.table",
             "Table name for storing vectors",
             "Table",
             null,
@@ -66,7 +66,7 @@ public final class PgVectorConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule DIMENSION = ConfigModule.of(
             PgVectorConfig.class,
-            "pgvector.dimension",
+            "forage.pgvector.dimension",
             "Vector dimension size",
             "Dimension",
             null,
@@ -75,7 +75,7 @@ public final class PgVectorConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule USE_INDEX = ConfigModule.of(
             PgVectorConfig.class,
-            "pgvector.use.index",
+            "forage.pgvector.use.index",
             "Enable vector index for faster search",
             "Use Index",
             "false",
@@ -84,7 +84,7 @@ public final class PgVectorConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule INDEX_LIST_SIZE = ConfigModule.of(
             PgVectorConfig.class,
-            "pgvector.index.list.size",
+            "forage.pgvector.index.list.size",
             "Index list size for IVFFlat index",
             "Index List Size",
             "100",
@@ -93,7 +93,7 @@ public final class PgVectorConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule CREATE_TABLE = ConfigModule.of(
             PgVectorConfig.class,
-            "pgvector.create.table",
+            "forage.pgvector.create.table",
             "Automatically create table if it does not exist",
             "Create Table",
             "true",
@@ -102,7 +102,7 @@ public final class PgVectorConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule DROP_TABLE_FIRST = ConfigModule.of(
             PgVectorConfig.class,
-            "pgvector.drop.table.first",
+            "forage.pgvector.drop.table.first",
             "Drop table before creating (for testing)",
             "Drop Table First",
             "false",
@@ -111,7 +111,7 @@ public final class PgVectorConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule METADATA_STORAGE_CONFIG = ConfigModule.of(
             PgVectorConfig.class,
-            "pgvector.metadata.storage.config",
+            "forage.pgvector.metadata.storage.config",
             "Metadata storage configuration",
             "Metadata Storage Config",
             null,

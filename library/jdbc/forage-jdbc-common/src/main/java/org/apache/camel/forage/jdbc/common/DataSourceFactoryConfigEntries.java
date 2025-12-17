@@ -13,7 +13,7 @@ public final class DataSourceFactoryConfigEntries extends ConfigEntries {
     // Instance name - used as prefix for multi-datasource configurations
     public static final ConfigModule NAME = ConfigModule.of(
             DataSourceFactoryConfig.class,
-            "jdbc.name",
+            "forage.jdbc.name",
             "Instance name used as prefix for multi-datasource configurations (e.g., ds1.jdbc.*, ds2.jdbc.*)",
             "Instance Name",
             null,
@@ -24,7 +24,7 @@ public final class DataSourceFactoryConfigEntries extends ConfigEntries {
     // Database connection configuration
     public static final ConfigModule DB_KIND = ConfigModule.of(
             DataSourceFactoryConfig.class,
-            "jdbc.db.kind",
+            "forage.jdbc.db.kind",
             "The database kind/type",
             "Database Kind",
             null,
@@ -34,7 +34,7 @@ public final class DataSourceFactoryConfigEntries extends ConfigEntries {
 
     public static final ConfigModule JDBC_URL = ConfigModule.of(
             DataSourceFactoryConfig.class,
-            "jdbc.url",
+            "forage.jdbc.url",
             "The JDBC connection URL",
             "JDBC URL",
             null,
@@ -44,7 +44,7 @@ public final class DataSourceFactoryConfigEntries extends ConfigEntries {
 
     public static final ConfigModule USERNAME = ConfigModule.of(
             DataSourceFactoryConfig.class,
-            "jdbc.username",
+            "forage.jdbc.username",
             "The database username",
             "Username",
             null,
@@ -54,7 +54,7 @@ public final class DataSourceFactoryConfigEntries extends ConfigEntries {
 
     public static final ConfigModule PASSWORD = ConfigModule.of(
             DataSourceFactoryConfig.class,
-            "jdbc.password",
+            "forage.jdbc.password",
             "The database password",
             "Password",
             null,
@@ -65,7 +65,7 @@ public final class DataSourceFactoryConfigEntries extends ConfigEntries {
     // Connection pool configuration
     public static final ConfigModule INITIAL_SIZE = ConfigModule.of(
             DataSourceFactoryConfig.class,
-            "jdbc.pool.initial.size",
+            "forage.jdbc.pool.initial.size",
             "Initial size of the connection pool",
             "Initial Pool Size",
             "5",
@@ -75,7 +75,7 @@ public final class DataSourceFactoryConfigEntries extends ConfigEntries {
 
     public static final ConfigModule MIN_SIZE = ConfigModule.of(
             DataSourceFactoryConfig.class,
-            "jdbc.pool.min.size",
+            "forage.jdbc.pool.min.size",
             "Minimum size of the connection pool",
             "Min Pool Size",
             "2",
@@ -85,7 +85,7 @@ public final class DataSourceFactoryConfigEntries extends ConfigEntries {
 
     public static final ConfigModule MAX_SIZE = ConfigModule.of(
             DataSourceFactoryConfig.class,
-            "jdbc.pool.max.size",
+            "forage.jdbc.pool.max.size",
             "Maximum size of the connection pool",
             "Max Pool Size",
             "20",
@@ -95,7 +95,7 @@ public final class DataSourceFactoryConfigEntries extends ConfigEntries {
 
     public static final ConfigModule ACQUISITION_TIMEOUT_SECONDS = ConfigModule.of(
             DataSourceFactoryConfig.class,
-            "jdbc.pool.acquisition.timeout.seconds",
+            "forage.jdbc.pool.acquisition.timeout.seconds",
             "Timeout for acquiring a connection from the pool (seconds)",
             "Acquisition Timeout",
             "5",
@@ -105,7 +105,7 @@ public final class DataSourceFactoryConfigEntries extends ConfigEntries {
 
     public static final ConfigModule VALIDATION_TIMEOUT_SECONDS = ConfigModule.of(
             DataSourceFactoryConfig.class,
-            "jdbc.pool.validation.timeout.seconds",
+            "forage.jdbc.pool.validation.timeout.seconds",
             "Timeout for validating a connection (seconds)",
             "Validation Timeout",
             "3",
@@ -115,7 +115,7 @@ public final class DataSourceFactoryConfigEntries extends ConfigEntries {
 
     public static final ConfigModule LEAK_TIMEOUT_MINUTES = ConfigModule.of(
             DataSourceFactoryConfig.class,
-            "jdbc.pool.leak.timeout.minutes",
+            "forage.jdbc.pool.leak.timeout.minutes",
             "Timeout for detecting connection leaks (minutes)",
             "Leak Timeout",
             "10",
@@ -125,7 +125,7 @@ public final class DataSourceFactoryConfigEntries extends ConfigEntries {
 
     public static final ConfigModule IDLE_VALIDATION_TIMEOUT_MINUTES = ConfigModule.of(
             DataSourceFactoryConfig.class,
-            "jdbc.pool.idle.validation.timeout.minutes",
+            "forage.jdbc.pool.idle.validation.timeout.minutes",
             "Timeout for validating idle connections (minutes)",
             "Idle Validation Timeout",
             "3",
@@ -136,7 +136,7 @@ public final class DataSourceFactoryConfigEntries extends ConfigEntries {
     // Transaction configuration
     public static final ConfigModule TRANSACTION_TIMEOUT_SECONDS = ConfigModule.of(
             DataSourceFactoryConfig.class,
-            "jdbc.transaction.timeout.seconds",
+            "forage.jdbc.transaction.timeout.seconds",
             "Timeout for transactions (seconds)",
             "Transaction Timeout",
             "30",
@@ -146,7 +146,7 @@ public final class DataSourceFactoryConfigEntries extends ConfigEntries {
 
     public static final ConfigModule TRANSACTION_ENABLED = ConfigModule.of(
             DataSourceFactoryConfig.class,
-            "jdbc.transaction.enabled",
+            "forage.jdbc.transaction.enabled",
             "Enable transaction management",
             "Transaction Enabled",
             "false",
@@ -156,7 +156,7 @@ public final class DataSourceFactoryConfigEntries extends ConfigEntries {
 
     public static final ConfigModule TRANSACTION_NODE_ID = ConfigModule.of(
             DataSourceFactoryConfig.class,
-            "jdbc.transaction.node.id",
+            "forage.jdbc.transaction.node.id",
             "The transaction node identifier",
             "Transaction Node ID",
             null,
@@ -166,7 +166,7 @@ public final class DataSourceFactoryConfigEntries extends ConfigEntries {
 
     public static final ConfigModule TRANSACTION_OBJECT_STORE_ID = ConfigModule.of(
             DataSourceFactoryConfig.class,
-            "jdbc.transaction.object.store.id",
+            "forage.jdbc.transaction.object.store.id",
             "The transaction object store identifier",
             "Object Store ID",
             null,
@@ -176,7 +176,7 @@ public final class DataSourceFactoryConfigEntries extends ConfigEntries {
 
     public static final ConfigModule TRANSACTION_ENABLE_RECOVERY = ConfigModule.of(
             DataSourceFactoryConfig.class,
-            "jdbc.transaction.enable.recovery",
+            "forage.jdbc.transaction.enable.recovery",
             "Enable transaction recovery",
             "Enable Recovery",
             "false",
@@ -186,7 +186,7 @@ public final class DataSourceFactoryConfigEntries extends ConfigEntries {
 
     public static final ConfigModule TRANSACTION_RECOVERY_MODULES = ConfigModule.of(
             DataSourceFactoryConfig.class,
-            "jdbc.transaction.recovery.modules",
+            "forage.jdbc.transaction.recovery.modules",
             "Comma-separated list of transaction recovery modules",
             "Recovery Modules",
             "com.arjuna.ats.internal.arjuna.recovery.AtomicActionRecoveryModule,"
@@ -197,7 +197,7 @@ public final class DataSourceFactoryConfigEntries extends ConfigEntries {
 
     public static final ConfigModule TRANSACTION_EXPIRY_SCANNERS = ConfigModule.of(
             DataSourceFactoryConfig.class,
-            "jdbc.transaction.expiry.scanners",
+            "forage.jdbc.transaction.expiry.scanners",
             "Comma-separated list of transaction expiry scanners",
             "Expiry Scanners",
             "com.arjuna.ats.internal.arjuna.recovery.ExpiredTransactionStatusManagerScanner",
@@ -207,7 +207,7 @@ public final class DataSourceFactoryConfigEntries extends ConfigEntries {
 
     public static final ConfigModule TRANSACTION_XA_RESOURCE_ORPHAN_FILTERS = ConfigModule.of(
             DataSourceFactoryConfig.class,
-            "jdbc.transaction.xa.resource.orphan.filters",
+            "forage.jdbc.transaction.xa.resource.orphan.filters",
             "Comma-separated list of XA resource orphan filters",
             "XA Orphan Filters",
             "com.arjuna.ats.internal.jta.recovery.arjunacore.JTATransactionLogXAResourceOrphanFilter,"
@@ -219,7 +219,7 @@ public final class DataSourceFactoryConfigEntries extends ConfigEntries {
 
     public static final ConfigModule TRANSACTION_OBJECT_STORE_DIRECTORY = ConfigModule.of(
             DataSourceFactoryConfig.class,
-            "jdbc.transaction.object.store.directory",
+            "forage.jdbc.transaction.object.store.directory",
             "Directory for transaction object store",
             "Object Store Directory",
             "ObjectStore",
@@ -229,7 +229,7 @@ public final class DataSourceFactoryConfigEntries extends ConfigEntries {
 
     public static final ConfigModule TRANSACTION_OBJECT_STORE_TYPE = ConfigModule.of(
             DataSourceFactoryConfig.class,
-            "jdbc.transaction.object.store.type",
+            "forage.jdbc.transaction.object.store.type",
             "Type of transaction object store (file-system or jdbc)",
             "Object Store Type",
             "file-system",
@@ -239,7 +239,7 @@ public final class DataSourceFactoryConfigEntries extends ConfigEntries {
 
     public static final ConfigModule TRANSACTION_OBJECT_STORE_DATASOURCE = ConfigModule.of(
             DataSourceFactoryConfig.class,
-            "jdbc.transaction.object.store.datasource",
+            "forage.jdbc.transaction.object.store.datasource",
             "DataSource name for JDBC object store",
             "Object Store DataSource",
             null,
@@ -249,7 +249,7 @@ public final class DataSourceFactoryConfigEntries extends ConfigEntries {
 
     public static final ConfigModule TRANSACTION_OBJECT_STORE_CREATE_TABLE = ConfigModule.of(
             DataSourceFactoryConfig.class,
-            "jdbc.transaction.object.store.create.table",
+            "forage.jdbc.transaction.object.store.create.table",
             "Create object store table if not exists",
             "Create Table",
             "false",
@@ -259,7 +259,7 @@ public final class DataSourceFactoryConfigEntries extends ConfigEntries {
 
     public static final ConfigModule TRANSACTION_OBJECT_STORE_DROP_TABLE = ConfigModule.of(
             DataSourceFactoryConfig.class,
-            "jdbc.transaction.object.store.drop.table",
+            "forage.jdbc.transaction.object.store.drop.table",
             "Drop object store table on shutdown",
             "Drop Table",
             "false",
@@ -269,7 +269,7 @@ public final class DataSourceFactoryConfigEntries extends ConfigEntries {
 
     public static final ConfigModule TRANSACTION_OBJECT_STORE_TABLE_PREFIX = ConfigModule.of(
             DataSourceFactoryConfig.class,
-            "jdbc.transaction.object.store.table.prefix",
+            "forage.jdbc.transaction.object.store.table.prefix",
             "Prefix for object store tables",
             "Table Prefix",
             "forage_",
@@ -279,7 +279,7 @@ public final class DataSourceFactoryConfigEntries extends ConfigEntries {
 
     public static final ConfigModule AGGREGATION_REPOSITORY_NAME = ConfigModule.of(
             DataSourceFactoryConfig.class,
-            "jdbc.aggregation.repository.name",
+            "forage.jdbc.aggregation.repository.name",
             "Name of the aggregation repository",
             "Repository Name",
             null,
@@ -289,7 +289,7 @@ public final class DataSourceFactoryConfigEntries extends ConfigEntries {
 
     public static final ConfigModule AGGREGATION_REPOSITORY_HEADERS_TO_STORE = ConfigModule.of(
             DataSourceFactoryConfig.class,
-            "jdbc.aggregation.repository.headers.to.store",
+            "forage.jdbc.aggregation.repository.headers.to.store",
             "Comma-separated list of headers to store",
             "Headers to Store",
             null,
@@ -299,7 +299,7 @@ public final class DataSourceFactoryConfigEntries extends ConfigEntries {
 
     public static final ConfigModule AGGREGATION_REPOSITORY_STORE_BODY = ConfigModule.of(
             DataSourceFactoryConfig.class,
-            "jdbc.aggregation.repository.store.body",
+            "forage.jdbc.aggregation.repository.store.body",
             "Store message body in repository",
             "Store Body",
             null,
@@ -309,7 +309,7 @@ public final class DataSourceFactoryConfigEntries extends ConfigEntries {
 
     public static final ConfigModule AGGREGATION_REPOSITORY_DEAD_LETTER_URI = ConfigModule.of(
             DataSourceFactoryConfig.class,
-            "jdbc.aggregation.repository.dead.letter.uri",
+            "forage.jdbc.aggregation.repository.dead.letter.uri",
             "Dead letter queue URI for failed aggregations",
             "Dead Letter URI",
             null,
@@ -319,7 +319,7 @@ public final class DataSourceFactoryConfigEntries extends ConfigEntries {
 
     public static final ConfigModule AGGREGATION_REPOSITORY_ALLOW_SERIALIZED_HEADERS = ConfigModule.of(
             DataSourceFactoryConfig.class,
-            "jdbc.aggregation.repository.allow.serialized.headers",
+            "forage.jdbc.aggregation.repository.allow.serialized.headers",
             "Allow serialized headers in repository",
             "Allow Serialized Headers",
             null,
@@ -329,7 +329,7 @@ public final class DataSourceFactoryConfigEntries extends ConfigEntries {
 
     public static final ConfigModule AGGREGATION_REPOSITORY_MAXIMUM_REDELIVERIES = ConfigModule.of(
             DataSourceFactoryConfig.class,
-            "jdbc.aggregation.repository.maximum.redeliveries",
+            "forage.jdbc.aggregation.repository.maximum.redeliveries",
             "Maximum number of redelivery attempts",
             "Max Redeliveries",
             null,
@@ -339,7 +339,7 @@ public final class DataSourceFactoryConfigEntries extends ConfigEntries {
 
     public static final ConfigModule AGGREGATION_REPOSITORY_USE_RECOVERY = ConfigModule.of(
             DataSourceFactoryConfig.class,
-            "jdbc.aggregation.repository.use.recovery",
+            "forage.jdbc.aggregation.repository.use.recovery",
             "Enable recovery for aggregation repository",
             "Use Recovery",
             null,
@@ -349,7 +349,7 @@ public final class DataSourceFactoryConfigEntries extends ConfigEntries {
 
     public static final ConfigModule AGGREGATION_REPOSITORY_PROPAGATION_BEHAVIOUR_NAME = ConfigModule.of(
             DataSourceFactoryConfig.class,
-            "jdbc.aggregation.repository.propagation.behaviour.name",
+            "forage.jdbc.aggregation.repository.propagation.behaviour.name",
             "Transaction propagation behaviour name",
             "Propagation Behaviour",
             null,
@@ -359,7 +359,7 @@ public final class DataSourceFactoryConfigEntries extends ConfigEntries {
 
     public static final ConfigModule AGGREGATION_REPOSITORY_ENABLED = ConfigModule.of(
             DataSourceFactoryConfig.class,
-            "jdbc.aggregation.repository.enabled",
+            "forage.jdbc.aggregation.repository.enabled",
             "Enable aggregation repository (requires transactions to be enabled)",
             "Aggregation Repository Enabled",
             "false",
@@ -369,7 +369,7 @@ public final class DataSourceFactoryConfigEntries extends ConfigEntries {
 
     public static final ConfigModule ENABLE_IDEMPOTENT_REPOSITORY = ConfigModule.of(
             DataSourceFactoryConfig.class,
-            "jdbc.idempotent.repository.enabled",
+            "forage.jdbc.idempotent.repository.enabled",
             "Enable idempotent repository",
             "Idempotent Enabled (Transactions are required, please enable transactions too)",
             "false",
@@ -379,7 +379,7 @@ public final class DataSourceFactoryConfigEntries extends ConfigEntries {
 
     public static final ConfigModule IDEMPOTENT_REPOSITORY_TABLE_NAME = ConfigModule.of(
             DataSourceFactoryConfig.class,
-            "jdbc.idempotent.repository.table.name",
+            "forage.jdbc.idempotent.repository.table.name",
             "Table name for idempotent repository",
             "Idempotent Table Name",
             null,
@@ -389,7 +389,7 @@ public final class DataSourceFactoryConfigEntries extends ConfigEntries {
 
     public static final ConfigModule IDEMPOTENT_REPOSITORY_TABLE_IF_NOT_EXISTS = ConfigModule.of(
             DataSourceFactoryConfig.class,
-            "jdbc.idempotent.repository.table.create",
+            "forage.jdbc.idempotent.repository.table.create",
             "Create idempotent table if not exists",
             "Create Table",
             "true",
@@ -399,7 +399,7 @@ public final class DataSourceFactoryConfigEntries extends ConfigEntries {
 
     public static final ConfigModule IDEMPOTENT_REPOSITORY_PROCESSOR_NAME = ConfigModule.of(
             DataSourceFactoryConfig.class,
-            "jdbc.idempotent.repository.processor.name",
+            "forage.jdbc.idempotent.repository.processor.name",
             "Processor name for idempotent repository",
             "Processor Name",
             null,

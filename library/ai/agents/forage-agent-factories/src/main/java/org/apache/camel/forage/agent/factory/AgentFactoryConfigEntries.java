@@ -21,16 +21,17 @@ import org.apache.camel.forage.core.util.config.ConfigModule;
 public final class AgentFactoryConfigEntries extends ConfigEntries {
     public static final String FEATURE_MEMORY = "memory";
     public static final ConfigModule PROVIDER_MODEL_FACTORY_CLASS =
-            ConfigModule.of(AgentFactoryConfig.class, "provider.model.factory.class");
-    public static final ConfigModule PROVIDER_FEATURES = ConfigModule.of(AgentFactoryConfig.class, "provider.features");
+            ConfigModule.of(AgentFactoryConfig.class, "forage.provider.model.factory.class");
+    public static final ConfigModule PROVIDER_FEATURES =
+            ConfigModule.of(AgentFactoryConfig.class, "forage.provider.features");
     public static final ConfigModule PROVIDER_FEATURES_MEMORY_FACTORY_CLASS =
-            ConfigModule.of(AgentFactoryConfig.class, "provider.features.memory.factory.class");
+            ConfigModule.of(AgentFactoryConfig.class, "forage.provider.features.memory.factory.class");
     public static final ConfigModule PROVIDER_AGENT_CLASS =
-            ConfigModule.of(AgentFactoryConfig.class, "provider.agent.class");
+            ConfigModule.of(AgentFactoryConfig.class, "forage.provider.agent.class");
     public static final ConfigModule GUARDRAILS_INPUT_CLASSES =
-            ConfigModule.of(AgentFactoryConfig.class, "guardrails.input.classes");
+            ConfigModule.of(AgentFactoryConfig.class, "forage.guardrails.input.classes");
     public static final ConfigModule GUARDRAILS_OUTPUT_CLASSES =
-            ConfigModule.of(AgentFactoryConfig.class, "guardrails.output.classes");
+            ConfigModule.of(AgentFactoryConfig.class, "forage.guardrails.output.classes");
 
     private static final Map<ConfigModule, ConfigEntry> CONFIG_MODULES = new ConcurrentHashMap<>();
 

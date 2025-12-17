@@ -55,8 +55,8 @@ import org.slf4j.LoggerFactory;
  */
 public final class ConfigHelper {
     private static final Logger LOG = LoggerFactory.getLogger(ConfigHelper.class);
-    private static final String DEFAULT_PROPERTY_REGEXP = "(%s)..+";
-    private static final String NAMED_PROPERTY_REGEXP = "(.+).%s..+";
+    private static final String DEFAULT_PROPERTY_REGEXP = "forage.(%s)..+";
+    private static final String NAMED_PROPERTY_REGEXP = "forage.(.+).%s..+";
 
     /**
      * Private constructor to prevent instantiation of this utility class.
@@ -179,15 +179,44 @@ public final class ConfigHelper {
         if (springBootConfig != null) {
             return springBootConfig;
         } else {
-            try (InputStream input =
-                    ConfigHelper.class.getClassLoader().getResourceAsStream("application.properties")) {
-                if (input == null) {
-                    return null;
+            InputStream input = null;
+
+            // Try loading from working directory first
+            try {
+                java.io.File file = java.nio.file.Paths.get("", "application.properties")
+                        .toAbsolutePath()
+                        .toFile();
+                if (file.exists()) {
+                    LOG.info("Loading application.properties from working directory: {}", file.getAbsolutePath());
+                    input = new java.io.FileInputStream(file);
                 }
-                springBootConfig = new Properties();
-                springBootConfig.load(input);
             } catch (IOException ex) {
+                LOG.debug("Failed to load application.properties from working directory", ex);
             }
+
+            // Fallback to classpath
+            if (input == null) {
+                input = ConfigHelper.class.getClassLoader().getResourceAsStream("application.properties");
+                if (input != null) {
+                    LOG.info("Loading application.properties from classpath");
+                }
+            }
+
+            if (input != null) {
+                try {
+                    springBootConfig = new Properties();
+                    springBootConfig.load(input);
+                } catch (IOException ex) {
+                    LOG.error("Failed to load application.properties", ex);
+                } finally {
+                    try {
+                        input.close();
+                    } catch (IOException ex) {
+                        // Ignore
+                    }
+                }
+            }
+
             return springBootConfig;
         }
     }
@@ -196,15 +225,44 @@ public final class ConfigHelper {
         if (camelConfig != null) {
             return camelConfig;
         } else {
-            try (InputStream input =
-                    ConfigHelper.class.getClassLoader().getResourceAsStream("application.properties")) {
-                if (input == null) {
-                    return null;
+            InputStream input = null;
+
+            // Try loading from working directory first
+            try {
+                java.io.File file = java.nio.file.Paths.get("", "application.properties")
+                        .toAbsolutePath()
+                        .toFile();
+                if (file.exists()) {
+                    LOG.info("Loading application.properties from working directory: {}", file.getAbsolutePath());
+                    input = new java.io.FileInputStream(file);
                 }
-                camelConfig = new Properties();
-                camelConfig.load(input);
             } catch (IOException ex) {
+                LOG.debug("Failed to load application.properties from working directory", ex);
             }
+
+            // Fallback to classpath
+            if (input == null) {
+                input = ConfigHelper.class.getClassLoader().getResourceAsStream("application.properties");
+                if (input != null) {
+                    LOG.info("Loading application.properties from classpath");
+                }
+            }
+
+            if (input != null) {
+                try {
+                    camelConfig = new Properties();
+                    camelConfig.load(input);
+                } catch (IOException ex) {
+                    LOG.error("Failed to load application.properties", ex);
+                } finally {
+                    try {
+                        input.close();
+                    } catch (IOException ex) {
+                        // Ignore
+                    }
+                }
+            }
+
             return camelConfig;
         }
     }
@@ -284,15 +342,15 @@ public final class ConfigHelper {
      * <p>
      *      In case of regexp based on `jdbc` from
      *      <pre>
-     *          ds1.jdbc.url=jdbc:postgresql://localhost:5432/postgres
-     *          ds2.jdbc.url=jdbc:mysql://localhost:3306/test
+     *          forage.ds1.jdbc.url=jdbc:postgresql://localhost:5432/postgres
+     *          forage.ds2.jdbc.url=jdbc:mysql://localhost:3306/test
      *      </pre>
-     *      empty Set is returned, because there is no <Strong>jdbc...</Strong> property (without named prefix).
+     *      empty Set is returned, because there is no <Strong>forage.jdbc...</Strong> property (without named prefix).
      * </p>
      * <p>
      *      In case of regexp based on `jdbc` from
      *      <pre>
-     *          jdbc.url=jdbc:postgresql://localhost:5432/postgres
+     *          forage.jdbc.url=jdbc:postgresql://localhost:5432/postgres
      *      </pre>
      *      <Strong>jdbc</Strong> value is returned.
      * </p>
@@ -307,15 +365,15 @@ public final class ConfigHelper {
      * <p>
      *      In case of regexp based on `jdbc` from
      *      <pre>
-     *          ds1.jdbc.url=jdbc:postgresql://localhost:5432/postgres
-     *          ds2.jdbc.url=jdbc:mysql://localhost:3306/test
+     *          forage.ds1.jdbc.url=jdbc:postgresql://localhost:5432/postgres
+     *          forage.ds2.jdbc.url=jdbc:mysql://localhost:3306/test
      *      </pre>
      *      both <Strong>ds1, ds2</Strong> prefixes are returned.
      * </p>
      * <p>
      *      In case of regexp based on `jdbc` from
      *      <pre>
-     *          jdbc.url=jdbc:postgresql://localhost:5432/postgres
+     *          forage.jdbc.url=jdbc:postgresql://localhost:5432/postgres
      *      </pre>
      *      empty Set is returned, because there is no named jdbc property.
      * </p>

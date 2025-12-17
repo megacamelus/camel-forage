@@ -21,15 +21,16 @@ import org.apache.camel.forage.core.util.config.ConfigModule;
  * multi-instance scenarios.
  */
 public final class MultiAgentConfigEntries extends ConfigEntries {
-    public static final ConfigModule MULTI_AGENT_NAMES = ConfigModule.of(MultiAgentConfig.class, "multi.agent.names");
+    public static final ConfigModule MULTI_AGENT_NAMES =
+            ConfigModule.of(MultiAgentConfig.class, "forage.multi.agent.names");
     public static final ConfigModule MULTI_AGENT_ID_SOURCE =
-            ConfigModule.of(MultiAgentConfig.class, "multi.agent.id.source");
+            ConfigModule.of(MultiAgentConfig.class, "forage.multi.agent.id.source");
     public static final ConfigModule MULTI_AGENT_ID_SOURCE_HEADER =
-            ConfigModule.of(MultiAgentConfig.class, "multi.agent.id.source.header");
+            ConfigModule.of(MultiAgentConfig.class, "forage.multi.agent.id.source.header");
     public static final ConfigModule MULTI_AGENT_ID_SOURCE_PROPERTY =
-            ConfigModule.of(MultiAgentConfig.class, "multi.agent.id.source.property");
+            ConfigModule.of(MultiAgentConfig.class, "forage.multi.agent.id.source.property");
     public static final ConfigModule MULTI_AGENT_ID_SOURCE_VARIABLE =
-            ConfigModule.of(MultiAgentConfig.class, "multi.agent.id.source.variable");
+            ConfigModule.of(MultiAgentConfig.class, "forage.multi.agent.id.source.variable");
 
     private static final Map<ConfigModule, ConfigEntry> CONFIG_MODULES = new ConcurrentHashMap<>();
 

@@ -12,7 +12,7 @@ import org.apache.camel.forage.core.util.config.ConfigTag;
 public final class OllamaConfigEntries extends ConfigEntries {
     public static final ConfigModule BASE_URL = ConfigModule.of(
             OllamaConfig.class,
-            "ollama.base.url",
+            "forage.ollama.base.url",
             "The base URL of the Ollama server",
             "Base URL",
             "http://localhost:11434",
@@ -21,7 +21,7 @@ public final class OllamaConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule MODEL_NAME = ConfigModule.of(
             OllamaConfig.class,
-            "ollama.model.name",
+            "forage.ollama.model.name",
             "The Ollama model to use",
             "Model Name",
             "llama3",
@@ -30,7 +30,7 @@ public final class OllamaConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule TEMPERATURE = ConfigModule.of(
             OllamaConfig.class,
-            "ollama.temperature",
+            "forage.ollama.temperature",
             "Temperature for response randomness (0.0-2.0)",
             "Temperature",
             null,
@@ -39,7 +39,7 @@ public final class OllamaConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule TOP_K = ConfigModule.of(
             OllamaConfig.class,
-            "ollama.top.k",
+            "forage.ollama.top.k",
             "Top-K sampling parameter",
             "Top K",
             null,
@@ -48,7 +48,7 @@ public final class OllamaConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule TOP_P = ConfigModule.of(
             OllamaConfig.class,
-            "ollama.top.p",
+            "forage.ollama.top.p",
             "Top-P (nucleus) sampling parameter (0.0-1.0)",
             "Top P",
             null,
@@ -57,7 +57,7 @@ public final class OllamaConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule MIN_P = ConfigModule.of(
             OllamaConfig.class,
-            "ollama.min.p",
+            "forage.ollama.min.p",
             "Minimum probability threshold (0.0-1.0)",
             "Min P",
             null,
@@ -66,7 +66,7 @@ public final class OllamaConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule NUM_CTX = ConfigModule.of(
             OllamaConfig.class,
-            "ollama.num.ctx",
+            "forage.ollama.num.ctx",
             "Context window size",
             "Context Size",
             null,
@@ -75,7 +75,7 @@ public final class OllamaConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule LOG_REQUESTS = ConfigModule.of(
             OllamaConfig.class,
-            "ollama.log.requests",
+            "forage.ollama.log.requests",
             "Enable request logging",
             "Log Requests",
             null,
@@ -84,7 +84,7 @@ public final class OllamaConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule LOG_RESPONSES = ConfigModule.of(
             OllamaConfig.class,
-            "ollama.log.responses",
+            "forage.ollama.log.responses",
             "Enable response logging",
             "Log Responses",
             null,

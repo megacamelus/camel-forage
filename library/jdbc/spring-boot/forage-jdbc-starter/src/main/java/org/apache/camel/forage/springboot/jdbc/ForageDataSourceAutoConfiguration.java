@@ -10,6 +10,13 @@ import javax.sql.DataSource;
 import org.apache.camel.forage.core.annotations.ForageFactory;
 import org.apache.camel.forage.core.common.ServiceLoaderHelper;
 import org.apache.camel.forage.core.jdbc.DataSourceProvider;
+import org.apache.camel.forage.core.jta.MandatoryJtaTransactionPolicy;
+import org.apache.camel.forage.core.jta.NeverJtaTransactionPolicy;
+import org.apache.camel.forage.core.jta.NotSupportedJtaTransactionPolicy;
+import org.apache.camel.forage.core.jta.RequiredJtaTransactionPolicy;
+import org.apache.camel.forage.core.jta.RequiresNewJtaTransactionPolicy;
+import org.apache.camel.forage.core.jta.SupportsJtaTransactionPolicy;
+import org.apache.camel.forage.core.util.config.ConfigHelper;
 import org.apache.camel.forage.core.util.config.ConfigStore;
 import org.apache.camel.forage.jdbc.common.DataSourceCommonExportHelper;
 import org.apache.camel.forage.jdbc.common.DataSourceFactoryConfig;
@@ -50,7 +57,7 @@ public class ForageDataSourceAutoConfiguration implements BeanFactoryAware {
      * when JDBC transactions are configured in Forage DataSource settings.
      */
     @Configuration
-    @ConditionalOnProperty(value = "jdbc.transaction.enabled", havingValue = "true")
+    @ConditionalOnProperty(value = "forage.jdbc.transaction.enabled", havingValue = "true")
     @EnableTransactionManagement
     class ForageTransactionManagement {
 
@@ -68,7 +75,20 @@ public class ForageDataSourceAutoConfiguration implements BeanFactoryAware {
         ConfigurableBeanFactory configurableBeanFactory = (ConfigurableBeanFactory) beanFactory;
 
         DataSourceFactoryConfig config = new DataSourceFactoryConfig();
-        Set<String> prefixes = ConfigStore.getInstance().readPrefixes(config, "(.+).jdbc\\..*");
+
+        // Register transaction policy beans if transactions are enabled
+        if (config.transactionEnabled()) {
+            log.info("JDBC transactions enabled, registering transaction policy beans");
+            configurableBeanFactory.registerSingleton("PROPAGATION_REQUIRED", new RequiredJtaTransactionPolicy());
+            configurableBeanFactory.registerSingleton("MANDATORY", new MandatoryJtaTransactionPolicy());
+            configurableBeanFactory.registerSingleton("NEVER", new NeverJtaTransactionPolicy());
+            configurableBeanFactory.registerSingleton("NOT_SUPPORTED", new NotSupportedJtaTransactionPolicy());
+            configurableBeanFactory.registerSingleton("REQUIRES_NEW", new RequiresNewJtaTransactionPolicy());
+            configurableBeanFactory.registerSingleton("SUPPORTS", new SupportsJtaTransactionPolicy());
+        }
+
+        Set<String> prefixes =
+                ConfigStore.getInstance().readPrefixes(config, ConfigHelper.getNamedPropertyRegexp("jdbc"));
         log.debug("Found {} prefixes for JDBC configuration: {}", prefixes.size(), prefixes);
 
         if (!prefixes.isEmpty()) {

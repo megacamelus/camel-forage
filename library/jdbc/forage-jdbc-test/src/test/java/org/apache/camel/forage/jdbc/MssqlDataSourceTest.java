@@ -36,13 +36,13 @@ public class MssqlDataSourceTest extends DataSourceTest {
 
     @Override
     protected void setUpDataSource(String dataSourceName) {
-        System.setProperty(dataSourceName + ".jdbc.db.kind", "mssql");
+        System.setProperty("forage." + dataSourceName + ".jdbc.db.kind", "mssql");
         System.setProperty(
-                dataSourceName + ".jdbc.url",
+                "forage." + dataSourceName + ".jdbc.url",
                 "jdbc:sqlserver://localhost:" + mssql.getMappedPort(1433) + ";databaseName=" + MSSQL_DATABASE
                         + ";trustServerCertificate=true");
-        System.setProperty(dataSourceName + ".jdbc.username", "sa");
-        System.setProperty(dataSourceName + ".jdbc.password", "YourStrong!Passw0rd");
+        System.setProperty("forage." + dataSourceName + ".jdbc.username", "sa");
+        System.setProperty("forage." + dataSourceName + ".jdbc.password", "YourStrong!Passw0rd");
     }
 
     @Override

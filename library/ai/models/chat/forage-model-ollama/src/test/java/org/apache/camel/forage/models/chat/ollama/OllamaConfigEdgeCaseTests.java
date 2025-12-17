@@ -12,8 +12,8 @@ class OllamaConfigEdgeCaseTests {
     @Test
     @DisplayName("Should handle empty string values by returning null")
     void shouldHandleEmptyStringValues() {
-        System.setProperty("ollama.temperature", "");
-        System.setProperty("ollama.top.k", "");
+        System.setProperty("forage.ollama.temperature", "");
+        System.setProperty("forage.ollama.top.k", "");
 
         OllamaConfig config = new OllamaConfig();
 
@@ -25,8 +25,8 @@ class OllamaConfigEdgeCaseTests {
     @Test
     @DisplayName("Should handle zero values correctly")
     void shouldHandleZeroValuesCorrectly() {
-        System.setProperty("ollama.temperature", "0.0");
-        System.setProperty("ollama.top.k", "0");
+        System.setProperty("forage.ollama.temperature", "0.0");
+        System.setProperty("forage.ollama.top.k", "0");
 
         OllamaConfig config = new OllamaConfig();
 
@@ -37,8 +37,8 @@ class OllamaConfigEdgeCaseTests {
     @Test
     @DisplayName("Should handle negative values for parameters that support them")
     void shouldHandleNegativeValues() {
-        System.setProperty("ollama.temperature", "-1.0");
-        System.setProperty("ollama.top.k", "-1");
+        System.setProperty("forage.ollama.temperature", "-1.0");
+        System.setProperty("forage.ollama.top.k", "-1");
 
         OllamaConfig config = new OllamaConfig();
 
@@ -50,8 +50,8 @@ class OllamaConfigEdgeCaseTests {
     @Test
     @DisplayName("Should handle very large numbers")
     void shouldHandleVeryLargeNumbers() {
-        System.setProperty("ollama.num.ctx", "999999");
-        System.setProperty("ollama.top.k", "999999");
+        System.setProperty("forage.ollama.num.ctx", "999999");
+        System.setProperty("forage.ollama.top.k", "999999");
 
         OllamaConfig config = new OllamaConfig();
 
@@ -62,8 +62,8 @@ class OllamaConfigEdgeCaseTests {
     @Test
     @DisplayName("Should handle fractional values for double parameters")
     void shouldHandleFractionalValues() {
-        System.setProperty("ollama.temperature", "0.123456789");
-        System.setProperty("ollama.top.p", "0.987654321");
+        System.setProperty("forage.ollama.temperature", "0.123456789");
+        System.setProperty("forage.ollama.top.p", "0.987654321");
 
         OllamaConfig config = new OllamaConfig();
 

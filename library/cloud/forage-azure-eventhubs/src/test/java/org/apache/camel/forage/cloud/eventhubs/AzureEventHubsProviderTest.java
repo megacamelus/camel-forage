@@ -33,11 +33,11 @@ public class AzureEventHubsProviderTest {
     }
 
     private void clearSystemProperties() {
-        System.clearProperty("azure.eventhubs.fully.qualified.namespace");
-        System.clearProperty("azure.eventhubs.eventhub.name");
-        System.clearProperty("azure.eventhubs.consumer.group");
-        System.clearProperty("azure.eventhubs.prefetch.count");
-        System.clearProperty("azure.eventhubs.custom.endpoint.address");
+        System.clearProperty("forage.azure.eventhubs.fully.qualified.namespace");
+        System.clearProperty("forage.azure.eventhubs.eventhub.name");
+        System.clearProperty("forage.azure.eventhubs.consumer.group");
+        System.clearProperty("forage.azure.eventhubs.prefetch.count");
+        System.clearProperty("forage.azure.eventhubs.custom.endpoint.address");
     }
 
     @Test
@@ -63,7 +63,7 @@ public class AzureEventHubsProviderTest {
     @Test
     public void shouldFailWithoutEventHubName() {
         LOG.info("Testing provider with missing Event Hub name");
-        System.setProperty("azure.eventhubs.fully.qualified.namespace", "test-namespace.servicebus.windows.net");
+        System.setProperty("forage.azure.eventhubs.fully.qualified.namespace", "test-namespace.servicebus.windows.net");
 
         AzureEventHubsProvider provider = new AzureEventHubsProvider();
 
@@ -78,10 +78,11 @@ public class AzureEventHubsProviderTest {
     public void shouldLoadConfigurationWithPrefix() {
         LOG.info("Testing provider with prefixed configuration");
         System.setProperty(
-                "test-prefix.azure.eventhubs.fully.qualified.namespace", "test-namespace.servicebus.windows.net");
-        System.setProperty("test-prefix.azure.eventhubs.eventhub.name", "test-eventhub");
-        System.setProperty("test-prefix.azure.eventhubs.consumer.group", "custom-group");
-        System.setProperty("test-prefix.azure.eventhubs.prefetch.count", "500");
+                "forage.test-prefix.azure.eventhubs.fully.qualified.namespace",
+                "test-namespace.servicebus.windows.net");
+        System.setProperty("forage.test-prefix.azure.eventhubs.eventhub.name", "test-eventhub");
+        System.setProperty("forage.test-prefix.azure.eventhubs.consumer.group", "custom-group");
+        System.setProperty("forage.test-prefix.azure.eventhubs.prefetch.count", "500");
 
         AzureEventHubsProvider provider = new AzureEventHubsProvider();
 
@@ -99,9 +100,9 @@ public class AzureEventHubsProviderTest {
     @Test
     public void shouldUseDefaultConsumerGroup() {
         LOG.info("Testing default consumer group configuration");
-        System.setProperty("azure.eventhubs.fully.qualified.namespace", "test-namespace.servicebus.windows.net");
-        System.setProperty("azure.eventhubs.eventhub.name", "test-eventhub");
-        System.setProperty("azure.eventhubs.consumer.group", "$Default");
+        System.setProperty("forage.azure.eventhubs.fully.qualified.namespace", "test-namespace.servicebus.windows.net");
+        System.setProperty("forage.azure.eventhubs.eventhub.name", "test-eventhub");
+        System.setProperty("forage.azure.eventhubs.consumer.group", "$Default");
 
         AzureEventHubsConfig config = new AzureEventHubsConfig();
         assertThat(config.consumerGroup()).isEqualTo("$Default");
@@ -112,8 +113,8 @@ public class AzureEventHubsProviderTest {
     @Test
     public void shouldUseDefaultPrefetchCount() {
         LOG.info("Testing default prefetch count configuration");
-        System.setProperty("azure.eventhubs.fully.qualified.namespace", "test-namespace.servicebus.windows.net");
-        System.setProperty("azure.eventhubs.eventhub.name", "test-eventhub");
+        System.setProperty("forage.azure.eventhubs.fully.qualified.namespace", "test-namespace.servicebus.windows.net");
+        System.setProperty("forage.azure.eventhubs.eventhub.name", "test-eventhub");
 
         AzureEventHubsConfig config = new AzureEventHubsConfig();
         assertThat(config.prefetchCount()).isEqualTo(100);
@@ -124,11 +125,12 @@ public class AzureEventHubsProviderTest {
     @Test
     public void shouldOverrideDefaultValues() {
         LOG.info("Testing configuration overrides");
-        System.setProperty("azure.eventhubs.fully.qualified.namespace", "custom-namespace.servicebus.windows.net");
-        System.setProperty("azure.eventhubs.eventhub.name", "custom-eventhub");
-        System.setProperty("azure.eventhubs.consumer.group", "custom-consumer-group");
-        System.setProperty("azure.eventhubs.prefetch.count", "300");
-        System.setProperty("azure.eventhubs.custom.endpoint.address", "https://custom-endpoint.example.com");
+        System.setProperty(
+                "forage.azure.eventhubs.fully.qualified.namespace", "custom-namespace.servicebus.windows.net");
+        System.setProperty("forage.azure.eventhubs.eventhub.name", "custom-eventhub");
+        System.setProperty("forage.azure.eventhubs.consumer.group", "custom-consumer-group");
+        System.setProperty("forage.azure.eventhubs.prefetch.count", "300");
+        System.setProperty("forage.azure.eventhubs.custom.endpoint.address", "https://custom-endpoint.example.com");
 
         AzureEventHubsConfig config = new AzureEventHubsConfig();
 

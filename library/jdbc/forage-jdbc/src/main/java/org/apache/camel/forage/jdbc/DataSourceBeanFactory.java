@@ -17,6 +17,7 @@ import org.apache.camel.forage.core.jta.NotSupportedJtaTransactionPolicy;
 import org.apache.camel.forage.core.jta.RequiredJtaTransactionPolicy;
 import org.apache.camel.forage.core.jta.RequiresNewJtaTransactionPolicy;
 import org.apache.camel.forage.core.jta.SupportsJtaTransactionPolicy;
+import org.apache.camel.forage.core.util.config.ConfigHelper;
 import org.apache.camel.forage.core.util.config.ConfigStore;
 import org.apache.camel.forage.jdbc.common.DataSourceCommonExportHelper;
 import org.apache.camel.forage.jdbc.common.DataSourceFactoryConfig;
@@ -96,7 +97,8 @@ public class DataSourceBeanFactory implements BeanFactory {
     public void configure() {
 
         DataSourceFactoryConfig config = new DataSourceFactoryConfig();
-        Set<String> prefixes = ConfigStore.getInstance().readPrefixes(config, "(.+).jdbc\\..*");
+        Set<String> prefixes =
+                ConfigStore.getInstance().readPrefixes(config, ConfigHelper.getNamedPropertyRegexp("jdbc"));
 
         if (config.transactionEnabled()) {
             camelContext.getRegistry().bind("PROPAGATION_REQUIRED", new RequiredJtaTransactionPolicy());

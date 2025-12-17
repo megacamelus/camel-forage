@@ -61,7 +61,8 @@ class ForageJdbcProcessor {
             throws Exception {
         ConfigStore.getInstance().setClassLoader(Thread.currentThread().getContextClassLoader());
         DataSourceFactoryConfig config = new DataSourceFactoryConfig();
-        Set<String> prefixes = ConfigStore.getInstance().readPrefixes(config, "(.+).jdbc\\..*");
+        Set<String> prefixes =
+                ConfigStore.getInstance().readPrefixes(config, ConfigHelper.getNamedPropertyRegexp("jdbc"));
 
         Map<String, DataSourceFactoryConfig> configs = prefixes.isEmpty()
                 ? Collections.singletonMap("dataSource", new DataSourceFactoryConfig())

@@ -12,7 +12,7 @@ import org.apache.camel.forage.core.util.config.ConfigTag;
 public final class WeaviateConfigEntries extends ConfigEntries {
     public static final ConfigModule API_KEY = ConfigModule.of(
             WeaviateConfig.class,
-            "weaviate.api.key",
+            "forage.weaviate.api.key",
             "API key for authentication",
             "API Key",
             null,
@@ -21,7 +21,7 @@ public final class WeaviateConfigEntries extends ConfigEntries {
             ConfigTag.SECURITY);
     public static final ConfigModule SCHEME = ConfigModule.of(
             WeaviateConfig.class,
-            "weaviate.scheme",
+            "forage.weaviate.scheme",
             "Connection scheme (http or https)",
             "Scheme",
             null,
@@ -30,7 +30,7 @@ public final class WeaviateConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule HOST = ConfigModule.of(
             WeaviateConfig.class,
-            "weaviate.host",
+            "forage.weaviate.host",
             "Weaviate server host address",
             "Host",
             null,
@@ -39,7 +39,7 @@ public final class WeaviateConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule PORT = ConfigModule.of(
             WeaviateConfig.class,
-            "weaviate.port",
+            "forage.weaviate.port",
             "Weaviate server port number",
             "Port",
             null,
@@ -48,7 +48,7 @@ public final class WeaviateConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule USE_GRPC_FOR_INSERTS = ConfigModule.of(
             WeaviateConfig.class,
-            "weaviate.use.grpc.for.inserts",
+            "forage.weaviate.use.grpc.for.inserts",
             "Use gRPC protocol for insert operations",
             "Use gRPC for Inserts",
             null,
@@ -57,7 +57,7 @@ public final class WeaviateConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule SECURED_GRPC = ConfigModule.of(
             WeaviateConfig.class,
-            "weaviate.secured.grpc",
+            "forage.weaviate.secured.grpc",
             "Enable secured gRPC connections",
             "Secured gRPC",
             null,
@@ -66,7 +66,7 @@ public final class WeaviateConfigEntries extends ConfigEntries {
             ConfigTag.SECURITY);
     public static final ConfigModule GRPC_PORT = ConfigModule.of(
             WeaviateConfig.class,
-            "weaviate.grpc.port",
+            "forage.weaviate.grpc.port",
             "gRPC server port number",
             "gRPC Port",
             null,
@@ -75,7 +75,7 @@ public final class WeaviateConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule OBJECT_CLASS = ConfigModule.of(
             WeaviateConfig.class,
-            "weaviate.object.class",
+            "forage.weaviate.object.class",
             "Weaviate object class name",
             "Object Class",
             null,
@@ -84,7 +84,7 @@ public final class WeaviateConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule AVOID_DUPS = ConfigModule.of(
             WeaviateConfig.class,
-            "weaviate.avoid.dups",
+            "forage.weaviate.avoid.dups",
             "Avoid duplicate entries",
             "Avoid Duplicates",
             "true",
@@ -93,7 +93,7 @@ public final class WeaviateConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule CONSISTENCY_LEVEL = ConfigModule.of(
             WeaviateConfig.class,
-            "weaviate.consistency.level",
+            "forage.weaviate.consistency.level",
             "Consistency level for operations",
             "Consistency Level",
             "ALL",
@@ -102,7 +102,7 @@ public final class WeaviateConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule METADATA_KEYS = ConfigModule.of(
             WeaviateConfig.class,
-            "weaviate.metadata.keys",
+            "forage.weaviate.metadata.keys",
             "Comma-separated list of metadata keys",
             "Metadata Keys",
             null,
@@ -111,7 +111,7 @@ public final class WeaviateConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule TEXT_FIELD_NAME = ConfigModule.of(
             WeaviateConfig.class,
-            "weaviate.text.field.name",
+            "forage.weaviate.text.field.name",
             "Name of the text field",
             "Text Field Name",
             "text",
@@ -120,7 +120,7 @@ public final class WeaviateConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule METADATA_FIELD_NAME = ConfigModule.of(
             WeaviateConfig.class,
-            "weaviate.metadata.field.name",
+            "forage.weaviate.metadata.field.name",
             "Name of the metadata field",
             "Metadata Field Name",
             "_metadata",

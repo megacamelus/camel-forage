@@ -12,7 +12,7 @@ import org.apache.camel.forage.core.util.config.ConfigTag;
 public final class ChromaConfigEntries extends ConfigEntries {
     public static final ConfigModule URL = ConfigModule.of(
             ChromaConfig.class,
-            "chroma.url",
+            "forage.chroma.url",
             "The URL of the Chroma server",
             "URL",
             null,
@@ -21,7 +21,7 @@ public final class ChromaConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule COLLECTION_NAME = ConfigModule.of(
             ChromaConfig.class,
-            "chroma.collection.name",
+            "forage.chroma.collection.name",
             "The name of the collection to use",
             "Collection Name",
             null,
@@ -30,7 +30,7 @@ public final class ChromaConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule TIMEOUT = ConfigModule.of(
             ChromaConfig.class,
-            "chroma.timeout",
+            "forage.chroma.timeout",
             "Request timeout in seconds",
             "Timeout",
             "5",
@@ -39,7 +39,7 @@ public final class ChromaConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule LOG_REQUESTS = ConfigModule.of(
             ChromaConfig.class,
-            "chroma.log.requests",
+            "forage.chroma.log.requests",
             "Enable request logging",
             "Log Requests",
             "true",
@@ -48,7 +48,7 @@ public final class ChromaConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule LOG_RESPONSES = ConfigModule.of(
             ChromaConfig.class,
-            "chroma.log.responses",
+            "forage.chroma.log.responses",
             "Enable response logging",
             "Log Responses",
             "true",

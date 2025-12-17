@@ -11,7 +11,7 @@
     </parent>
 
     <artifactId>forage-model-watsonx-ai</artifactId>
-    <name>Forage :: Models :: Chat :: Watsonx.ai</name>
+    <name>Camel Forage :: Library :: AI :: Models :: Chat :: Watsonx.ai</name>
     <description>IBM Watsonx.ai chat model provider for Camel Forage</description>
 
     <dependencies>

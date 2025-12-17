@@ -20,9 +20,9 @@ class BedrockServiceLoaderTest {
 
     @AfterEach
     void cleanup() {
-        System.clearProperty("bedrock.model.id");
-        System.clearProperty("test-instance.bedrock.model.id");
-        System.clearProperty("service-loader-test.bedrock.model.id");
+        System.clearProperty("forage.bedrock.model.id");
+        System.clearProperty("forage.test-instance.bedrock.model.id");
+        System.clearProperty("forage.service-loader-test.bedrock.model.id");
     }
 
     @Nested
@@ -65,7 +65,7 @@ class BedrockServiceLoaderTest {
         @Test
         @DisplayName("Should create ChatModel from discovered provider")
         void shouldCreateChatModelFromDiscoveredProvider() {
-            System.setProperty("bedrock.model.id", "anthropic.claude-3-haiku-20240307-v1:0");
+            System.setProperty("forage.bedrock.model.id", "anthropic.claude-3-haiku-20240307-v1:0");
 
             ServiceLoader<ModelProvider> serviceLoader = ServiceLoader.load(ModelProvider.class);
 
@@ -84,8 +84,8 @@ class BedrockServiceLoaderTest {
         @Test
         @DisplayName("Should create named instances from discovered provider")
         void shouldCreateNamedInstancesFromDiscoveredProvider() {
-            System.setProperty("bedrock.model.id", "anthropic.claude-3-haiku-20240307-v1:0");
-            System.setProperty("test-instance.bedrock.model.id", "meta.llama3-1-8b-instruct-v1:0");
+            System.setProperty("forage.bedrock.model.id", "anthropic.claude-3-haiku-20240307-v1:0");
+            System.setProperty("forage.test-instance.bedrock.model.id", "meta.llama3-1-8b-instruct-v1:0");
 
             ServiceLoader<ModelProvider> serviceLoader = ServiceLoader.load(ModelProvider.class);
 
@@ -156,8 +156,8 @@ class BedrockServiceLoaderTest {
         @Test
         @DisplayName("Should discover provider through standard ServiceLoader mechanism")
         void shouldDiscoverProviderThroughStandardServiceLoaderMechanism() {
-            System.setProperty("bedrock.model.id", "anthropic.claude-3-haiku-20240307-v1:0");
-            System.setProperty("service-loader-test.bedrock.model.id", "anthropic.claude-3-haiku-20240307-v1:0");
+            System.setProperty("forage.bedrock.model.id", "anthropic.claude-3-haiku-20240307-v1:0");
+            System.setProperty("forage.service-loader-test.bedrock.model.id", "anthropic.claude-3-haiku-20240307-v1:0");
 
             ServiceLoader<ModelProvider> serviceLoader = ServiceLoader.load(ModelProvider.class);
 

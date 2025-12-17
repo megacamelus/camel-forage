@@ -13,7 +13,7 @@ public final class ConnectionFactoryConfigEntries extends ConfigEntries {
     // Instance name - used as prefix for multi-connection factory configurations
     public static final ConfigModule NAME = ConfigModule.of(
             ConnectionFactoryConfig.class,
-            "jms.name",
+            "forage.jms.name",
             "Instance name used as prefix for multi-connection factory configurations (e.g., cf1.jms.*, cf2.jms.*)",
             "Instance Name",
             null,
@@ -24,7 +24,7 @@ public final class ConnectionFactoryConfigEntries extends ConfigEntries {
     // JMS connection configuration
     public static final ConfigModule JMS_KIND = ConfigModule.of(
             ConnectionFactoryConfig.class,
-            "jms.kind",
+            "forage.jms.kind",
             "The JMS broker kind/type",
             "JMS Kind",
             null,
@@ -34,7 +34,7 @@ public final class ConnectionFactoryConfigEntries extends ConfigEntries {
 
     public static final ConfigModule BROKER_URL = ConfigModule.of(
             ConnectionFactoryConfig.class,
-            "jms.broker.url",
+            "forage.jms.broker.url",
             "The JMS broker URL",
             "Broker URL",
             null,
@@ -44,7 +44,7 @@ public final class ConnectionFactoryConfigEntries extends ConfigEntries {
 
     public static final ConfigModule USERNAME = ConfigModule.of(
             ConnectionFactoryConfig.class,
-            "jms.username",
+            "forage.jms.username",
             "The JMS broker username",
             "Username",
             null,
@@ -54,7 +54,7 @@ public final class ConnectionFactoryConfigEntries extends ConfigEntries {
 
     public static final ConfigModule PASSWORD = ConfigModule.of(
             ConnectionFactoryConfig.class,
-            "jms.password",
+            "forage.jms.password",
             "The JMS broker password",
             "Password",
             null,
@@ -64,7 +64,7 @@ public final class ConnectionFactoryConfigEntries extends ConfigEntries {
 
     public static final ConfigModule CLIENT_ID = ConfigModule.of(
             ConnectionFactoryConfig.class,
-            "jms.client.id",
+            "forage.jms.client.id",
             "The JMS client identifier",
             "Client ID",
             null,
@@ -75,7 +75,7 @@ public final class ConnectionFactoryConfigEntries extends ConfigEntries {
     // Connection pool configuration
     public static final ConfigModule POOL_ENABLED = ConfigModule.of(
             ConnectionFactoryConfig.class,
-            "jms.pool.enabled",
+            "forage.jms.pool.enabled",
             "Enable connection pooling",
             "Pool Enabled",
             "true",
@@ -85,7 +85,7 @@ public final class ConnectionFactoryConfigEntries extends ConfigEntries {
 
     public static final ConfigModule MAX_CONNECTIONS = ConfigModule.of(
             ConnectionFactoryConfig.class,
-            "jms.pool.max.connections",
+            "forage.jms.pool.max.connections",
             "Maximum number of connections in the pool",
             "Max Connections",
             "10",
@@ -95,7 +95,7 @@ public final class ConnectionFactoryConfigEntries extends ConfigEntries {
 
     public static final ConfigModule MAX_SESSIONS_PER_CONNECTION = ConfigModule.of(
             ConnectionFactoryConfig.class,
-            "jms.pool.max.sessions.per.connection",
+            "forage.jms.pool.max.sessions.per.connection",
             "Maximum number of sessions per connection",
             "Max Sessions",
             "500",
@@ -105,7 +105,7 @@ public final class ConnectionFactoryConfigEntries extends ConfigEntries {
 
     public static final ConfigModule IDLE_TIMEOUT_MILLIS = ConfigModule.of(
             ConnectionFactoryConfig.class,
-            "jms.pool.idle.timeout.millis",
+            "forage.jms.pool.idle.timeout.millis",
             "Idle timeout for connections (milliseconds)",
             "Idle Timeout",
             "30000",
@@ -115,7 +115,7 @@ public final class ConnectionFactoryConfigEntries extends ConfigEntries {
 
     public static final ConfigModule EXPIRY_TIMEOUT_MILLIS = ConfigModule.of(
             ConnectionFactoryConfig.class,
-            "jms.pool.expiry.timeout.millis",
+            "forage.jms.pool.expiry.timeout.millis",
             "Expiry timeout for connections (milliseconds)",
             "Expiry Timeout",
             "0",
@@ -125,7 +125,7 @@ public final class ConnectionFactoryConfigEntries extends ConfigEntries {
 
     public static final ConfigModule CONNECTION_TIMEOUT_MILLIS = ConfigModule.of(
             ConnectionFactoryConfig.class,
-            "jms.pool.connection.timeout.millis",
+            "forage.jms.pool.connection.timeout.millis",
             "Connection timeout (milliseconds)",
             "Connection Timeout",
             "30000",
@@ -135,7 +135,7 @@ public final class ConnectionFactoryConfigEntries extends ConfigEntries {
 
     public static final ConfigModule BLOCK_IF_FULL = ConfigModule.of(
             ConnectionFactoryConfig.class,
-            "jms.pool.block.if.full",
+            "forage.jms.pool.block.if.full",
             "Block when pool is full",
             "Block If Full",
             "true",
@@ -145,7 +145,7 @@ public final class ConnectionFactoryConfigEntries extends ConfigEntries {
 
     public static final ConfigModule BLOCK_IF_FULL_TIMEOUT_MILLIS = ConfigModule.of(
             ConnectionFactoryConfig.class,
-            "jms.pool.block.if.full.timeout.millis",
+            "forage.jms.pool.block.if.full.timeout.millis",
             "Timeout when blocking on full pool (milliseconds, -1 for infinite)",
             "Block Timeout",
             "-1",
@@ -156,7 +156,7 @@ public final class ConnectionFactoryConfigEntries extends ConfigEntries {
     // Transaction configuration
     public static final ConfigModule TRANSACTION_ENABLED = ConfigModule.of(
             ConnectionFactoryConfig.class,
-            "jms.transaction.enabled",
+            "forage.jms.transaction.enabled",
             "Enable transaction management",
             "Transaction Enabled",
             "false",
@@ -166,7 +166,7 @@ public final class ConnectionFactoryConfigEntries extends ConfigEntries {
 
     public static final ConfigModule TRANSACTION_TIMEOUT_SECONDS = ConfigModule.of(
             ConnectionFactoryConfig.class,
-            "jms.transaction.timeout.seconds",
+            "forage.jms.transaction.timeout.seconds",
             "Timeout for transactions (seconds)",
             "Transaction Timeout",
             "30",
@@ -176,7 +176,7 @@ public final class ConnectionFactoryConfigEntries extends ConfigEntries {
 
     public static final ConfigModule TRANSACTION_NODE_ID = ConfigModule.of(
             ConnectionFactoryConfig.class,
-            "jms.transaction.node.id",
+            "forage.jms.transaction.node.id",
             "The transaction node identifier",
             "Transaction Node ID",
             null,
@@ -186,7 +186,7 @@ public final class ConnectionFactoryConfigEntries extends ConfigEntries {
 
     public static final ConfigModule TRANSACTION_OBJECT_STORE_ID = ConfigModule.of(
             ConnectionFactoryConfig.class,
-            "jms.transaction.object.store.id",
+            "forage.jms.transaction.object.store.id",
             "The transaction object store identifier",
             "Object Store ID",
             null,
@@ -196,7 +196,7 @@ public final class ConnectionFactoryConfigEntries extends ConfigEntries {
 
     public static final ConfigModule TRANSACTION_ENABLE_RECOVERY = ConfigModule.of(
             ConnectionFactoryConfig.class,
-            "jms.transaction.enable.recovery",
+            "forage.jms.transaction.enable.recovery",
             "Enable transaction recovery",
             "Enable Recovery",
             "false",
@@ -206,7 +206,7 @@ public final class ConnectionFactoryConfigEntries extends ConfigEntries {
 
     public static final ConfigModule TRANSACTION_RECOVERY_MODULES = ConfigModule.of(
             ConnectionFactoryConfig.class,
-            "jms.transaction.recovery.modules",
+            "forage.jms.transaction.recovery.modules",
             "Comma-separated list of transaction recovery modules",
             "Recovery Modules",
             "com.arjuna.ats.internal.arjuna.recovery.AtomicActionRecoveryModule,"
@@ -217,7 +217,7 @@ public final class ConnectionFactoryConfigEntries extends ConfigEntries {
 
     public static final ConfigModule TRANSACTION_EXPIRY_SCANNERS = ConfigModule.of(
             ConnectionFactoryConfig.class,
-            "jms.transaction.expiry.scanners",
+            "forage.jms.transaction.expiry.scanners",
             "Comma-separated list of transaction expiry scanners",
             "Expiry Scanners",
             "com.arjuna.ats.internal.arjuna.recovery.ExpiredTransactionStatusManagerScanner",
@@ -227,7 +227,7 @@ public final class ConnectionFactoryConfigEntries extends ConfigEntries {
 
     public static final ConfigModule TRANSACTION_XA_RESOURCE_ORPHAN_FILTERS = ConfigModule.of(
             ConnectionFactoryConfig.class,
-            "jms.transaction.xa.resource.orphan.filters",
+            "forage.jms.transaction.xa.resource.orphan.filters",
             "Comma-separated list of XA resource orphan filters",
             "XA Orphan Filters",
             "com.arjuna.ats.internal.jta.recovery.arjunacore.JTATransactionLogXAResourceOrphanFilter,"
@@ -239,7 +239,7 @@ public final class ConnectionFactoryConfigEntries extends ConfigEntries {
 
     public static final ConfigModule TRANSACTION_OBJECT_STORE_DIRECTORY = ConfigModule.of(
             ConnectionFactoryConfig.class,
-            "jms.transaction.object.store.directory",
+            "forage.jms.transaction.object.store.directory",
             "Directory for transaction object store",
             "Object Store Directory",
             "ObjectStore",
@@ -249,7 +249,7 @@ public final class ConnectionFactoryConfigEntries extends ConfigEntries {
 
     public static final ConfigModule TRANSACTION_OBJECT_STORE_TYPE = ConfigModule.of(
             ConnectionFactoryConfig.class,
-            "jms.transaction.object.store.type",
+            "forage.jms.transaction.object.store.type",
             "Type of transaction object store (file-system or jdbc)",
             "Object Store Type",
             "file-system",

@@ -12,7 +12,7 @@ import org.apache.camel.forage.core.util.config.ConfigTag;
 public final class RedisConfigEntries extends ConfigEntries {
     public static final ConfigModule HOST = ConfigModule.of(
             RedisConfig.class,
-            "redis.host",
+            "forage.redis.host",
             "Redis server host address",
             "Host",
             "localhost",
@@ -21,7 +21,7 @@ public final class RedisConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule PORT = ConfigModule.of(
             RedisConfig.class,
-            "redis.port",
+            "forage.redis.port",
             "Redis server port number",
             "Port",
             "6379",
@@ -30,7 +30,7 @@ public final class RedisConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule USER = ConfigModule.of(
             RedisConfig.class,
-            "redis.user",
+            "forage.redis.user",
             "Username for authentication",
             "User",
             null,
@@ -39,7 +39,7 @@ public final class RedisConfigEntries extends ConfigEntries {
             ConfigTag.SECURITY);
     public static final ConfigModule PASSWORD = ConfigModule.of(
             RedisConfig.class,
-            "redis.password",
+            "forage.redis.password",
             "Password for authentication",
             "Password",
             null,
@@ -48,7 +48,7 @@ public final class RedisConfigEntries extends ConfigEntries {
             ConfigTag.SECURITY);
     public static final ConfigModule DIMENSION = ConfigModule.of(
             RedisConfig.class,
-            "redis.dimension",
+            "forage.redis.dimension",
             "Vector dimension size",
             "Dimension",
             null,
@@ -57,7 +57,7 @@ public final class RedisConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule PREFIX = ConfigModule.of(
             RedisConfig.class,
-            "redis.prefix",
+            "forage.redis.prefix",
             "Key prefix for vector storage",
             "Prefix",
             "embedding:",
@@ -66,7 +66,7 @@ public final class RedisConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule INDEX_NAME = ConfigModule.of(
             RedisConfig.class,
-            "redis.index.name",
+            "forage.redis.index.name",
             "Name of the vector index",
             "Index Name",
             "embedding-index",
@@ -75,7 +75,7 @@ public final class RedisConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule METADATA_FIELDS = ConfigModule.of(
             RedisConfig.class,
-            "redis.metadata.fields",
+            "forage.redis.metadata.fields",
             "Comma-separated list of metadata fields",
             "Metadata Fields",
             null,
@@ -84,7 +84,7 @@ public final class RedisConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule DISTANCE_METRIC = ConfigModule.of(
             RedisConfig.class,
-            "redis.distance.metric",
+            "forage.redis.distance.metric",
             "Distance metric for similarity search (COSINE, L2, IP)",
             "Distance Metric",
             "COSINE",

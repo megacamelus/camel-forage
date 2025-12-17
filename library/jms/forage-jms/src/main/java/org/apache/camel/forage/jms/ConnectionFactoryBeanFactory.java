@@ -17,6 +17,7 @@ import org.apache.camel.forage.core.jta.NotSupportedJtaTransactionPolicy;
 import org.apache.camel.forage.core.jta.RequiredJtaTransactionPolicy;
 import org.apache.camel.forage.core.jta.RequiresNewJtaTransactionPolicy;
 import org.apache.camel.forage.core.jta.SupportsJtaTransactionPolicy;
+import org.apache.camel.forage.core.util.config.ConfigHelper;
 import org.apache.camel.forage.core.util.config.ConfigStore;
 import org.apache.camel.forage.jms.common.ConnectionFactoryCommonExportHelper;
 import org.apache.camel.forage.jms.common.ConnectionFactoryConfig;
@@ -73,7 +74,8 @@ public class ConnectionFactoryBeanFactory implements BeanFactory {
     public void configure() {
 
         ConnectionFactoryConfig config = new ConnectionFactoryConfig();
-        Set<String> prefixes = ConfigStore.getInstance().readPrefixes(config, "(.+).jms\\..*");
+        Set<String> prefixes =
+                ConfigStore.getInstance().readPrefixes(config, ConfigHelper.getNamedPropertyRegexp("jms"));
 
         if (config.transactionEnabled()) {
             camelContext.getRegistry().bind("PROPAGATION_REQUIRED", new RequiredJtaTransactionPolicy());

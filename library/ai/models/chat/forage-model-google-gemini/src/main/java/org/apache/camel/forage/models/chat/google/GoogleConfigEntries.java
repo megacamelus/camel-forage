@@ -12,7 +12,7 @@ import org.apache.camel.forage.core.util.config.ConfigTag;
 public final class GoogleConfigEntries extends ConfigEntries {
     public static final ConfigModule API_KEY = ConfigModule.of(
             GoogleConfig.class,
-            "google.api.key",
+            "forage.google.api.key",
             "Google AI API key for authentication",
             "API Key",
             null,
@@ -21,7 +21,7 @@ public final class GoogleConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule MODEL_NAME = ConfigModule.of(
             GoogleConfig.class,
-            "google.model.name",
+            "forage.google.model.name",
             "Google Gemini model name (e.g., gemini-pro, gemini-pro-vision, gemini-1.5-pro)",
             "Model Name",
             null,

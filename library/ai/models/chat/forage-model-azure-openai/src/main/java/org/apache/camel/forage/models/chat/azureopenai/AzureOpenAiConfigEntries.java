@@ -12,7 +12,7 @@ import org.apache.camel.forage.core.util.config.ConfigTag;
 public final class AzureOpenAiConfigEntries extends ConfigEntries {
     public static final ConfigModule API_KEY = ConfigModule.of(
             AzureOpenAiConfig.class,
-            "azure.openai.api.key",
+            "forage.azure.openai.api.key",
             "Azure OpenAI API key for authentication",
             "API Key",
             null,
@@ -21,7 +21,7 @@ public final class AzureOpenAiConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule ENDPOINT = ConfigModule.of(
             AzureOpenAiConfig.class,
-            "azure.openai.endpoint",
+            "forage.azure.openai.endpoint",
             "Azure OpenAI resource endpoint URL (e.g., https://your-resource.openai.azure.com/)",
             "Endpoint",
             null,
@@ -30,7 +30,7 @@ public final class AzureOpenAiConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule DEPLOYMENT_NAME = ConfigModule.of(
             AzureOpenAiConfig.class,
-            "azure.openai.deployment.name",
+            "forage.azure.openai.deployment.name",
             "Azure OpenAI deployment name (e.g., gpt-35-turbo, gpt-4)",
             "Deployment Name",
             null,
@@ -39,7 +39,7 @@ public final class AzureOpenAiConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule SERVICE_VERSION = ConfigModule.of(
             AzureOpenAiConfig.class,
-            "azure.openai.service.version",
+            "forage.azure.openai.service.version",
             "Azure OpenAI API service version (e.g., 2024-02-01)",
             "Service Version",
             null,
@@ -48,7 +48,7 @@ public final class AzureOpenAiConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule TEMPERATURE = ConfigModule.of(
             AzureOpenAiConfig.class,
-            "azure.openai.temperature",
+            "forage.azure.openai.temperature",
             "Temperature for response generation (0.0-2.0): lower values are more deterministic, higher values are more creative",
             "Temperature",
             null,
@@ -57,7 +57,7 @@ public final class AzureOpenAiConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule MAX_TOKENS = ConfigModule.of(
             AzureOpenAiConfig.class,
-            "azure.openai.max.tokens",
+            "forage.azure.openai.max.tokens",
             "Maximum number of tokens in the model's response",
             "Max Tokens",
             null,
@@ -66,7 +66,7 @@ public final class AzureOpenAiConfigEntries extends ConfigEntries {
             ConfigTag.COMMON);
     public static final ConfigModule TOP_P = ConfigModule.of(
             AzureOpenAiConfig.class,
-            "azure.openai.top.p",
+            "forage.azure.openai.top.p",
             "Top-p (nucleus sampling) probability threshold (0.0-1.0)",
             "Top P",
             null,
@@ -75,7 +75,7 @@ public final class AzureOpenAiConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule PRESENCE_PENALTY = ConfigModule.of(
             AzureOpenAiConfig.class,
-            "azure.openai.presence.penalty",
+            "forage.azure.openai.presence.penalty",
             "Presence penalty for discouraging new topic introduction (-2.0 to 2.0)",
             "Presence Penalty",
             null,
@@ -84,7 +84,7 @@ public final class AzureOpenAiConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule FREQUENCY_PENALTY = ConfigModule.of(
             AzureOpenAiConfig.class,
-            "azure.openai.frequency.penalty",
+            "forage.azure.openai.frequency.penalty",
             "Frequency penalty for discouraging token repetition (-2.0 to 2.0)",
             "Frequency Penalty",
             null,
@@ -93,7 +93,7 @@ public final class AzureOpenAiConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule SEED = ConfigModule.of(
             AzureOpenAiConfig.class,
-            "azure.openai.seed",
+            "forage.azure.openai.seed",
             "Seed for deterministic response generation (same seed + same input = similar output)",
             "Seed",
             null,
@@ -102,7 +102,7 @@ public final class AzureOpenAiConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule USER = ConfigModule.of(
             AzureOpenAiConfig.class,
-            "azure.openai.user",
+            "forage.azure.openai.user",
             "User identifier for tracking and monitoring API usage",
             "User ID",
             null,
@@ -111,7 +111,7 @@ public final class AzureOpenAiConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule TIMEOUT = ConfigModule.of(
             AzureOpenAiConfig.class,
-            "azure.openai.timeout",
+            "forage.azure.openai.timeout",
             "Request timeout in seconds",
             "Timeout",
             null,
@@ -120,7 +120,7 @@ public final class AzureOpenAiConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule MAX_RETRIES = ConfigModule.of(
             AzureOpenAiConfig.class,
-            "azure.openai.max.retries",
+            "forage.azure.openai.max.retries",
             "Maximum number of retry attempts for failed requests",
             "Max Retries",
             null,
@@ -129,7 +129,7 @@ public final class AzureOpenAiConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
     public static final ConfigModule LOG_REQUESTS_AND_RESPONSES = ConfigModule.of(
             AzureOpenAiConfig.class,
-            "azure.openai.log.requests.and.responses",
+            "forage.azure.openai.log.requests.and.responses",
             "Enable logging of requests and responses (warning: may log sensitive data)",
             "Log Requests",
             null,

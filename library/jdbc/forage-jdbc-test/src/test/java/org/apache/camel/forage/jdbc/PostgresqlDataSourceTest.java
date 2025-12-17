@@ -27,12 +27,12 @@ public class PostgresqlDataSourceTest extends DataSourceTest {
 
     @Override
     protected void setUpDataSource(String dataSourceName) {
-        System.setProperty(dataSourceName + ".jdbc.db.kind", "postgresql");
+        System.setProperty("forage." + dataSourceName + ".jdbc.db.kind", "postgresql");
         System.setProperty(
-                dataSourceName + ".jdbc.url",
+                "forage." + dataSourceName + ".jdbc.url",
                 "jdbc:postgresql://localhost:" + postgresql.getMappedPort(5432) + "/postgresql");
-        System.setProperty(dataSourceName + ".jdbc.username", "postgresql");
-        System.setProperty(dataSourceName + ".jdbc.password", "postgresql");
+        System.setProperty("forage." + dataSourceName + ".jdbc.username", "postgresql");
+        System.setProperty("forage." + dataSourceName + ".jdbc.password", "postgresql");
     }
 
     @Override
