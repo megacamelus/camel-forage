@@ -37,6 +37,12 @@
 
         <dependency>
             <groupId>org.apache.camel.forage</groupId>
+            <artifactId>forage-vectordb-mariadb</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.camel.forage</groupId>
             <artifactId>forage-vectordb-default</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -135,12 +141,66 @@
 
         <dependency>
             <groupId>org.apache.camel.forage</groupId>
+            <artifactId>forage-model-anthropic</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.camel.forage</groupId>
+            <artifactId>forage-model-bedrock</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.camel.forage</groupId>
+            <artifactId>forage-model-dashscope</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.camel.forage</groupId>
+            <artifactId>forage-model-hugging-face</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.camel.forage</groupId>
+            <artifactId>forage-model-local-ai</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.camel.forage</groupId>
+            <artifactId>forage-model-mistral-ai</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.camel.forage</groupId>
+            <artifactId>forage-model-watsonx-ai</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- JDBC modules -->
+        <dependency>
+            <groupId>org.apache.camel.forage</groupId>
+            <artifactId>forage-jdbc-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.camel.forage</groupId>
             <artifactId>forage-jdbc</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.camel.forage</groupId>
             <artifactId>forage-jdbc-starter</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel.forage</groupId>
+            <artifactId>forage-quarkus-jdbc-deployment</artifactId>
             <version>${project.version}</version>
         </dependency>
 
@@ -208,6 +268,11 @@
         <dependency>
             <groupId>org.apache.camel.forage</groupId>
             <artifactId>forage-jms-starter</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel.forage</groupId>
+            <artifactId>forage-quarkus-jms-deployment</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

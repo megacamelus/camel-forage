@@ -12,6 +12,7 @@ import org.apache.camel.component.langchain4j.agent.api.AgentConfiguration;
 import org.apache.camel.forage.agent.factory.ConfigurationAware;
 import org.apache.camel.forage.core.ai.ChatMemoryBeanProvider;
 import org.apache.camel.forage.core.ai.ModelProvider;
+import org.apache.camel.forage.core.annotations.FactoryType;
 import org.apache.camel.forage.core.annotations.ForageBean;
 import org.apache.camel.forage.core.annotations.ForageFactory;
 import org.apache.camel.forage.core.common.BeanFactory;
@@ -47,8 +48,9 @@ import org.slf4j.LoggerFactory;
         value = "CamelAgentFactory",
         components = {"camel-langchain4j-agent"},
         description = "Agent bean factory with prefix auto-detection like JDBC/JMS",
-        factoryType = "Agent",
-        autowired = true)
+        type = FactoryType.AGENT,
+        autowired = true,
+        configClass = AgentConfig.class)
 public class AgentBeanFactory implements BeanFactory {
     private static final Logger LOG = LoggerFactory.getLogger(AgentBeanFactory.class);
 

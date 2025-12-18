@@ -19,16 +19,18 @@ public class ForageComponent {
     private String version;
 
     @JsonProperty("configurationProperties")
-    private List<ConfigurationProperty> configurationProperties;
+    private List<ConfigEntry> configurationProperties;
 
     @JsonProperty("capabilities")
     private Map<String, Object> capabilities;
 
     @JsonProperty("beans")
-    private List<ForgeBeanInfo> beans;
+    private List<ForageBean> beans;
 
     @JsonProperty("factories")
-    private List<FactoryInfo> factories;
+    private List<ForageFactory> factories;
+
+    private Map<String, String> configClasses; // Not serialized to JSON, just for internal use
 
     public ForageComponent() {}
 
@@ -56,11 +58,11 @@ public class ForageComponent {
         this.version = version;
     }
 
-    public List<ConfigurationProperty> getConfigurationProperties() {
+    public List<ConfigEntry> getConfigurationProperties() {
         return configurationProperties;
     }
 
-    public void setConfigurationProperties(List<ConfigurationProperty> configurationProperties) {
+    public void setConfigurationProperties(List<ConfigEntry> configurationProperties) {
         this.configurationProperties = configurationProperties;
     }
 
@@ -72,19 +74,27 @@ public class ForageComponent {
         this.capabilities = capabilities;
     }
 
-    public List<ForgeBeanInfo> getBeans() {
+    public List<ForageBean> getBeans() {
         return beans;
     }
 
-    public void setBeans(List<ForgeBeanInfo> beans) {
+    public void setBeans(List<ForageBean> beans) {
         this.beans = beans;
     }
 
-    public List<FactoryInfo> getFactories() {
+    public List<ForageFactory> getFactories() {
         return factories;
     }
 
-    public void setFactories(List<FactoryInfo> factories) {
+    public void setFactories(List<ForageFactory> factories) {
         this.factories = factories;
+    }
+
+    public Map<String, String> getConfigClasses() {
+        return configClasses;
+    }
+
+    public void setConfigClasses(Map<String, String> configClasses) {
+        this.configClasses = configClasses;
     }
 }

@@ -5,6 +5,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import org.apache.camel.forage.core.util.config.Config;
 
 /**
  * Annotation to mark classes as Forage beans.
@@ -45,4 +46,14 @@ public @interface ForageBean {
      * @return
      */
     String feature() default "";
+
+    /**
+     * The Config class that defines the properties file name for this bean.
+     * The Config class's name() method returns the base name used for the properties file.
+     * If not specified (defaults to Config.class), no properties file will be associated.
+     * Beans without individual configs (like JDBC beans) should leave this as default.
+     *
+     * @return the Config class
+     */
+    Class<? extends Config> configClass() default Config.class;
 }

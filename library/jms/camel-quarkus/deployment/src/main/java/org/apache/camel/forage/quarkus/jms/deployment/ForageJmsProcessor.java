@@ -28,6 +28,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+import org.apache.camel.forage.core.annotations.FactoryType;
+import org.apache.camel.forage.core.annotations.FactoryVariant;
 import org.apache.camel.forage.core.annotations.ForageFactory;
 import org.apache.camel.forage.core.util.config.ConfigHelper;
 import org.apache.camel.forage.core.util.config.ConfigStore;
@@ -37,12 +39,14 @@ import org.apache.camel.quarkus.core.deployment.spi.CamelRuntimeBeanBuildItem;
 import org.jboss.logging.Logger;
 
 @ForageFactory(
-        value = "CamelQuarkusJmsConfigSource",
+        value = "CamelQuarkusConnectionFactoryFactory",
         components = {"camel-jms"},
-        description = "Default Camel Quarkus JMS config source",
-        factoryType = "ConnectionFactory",
-        autowired = true)
-class ForageJmsProcessor {
+        description = "Quarkus ConnectionFactory factory with ServiceLoader discovery",
+        type = FactoryType.CONNECTION_FACTORY,
+        autowired = true,
+        configClass = ConnectionFactoryConfig.class,
+        variant = FactoryVariant.QUARKUS)
+public class ForageJmsProcessor {
 
     private static final Logger LOG = Logger.getLogger(ForageJmsProcessor.class);
     private static final String FEATURE = "camel-forage-jms";

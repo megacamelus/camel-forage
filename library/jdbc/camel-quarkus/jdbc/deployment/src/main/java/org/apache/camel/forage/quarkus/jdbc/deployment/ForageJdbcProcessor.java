@@ -26,6 +26,8 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+import org.apache.camel.forage.core.annotations.FactoryType;
+import org.apache.camel.forage.core.annotations.FactoryVariant;
 import org.apache.camel.forage.core.annotations.ForageFactory;
 import org.apache.camel.forage.core.util.config.ConfigHelper;
 import org.apache.camel.forage.core.util.config.ConfigStore;
@@ -39,12 +41,14 @@ import org.jboss.logging.Logger;
 import org.junit.platform.commons.util.StringUtils;
 
 @ForageFactory(
-        value = "CamelQuarkusDataSourceConfigSource",
+        value = "CamelQuarkusDataSourceFactory",
         components = {"camel-sql", "camel-jdbc"},
         description = "Default Camel Quarkus DataSource config source",
-        factoryType = "DataSource",
-        autowired = true)
-class ForageJdbcProcessor {
+        type = FactoryType.DATA_SOURCE,
+        autowired = true,
+        configClass = DataSourceFactoryConfig.class,
+        variant = FactoryVariant.QUARKUS)
+public class ForageJdbcProcessor {
 
     private static final Logger LOG = Logger.getLogger(ForageJdbcProcessor.class);
     private static final String FEATURE = "camel-forage-jdbc";

@@ -7,6 +7,7 @@ import javax.sql.DataSource;
 import org.apache.camel.CamelContext;
 import org.apache.camel.forage.core.annotations.ConditionalBean;
 import org.apache.camel.forage.core.annotations.ConditionalBeanGroup;
+import org.apache.camel.forage.core.annotations.FactoryType;
 import org.apache.camel.forage.core.annotations.ForageFactory;
 import org.apache.camel.forage.core.common.BeanFactory;
 import org.apache.camel.forage.core.common.ServiceLoaderHelper;
@@ -32,8 +33,9 @@ import org.slf4j.LoggerFactory;
         value = "CamelDataSourceFactory",
         components = {"camel-sql", "camel-jdbc", "camel-spring-jdbc"},
         description = "Default DataSource factory with ServiceLoader discovery",
-        factoryType = "DataSource",
+        type = FactoryType.DATA_SOURCE,
         autowired = true,
+        configClass = DataSourceFactoryConfig.class,
         conditionalBeans = {
             @ConditionalBeanGroup(
                     id = "jta-transaction-policies",

@@ -1,13 +1,18 @@
 package org.apache.camel.forage.maven.catalog;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 /**
  * Represents a Forage factory in the simplified catalog.
  * A factory contains platform variants, config entries, and beans grouped by feature.
+ *
+ * This class is used both during scanning (to collect annotation data)
+ * and in the output catalog (serialized to JSON/YAML).
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ForageFactory {
@@ -42,12 +47,52 @@ public class ForageFactory {
     @JsonProperty("conditionalBeans")
     private List<ConditionalBeanGroup> conditionalBeans;
 
+    // Fields used during scanning (not serialized to catalog output)
+    @JsonIgnore
+    private String className;
+
+    @JsonIgnore
+    private String variant;
+
+    @JsonIgnore
+    private String configClassName;
+
     public ForageFactory() {}
 
     public ForageFactory(String name, String factoryType, String description) {
         this.name = name;
         this.factoryType = factoryType;
         this.description = description;
+    }
+
+    /**
+     * Constructor for scanning - captures all annotation data.
+     */
+    public ForageFactory(
+            String name,
+            List<String> components,
+            String description,
+            String factoryType,
+            String className,
+            boolean autowired) {
+        this.name = name;
+        this.components = components;
+        this.description = description;
+        this.factoryType = factoryType;
+        this.className = className;
+        this.autowired = autowired;
+    }
+
+    /**
+     * Constructor for scanning with single component.
+     */
+    public ForageFactory(String name, String component, String description, String factoryType, String className) {
+        this.name = name;
+        this.components = component != null && !component.isEmpty() ? Arrays.asList(component) : List.of();
+        this.description = description;
+        this.factoryType = factoryType;
+        this.className = className;
+        this.autowired = false;
     }
 
     public String getName() {
@@ -130,12 +175,39 @@ public class ForageFactory {
         this.conditionalBeans = conditionalBeans;
     }
 
+    public String getClassName() {
+        return className;
+    }
+
+    public void setClassName(String className) {
+        this.className = className;
+    }
+
+    public String getVariant() {
+        return variant;
+    }
+
+    public void setVariant(String variant) {
+        this.variant = variant;
+    }
+
+    public String getConfigClassName() {
+        return configClassName;
+    }
+
+    public void setConfigClassName(String configClassName) {
+        this.configClassName = configClassName;
+    }
+
     @Override
     public String toString() {
         return "ForageFactory{" + "name='"
-                + name + '\'' + ", factoryType='"
-                + factoryType + '\'' + ", description='"
-                + description + '\'' + ", autowired="
-                + autowired + '}';
+                + name + '\'' + ", components="
+                + components + ", description='"
+                + description + '\'' + ", factoryType='"
+                + factoryType + '\'' + ", className='"
+                + className + '\'' + ", autowired="
+                + autowired + ", variant='"
+                + variant + '\'' + '}';
     }
 }

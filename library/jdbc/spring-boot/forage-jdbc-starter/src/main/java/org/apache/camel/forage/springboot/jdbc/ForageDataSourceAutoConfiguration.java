@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.ServiceLoader;
 import java.util.Set;
 import javax.sql.DataSource;
+import org.apache.camel.forage.core.annotations.FactoryType;
+import org.apache.camel.forage.core.annotations.FactoryVariant;
 import org.apache.camel.forage.core.annotations.ForageFactory;
 import org.apache.camel.forage.core.common.ServiceLoaderHelper;
 import org.apache.camel.forage.core.jdbc.DataSourceProvider;
@@ -43,9 +45,11 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @ForageFactory(
         value = "CamelSpringBootDataSourceFactory",
         components = {"camel-sql", "camel-jdbc", "camel-spring-jdbc"},
-        description = "Default Spring Boot DataSource factory with ServiceLoader discovery",
-        factoryType = "DataSource",
-        autowired = true)
+        description = "Spring Boot DataSource factory with ServiceLoader discovery",
+        type = FactoryType.DATA_SOURCE,
+        autowired = true,
+        configClass = DataSourceFactoryConfig.class,
+        variant = FactoryVariant.SPRING_BOOT)
 @Configuration
 @AutoConfigureBefore({DataSourceAutoConfiguration.class, AgroalDataSourceAutoConfiguration.class})
 public class ForageDataSourceAutoConfiguration implements BeanFactoryAware {

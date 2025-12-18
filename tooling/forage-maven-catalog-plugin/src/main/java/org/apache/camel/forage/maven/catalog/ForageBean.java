@@ -1,12 +1,17 @@
 package org.apache.camel.forage.maven.catalog;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Arrays;
 import java.util.List;
 
 /**
  * Represents a Forage bean that can be used with a factory.
  * Beans are grouped by feature within a factory.
+ *
+ * This class is used both during scanning (to collect annotation data)
+ * and in the output catalog (serialized to JSON/YAML).
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ForageBean {
@@ -29,6 +34,16 @@ public class ForageBean {
     @JsonProperty("propertiesFile")
     private String propertiesFile;
 
+    // Fields used during scanning (not serialized to catalog output)
+    @JsonIgnore
+    private List<String> components;
+
+    @JsonIgnore
+    private String feature;
+
+    @JsonIgnore
+    private String configClassName;
+
     public ForageBean() {}
 
     public ForageBean(String name, String description, String className, String gav) {
@@ -36,6 +51,28 @@ public class ForageBean {
         this.description = description;
         this.className = className;
         this.gav = gav;
+    }
+
+    /**
+     * Constructor for scanning - captures all annotation data.
+     */
+    public ForageBean(String name, List<String> components, String description, String className, String feature) {
+        this.name = name;
+        this.components = components;
+        this.description = description;
+        this.className = className;
+        this.feature = feature;
+    }
+
+    /**
+     * Constructor for scanning with single component.
+     */
+    public ForageBean(String name, String component, String description, String className, String feature) {
+        this.name = name;
+        this.components = component != null && !component.isEmpty() ? Arrays.asList(component) : List.of();
+        this.description = description;
+        this.className = className;
+        this.feature = feature;
     }
 
     public String getName() {
@@ -86,14 +123,39 @@ public class ForageBean {
         this.propertiesFile = propertiesFile;
     }
 
+    public List<String> getComponents() {
+        return components;
+    }
+
+    public void setComponents(List<String> components) {
+        this.components = components;
+    }
+
+    public String getFeature() {
+        return feature;
+    }
+
+    public void setFeature(String feature) {
+        this.feature = feature;
+    }
+
+    public String getConfigClassName() {
+        return configClassName;
+    }
+
+    public void setConfigClassName(String configClassName) {
+        this.configClassName = configClassName;
+    }
+
     /**
-     * Creates a ForageBean from a ForgeBeanInfo (for migration).
+     * Creates a copy of this bean with GAV set for catalog output.
+     * Copies relevant fields but excludes scanning-only fields from the result.
      */
-    public static ForageBean from(ForgeBeanInfo info, String gav) {
+    public ForageBean withGav(String gav) {
         ForageBean bean = new ForageBean();
-        bean.setName(info.getName());
-        bean.setDescription(info.getDescription());
-        bean.setClassName(info.getClassName());
+        bean.setName(this.name);
+        bean.setDescription(this.description);
+        bean.setClassName(this.className);
         bean.setGav(gav);
         return bean;
     }
@@ -101,9 +163,10 @@ public class ForageBean {
     @Override
     public String toString() {
         return "ForageBean{" + "name='"
-                + name + '\'' + ", description='"
+                + name + '\'' + ", components="
+                + components + ", description='"
                 + description + '\'' + ", className='"
-                + className + '\'' + ", gav='"
-                + gav + '\'' + '}';
+                + className + '\'' + ", feature='"
+                + feature + '\'' + '}';
     }
 }

@@ -1,9 +1,11 @@
 package org.apache.camel.forage.maven.catalog;
 
 import com.github.javaparser.JavaParser;
+import com.github.javaparser.ParserConfiguration;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.FieldDeclaration;
+import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.expr.AnnotationExpr;
 import com.github.javaparser.ast.expr.ArrayInitializerExpr;
@@ -14,179 +16,251 @@ import com.github.javaparser.ast.expr.MethodCallExpr;
 import com.github.javaparser.ast.expr.NormalAnnotationExpr;
 import com.github.javaparser.ast.expr.SingleMemberAnnotationExpr;
 import com.github.javaparser.ast.expr.StringLiteralExpr;
+import com.github.javaparser.ast.stmt.ReturnStmt;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import org.apache.camel.forage.core.annotations.FactoryType;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.project.MavenProject;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 public class CodeScanner {
     private final Log log;
+    private final Map<String, Path> sourceDirectoryCache = new ConcurrentHashMap<>();
+    private final JavaParser parser;
 
     public CodeScanner(Log log) {
         this.log = log;
+        this.parser = createConfiguredParser();
+    }
+
+    /**
+     * Creates a JavaParser with optimized configuration for better performance.
+     * Disables features not needed for annotation scanning.
+     */
+    private static JavaParser createConfiguredParser() {
+        ParserConfiguration config = new ParserConfiguration();
+        // Use Java 17 language level for modern syntax support
+        config.setLanguageLevel(ParserConfiguration.LanguageLevel.JAVA_17);
+        // Disable attribute comments processing for better performance
+        config.setAttributeComments(false);
+        // Disable storing tokens for better memory usage
+        config.setStoreTokens(false);
+        return new JavaParser(config);
+    }
+
+    /**
+     * Scans the artifact source directory in a single pass, extracting all information at once.
+     * This is a performance optimization to avoid multiple directory walks and file parsing.
+     * (Issue 2 optimization)
+     */
+    public ScanResult scanAllInOnePass(Artifact artifact, MavenProject rootProject) {
+        ScanResult result = new ScanResult();
+
+        // Find the source directory (cached)
+        Path sourceDir = findSourceDirectory(artifact, rootProject);
+        if (sourceDir == null || !Files.exists(sourceDir)) {
+            log.debug("No source directory found for artifact: " + artifact.getArtifactId());
+            return result;
+        }
+
+        try {
+            log.debug("Scanning source directory: " + sourceDir);
+
+            // Walk through all Java files ONCE and extract all information
+            try (Stream<Path> paths = Files.walk(sourceDir)) {
+                paths.filter(path -> path.toString().endsWith(".java"))
+                        .filter(path -> !path.toString().contains("/test/"))
+                        .forEach(javaFile -> {
+                            try {
+                                scanJavaFileForAllInfo(javaFile, result);
+                            } catch (Exception e) {
+                                log.warn("Failed to parse Java file: " + javaFile);
+                                log.debug("Parse error details: " + e.getMessage(), e);
+                            }
+                        });
+            }
+        } catch (IOException e) {
+            log.warn("Failed to scan source directory: " + sourceDir);
+            log.debug("Scan error details: " + e.getMessage(), e);
+        }
+
+        log.debug("Single-pass scan completed for " + artifact.getArtifactId() + ": "
+                + result.getBeans().size()
+                + " beans, " + result.getFactories().size() + " factories, "
+                + result.getConfigProperties().size() + " config properties, "
+                + result.getConfigClasses().size()
+                + " config classes");
+
+        return result;
+    }
+
+    /**
+     * Scans a single Java file for ALL information types in one pass.
+     * This replaces the need for separate scanJavaFileForForgeBeans, scanJavaFileForForageFactories, etc.
+     */
+    private void scanJavaFileForAllInfo(Path javaFile, ScanResult result) {
+        try {
+            Optional<CompilationUnit> parseResult = parser.parse(javaFile).getResult();
+
+            if (parseResult.isEmpty()) {
+                log.debug("Failed to parse Java file: " + javaFile);
+                return;
+            }
+
+            CompilationUnit cu = parseResult.get();
+
+            // Extract all information in a single pass through the AST
+            cu.findAll(ClassOrInterfaceDeclaration.class).forEach(classDecl -> {
+                // 1. Check for @ForageBean annotations
+                classDecl.getAnnotations().forEach(annotation -> {
+                    if (isForageBeanAnnotation(annotation)) {
+                        ForageBean bean = extractForageBean(annotation, classDecl, cu);
+                        if (bean != null) {
+                            result.getBeans().add(bean);
+                            log.debug("Found ForageBean: " + bean);
+                        }
+                    }
+                    // 2. Check for @ForageFactory annotations
+                    if (isForageFactoryAnnotation(annotation)) {
+                        ForageFactory factory = extractForageFactory(annotation, classDecl, cu);
+                        if (factory != null) {
+                            result.getFactories().add(factory);
+                            log.debug("Found ForageFactory: " + factory);
+                        }
+                    }
+                });
+
+                // 3. Check if class extends ConfigEntries
+                if (extendsConfigEntries(classDecl)) {
+                    log.debug("Found ConfigEntries class: " + classDecl.getNameAsString());
+                    extractConfigModuleFields(classDecl, result.getConfigProperties());
+                }
+
+                // 4. Check if class implements Config
+                if (implementsConfig(classDecl)) {
+                    String className = getFullyQualifiedClassName(classDecl, cu);
+                    String configName = extractConfigName(classDecl);
+
+                    if (configName != null) {
+                        result.getConfigClasses().put(className, configName);
+                        log.info("Found Config: " + className + " -> " + configName);
+                    }
+                }
+            });
+
+        } catch (Exception e) {
+            log.warn("Error parsing Java file: " + javaFile);
+            log.debug("Parse error details: " + e.getMessage(), e);
+        }
     }
 
     /**
      * Finds the source directory for the given artifact within the project structure.
+     * Uses caching to avoid redundant directory resolution.
+     * Performs a single directory walk for both exact match and POM search (performance optimization).
      */
     private Path findSourceDirectory(Artifact artifact, MavenProject rootProject) {
-        // Try multiple possible locations for the source directory
+        String artifactId = artifact.getArtifactId();
+
+        // Check cache first
+        if (sourceDirectoryCache.containsKey(artifactId)) {
+            return sourceDirectoryCache.get(artifactId);
+        }
 
         Path projectBase = Paths.get(rootProject.getBasedir().getAbsolutePath());
         log.debug("Project base directory: " + projectBase);
-
-        // Check if we're in the root project and the artifact is a module
-        String artifactId = artifact.getArtifactId();
         log.debug("Looking for source directory for artifact: " + artifactId);
 
+        // Single walk: collect all paths, then search for exact match or POM match
+        Path result = null;
         try (Stream<Path> paths = Files.walk(projectBase)) {
-            final Optional<Path> first = paths.filter(path -> Files.isDirectory(path) && path.endsWith(artifactId))
-                    .findFirst();
+            List<Path> candidates = paths.toList();
 
-            return first.orElse(null);
+            // First try exact directory name match
+            result = candidates.stream()
+                    .filter(path -> Files.isDirectory(path) && path.endsWith(artifactId))
+                    .findFirst()
+                    .orElseGet(() -> {
+                        // If exact match fails, try to find pom.xml files with matching artifactId
+                        log.debug("No exact directory match for " + artifactId + ", trying POM search");
+                        return candidates.stream()
+                                .filter(path -> path.getFileName().toString().equals("pom.xml"))
+                                .filter(pomPath -> {
+                                    boolean matches = isModuleArtifactId(pomPath, artifactId);
+                                    if (matches) {
+                                        log.debug("Found POM match for " + artifactId + " at: " + pomPath);
+                                    }
+                                    return matches;
+                                })
+                                .map(Path::getParent)
+                                .findFirst()
+                                .orElse(null);
+                    });
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            log.error("Error walking directory tree: " + projectBase, e);
+            sourceDirectoryCache.put(artifactId, null);
+            return null;
         }
+
+        if (result != null) {
+            log.debug("Resolved source directory for " + artifactId + ": " + result);
+        } else {
+            log.warn("Could not find source directory for artifact: " + artifactId);
+        }
+
+        sourceDirectoryCache.put(artifactId, result);
+        return result;
     }
 
     /**
-     * Scans the source code for @ForageFactory annotations in the given artifact.
+     * Checks if the given POM file defines the artifactId as the module's own artifactId,
+     * not as a dependency. Uses proper XML parsing to avoid issues with comments and whitespace.
      */
-    public List<FactoryInfo> scanForForageFactories(Artifact artifact, MavenProject rootProject) {
-        List<FactoryInfo> factories = new ArrayList<>();
-
-        // Find the source directory for this artifact
-        Path sourceDir = findSourceDirectory(artifact, rootProject);
-        if (sourceDir == null || !Files.exists(sourceDir)) {
-            log.debug("No source directory found for artifact: " + artifact.getArtifactId());
-            return factories;
-        }
-
+    private boolean isModuleArtifactId(Path pomPath, String artifactId) {
         try {
-            log.debug("Scanning source directory: " + sourceDir);
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+            factory.setFeature("http://xml.org/sax/features/external-general-entities", false);
+            factory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
 
-            // Walk through all Java files in the source directory
-            try (Stream<Path> paths = Files.walk(sourceDir)) {
-                paths.filter(path -> path.toString().endsWith(".java")).forEach(javaFile -> {
-                    try {
-                        scanJavaFileForForageFactories(javaFile, factories);
-                    } catch (Exception e) {
-                        log.warn("Failed to parse Java file: " + javaFile + " - " + e.getMessage());
-                    }
-                });
-            }
-        } catch (IOException e) {
-            log.warn("Failed to scan source directory: " + sourceDir + " - " + e.getMessage());
-        }
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document doc = builder.parse(pomPath.toFile());
 
-        log.debug("Found " + factories.size() + " ForageFactory annotations in " + artifact.getArtifactId());
-        return factories;
-    }
-
-    /**
-     * Scans the source code for @ForageBean annotations in the given artifact.
-     */
-    public List<ForgeBeanInfo> scanForForageBeans(Artifact artifact, MavenProject rootProject) {
-        List<ForgeBeanInfo> beans = new ArrayList<>();
-
-        // Find the source directory for this artifact
-        Path sourceDir = findSourceDirectory(artifact, rootProject);
-        if (sourceDir == null || !Files.exists(sourceDir)) {
-            log.debug("No source directory found for artifact: " + artifact.getArtifactId());
-            return beans;
-        }
-
-        try {
-            log.debug("Scanning source directory: " + sourceDir);
-
-            // Walk through all Java files in the source directory
-            try (Stream<Path> paths = Files.walk(sourceDir)) {
-                paths.filter(path -> path.toString().endsWith(".java")).forEach(javaFile -> {
-                    try {
-                        scanJavaFileForForgeBeans(javaFile, beans);
-                    } catch (Exception e) {
-                        log.warn("Failed to parse Java file: " + javaFile + " - " + e.getMessage());
-                    }
-                });
-            }
-        } catch (IOException e) {
-            log.warn("Failed to scan source directory: " + sourceDir + " - " + e.getMessage());
-        }
-
-        log.debug("Found " + beans.size() + " ForageBean annotations in " + artifact.getArtifactId());
-        return beans;
-    }
-
-    /**
-     * Scans a single Java file for @ForageFactory annotations.
-     */
-    private void scanJavaFileForForageFactories(Path javaFile, List<FactoryInfo> factories) {
-        try {
-            JavaParser parser = new JavaParser();
-            Optional<CompilationUnit> parseResult = parser.parse(javaFile).getResult();
-
-            if (parseResult.isEmpty()) {
-                log.debug("Failed to parse Java file: " + javaFile);
-                return;
+            // Get the root project element
+            Element root = doc.getDocumentElement();
+            if (!"project".equals(root.getTagName())) {
+                return false;
             }
 
-            CompilationUnit cu = parseResult.get();
-
-            // Find all class declarations with @ForageFactory annotation
-            cu.findAll(ClassOrInterfaceDeclaration.class).forEach(classDecl -> {
-                classDecl.getAnnotations().forEach(annotation -> {
-                    if (isForageFactoryAnnotation(annotation)) {
-                        FactoryInfo factoryInfo = extractForageFactoryInfo(annotation, classDecl, cu);
-                        if (factoryInfo != null) {
-                            factories.add(factoryInfo);
-                            log.debug("Found ForageFactory: " + factoryInfo);
-                        }
+            // Find direct child artifactId element (not inside dependencies, parent, etc.)
+            NodeList children = root.getChildNodes();
+            for (int i = 0; i < children.getLength(); i++) {
+                if (children.item(i) instanceof Element child) {
+                    if ("artifactId".equals(child.getTagName())) {
+                        String foundArtifactId = child.getTextContent().trim();
+                        return artifactId.equals(foundArtifactId);
                     }
-                });
-            });
+                }
+            }
 
+            return false;
         } catch (Exception e) {
-            log.warn("Error parsing Java file: " + javaFile + " - " + e.getMessage());
-        }
-    }
-
-    /**
-     * Scans a single Java file for @ForageBean annotations.
-     */
-    private void scanJavaFileForForgeBeans(Path javaFile, List<ForgeBeanInfo> beans) {
-        try {
-            JavaParser parser = new JavaParser();
-            Optional<CompilationUnit> parseResult = parser.parse(javaFile).getResult();
-
-            if (parseResult.isEmpty()) {
-                log.debug("Failed to parse Java file: " + javaFile);
-                return;
-            }
-
-            CompilationUnit cu = parseResult.get();
-
-            // Find all class declarations with @ForageBean annotation
-            cu.findAll(ClassOrInterfaceDeclaration.class).forEach(classDecl -> {
-                classDecl.getAnnotations().forEach(annotation -> {
-                    if (isForageBeanAnnotation(annotation)) {
-                        ForgeBeanInfo beanInfo = extractForgeBeanInfo(annotation, classDecl, cu);
-                        if (beanInfo != null) {
-                            beans.add(beanInfo);
-                            log.debug("Found ForageBean: " + beanInfo);
-                        }
-                    }
-                });
-            });
-
-        } catch (Exception e) {
-            log.warn("Error parsing Java file: " + javaFile + " - " + e.getMessage());
+            log.debug("Failed to parse POM file: " + pomPath);
+            return false;
         }
     }
 
@@ -195,7 +269,7 @@ public class CodeScanner {
      */
     private boolean isForageFactoryAnnotation(AnnotationExpr annotation) {
         String name = annotation.getNameAsString();
-        return "ForageFactory".equals(name) || "org.apache.camel.forage.core.annotations.ForageFactory".equals(name);
+        return "ForageFactory".equals(name) || Constants.FORAGE_FACTORY_FQN.equals(name);
     }
 
     /**
@@ -203,72 +277,85 @@ public class CodeScanner {
      */
     private boolean isForageBeanAnnotation(AnnotationExpr annotation) {
         String name = annotation.getNameAsString();
-        return "ForageBean".equals(name) || "org.apache.camel.forage.core.annotations.ForageBean".equals(name);
+        return "ForageBean".equals(name) || Constants.FORAGE_BEAN_FQN.equals(name);
     }
 
     /**
      * Extracts ForageFactory information from the annotation.
      */
-    private FactoryInfo extractForageFactoryInfo(
+    private ForageFactory extractForageFactory(
             AnnotationExpr annotation, ClassOrInterfaceDeclaration classDecl, CompilationUnit cu) {
-        String name = "";
-        List<String> components = new ArrayList<>();
-        String description = "";
-        String factoryType = "";
-        boolean autowired = false;
-        List<ConditionalBeanGroup> conditionalBeans = new ArrayList<>();
+        FactoryAnnotationData data = new FactoryAnnotationData();
 
         // Extract annotation values
-        if (annotation instanceof SingleMemberAnnotationExpr) {
-            SingleMemberAnnotationExpr singleMember = (SingleMemberAnnotationExpr) annotation;
-            if (singleMember.getMemberValue() instanceof StringLiteralExpr) {
-                name = ((StringLiteralExpr) singleMember.getMemberValue()).asString();
+        if (annotation instanceof SingleMemberAnnotationExpr singleMember) {
+            if (singleMember.getMemberValue() instanceof StringLiteralExpr stringLiteral) {
+                data.setName(stringLiteral.asString());
             }
-        } else if (annotation instanceof NormalAnnotationExpr) {
-            NormalAnnotationExpr normalAnnotation = (NormalAnnotationExpr) annotation;
-            for (MemberValuePair pair : normalAnnotation.getPairs()) {
-                String pairName = pair.getNameAsString();
-                Expression value = pair.getValue();
-
-                switch (pairName) {
-                    case "value":
-                        if (value instanceof StringLiteralExpr) {
-                            name = ((StringLiteralExpr) value).asString();
-                        }
-                        break;
-                    case "components":
-                        components = extractStringArrayValue(value);
-                        break;
-                    case "description":
-                        if (value instanceof StringLiteralExpr) {
-                            description = ((StringLiteralExpr) value).asString();
-                        }
-                        break;
-                    case "factoryType":
-                        if (value instanceof StringLiteralExpr) {
-                            factoryType = ((StringLiteralExpr) value).asString();
-                        }
-                        break;
-                    case "autowired":
-                        if (value instanceof BooleanLiteralExpr) {
-                            autowired = ((BooleanLiteralExpr) value).getValue();
-                        }
-                        break;
-                    case "conditionalBeans":
-                        conditionalBeans = extractConditionalBeanGroupArray(value);
-                        break;
-                }
-            }
+        } else if (annotation instanceof NormalAnnotationExpr normalAnnotation) {
+            extractFactoryAnnotationPairs(normalAnnotation, cu, data);
         }
 
         // Get the fully qualified class name
         String className = getFullyQualifiedClassName(classDecl, cu);
 
-        FactoryInfo factoryInfo = new FactoryInfo(name, components, description, factoryType, className, autowired);
-        if (!conditionalBeans.isEmpty()) {
-            factoryInfo.setConditionalBeans(conditionalBeans);
+        ForageFactory factory = new ForageFactory(
+                data.getName(),
+                data.getComponents(),
+                data.getDescription(),
+                data.getFactoryType(),
+                className,
+                data.isAutowired());
+        if (!data.getConditionalBeans().isEmpty()) {
+            factory.setConditionalBeans(data.getConditionalBeans());
         }
-        return factoryInfo;
+        factory.setVariant(data.getVariant());
+        factory.setConfigClassName(data.getConfigClassName());
+        return factory;
+    }
+
+    /**
+     * Extracts annotation member-value pairs from a NormalAnnotationExpr for ForageFactory.
+     */
+    private void extractFactoryAnnotationPairs(
+            NormalAnnotationExpr normalAnnotation, CompilationUnit cu, FactoryAnnotationData data) {
+        for (MemberValuePair pair : normalAnnotation.getPairs()) {
+            String pairName = pair.getNameAsString();
+            Expression value = pair.getValue();
+
+            switch (pairName) {
+                case "value":
+                    if (value instanceof StringLiteralExpr stringLiteral) {
+                        data.setName(stringLiteral.asString());
+                    }
+                    break;
+                case "components":
+                    data.setComponents(extractStringArrayValue(value));
+                    break;
+                case "description":
+                    if (value instanceof StringLiteralExpr stringLiteral) {
+                        data.setDescription(stringLiteral.asString());
+                    }
+                    break;
+                case "type":
+                    data.setFactoryType(extractFactoryTypeValue(value));
+                    break;
+                case "autowired":
+                    if (value instanceof BooleanLiteralExpr booleanLiteral) {
+                        data.setAutowired(booleanLiteral.getValue());
+                    }
+                    break;
+                case "conditionalBeans":
+                    data.setConditionalBeans(extractConditionalBeanGroupArray(value));
+                    break;
+                case "variant":
+                    data.setVariant(extractVariantValue(value));
+                    break;
+                case "configClass":
+                    data.setConfigClassName(extractClassValue(value, cu));
+                    break;
+            }
+        }
     }
 
     /**
@@ -411,12 +498,13 @@ public class CodeScanner {
     /**
      * Extracts ForageBean information from the annotation.
      */
-    private ForgeBeanInfo extractForgeBeanInfo(
+    private ForageBean extractForageBean(
             AnnotationExpr annotation, ClassOrInterfaceDeclaration classDecl, CompilationUnit cu) {
         String name = "";
         List<String> components = new ArrayList<>();
         String description = "";
         String feature = "";
+        String configClassName = null;
 
         // Extract annotation values
         if (annotation instanceof SingleMemberAnnotationExpr) {
@@ -449,6 +537,9 @@ public class CodeScanner {
                             feature = ((StringLiteralExpr) value).asString();
                         }
                         break;
+                    case "configClass":
+                        configClassName = extractClassValue(value, cu);
+                        break;
                 }
             }
         }
@@ -456,69 +547,9 @@ public class CodeScanner {
         // Get the fully qualified class name
         String className = getFullyQualifiedClassName(classDecl, cu);
 
-        return new ForgeBeanInfo(name, components, description, className, feature);
-    }
-
-    /**
-     * Scans the source code for ConfigEntries classes and extracts configuration properties.
-     */
-    public List<ConfigurationProperty> scanForConfigurationProperties(Artifact artifact, MavenProject rootProject) {
-        List<ConfigurationProperty> configProperties = new ArrayList<>();
-
-        // Find the source directory for this artifact
-        Path sourceDir = findSourceDirectory(artifact, rootProject);
-        if (sourceDir == null || !Files.exists(sourceDir)) {
-            log.debug("No source directory found for artifact: " + artifact.getArtifactId());
-            return configProperties;
-        }
-
-        try {
-            log.debug("Scanning source directory for ConfigEntries classes: " + sourceDir);
-
-            // Walk through all Java files in the source directory
-            try (Stream<Path> paths = Files.walk(sourceDir)) {
-                paths.filter(path -> path.toString().endsWith(".java")).forEach(javaFile -> {
-                    try {
-                        scanJavaFileForConfigEntries(javaFile, configProperties);
-                    } catch (Exception e) {
-                        log.warn("Failed to parse Java file for ConfigEntries: " + javaFile + " - " + e.getMessage());
-                    }
-                });
-            }
-        } catch (IOException e) {
-            log.warn("Failed to scan source directory for ConfigEntries: " + sourceDir + " - " + e.getMessage());
-        }
-
-        log.debug("Found " + configProperties.size() + " configuration properties in " + artifact.getArtifactId());
-        return configProperties;
-    }
-
-    /**
-     * Scans a single Java file for ConfigEntries classes and extracts ConfigModule fields.
-     */
-    private void scanJavaFileForConfigEntries(Path javaFile, List<ConfigurationProperty> configProperties) {
-        try {
-            JavaParser parser = new JavaParser();
-            Optional<CompilationUnit> parseResult = parser.parse(javaFile).getResult();
-
-            if (parseResult.isEmpty()) {
-                log.debug("Failed to parse Java file: " + javaFile);
-                return;
-            }
-
-            CompilationUnit cu = parseResult.get();
-
-            // Find all class declarations that extend ConfigEntries
-            cu.findAll(ClassOrInterfaceDeclaration.class).forEach(classDecl -> {
-                if (extendsConfigEntries(classDecl)) {
-                    log.debug("Found ConfigEntries class: " + classDecl.getNameAsString());
-                    extractConfigModuleFields(classDecl, configProperties);
-                }
-            });
-
-        } catch (Exception e) {
-            log.warn("Error parsing Java file for ConfigEntries: " + javaFile + " - " + e.getMessage());
-        }
+        ForageBean bean = new ForageBean(name, components, description, className, feature);
+        bean.setConfigClassName(configClassName);
+        return bean;
     }
 
     /**
@@ -532,14 +563,13 @@ public class CodeScanner {
     /**
      * Extracts ConfigModule fields from a ConfigEntries class.
      */
-    private void extractConfigModuleFields(
-            ClassOrInterfaceDeclaration classDecl, List<ConfigurationProperty> configProperties) {
+    private void extractConfigModuleFields(ClassOrInterfaceDeclaration classDecl, List<ConfigEntry> configProperties) {
         // Find all static final ConfigModule fields
         classDecl.findAll(FieldDeclaration.class).forEach(field -> {
             if (field.isStatic() && field.isFinal()) {
                 field.getVariables().forEach(variable -> {
                     if (isConfigModuleField(field, variable)) {
-                        ConfigurationProperty configProp = extractConfigurationProperty(variable);
+                        ConfigEntry configProp = extractConfigEntry(variable);
                         if (configProp != null) {
                             log.debug("Extracted configuration property: " + configProp.getName());
                             configProperties.add(configProp);
@@ -560,98 +590,116 @@ public class CodeScanner {
     }
 
     /**
-     * Extracts a ConfigurationProperty from a ConfigModule field initialization.
+     * Extracts a ConfigEntry from a ConfigModule field initialization.
      * Supports two patterns:
      * 1. ConfigModule.of(SomeConfig.class, "config.key.name")
      * 2. ConfigModule.of(SomeConfig.class, "config.key.name", description, label, defaultValue, type, required, configTag)
      */
-    private ConfigurationProperty extractConfigurationProperty(VariableDeclarator variable) {
-        if (variable.getInitializer().isPresent()) {
-            var initializer = variable.getInitializer().get();
-
-            // Look for ConfigModule.of() method call
-            if (initializer instanceof MethodCallExpr methodCall) {
-
-                // Check if it's a call to ConfigModule.of()
-                if (isConfigModuleOfCall(methodCall)) {
-                    // Extract the configuration property based on the number of arguments
-                    int argCount = methodCall.getArguments().size();
-
-                    if (argCount >= 2) {
-                        ConfigurationProperty configProp = new ConfigurationProperty();
-
-                        // Extract the config key (second argument)
-                        var secondArg = methodCall.getArguments().get(1);
-                        if (secondArg instanceof StringLiteralExpr) {
-                            String configKey = ((StringLiteralExpr) secondArg).asString();
-                            configProp.setName(configKey);
-
-                            // If there are additional arguments, extract them
-                            if (argCount >= 8) {
-                                // Full form: ConfigModule.of(Config.class, name, description, label, defaultValue,
-                                // type, required, configTag)
-
-                                // Description (3rd argument)
-                                if (methodCall.getArguments().get(2) instanceof StringLiteralExpr) {
-                                    configProp.setDescription(((StringLiteralExpr)
-                                                    methodCall.getArguments().get(2))
-                                            .asString());
-                                }
-
-                                // Label (4th argument)
-                                if (methodCall.getArguments().get(3) instanceof StringLiteralExpr) {
-                                    configProp.setLabel(((StringLiteralExpr)
-                                                    methodCall.getArguments().get(3))
-                                            .asString());
-                                }
-
-                                // Default value (5th argument)
-                                if (methodCall.getArguments().get(4) instanceof StringLiteralExpr) {
-                                    configProp.setDefaultValue(((StringLiteralExpr)
-                                                    methodCall.getArguments().get(4))
-                                            .asString());
-                                }
-
-                                // Type (6th argument)
-                                if (methodCall.getArguments().get(5) instanceof StringLiteralExpr) {
-                                    configProp.setType(((StringLiteralExpr)
-                                                    methodCall.getArguments().get(5))
-                                            .asString());
-                                } else {
-                                    configProp.setType("String"); // Default to String
-                                }
-
-                                // Required (7th argument)
-                                if (methodCall.getArguments().get(6) instanceof BooleanLiteralExpr) {
-                                    configProp.setRequired(((BooleanLiteralExpr)
-                                                    methodCall.getArguments().get(6))
-                                            .getValue());
-                                } else {
-                                    configProp.setRequired(false); // Default to not required
-                                }
-
-                                // ConfigTag (8th argument) - this is an enum, so we need to extract the enum constant
-                                // name
-                                var configTagArg = methodCall.getArguments().get(7);
-                                String configTagValue = extractConfigTagValue(configTagArg);
-                                if (configTagValue != null) {
-                                    configProp.setConfigTag(configTagValue);
-                                }
-                            } else {
-                                // Simple form: ConfigModule.of(Config.class, name)
-                                // Set defaults
-                                configProp.setType("String");
-                                configProp.setDescription(configKey);
-                                configProp.setRequired(false);
-                            }
-
-                            return configProp;
-                        }
-                    }
-                }
-            }
+    private ConfigEntry extractConfigEntry(VariableDeclarator variable) {
+        if (variable.getInitializer().isEmpty()) {
+            return null;
         }
-        return null;
+
+        var initializer = variable.getInitializer().get();
+        if (!(initializer instanceof MethodCallExpr methodCall)) {
+            return null;
+        }
+
+        if (!isConfigModuleOfCall(methodCall)) {
+            return null;
+        }
+
+        return extractConfigEntryFromMethodCall(methodCall);
+    }
+
+    /**
+     * Extracts configuration entry from a ConfigModule.of() method call.
+     */
+    private ConfigEntry extractConfigEntryFromMethodCall(MethodCallExpr methodCall) {
+        int argCount = methodCall.getArguments().size();
+
+        if (argCount < 2) {
+            return null;
+        }
+
+        // Extract the config key (second argument)
+        var secondArg = methodCall.getArguments().get(1);
+        if (!(secondArg instanceof StringLiteralExpr stringLiteral)) {
+            return null;
+        }
+
+        String configKey = stringLiteral.asString();
+        ConfigEntry configProp = new ConfigEntry();
+        configProp.setName(configKey);
+
+        if (argCount >= 8) {
+            extractFullConfigEntry(methodCall, configProp);
+        } else {
+            extractSimpleConfigEntry(configKey, configProp);
+        }
+
+        return configProp;
+    }
+
+    /**
+     * Extracts full-form configuration entry with all 8 arguments.
+     */
+    private void extractFullConfigEntry(MethodCallExpr methodCall, ConfigEntry configProp) {
+        // Description (3rd argument)
+        extractStringArg(methodCall, 2, configProp::setDescription);
+
+        // Label (4th argument)
+        extractStringArg(methodCall, 3, configProp::setLabel);
+
+        // Default value (5th argument)
+        extractStringArg(methodCall, 4, configProp::setDefaultValue);
+
+        // Type (6th argument)
+        extractStringArg(methodCall, 5, configProp::setType);
+        if (configProp.getType() == null) {
+            configProp.setType("String");
+        }
+
+        // Required (7th argument)
+        extractBooleanArg(methodCall, 6, configProp::setRequired);
+        if (!configProp.isRequired()) {
+            configProp.setRequired(false);
+        }
+
+        // ConfigTag (8th argument)
+        var configTagArg = methodCall.getArguments().get(7);
+        String configTagValue = extractConfigTagValue(configTagArg);
+        if (configTagValue != null) {
+            configProp.setConfigTag(configTagValue);
+        }
+    }
+
+    /**
+     * Extracts simple-form configuration entry with defaults.
+     */
+    private void extractSimpleConfigEntry(String configKey, ConfigEntry configProp) {
+        configProp.setType("String");
+        configProp.setDescription(configKey);
+        configProp.setRequired(false);
+    }
+
+    /**
+     * Extracts a string argument at the given index and applies it via the consumer.
+     */
+    private void extractStringArg(MethodCallExpr methodCall, int index, java.util.function.Consumer<String> consumer) {
+        if (methodCall.getArguments().get(index) instanceof StringLiteralExpr stringLiteral) {
+            consumer.accept(stringLiteral.asString());
+        }
+    }
+
+    /**
+     * Extracts a boolean argument at the given index and applies it via the consumer.
+     */
+    private void extractBooleanArg(
+            MethodCallExpr methodCall, int index, java.util.function.Consumer<Boolean> consumer) {
+        if (methodCall.getArguments().get(index) instanceof BooleanLiteralExpr booleanLiteral) {
+            consumer.accept(booleanLiteral.getValue());
+        }
     }
 
     /**
@@ -673,13 +721,101 @@ public class CodeScanner {
     }
 
     /**
+     * Extracts the FactoryVariant enum value from an expression.
+     * Handles patterns like FactoryVariant.BASE, FactoryVariant.SPRING_BOOT, FactoryVariant.QUARKUS.
+     */
+    private String extractVariantValue(Expression expression) {
+        String exprString = expression.toString();
+
+        // Check if it's a field access expression (e.g., FactoryVariant.BASE)
+        if (exprString.contains("FactoryVariant.")) {
+            String[] parts = exprString.split("\\.");
+            if (parts.length >= 2) {
+                return parts[
+                        parts.length - 1]; // Return the enum constant name (e.g., "BASE", "SPRING_BOOT", "QUARKUS")
+            }
+        }
+
+        return "BASE"; // Default fallback
+    }
+
+    /**
+     * Extracts the Config class value from an annotation expression.
+     * Handles patterns like DataSourceFactoryConfig.class, resolving to fully qualified name.
+     * Returns null if it's the default Config.class or if resolution fails.
+     */
+    private String extractClassValue(Expression expression, CompilationUnit cu) {
+        String exprString = expression.toString();
+
+        // If it's just "Config.class", return null (it's the default)
+        if ("Config.class".equals(exprString)) {
+            return null;
+        }
+
+        // Extract the class name from "SomeConfig.class"
+        if (exprString.endsWith(".class")) {
+            String simpleClassName = exprString.substring(0, exprString.length() - 6);
+
+            // Try to resolve to fully qualified name using imports
+            String fullyQualifiedName = resolveClassNameFromImports(simpleClassName, cu);
+
+            if (fullyQualifiedName != null) {
+                return fullyQualifiedName;
+            }
+
+            // If not found in imports, it might be in the same package
+            Optional<String> packageName = cu.getPackageDeclaration().map(pd -> pd.getNameAsString());
+            if (packageName.isPresent()) {
+                return packageName.get() + "." + simpleClassName;
+            }
+
+            // Last resort: return as-is (might be fully qualified already)
+            return simpleClassName;
+        }
+
+        return null;
+    }
+
+    /**
+     * Resolves a simple class name to its fully qualified name using the compilation unit's imports.
+     */
+    private String resolveClassNameFromImports(String simpleClassName, CompilationUnit cu) {
+        // Check imports for this class
+        return cu.getImports().stream()
+                .filter(importDecl -> !importDecl.isAsterisk())
+                .map(importDecl -> importDecl.getNameAsString())
+                .filter(importName -> importName.endsWith("." + simpleClassName))
+                .findFirst()
+                .orElse(null);
+    }
+
+    /**
+     * Extracts the FactoryType enum value from an expression.
+     * Handles patterns like FactoryType.DATA_SOURCE, FactoryType.CONNECTION_FACTORY, FactoryType.AGENT.
+     */
+    private String extractFactoryTypeValue(Expression expression) {
+        String exprString = expression.toString();
+
+        // Check if it's a field access expression (e.g., FactoryType.DATA_SOURCE)
+        if (exprString.contains("FactoryType.")) {
+            String[] parts = exprString.split("\\.");
+            if (parts.length >= 2) {
+                return FactoryType.valueOf(parts[parts.length - 1]).getDisplayName();
+            }
+        }
+
+        return ""; // Default fallback for unknown types
+    }
+
+    /**
      * Checks if a method call is ConfigModule.of().
      */
     private boolean isConfigModuleOfCall(MethodCallExpr methodCall) {
         return methodCall.getNameAsString().equals("of")
                 && methodCall.getScope().isPresent()
                 && (methodCall.getScope().get().toString().equals("ConfigModule")
-                        || methodCall.getScope().get().toString().endsWith(".ConfigModule"));
+                        || methodCall.getScope().get().toString().endsWith(".ConfigModule")
+                        || methodCall.getScope().get().toString().equals(Constants.CONFIG_MODULE_FQN));
     }
 
     /**
@@ -710,5 +846,41 @@ public class CodeScanner {
         } else {
             return className;
         }
+    }
+
+    /**
+     * Checks if a class declaration implements the Config interface.
+     */
+    private boolean implementsConfig(ClassOrInterfaceDeclaration classDecl) {
+        return classDecl.getImplementedTypes().stream().anyMatch(impl -> "Config".equals(impl.getNameAsString()));
+    }
+
+    /**
+     * Extracts the config name from a Config class's name() method.
+     * Returns the string literal returned by the name() method, or null if not found.
+     */
+    private String extractConfigName(ClassOrInterfaceDeclaration classDecl) {
+        // Find name() method
+        Optional<MethodDeclaration> nameMethod = classDecl.getMethodsByName("name").stream()
+                .filter(m -> m.getParameters().isEmpty())
+                .findFirst();
+
+        if (nameMethod.isEmpty()) {
+            return null;
+        }
+
+        // Extract return statement
+        Optional<ReturnStmt> returnStmt = nameMethod.get().findFirst(ReturnStmt.class);
+        if (returnStmt.isEmpty()) {
+            return null;
+        }
+
+        // Extract string literal
+        Optional<Expression> expr = returnStmt.get().getExpression();
+        if (expr.isPresent() && expr.get() instanceof StringLiteralExpr) {
+            return ((StringLiteralExpr) expr.get()).asString();
+        }
+
+        return null;
     }
 }

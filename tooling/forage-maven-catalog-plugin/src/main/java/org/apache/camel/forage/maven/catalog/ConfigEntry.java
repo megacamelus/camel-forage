@@ -105,20 +105,4 @@ public class ConfigEntry {
     public void setConfigTag(String configTag) {
         this.configTag = configTag;
     }
-
-    /**
-     * Creates a ConfigEntry from a ConfigurationProperty (for migration).
-     */
-    public static ConfigEntry from(ConfigurationProperty prop) {
-        ConfigEntry entry = new ConfigEntry();
-        entry.setName(prop.getName());
-        entry.setType(prop.getType());
-        entry.setDescription(prop.getDescription());
-        entry.setRequired(prop.isRequired());
-        entry.setDefaultValue(prop.getDefaultValue());
-        entry.setExample(prop.getExample());
-        entry.setLabel(prop.getLabel());
-        entry.setConfigTag(prop.getConfigTag());
-        return entry;
-    }
 }

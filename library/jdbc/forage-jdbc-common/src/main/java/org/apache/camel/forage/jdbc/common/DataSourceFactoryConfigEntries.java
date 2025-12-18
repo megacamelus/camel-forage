@@ -134,16 +134,6 @@ public final class DataSourceFactoryConfigEntries extends ConfigEntries {
             ConfigTag.ADVANCED);
 
     // Transaction configuration
-    public static final ConfigModule TRANSACTION_TIMEOUT_SECONDS = ConfigModule.of(
-            DataSourceFactoryConfig.class,
-            "forage.jdbc.transaction.timeout.seconds",
-            "Timeout for transactions (seconds)",
-            "Transaction Timeout",
-            "30",
-            "integer",
-            false,
-            ConfigTag.ADVANCED);
-
     public static final ConfigModule TRANSACTION_ENABLED = ConfigModule.of(
             DataSourceFactoryConfig.class,
             "forage.jdbc.transaction.enabled",
@@ -153,6 +143,16 @@ public final class DataSourceFactoryConfigEntries extends ConfigEntries {
             "boolean",
             false,
             ConfigTag.COMMON);
+
+    public static final ConfigModule TRANSACTION_TIMEOUT_SECONDS = ConfigModule.of(
+            DataSourceFactoryConfig.class,
+            "forage.jdbc.transaction.timeout.seconds",
+            "Timeout for transactions (seconds)",
+            "Transaction Timeout",
+            "30",
+            "integer",
+            false,
+            ConfigTag.ADVANCED);
 
     public static final ConfigModule TRANSACTION_NODE_ID = ConfigModule.of(
             DataSourceFactoryConfig.class,

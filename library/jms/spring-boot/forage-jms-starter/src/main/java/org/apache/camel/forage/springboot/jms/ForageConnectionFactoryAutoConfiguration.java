@@ -5,6 +5,8 @@ import jakarta.jms.ConnectionFactory;
 import java.util.List;
 import java.util.ServiceLoader;
 import java.util.Set;
+import org.apache.camel.forage.core.annotations.FactoryType;
+import org.apache.camel.forage.core.annotations.FactoryVariant;
 import org.apache.camel.forage.core.annotations.ForageFactory;
 import org.apache.camel.forage.core.common.ServiceLoaderHelper;
 import org.apache.camel.forage.core.jms.ConnectionFactoryProvider;
@@ -31,9 +33,11 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @ForageFactory(
         value = "CamelSpringBootConnectionFactoryFactory",
         components = {"camel-jms"},
-        description = "Default Spring Boot ConnectionFactory factory with ServiceLoader discovery",
-        factoryType = "ConnectionFactory",
-        autowired = true)
+        description = "Spring Boot ConnectionFactory factory with ServiceLoader discovery",
+        type = FactoryType.CONNECTION_FACTORY,
+        autowired = true,
+        configClass = ConnectionFactoryConfig.class,
+        variant = FactoryVariant.SPRING_BOOT)
 @Configuration
 public class ForageConnectionFactoryAutoConfiguration implements BeanFactoryAware {
 
