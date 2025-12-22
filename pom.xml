@@ -52,7 +52,7 @@
         <spring-boot.version>3.5.5</spring-boot.version>
         <spring.version>6.2.11</spring.version>
         <surefire-plugin.version>3.5.4</surefire-plugin.version>
-        <testcontainers.version>1.21.3</testcontainers.version>
+        <testcontainers.version>1.21.4</testcontainers.version>
         <vertx.version>4.5.20</vertx.version>
 
         <!-- Test container image properties -->
