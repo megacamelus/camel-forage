@@ -31,9 +31,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @ForageFactory(
-        value = "CamelSpringBootConnectionFactoryFactory",
+        value = "JMS Connection (Spring Boot)",
         components = {"camel-jms"},
-        description = "Spring Boot ConnectionFactory factory with ServiceLoader discovery",
+        description = "Auto-configured JMS ConnectionFactory for Spring Boot with transaction management",
         type = FactoryType.CONNECTION_FACTORY,
         autowired = true,
         configClass = ConnectionFactoryConfig.class,

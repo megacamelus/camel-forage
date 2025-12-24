@@ -2,6 +2,7 @@ package org.apache.camel.forage.maven.catalog;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.camel.forage.catalog.model.ConditionalBeanGroup;
 
 public class FactoryAnnotationData {
 

@@ -16,6 +16,13 @@
     <description>Generated catalog of all Camel Forage components</description>
 
     <dependencies>
+        <!-- Catalog model - required for JSON schema generation -->
+        <dependency>
+            <groupId>org.apache.camel.forage</groupId>
+            <artifactId>forage-catalog-model</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
         <!-- Forage modules with ForageBean annotations - required for complete catalog generation -->
         <dependency>
             <groupId>org.apache.camel.forage</groupId>
@@ -287,7 +294,6 @@
                 <configuration>
                     <outputDirectory>${project.build.directory}/generated-catalog</outputDirectory>
                     <format>all</format>
-                    <scanTransitive>false</scanTransitive>
                 </configuration>
                 <executions>
                     <execution>
@@ -298,6 +304,47 @@
                         <phase>process-classes</phase>
                     </execution>
                 </executions>
+            </plugin>
+
+            <!-- JSON Schema Generator Plugin -->
+            <plugin>
+                <groupId>com.github.victools</groupId>
+                <artifactId>jsonschema-maven-plugin</artifactId>
+                <version>${jsonschema-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>generate-schema</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <classNames>
+                        <className>org.apache.camel.forage.catalog.model.ForageCatalog</className>
+                    </classNames>
+                    <classpath>WITH_COMPILE_DEPENDENCIES</classpath>
+                    <schemaFilePath>${project.build.directory}/generated-catalog</schemaFilePath>
+                    <schemaFileName>forage-catalog.schema.json</schemaFileName>
+                    <schemaVersion>DRAFT_2020_12</schemaVersion>
+                    <options>
+                        <preset>PLAIN_JSON</preset>
+                        <enabled>
+                            <option>DEFINITIONS_FOR_ALL_OBJECTS</option>
+                            <option>EXTRA_OPEN_API_FORMAT_VALUES</option>
+                        </enabled>
+                    </options>
+                    <modules>
+                        <module>
+                            <name>Jackson</name>
+                            <options>
+                                <option>RESPECT_JSONPROPERTY_ORDER</option>
+                                <option>RESPECT_JSONPROPERTY_REQUIRED</option>
+                            </options>
+                        </module>
+                    </modules>
+                </configuration>
             </plugin>
 
             <!-- Copy generated catalog files to resources -->

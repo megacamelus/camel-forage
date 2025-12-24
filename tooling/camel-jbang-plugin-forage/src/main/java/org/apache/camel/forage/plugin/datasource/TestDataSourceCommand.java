@@ -1,15 +1,25 @@
 package org.apache.camel.forage.plugin.datasource;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import javax.sql.DataSource;
 import org.apache.camel.dsl.jbang.core.commands.CamelCommand;
 import org.apache.camel.dsl.jbang.core.commands.CamelJBangMain;
 import org.apache.camel.forage.core.jdbc.DataSourceProvider;
+import org.apache.camel.forage.core.util.config.ConfigModule;
+import org.apache.camel.forage.core.util.config.ConfigStore;
 import org.apache.camel.forage.jdbc.common.DataSourceFactoryConfig;
+import org.apache.camel.forage.jdbc.common.DataSourceFactoryConfigEntries;
+import org.apache.camel.forage.plugin.result.ConnectionTestResult;
 import org.apache.camel.main.download.DependencyDownloaderClassLoader;
 import org.apache.camel.main.download.MavenDependencyDownloader;
 import org.apache.camel.tooling.maven.MavenArtifact;
@@ -36,6 +46,23 @@ public class TestDataSourceCommand extends CamelCommand {
             description = "Enable verbose logging")
     private boolean verbose;
 
+    @CommandLine.Option(
+            names = {"--strategy", "-s"},
+            description = "Property file strategy: 'forage' reads from forage-datasource-factory.properties (default), "
+                    + "'application' reads from application.properties.",
+            defaultValue = "forage")
+    private String strategy;
+
+    @CommandLine.Option(
+            names = {"--dir", "-d"},
+            description = "Directory where properties files are located. Defaults to current directory.")
+    private File directory;
+
+    @CommandLine.Option(
+            names = {"--json", "-j"},
+            description = "Output connection details as JSON")
+    private boolean jsonOutput;
+
     public TestDataSourceCommand(CamelJBangMain main) {
         super(main);
     }
@@ -49,27 +76,108 @@ public class TestDataSourceCommand extends CamelCommand {
     @Override
     public Integer doCall() throws Exception {
         try {
+            if (directory == null) {
+                directory = new File(System.getProperty("user.dir"));
+            }
+
+            // Load properties from the appropriate file based on strategy
+            if ("application".equalsIgnoreCase(strategy)) {
+                loadPropertiesFromApplicationProperties();
+            }
+
             DataSourceFactoryConfig dsFactoryConfig = new DataSourceFactoryConfig(dataSourceName);
             String dbKind = dsFactoryConfig.dbKind().toLowerCase();
 
-            printer().println("Testing connection for database: " + dbKind);
-            if (dataSourceName != null) {
-                printer().println("Using configuration: " + dataSourceName);
+            if (!jsonOutput) {
+                printer().println("Testing connection for database: " + dbKind);
+                if (dataSourceName != null) {
+                    printer().println("Using configuration: " + dataSourceName);
+                }
             }
 
             ClassLoader dbClassLoader = loadJdbcDependency(dbKind);
 
             DataSourceProvider dataSourceProvider = createDataSourceProvider(dbKind, dbClassLoader);
 
-            return testConnection(dataSourceProvider.create(dataSourceName), dataSourceProvider.getTestQuery());
+            return testConnection(dataSourceProvider.create(dataSourceName), dataSourceProvider.getTestQuery(), dbKind);
         } catch (Exception e) {
-            printer().printErr("Failed to test datasource connection: " + e.getMessage());
-            if (verbose) {
-                e.printStackTrace();
-                printer().printErr(e);
+            if (jsonOutput) {
+                printJsonError(e.getMessage());
+            } else {
+                printer().printErr("Failed to test datasource connection: " + e.getMessage());
+                if (verbose) {
+                    e.printStackTrace();
+                    printer().printErr(e);
+                }
             }
             return 1;
         }
+    }
+
+    private void printJsonError(String errorMessage) {
+        printer().println(ConnectionTestResult.failure(errorMessage).toJson());
+    }
+
+    /**
+     * Loads JDBC configuration properties from application.properties file.
+     * Properties should follow the pattern: forage.jdbc.* or forage.{name}.jdbc.*
+     */
+    private void loadPropertiesFromApplicationProperties() throws IOException {
+        File propertiesFile = new File(directory, "application.properties");
+        if (!propertiesFile.exists()) {
+            if (verbose) {
+                printer().println("No application.properties found in " + directory.getAbsolutePath());
+            }
+            return;
+        }
+
+        if (verbose) {
+            printer().println("Loading configuration from: " + propertiesFile.getAbsolutePath());
+        }
+
+        // Register prefixed configuration modules if dataSourceName is provided
+        DataSourceFactoryConfigEntries.register(dataSourceName);
+
+        // Read and parse application.properties
+        List<String> lines = Files.readAllLines(propertiesFile.toPath(), StandardCharsets.UTF_8);
+        for (String line : lines) {
+            String trimmed = line.trim();
+
+            // Skip comments and empty lines
+            if (trimmed.isEmpty() || trimmed.startsWith("#")) {
+                continue;
+            }
+
+            int equalsIndex = line.indexOf('=');
+            if (equalsIndex > 0) {
+                String key = line.substring(0, equalsIndex).trim();
+                String value = line.substring(equalsIndex + 1).trim();
+
+                // Only process forage.jdbc.* or forage.{prefix}.jdbc.* properties
+                if (key.startsWith("forage.") && key.contains(".jdbc.")) {
+                    // First try to find with null prefix (for default unprefixed properties like forage.jdbc.*)
+                    Optional<ConfigModule> configModule = DataSourceFactoryConfigEntries.find(null, key);
+
+                    if (configModule.isPresent()) {
+                        ConfigModule module = configModule.get();
+                        // If dataSourceName is provided, we need to set the value for the prefixed module
+                        // because DataSourceFactoryConfig will look up using asNamed(dataSourceName)
+                        if (dataSourceName != null) {
+                            module = module.asNamed(dataSourceName);
+                        }
+                        ConfigStore.getInstance().set(module, value);
+                    } else if (dataSourceName != null) {
+                        // Try to find with the prefix (for prefixed properties like forage.dataSource.jdbc.*)
+                        configModule = DataSourceFactoryConfigEntries.find(dataSourceName, key);
+                        configModule.ifPresent(
+                                module -> ConfigStore.getInstance().set(module, value));
+                    }
+                }
+            }
+        }
+
+        // Load overrides from environment variables and system properties
+        DataSourceFactoryConfigEntries.loadOverrides(dataSourceName);
     }
 
     /**
@@ -107,7 +215,9 @@ public class TestDataSourceCommand extends CamelCommand {
      */
     private ClassLoader loadJdbcDependency(String kind) {
         try {
-            printer().println("Loading JDBC dependencies for: " + kind);
+            if (!jsonOutput) {
+                printer().println("Loading JDBC dependencies for: " + kind);
+            }
 
             DependencyDownloaderClassLoader classLoader =
                     new DependencyDownloaderClassLoader(TestDataSourceCommand.class.getClassLoader());
@@ -119,14 +229,18 @@ public class TestDataSourceCommand extends CamelCommand {
             String artifactId = "forage-jdbc-" + kind;
             String version = getProjectVersion();
 
-            printer().println("Downloading dependency: org.apache.camel.forage:" + artifactId + ":" + version);
+            if (!jsonOutput) {
+                printer().println("Downloading dependency: org.apache.camel.forage:" + artifactId + ":" + version);
+            }
             downloader.downloadDependency("org.apache.camel.forage", artifactId, version, true);
 
             MavenArtifact artifact = downloader.downloadArtifact("org.apache.camel.forage", artifactId, version);
             classLoader.addFile(artifact.getFile());
 
             Thread.currentThread().setContextClassLoader(classLoader);
-            printer().println("Dependencies loaded successfully");
+            if (!jsonOutput) {
+                printer().println("Dependencies loaded successfully");
+            }
 
             return classLoader;
         } catch (Exception e) {
@@ -170,104 +284,153 @@ public class TestDataSourceCommand extends CamelCommand {
      *
      * @param dataSource The DataSource to test
      * @param testQuery The SQL query to execute for testing
+     * @param dbKind The database kind (e.g., "postgresql", "mysql")
      * @return 0 if connection test successful, 1 otherwise
      */
-    private int testConnection(DataSource dataSource, String testQuery) {
-        Connection connection = null;
-        Statement statement = null;
-        ResultSet resultSet = null;
-
-        try {
+    private int testConnection(DataSource dataSource, String testQuery, String dbKind) {
+        if (!jsonOutput) {
             printer().println("Establishing database connection...");
-            connection = dataSource.getConnection();
-            printer().println("  Database connection established successfully");
+        }
 
-            // Display connection information
+        try (Connection connection = dataSource.getConnection();
+                Statement statement = connection.createStatement();
+                ResultSet resultSet = statement.executeQuery(testQuery)) {
+            if (!jsonOutput) {
+                printer().println("  Database connection established successfully");
+            }
+
+            // Get connection information
             String databaseProductName = connection.getMetaData().getDatabaseProductName();
             String databaseProductVersion = connection.getMetaData().getDatabaseProductVersion();
             String driverName = connection.getMetaData().getDriverName();
             String url = connection.getMetaData().getURL();
             String userName = connection.getMetaData().getUserName();
 
-            printer().println("");
-            printer().println("Connection Details:");
-            printer().println("  Database: " + databaseProductName);
-            printer().println("  Version: " + databaseProductVersion);
-            printer().println("  Driver: " + driverName);
-            printer().println("  URL: " + url);
-            printer().println("  User: " + (userName != null ? userName : "<unknown>"));
+            // For JSON output, prepare connection info
+            ConnectionTestResult.ConnectionInfo connectionInfo = null;
+            ConnectionTestResult.ValidationInfo validationInfo = null;
+
+            if (jsonOutput) {
+                connectionInfo = new ConnectionTestResult.ConnectionInfo()
+                        .setDatabase(databaseProductName)
+                        .setVersion(databaseProductVersion)
+                        .setDriver(driverName)
+                        .setUrl(url)
+                        .setUser(userName != null ? userName : null);
+            } else {
+                printer().println("");
+                printer().println("Connection Details:");
+                printer().println("  Database: " + databaseProductName);
+                printer().println("  Version: " + databaseProductVersion);
+                printer().println("  Driver: " + driverName);
+                printer().println("  URL: " + url);
+                printer().println("  User: " + (userName != null ? userName : "<unknown>"));
+            }
 
             // Execute validation query
+            String queryResult = null;
             if (testQuery != null && !testQuery.trim().isEmpty()) {
-                printer().println("");
-                printer().println("Executing validation query: " + testQuery);
+                if (!jsonOutput) {
+                    printer().println("");
+                    printer().println("Executing validation query: " + testQuery);
+                }
 
-                statement = connection.createStatement();
-                resultSet = statement.executeQuery(testQuery);
+                if (!jsonOutput) {
+                    printer().println("  Validation query executed successfully");
+                }
 
-                printer().println("  Validation query executed successfully");
-
-                // Display query results
+                // Get query results
                 int columnCount = resultSet.getMetaData().getColumnCount();
                 if (resultSet.next()) {
-                    StringBuilder result = new StringBuilder("  Result: ");
+                    StringBuilder result = new StringBuilder();
                     for (int i = 1; i <= columnCount; i++) {
                         if (i > 1) result.append(" | ");
                         String value = resultSet.getString(i);
                         result.append(value != null ? value.trim() : "<null>");
                     }
-                    printer().println(result.toString());
+                    queryResult = result.toString();
+                    if (!jsonOutput) {
+                        printer().println("  Result: " + queryResult);
+                    }
+                }
+
+                if (jsonOutput) {
+                    validationInfo = new ConnectionTestResult.ValidationInfo()
+                            .setQuery(testQuery)
+                            .setResult(queryResult);
                 }
             }
 
             // Test connection validity
-            printer().println("");
-            printer().println("Validating connection health...");
-            if (connection.isValid(5)) {
-                printer().println("  Connection is valid and responsive");
+            if (!jsonOutput) {
                 printer().println("");
-                printer().println("  Database connection test completed successfully!");
-                return 0;
+                printer().println("Validating connection health...");
+            }
+            boolean isValid = connection.isValid(5);
+
+            if (jsonOutput) {
+                if (connectionInfo != null) {
+                    connectionInfo.setValid(isValid);
+                }
+                if (isValid) {
+                    ConnectionTestResult result = ConnectionTestResult.success()
+                            .withConnection(connectionInfo)
+                            .withValidation(validationInfo);
+                    printer().println(result.toJson());
+                    return 0;
+                } else {
+                    printJsonError("Connection validation failed");
+                    return 1;
+                }
             } else {
-                printer().println("  Connection validation failed");
-                return 1;
+                if (isValid) {
+                    printer().println("  Connection is valid and responsive");
+                    printer().println("");
+                    printer().println("  Database connection test completed successfully!");
+                    return 0;
+                } else {
+                    printer().println("  Connection validation failed");
+                    return 1;
+                }
             }
 
         } catch (SQLException e) {
-            printer().println("");
-            printer().printErr("  Database connection test failed");
-            printer().printErr("Error: " + e.getMessage());
+            if (jsonOutput) {
+                printJsonError(e.getMessage());
+            } else {
+                printer().println("");
+                printer().printErr("  Database connection test failed");
+                printer().printErr("Error: " + e.getMessage());
 
-            if (e.getSQLState() != null) {
-                printer().printErr("SQL State: " + e.getSQLState());
-            }
-            if (e.getErrorCode() != 0) {
-                printer().printErr("Error Code: " + e.getErrorCode());
-            }
+                if (e.getSQLState() != null) {
+                    printer().printErr("SQL State: " + e.getSQLState());
+                }
+                if (e.getErrorCode() != 0) {
+                    printer().printErr("Error Code: " + e.getErrorCode());
+                }
 
-            // Provide helpful hints for common issues
-            String message = e.getMessage().toLowerCase();
-            if (message.contains("connection refused") || message.contains("unable to connect")) {
-                printer().printErr("");
-                printer().printErr("  Troubleshooting hints:");
-                printer().printErr("   • Check if the database server is running");
-                printer().printErr("   • Verify the host and port in your JDBC URL");
-                printer().printErr("   • Check network connectivity and firewall settings");
-            } else if (message.contains("authentication")
-                    || message.contains("password")
-                    || message.contains("login")) {
-                printer().printErr("");
-                printer().printErr("  Authentication issue:");
-                printer().printErr("   • Verify username and password are correct");
-                printer().printErr("   • Check database user permissions");
-            }
+                // Provide helpful hints for common issues
+                String message = e.getMessage().toLowerCase();
+                if (message.contains("connection refused") || message.contains("unable to connect")) {
+                    printer().printErr("");
+                    printer().printErr("  Troubleshooting hints:");
+                    printer().printErr("   • Check if the database server is running");
+                    printer().printErr("   • Verify the host and port in your JDBC URL");
+                    printer().printErr("   • Check network connectivity and firewall settings");
+                } else if (message.contains("authentication")
+                        || message.contains("password")
+                        || message.contains("login")) {
+                    printer().printErr("");
+                    printer().printErr("  Authentication issue:");
+                    printer().printErr("   • Verify username and password are correct");
+                    printer().printErr("   • Check database user permissions");
+                }
 
-            if (verbose) {
-                printer().printErr(e);
+                if (verbose) {
+                    printer().printErr(e);
+                }
             }
             return 1;
-        } finally {
-            closeResources(resultSet, statement, connection);
         }
     }
 

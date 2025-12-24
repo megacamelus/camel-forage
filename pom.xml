@@ -27,6 +27,7 @@
         <ibmmq-client.version>9.4.3.0</ibmmq-client.version>
         <jackson.version>2.15.2</jackson.version>
         <javaparser.version>3.27.1</javaparser.version>
+        <jsonschema-maven-plugin.version>4.38.0</jsonschema-maven-plugin.version>
         <junit-jupiter-suite.version>1.13.4</junit-jupiter-suite.version>
         <junit-jupiter.version>5.13.4</junit-jupiter.version>
         <log4j.version>2.25.2</log4j.version>

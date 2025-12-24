@@ -39,9 +39,9 @@ import org.apache.camel.quarkus.core.deployment.spi.CamelRuntimeBeanBuildItem;
 import org.jboss.logging.Logger;
 
 @ForageFactory(
-        value = "CamelQuarkusConnectionFactoryFactory",
+        value = "JMS Connection (Quarkus)",
         components = {"camel-jms"},
-        description = "Quarkus ConnectionFactory factory with ServiceLoader discovery",
+        description = "Native JMS ConnectionFactory for Quarkus with compile-time optimization",
         type = FactoryType.CONNECTION_FACTORY,
         autowired = true,
         configClass = ConnectionFactoryConfig.class,

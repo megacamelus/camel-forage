@@ -41,9 +41,9 @@ import org.jboss.logging.Logger;
 import org.junit.platform.commons.util.StringUtils;
 
 @ForageFactory(
-        value = "CamelQuarkusDataSourceFactory",
+        value = "DataSource (Quarkus)",
         components = {"camel-sql", "camel-jdbc"},
-        description = "Default Camel Quarkus DataSource config source",
+        description = "Native JDBC DataSource for Quarkus with compile-time optimization and repository support",
         type = FactoryType.DATA_SOURCE,
         autowired = true,
         configClass = DataSourceFactoryConfig.class,

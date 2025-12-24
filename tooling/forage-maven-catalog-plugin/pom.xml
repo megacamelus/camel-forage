@@ -18,6 +18,12 @@
     <dependencies>
         <dependency>
             <groupId>org.apache.camel.forage</groupId>
+            <artifactId>forage-catalog-model</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.camel.forage</groupId>
             <artifactId>forage-core-common</artifactId>
             <version>${project.version}</version>
         </dependency>

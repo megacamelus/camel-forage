@@ -27,9 +27,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @ForageFactory(
-        value = "CamelConnectionFactoryFactory",
+        value = "JMS Connection",
         components = {"camel-jms"},
-        description = "Default ConnectionFactory factory with ServiceLoader discovery",
+        description = "Creates JMS ConnectionFactory beans for message broker integration with transaction support",
         type = FactoryType.CONNECTION_FACTORY,
         autowired = true,
         configClass = ConnectionFactoryConfig.class,
