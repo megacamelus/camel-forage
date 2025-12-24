@@ -3,6 +3,7 @@ package org.apache.camel.forage.maven.catalog;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 import java.util.Map;
+import org.apache.camel.forage.catalog.model.ConfigEntry;
 
 /**
  * Represents a single Camel Forage component in the catalog.
@@ -24,11 +25,9 @@ public class ForageComponent {
     @JsonProperty("capabilities")
     private Map<String, Object> capabilities;
 
-    @JsonProperty("beans")
-    private List<ForageBean> beans;
+    private List<ScannedBean> beans;
 
-    @JsonProperty("factories")
-    private List<ForageFactory> factories;
+    private List<ScannedFactory> factories;
 
     private Map<String, String> configClasses; // Not serialized to JSON, just for internal use
 
@@ -74,19 +73,19 @@ public class ForageComponent {
         this.capabilities = capabilities;
     }
 
-    public List<ForageBean> getBeans() {
+    public List<ScannedBean> getBeans() {
         return beans;
     }
 
-    public void setBeans(List<ForageBean> beans) {
+    public void setBeans(List<ScannedBean> beans) {
         this.beans = beans;
     }
 
-    public List<ForageFactory> getFactories() {
+    public List<ScannedFactory> getFactories() {
         return factories;
     }
 
-    public void setFactories(List<ForageFactory> factories) {
+    public void setFactories(List<ScannedFactory> factories) {
         this.factories = factories;
     }
 

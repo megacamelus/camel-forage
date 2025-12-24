@@ -10,16 +10,6 @@ import org.apache.camel.forage.core.util.config.ConfigModule;
 import org.apache.camel.forage.core.util.config.ConfigTag;
 
 public final class DataSourceFactoryConfigEntries extends ConfigEntries {
-    // Instance name - used as prefix for multi-datasource configurations
-    public static final ConfigModule NAME = ConfigModule.of(
-            DataSourceFactoryConfig.class,
-            "forage.jdbc.name",
-            "Instance name used as prefix for multi-datasource configurations (e.g., ds1.jdbc.*, ds2.jdbc.*)",
-            "Instance Name",
-            null,
-            "prefix",
-            false,
-            ConfigTag.COMMON);
 
     // Database connection configuration
     public static final ConfigModule DB_KIND = ConfigModule.of(
@@ -414,7 +404,6 @@ public final class DataSourceFactoryConfigEntries extends ConfigEntries {
     }
 
     static void init() {
-        CONFIG_MODULES.put(NAME, ConfigEntry.fromModule());
         CONFIG_MODULES.put(DB_KIND, ConfigEntry.fromModule());
         CONFIG_MODULES.put(JDBC_URL, ConfigEntry.fromModule());
         CONFIG_MODULES.put(USERNAME, ConfigEntry.fromModule());

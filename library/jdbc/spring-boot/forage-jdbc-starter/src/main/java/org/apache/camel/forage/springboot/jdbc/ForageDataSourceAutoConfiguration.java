@@ -43,9 +43,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * supporting both single and multi-instance (prefixed) configurations.
  */
 @ForageFactory(
-        value = "CamelSpringBootDataSourceFactory",
+        value = "DataSource (Spring Boot)",
         components = {"camel-sql", "camel-jdbc", "camel-spring-jdbc"},
-        description = "Spring Boot DataSource factory with ServiceLoader discovery",
+        description =
+                "Auto-configured JDBC DataSource for Spring Boot with transaction management and repository support",
         type = FactoryType.DATA_SOURCE,
         autowired = true,
         configClass = DataSourceFactoryConfig.class,
