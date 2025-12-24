@@ -28,6 +28,9 @@ import org.apache.camel.dsl.jbang.core.common.PluginExporter;
 import org.apache.camel.dsl.jbang.core.common.Printer;
 import org.apache.camel.forage.core.common.ExportCustomizer;
 import org.apache.camel.forage.core.common.RuntimeType;
+import org.apache.camel.forage.plugin.config.ConfigCommand;
+import org.apache.camel.forage.plugin.config.ConfigReadCommand;
+import org.apache.camel.forage.plugin.config.ConfigWriteCommand;
 import org.apache.camel.forage.plugin.datasource.DataSourceCommand;
 import org.apache.camel.forage.plugin.datasource.TestDataSourceCommand;
 import picocli.CommandLine;
@@ -40,6 +43,11 @@ public class ForagePlugin implements Plugin {
         commandLine.addSubcommand(
                 "forage",
                 new CommandLine(new ForageCommand(main))
+                        .addSubcommand(
+                                "config",
+                                new CommandLine(new ConfigCommand(main))
+                                        .addSubcommand("read", new CommandLine(new ConfigReadCommand(main)))
+                                        .addSubcommand("write", new CommandLine(new ConfigWriteCommand(main))))
                         .addSubcommand(
                                 "datasource",
                                 new CommandLine(new DataSourceCommand(main))

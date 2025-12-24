@@ -30,9 +30,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @ForageFactory(
-        value = "CamelDataSourceFactory",
+        value = "DataSource",
         components = {"camel-sql", "camel-jdbc", "camel-spring-jdbc"},
-        description = "Default DataSource factory with ServiceLoader discovery",
+        description =
+                "Creates JDBC DataSource connections for database operations with transaction and repository support",
         type = FactoryType.DATA_SOURCE,
         autowired = true,
         configClass = DataSourceFactoryConfig.class,

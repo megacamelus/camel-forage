@@ -29,6 +29,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import org.apache.camel.forage.catalog.model.ConditionalBeanGroup;
+import org.apache.camel.forage.catalog.model.ConditionalBeanInfo;
+import org.apache.camel.forage.catalog.model.ConfigEntry;
 import org.apache.camel.forage.core.annotations.FactoryType;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.plugin.logging.Log;
@@ -128,7 +131,7 @@ public class CodeScanner {
                 // 1. Check for @ForageBean annotations
                 classDecl.getAnnotations().forEach(annotation -> {
                     if (isForageBeanAnnotation(annotation)) {
-                        ForageBean bean = extractForageBean(annotation, classDecl, cu);
+                        ScannedBean bean = extractScannedBean(annotation, classDecl, cu);
                         if (bean != null) {
                             result.getBeans().add(bean);
                             log.debug("Found ForageBean: " + bean);
@@ -136,7 +139,7 @@ public class CodeScanner {
                     }
                     // 2. Check for @ForageFactory annotations
                     if (isForageFactoryAnnotation(annotation)) {
-                        ForageFactory factory = extractForageFactory(annotation, classDecl, cu);
+                        ScannedFactory factory = extractScannedFactory(annotation, classDecl, cu);
                         if (factory != null) {
                             result.getFactories().add(factory);
                             log.debug("Found ForageFactory: " + factory);
@@ -281,9 +284,9 @@ public class CodeScanner {
     }
 
     /**
-     * Extracts ForageFactory information from the annotation.
+     * Extracts ScannedFactory information from the annotation.
      */
-    private ForageFactory extractForageFactory(
+    private ScannedFactory extractScannedFactory(
             AnnotationExpr annotation, ClassOrInterfaceDeclaration classDecl, CompilationUnit cu) {
         FactoryAnnotationData data = new FactoryAnnotationData();
 
@@ -299,7 +302,7 @@ public class CodeScanner {
         // Get the fully qualified class name
         String className = getFullyQualifiedClassName(classDecl, cu);
 
-        ForageFactory factory = new ForageFactory(
+        ScannedFactory factory = new ScannedFactory(
                 data.getName(),
                 data.getComponents(),
                 data.getDescription(),
@@ -496,9 +499,9 @@ public class CodeScanner {
     }
 
     /**
-     * Extracts ForageBean information from the annotation.
+     * Extracts ScannedBean information from the annotation.
      */
-    private ForageBean extractForageBean(
+    private ScannedBean extractScannedBean(
             AnnotationExpr annotation, ClassOrInterfaceDeclaration classDecl, CompilationUnit cu) {
         String name = "";
         List<String> components = new ArrayList<>();
@@ -547,7 +550,7 @@ public class CodeScanner {
         // Get the fully qualified class name
         String className = getFullyQualifiedClassName(classDecl, cu);
 
-        ForageBean bean = new ForageBean(name, components, description, className, feature);
+        ScannedBean bean = new ScannedBean(name, components, description, className, feature);
         bean.setConfigClassName(configClassName);
         return bean;
     }

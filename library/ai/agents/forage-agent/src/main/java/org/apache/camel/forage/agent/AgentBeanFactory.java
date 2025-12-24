@@ -45,9 +45,10 @@ import org.slf4j.LoggerFactory;
  * </pre>
  */
 @ForageFactory(
-        value = "CamelAgentFactory",
+        value = "Agent",
         components = {"camel-langchain4j-agent"},
-        description = "Agent bean factory with prefix auto-detection like JDBC/JMS",
+        description =
+                "Creates AI agents with configurable chat models and memory providers for LangChain4j integration",
         type = FactoryType.AGENT,
         autowired = true,
         configClass = AgentConfig.class)
