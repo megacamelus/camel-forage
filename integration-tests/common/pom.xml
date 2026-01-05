@@ -49,10 +49,17 @@
             <artifactId>junit-platform-suite</artifactId>
             <version>${junit-jupiter-suite.version}</version>
         </dependency>
+        <!-- Required for helper classes, no catalog is required -->
         <dependency>
             <groupId>org.apache.camel.forage</groupId>
             <artifactId>camel-jbang-plugin-forage</artifactId>
             <version>${project.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.camel.forage</groupId>
+                    <artifactId>forage-catalog</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 
