@@ -73,4 +73,4 @@
             message: "Processed file: ${header.CamelFileName} with content: ${body}\n"
 - beans:
     - name: groupedBodyAggregationStrategy
-      type: org.apache.camel.test.MyAggregationStrategy
+      type: io.kaoto.forage.jdbc.test.MyAggregationStrategy

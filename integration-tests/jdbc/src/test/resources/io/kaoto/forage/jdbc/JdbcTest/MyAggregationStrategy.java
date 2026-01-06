@@ -1,4 +1,4 @@
-package io.kaoto.forage.jdbc.JdbcTest;
+package io.kaoto.forage.jdbc.test;
 
 import org.apache.camel.AggregationStrategy;
 import org.apache.camel.Exchange;
