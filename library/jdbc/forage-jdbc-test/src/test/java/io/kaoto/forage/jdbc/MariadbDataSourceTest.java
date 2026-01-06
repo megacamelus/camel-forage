@@ -1,9 +1,9 @@
 package io.kaoto.forage.jdbc;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import io.kaoto.forage.core.jdbc.DataSourceProvider;
 import io.kaoto.forage.jdbc.mariadb.MariadbJdbc;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.condition.DisabledIfSystemProperty;
 import org.testcontainers.containers.GenericContainer;

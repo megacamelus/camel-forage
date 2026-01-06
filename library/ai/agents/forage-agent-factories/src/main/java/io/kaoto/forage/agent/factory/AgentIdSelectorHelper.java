@@ -1,7 +1,7 @@
 package io.kaoto.forage.agent.factory;
 
-import org.apache.camel.Exchange;
 import io.kaoto.forage.core.exceptions.UndefinedAgentException;
+import org.apache.camel.Exchange;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

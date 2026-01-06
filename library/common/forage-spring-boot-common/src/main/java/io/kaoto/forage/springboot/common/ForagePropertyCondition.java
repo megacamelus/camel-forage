@@ -1,10 +1,10 @@
 package io.kaoto.forage.springboot.common;
 
-import java.lang.reflect.Constructor;
-import java.util.Set;
 import io.kaoto.forage.core.util.config.Config;
 import io.kaoto.forage.core.util.config.ConfigModule;
 import io.kaoto.forage.core.util.config.ConfigStore;
+import java.lang.reflect.Constructor;
+import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionMessage;

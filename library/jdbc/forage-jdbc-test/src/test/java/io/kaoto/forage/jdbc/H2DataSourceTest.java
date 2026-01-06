@@ -1,9 +1,9 @@
 package io.kaoto.forage.jdbc;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import io.kaoto.forage.core.jdbc.DataSourceProvider;
 import io.kaoto.forage.jdbc.h2.H2Jdbc;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import org.assertj.core.api.Assertions;
 
 public class H2DataSourceTest extends DataSourceTest {

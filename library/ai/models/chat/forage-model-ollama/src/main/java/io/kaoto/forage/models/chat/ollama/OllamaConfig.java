@@ -10,10 +10,10 @@ import static io.kaoto.forage.models.chat.ollama.OllamaConfigEntries.TEMPERATURE
 import static io.kaoto.forage.models.chat.ollama.OllamaConfigEntries.TOP_K;
 import static io.kaoto.forage.models.chat.ollama.OllamaConfigEntries.TOP_P;
 
-import java.util.Optional;
 import io.kaoto.forage.core.util.config.Config;
 import io.kaoto.forage.core.util.config.ConfigModule;
 import io.kaoto.forage.core.util.config.ConfigStore;
+import java.util.Optional;
 
 /**
  * Configuration class for Ollama AI model integration in the Forage framework.

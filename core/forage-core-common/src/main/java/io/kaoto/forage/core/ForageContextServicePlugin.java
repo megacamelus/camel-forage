@@ -1,8 +1,8 @@
 package io.kaoto.forage.core;
 
+import io.kaoto.forage.core.common.BeanFactory;
 import java.util.ServiceLoader;
 import org.apache.camel.CamelContext;
-import io.kaoto.forage.core.common.BeanFactory;
 import org.apache.camel.spi.ContextServicePlugin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

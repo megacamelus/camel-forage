@@ -19,12 +19,12 @@ import static io.kaoto.forage.vertx.VertxConfigEntries.WARNING_EXCEPTION_TIME;
 import static io.kaoto.forage.vertx.VertxConfigEntries.WARNING_EXCEPTION_TIME_UNIT;
 import static io.kaoto.forage.vertx.VertxConfigEntries.WORKER_POOL_SIZE;
 
-import io.vertx.core.VertxOptions;
-import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 import io.kaoto.forage.core.util.config.Config;
 import io.kaoto.forage.core.util.config.ConfigModule;
 import io.kaoto.forage.core.util.config.ConfigStore;
+import io.vertx.core.VertxOptions;
+import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Configuration class for Vert.x integration in the Forage framework.

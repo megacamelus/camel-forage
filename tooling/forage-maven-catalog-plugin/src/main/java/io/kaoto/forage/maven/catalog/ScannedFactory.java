@@ -1,9 +1,9 @@
 package io.kaoto.forage.maven.catalog;
 
-import java.util.Arrays;
-import java.util.List;
 import io.kaoto.forage.catalog.model.ConditionalBeanGroup;
 import io.kaoto.forage.catalog.model.ForageFactory;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Internal wrapper class for factories discovered during source code scanning.

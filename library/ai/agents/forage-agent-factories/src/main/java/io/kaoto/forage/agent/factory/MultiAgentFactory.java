@@ -2,6 +2,11 @@ package io.kaoto.forage.agent.factory;
 
 import dev.langchain4j.memory.chat.ChatMemoryProvider;
 import dev.langchain4j.model.chat.ChatModel;
+import io.kaoto.forage.core.ai.ChatMemoryBeanProvider;
+import io.kaoto.forage.core.ai.ModelProvider;
+import io.kaoto.forage.core.common.ServiceLoaderHelper;
+import io.kaoto.forage.core.exceptions.RuntimeForageException;
+import io.kaoto.forage.core.util.config.ConfigStore;
 import java.util.List;
 import java.util.Map;
 import java.util.ServiceLoader;
@@ -13,11 +18,6 @@ import org.apache.camel.Exchange;
 import org.apache.camel.component.langchain4j.agent.api.Agent;
 import org.apache.camel.component.langchain4j.agent.api.AgentConfiguration;
 import org.apache.camel.component.langchain4j.agent.api.AgentFactory;
-import io.kaoto.forage.core.ai.ChatMemoryBeanProvider;
-import io.kaoto.forage.core.ai.ModelProvider;
-import io.kaoto.forage.core.common.ServiceLoaderHelper;
-import io.kaoto.forage.core.exceptions.RuntimeForageException;
-import io.kaoto.forage.core.util.config.ConfigStore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

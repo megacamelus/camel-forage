@@ -6,12 +6,12 @@ import static io.kaoto.forage.agent.factory.MultiAgentConfigEntries.MULTI_AGENT_
 import static io.kaoto.forage.agent.factory.MultiAgentConfigEntries.MULTI_AGENT_ID_SOURCE_VARIABLE;
 import static io.kaoto.forage.agent.factory.MultiAgentConfigEntries.MULTI_AGENT_NAMES;
 
-import java.util.List;
-import java.util.Optional;
 import io.kaoto.forage.core.util.config.Config;
 import io.kaoto.forage.core.util.config.ConfigHelper;
 import io.kaoto.forage.core.util.config.ConfigModule;
 import io.kaoto.forage.core.util.config.ConfigStore;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Configuration class for multi-agent orchestration within the Forage framework.

@@ -1,7 +1,7 @@
 package io.kaoto.forage.core.jdbc;
 
-import javax.sql.DataSource;
 import io.kaoto.forage.core.common.BeanProvider;
+import javax.sql.DataSource;
 
 /**
  * Provider interface for creating JDBC DataSource instances with optional named configurations.

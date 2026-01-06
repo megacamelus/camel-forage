@@ -16,6 +16,13 @@
  */
 package io.kaoto.forage.quarkus.jdbc.deployment;
 
+import io.kaoto.forage.core.annotations.FactoryType;
+import io.kaoto.forage.core.annotations.FactoryVariant;
+import io.kaoto.forage.core.annotations.ForageFactory;
+import io.kaoto.forage.core.util.config.ConfigHelper;
+import io.kaoto.forage.core.util.config.ConfigStore;
+import io.kaoto.forage.jdbc.common.DataSourceFactoryConfig;
+import io.kaoto.forage.quarkus.jdbc.ForageJdbcRecorder;
 import io.quarkus.deployment.annotations.BuildProducer;
 import io.quarkus.deployment.annotations.BuildStep;
 import io.quarkus.deployment.annotations.ExecutionTime;
@@ -26,13 +33,6 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
-import io.kaoto.forage.core.annotations.FactoryType;
-import io.kaoto.forage.core.annotations.FactoryVariant;
-import io.kaoto.forage.core.annotations.ForageFactory;
-import io.kaoto.forage.core.util.config.ConfigHelper;
-import io.kaoto.forage.core.util.config.ConfigStore;
-import io.kaoto.forage.jdbc.common.DataSourceFactoryConfig;
-import io.kaoto.forage.quarkus.jdbc.ForageJdbcRecorder;
 import org.apache.camel.processor.aggregate.jdbc.JdbcAggregationRepository;
 import org.apache.camel.processor.idempotent.jdbc.JdbcMessageIdRepository;
 import org.apache.camel.quarkus.core.deployment.spi.CamelContextBuildItem;

@@ -16,12 +16,12 @@ import static io.kaoto.forage.models.chat.watsonxai.WatsonxAiConfigEntries.TOP_K
 import static io.kaoto.forage.models.chat.watsonxai.WatsonxAiConfigEntries.TOP_P;
 import static io.kaoto.forage.models.chat.watsonxai.WatsonxAiConfigEntries.URL;
 
-import java.util.List;
-import java.util.Optional;
 import io.kaoto.forage.core.util.config.Config;
 import io.kaoto.forage.core.util.config.ConfigModule;
 import io.kaoto.forage.core.util.config.ConfigStore;
 import io.kaoto.forage.core.util.config.MissingConfigException;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Configuration class for IBM Watsonx.ai integration in the Forage framework.

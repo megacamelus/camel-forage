@@ -4,11 +4,11 @@ import dev.langchain4j.community.store.embedding.redis.MetricType;
 import dev.langchain4j.community.store.embedding.redis.RedisEmbeddingStore;
 import dev.langchain4j.data.segment.TextSegment;
 import dev.langchain4j.store.embedding.EmbeddingStore;
+import io.kaoto.forage.core.annotations.ForageBean;
+import io.kaoto.forage.core.vectordb.EmbeddingStoreProvider;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import io.kaoto.forage.core.annotations.ForageBean;
-import io.kaoto.forage.core.vectordb.EmbeddingStoreProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

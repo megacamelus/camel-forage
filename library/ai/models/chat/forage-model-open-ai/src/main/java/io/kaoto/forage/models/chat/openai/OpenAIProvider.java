@@ -3,9 +3,9 @@ package io.kaoto.forage.models.chat.openai;
 import dev.langchain4j.http.client.jdk.JdkHttpClientBuilder;
 import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.openai.OpenAiChatModel;
-import java.net.http.HttpClient;
 import io.kaoto.forage.core.ai.ModelProvider;
 import io.kaoto.forage.core.annotations.ForageBean;
+import java.net.http.HttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

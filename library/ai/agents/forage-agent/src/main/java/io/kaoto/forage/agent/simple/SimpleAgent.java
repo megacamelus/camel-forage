@@ -3,11 +3,11 @@ package io.kaoto.forage.agent.simple;
 import dev.langchain4j.data.message.Content;
 import dev.langchain4j.service.AiServices;
 import dev.langchain4j.service.tool.ToolProvider;
+import io.kaoto.forage.agent.factory.ConfigurationAware;
 import java.util.List;
 import org.apache.camel.component.langchain4j.agent.api.Agent;
 import org.apache.camel.component.langchain4j.agent.api.AgentConfiguration;
 import org.apache.camel.component.langchain4j.agent.api.AiAgentBody;
-import io.kaoto.forage.agent.factory.ConfigurationAware;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

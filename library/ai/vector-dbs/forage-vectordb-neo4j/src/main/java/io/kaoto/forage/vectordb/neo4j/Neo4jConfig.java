@@ -24,12 +24,12 @@ import static io.kaoto.forage.vectordb.neo4j.Neo4jConfigEntries.URI;
 import static io.kaoto.forage.vectordb.neo4j.Neo4jConfigEntries.USER;
 import static io.kaoto.forage.vectordb.neo4j.Neo4jConfigEntries.WITH_ENCRYPTION;
 
-import java.time.Duration;
-import java.util.Optional;
 import io.kaoto.forage.core.util.config.Config;
 import io.kaoto.forage.core.util.config.ConfigModule;
 import io.kaoto.forage.core.util.config.ConfigStore;
 import io.kaoto.forage.core.util.config.MissingConfigException;
+import java.time.Duration;
+import java.util.Optional;
 
 /**
  * Configuration class for Neo4j vector database integration in the Camel Forage framework.

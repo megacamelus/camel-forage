@@ -1,9 +1,9 @@
 package io.kaoto.forage.jdbc.oracle;
 
-import oracle.jdbc.OracleDriver;
-import oracle.jdbc.xa.OracleXADataSource;
 import io.kaoto.forage.core.annotations.ForageBean;
 import io.kaoto.forage.jdbc.common.PooledDataSource;
+import oracle.jdbc.OracleDriver;
+import oracle.jdbc.xa.OracleXADataSource;
 
 /**
  * Oracle Database implementation extending PooledJdbc.

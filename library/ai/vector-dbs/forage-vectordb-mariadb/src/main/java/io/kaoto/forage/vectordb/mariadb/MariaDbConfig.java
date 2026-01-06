@@ -13,11 +13,11 @@ import static io.kaoto.forage.vectordb.mariadb.MariaDbConfigEntries.URL;
 import static io.kaoto.forage.vectordb.mariadb.MariaDbConfigEntries.USER;
 
 import dev.langchain4j.store.embedding.mariadb.MariaDBDistanceType;
-import java.util.Optional;
 import io.kaoto.forage.core.util.config.Config;
 import io.kaoto.forage.core.util.config.ConfigModule;
 import io.kaoto.forage.core.util.config.ConfigStore;
 import io.kaoto.forage.core.util.config.MissingConfigException;
+import java.util.Optional;
 
 /**
  * Configuration class for MariaDB vector database connections.

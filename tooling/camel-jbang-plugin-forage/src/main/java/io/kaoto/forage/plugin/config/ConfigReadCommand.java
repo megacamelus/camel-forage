@@ -18,6 +18,8 @@ package io.kaoto.forage.plugin.config;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.kaoto.forage.catalog.model.ConditionalBeanGroup;
+import io.kaoto.forage.catalog.model.ConditionalBeanInfo;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -36,8 +38,6 @@ import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import org.apache.camel.dsl.jbang.core.commands.CamelCommand;
 import org.apache.camel.dsl.jbang.core.commands.CamelJBangMain;
-import io.kaoto.forage.catalog.model.ConditionalBeanGroup;
-import io.kaoto.forage.catalog.model.ConditionalBeanInfo;
 import picocli.CommandLine;
 
 /**

@@ -1,8 +1,8 @@
 package io.kaoto.forage.jdbc;
 
+import io.kaoto.forage.core.jdbc.DataSourceProvider;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import io.kaoto.forage.core.jdbc.DataSourceProvider;
 
 public abstract class ForageJdbcTest {
 

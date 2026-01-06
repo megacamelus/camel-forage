@@ -4,8 +4,8 @@ import com.arjuna.ats.arjuna.common.CoreEnvironmentBeanException;
 import com.arjuna.ats.arjuna.common.ObjectStoreEnvironmentBean;
 import com.arjuna.ats.arjuna.common.RecoveryEnvironmentBean;
 import com.arjuna.ats.internal.arjuna.objectstore.VolatileStore;
-import java.util.Arrays;
 import io.kaoto.forage.jms.common.ConnectionFactoryConfig;
+import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

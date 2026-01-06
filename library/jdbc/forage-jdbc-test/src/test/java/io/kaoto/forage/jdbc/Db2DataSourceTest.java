@@ -1,10 +1,10 @@
 package io.kaoto.forage.jdbc;
 
+import io.kaoto.forage.core.jdbc.DataSourceProvider;
+import io.kaoto.forage.jdbc.db2.Db2Jdbc;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.Duration;
-import io.kaoto.forage.core.jdbc.DataSourceProvider;
-import io.kaoto.forage.jdbc.db2.Db2Jdbc;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.DisabledIfSystemProperty;

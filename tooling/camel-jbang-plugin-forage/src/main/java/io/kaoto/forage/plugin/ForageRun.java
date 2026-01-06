@@ -1,10 +1,10 @@
 package io.kaoto.forage.plugin;
 
+import io.kaoto.forage.core.common.ExportCustomizer;
+import io.kaoto.forage.core.common.RuntimeType;
 import java.util.Set;
 import org.apache.camel.dsl.jbang.core.commands.CamelJBangMain;
 import org.apache.camel.dsl.jbang.core.commands.Run;
-import io.kaoto.forage.core.common.ExportCustomizer;
-import io.kaoto.forage.core.common.RuntimeType;
 
 public class ForageRun extends Run {
     public ForageRun(CamelJBangMain main) {

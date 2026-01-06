@@ -3,10 +3,10 @@ package io.kaoto.forage.models.chat.bedrock;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import dev.langchain4j.model.chat.ChatModel;
+import io.kaoto.forage.core.ai.ModelProvider;
 import java.util.List;
 import java.util.ServiceLoader;
 import java.util.stream.StreamSupport;
-import io.kaoto.forage.core.ai.ModelProvider;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -144,12 +144,10 @@ class BedrockServiceLoaderTest {
         void shouldFindMetaInfServicesFile() {
             ClassLoader classLoader = BedrockProvider.class.getClassLoader();
 
-            java.net.URL resource =
-                    classLoader.getResource("META-INF/services/io.kaoto.forage.core.ai.ModelProvider");
+            java.net.URL resource = classLoader.getResource("META-INF/services/io.kaoto.forage.core.ai.ModelProvider");
 
             assertThat(resource)
-                    .withFailMessage(
-                            "META-INF/services/io.kaoto.forage.core.ai.ModelProvider file should exist")
+                    .withFailMessage("META-INF/services/io.kaoto.forage.core.ai.ModelProvider file should exist")
                     .isNotNull();
         }
 

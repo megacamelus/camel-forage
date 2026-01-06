@@ -1,11 +1,11 @@
 package io.kaoto.forage.core.annotations;
 
+import io.kaoto.forage.core.util.config.Config;
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import io.kaoto.forage.core.util.config.Config;
 
 /**
  * Annotation to mark classes as Forage beans.

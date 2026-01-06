@@ -13,11 +13,11 @@ import static io.kaoto.forage.models.chat.dashscope.DashscopeConfigEntries.TIMEO
 import static io.kaoto.forage.models.chat.dashscope.DashscopeConfigEntries.TOP_K;
 import static io.kaoto.forage.models.chat.dashscope.DashscopeConfigEntries.TOP_P;
 
-import java.util.Optional;
 import io.kaoto.forage.core.util.config.Config;
 import io.kaoto.forage.core.util.config.ConfigModule;
 import io.kaoto.forage.core.util.config.ConfigStore;
 import io.kaoto.forage.core.util.config.MissingConfigException;
+import java.util.Optional;
 
 /**
  * Configuration class for Alibaba Dashscope Qwen integration in the Forage framework.

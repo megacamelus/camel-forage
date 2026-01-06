@@ -14,11 +14,11 @@ import static io.kaoto.forage.models.chat.localai.LocalAiConfigEntries.TIMEOUT;
 import static io.kaoto.forage.models.chat.localai.LocalAiConfigEntries.TOP_P;
 import static io.kaoto.forage.models.chat.localai.LocalAiConfigEntries.USER;
 
-import java.util.Optional;
 import io.kaoto.forage.core.util.config.Config;
 import io.kaoto.forage.core.util.config.ConfigModule;
 import io.kaoto.forage.core.util.config.ConfigStore;
 import io.kaoto.forage.core.util.config.MissingConfigException;
+import java.util.Optional;
 
 /**
  * Configuration class for LocalAI integration in the Forage framework.

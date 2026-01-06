@@ -9,11 +9,11 @@ import io.agroal.api.security.NamePrincipal;
 import io.agroal.api.security.SimplePassword;
 import io.agroal.api.transaction.TransactionIntegration;
 import io.agroal.narayana.NarayanaTransactionIntegration;
-import java.time.Duration;
-import javax.sql.DataSource;
 import io.kaoto.forage.core.jdbc.DataSourceProvider;
 import io.kaoto.forage.jdbc.common.idempotent.ForageIdRepository;
 import io.kaoto.forage.jdbc.common.transactions.TransactionConfiguration;
+import java.time.Duration;
+import javax.sql.DataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

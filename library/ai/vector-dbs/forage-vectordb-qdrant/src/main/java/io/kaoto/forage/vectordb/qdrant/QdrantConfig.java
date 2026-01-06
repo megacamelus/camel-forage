@@ -7,11 +7,11 @@ import static io.kaoto.forage.vectordb.qdrant.QdrantConfigEntries.PAYLOAD_TEXT_K
 import static io.kaoto.forage.vectordb.qdrant.QdrantConfigEntries.PORT;
 import static io.kaoto.forage.vectordb.qdrant.QdrantConfigEntries.USE_TLS;
 
-import java.util.Optional;
 import io.kaoto.forage.core.util.config.Config;
 import io.kaoto.forage.core.util.config.ConfigModule;
 import io.kaoto.forage.core.util.config.ConfigStore;
 import io.kaoto.forage.core.util.config.MissingConfigException;
+import java.util.Optional;
 
 public class QdrantConfig implements Config {
 

@@ -1,14 +1,14 @@
 package io.kaoto.forage.cloud.eventhubs;
 
 import com.azure.messaging.eventhubs.EventHubClientBuilder;
-import java.util.Collections;
-import java.util.Map;
-import java.util.Optional;
-import java.util.concurrent.ConcurrentHashMap;
 import io.kaoto.forage.core.util.config.ConfigEntries;
 import io.kaoto.forage.core.util.config.ConfigEntry;
 import io.kaoto.forage.core.util.config.ConfigModule;
 import io.kaoto.forage.core.util.config.ConfigTag;
+import java.util.Collections;
+import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 
 public final class AzureEventHubsConfigEntries extends ConfigEntries {
 

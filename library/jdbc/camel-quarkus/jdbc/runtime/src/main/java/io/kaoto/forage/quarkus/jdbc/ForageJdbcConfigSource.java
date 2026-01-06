@@ -1,11 +1,11 @@
 package io.kaoto.forage.quarkus.jdbc;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
 import io.kaoto.forage.core.util.config.ConfigHelper;
 import io.kaoto.forage.core.util.config.ConfigStore;
 import io.kaoto.forage.jdbc.common.DataSourceFactoryConfig;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 import org.eclipse.microprofile.config.spi.ConfigSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

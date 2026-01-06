@@ -13,10 +13,10 @@ import static io.kaoto.forage.memory.chat.infinispan.InfinispanConfigEntries.SER
 import static io.kaoto.forage.memory.chat.infinispan.InfinispanConfigEntries.SOCKET_TIMEOUT;
 import static io.kaoto.forage.memory.chat.infinispan.InfinispanConfigEntries.USERNAME;
 
-import java.util.Optional;
 import io.kaoto.forage.core.util.config.Config;
 import io.kaoto.forage.core.util.config.ConfigModule;
 import io.kaoto.forage.core.util.config.ConfigStore;
+import java.util.Optional;
 import org.infinispan.client.hotrod.configuration.ConfigurationBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

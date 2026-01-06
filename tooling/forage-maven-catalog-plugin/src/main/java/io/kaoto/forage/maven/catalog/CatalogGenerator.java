@@ -3,6 +3,14 @@ package io.kaoto.forage.maven.catalog;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import io.kaoto.forage.catalog.model.ConfigEntry;
+import io.kaoto.forage.catalog.model.FactoryVariant;
+import io.kaoto.forage.catalog.model.FactoryVariants;
+import io.kaoto.forage.catalog.model.FeatureBeans;
+import io.kaoto.forage.catalog.model.ForageBean;
+import io.kaoto.forage.catalog.model.ForageCatalog;
+import io.kaoto.forage.catalog.model.ForageFactory;
+import io.kaoto.forage.core.annotations.FactoryType;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,15 +19,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import io.kaoto.forage.catalog.model.FactoryType;
-import io.kaoto.forage.catalog.model.FactoryVariant;
-import io.kaoto.forage.catalog.model.ConfigEntry;
-import io.kaoto.forage.catalog.model.FactoryVariants;
-import io.kaoto.forage.catalog.model.FeatureBeans;
-import io.kaoto.forage.catalog.model.ForageBean;
-import io.kaoto.forage.catalog.model.ForageCatalog;
-import io.kaoto.forage.catalog.model.ForageFactory;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.project.MavenProject;
@@ -380,9 +379,10 @@ public class CatalogGenerator {
             return bean.getFeature();
         }
 
-        return io.kaoto.forage.core.annotations.FactoryType.fromDisplayName(factoryType)
-                .map(io.kaoto.forage.core.annotations.FactoryType::toString)
+        String s = FactoryType.fromDisplayName(factoryType)
+                .map(FactoryType::toString)
                 .orElse(factoryType);
+        return s;
     }
 
     /**

@@ -1,13 +1,11 @@
 package io.kaoto.forage.plugin;
 
-import java.io.InputStream;
-import java.util.stream.Stream;
-
-import io.kaoto.forage.core.util.config.ConfigStore;
 import io.kaoto.forage.core.common.ExportCustomizer;
 import io.kaoto.forage.core.common.RuntimeType;
 import io.kaoto.forage.plugin.datasource.DatasourceExportCustomizer;
 import io.kaoto.forage.plugin.jms.JmsExportCustomizer;
+import java.io.InputStream;
+import java.util.stream.Stream;
 
 /**
  * Utility class for jdbc configuration value processing and transformation in the Forage framework.

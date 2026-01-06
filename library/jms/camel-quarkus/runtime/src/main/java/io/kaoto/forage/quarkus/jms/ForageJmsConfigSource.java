@@ -1,10 +1,10 @@
 package io.kaoto.forage.quarkus.jms;
 
-import java.util.Set;
 import io.kaoto.forage.core.util.config.AbstractConfigSource;
 import io.kaoto.forage.core.util.config.ConfigHelper;
 import io.kaoto.forage.core.util.config.ConfigStore;
 import io.kaoto.forage.jms.common.ConnectionFactoryConfig;
+import java.util.Set;
 import org.apache.camel.tooling.model.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

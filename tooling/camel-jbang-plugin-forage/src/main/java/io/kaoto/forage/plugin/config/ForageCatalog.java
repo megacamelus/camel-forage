@@ -17,13 +17,6 @@
 package io.kaoto.forage.plugin.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 import io.kaoto.forage.catalog.model.ConditionalBeanGroup;
 import io.kaoto.forage.catalog.model.ConfigEntry;
 import io.kaoto.forage.catalog.model.FactoryVariant;
@@ -31,6 +24,13 @@ import io.kaoto.forage.catalog.model.FactoryVariants;
 import io.kaoto.forage.catalog.model.FeatureBeans;
 import io.kaoto.forage.catalog.model.ForageBean;
 import io.kaoto.forage.catalog.model.ForageFactory;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * Helper class to load and query the Forage catalog.

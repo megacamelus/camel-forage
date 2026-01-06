@@ -13,12 +13,12 @@ import static io.kaoto.forage.models.chat.openai.OpenAIConfigEntries.TEMPERATURE
 import static io.kaoto.forage.models.chat.openai.OpenAIConfigEntries.TIMEOUT;
 import static io.kaoto.forage.models.chat.openai.OpenAIConfigEntries.TOP_P;
 
-import java.time.Duration;
-import java.util.Optional;
 import io.kaoto.forage.core.util.config.Config;
 import io.kaoto.forage.core.util.config.ConfigModule;
 import io.kaoto.forage.core.util.config.ConfigStore;
 import io.kaoto.forage.core.util.config.MissingConfigException;
+import java.time.Duration;
+import java.util.Optional;
 
 /**
  * Configuration class for OpenAI model integration in the Forage framework.

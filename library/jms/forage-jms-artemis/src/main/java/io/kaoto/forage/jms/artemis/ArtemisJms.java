@@ -1,12 +1,12 @@
 package io.kaoto.forage.jms.artemis;
 
+import io.kaoto.forage.core.annotations.ForageBean;
+import io.kaoto.forage.jms.common.ConnectionFactoryConfig;
+import io.kaoto.forage.jms.common.PooledConnectionFactory;
 import jakarta.jms.ConnectionFactory;
 import jakarta.jms.XAConnectionFactory;
 import org.apache.activemq.artemis.jms.client.ActiveMQConnectionFactory;
 import org.apache.activemq.artemis.jms.client.ActiveMQXAConnectionFactory;
-import io.kaoto.forage.core.annotations.ForageBean;
-import io.kaoto.forage.jms.common.ConnectionFactoryConfig;
-import io.kaoto.forage.jms.common.PooledConnectionFactory;
 
 /**
  * ActiveMQ Artemis implementation extending PooledConnectionFactory.

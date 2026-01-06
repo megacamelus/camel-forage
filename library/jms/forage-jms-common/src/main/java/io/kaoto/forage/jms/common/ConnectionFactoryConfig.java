@@ -24,11 +24,11 @@ import static io.kaoto.forage.jms.common.ConnectionFactoryConfigEntries.TRANSACT
 import static io.kaoto.forage.jms.common.ConnectionFactoryConfigEntries.TRANSACTION_XA_RESOURCE_ORPHAN_FILTERS;
 import static io.kaoto.forage.jms.common.ConnectionFactoryConfigEntries.USERNAME;
 
-import java.util.Optional;
 import io.kaoto.forage.core.util.config.Config;
 import io.kaoto.forage.core.util.config.ConfigModule;
 import io.kaoto.forage.core.util.config.ConfigStore;
 import io.kaoto.forage.core.util.config.MissingConfigException;
+import java.util.Optional;
 
 /**
  * Configuration for JMS connection factory with broker connection settings and pool parameters.

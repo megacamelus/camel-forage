@@ -3,12 +3,12 @@ package io.kaoto.forage.jms.ibmmq;
 import com.ibm.mq.jakarta.jms.MQConnectionFactory;
 import com.ibm.mq.jakarta.jms.MQXAConnectionFactory;
 import com.ibm.msg.client.jakarta.wmq.common.CommonConstants;
-import jakarta.jms.ConnectionFactory;
-import jakarta.jms.JMSException;
-import jakarta.jms.XAConnectionFactory;
 import io.kaoto.forage.core.annotations.ForageBean;
 import io.kaoto.forage.jms.common.ConnectionFactoryConfig;
 import io.kaoto.forage.jms.common.PooledConnectionFactory;
+import jakarta.jms.ConnectionFactory;
+import jakarta.jms.JMSException;
+import jakarta.jms.XAConnectionFactory;
 
 /**
  * IBM MQ implementation extending PooledConnectionFactory.

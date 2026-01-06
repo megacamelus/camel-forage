@@ -1,9 +1,9 @@
 package io.kaoto.forage.maven.catalog;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.kaoto.forage.catalog.model.ConfigEntry;
 import java.util.List;
 import java.util.Map;
-import io.kaoto.forage.catalog.model.ConfigEntry;
 
 /**
  * Represents a single Forage component in the catalog.

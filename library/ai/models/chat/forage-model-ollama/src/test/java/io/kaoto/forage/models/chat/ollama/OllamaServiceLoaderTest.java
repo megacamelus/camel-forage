@@ -3,10 +3,10 @@ package io.kaoto.forage.models.chat.ollama;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import dev.langchain4j.model.chat.ChatModel;
+import io.kaoto.forage.core.ai.ModelProvider;
 import java.util.List;
 import java.util.ServiceLoader;
 import java.util.stream.StreamSupport;
-import io.kaoto.forage.core.ai.ModelProvider;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -274,12 +274,10 @@ class OllamaServiceLoaderTest {
             // This test verifies that the META-INF/services file exists and is accessible
             ClassLoader classLoader = OllamaProvider.class.getClassLoader();
 
-            java.net.URL resource =
-                    classLoader.getResource("META-INF/services/io.kaoto.forage.core.ai.ModelProvider");
+            java.net.URL resource = classLoader.getResource("META-INF/services/io.kaoto.forage.core.ai.ModelProvider");
 
             assertThat(resource)
-                    .withFailMessage(
-                            "META-INF/services/io.kaoto.forage.core.ai.ModelProvider file should exist")
+                    .withFailMessage("META-INF/services/io.kaoto.forage.core.ai.ModelProvider file should exist")
                     .isNotNull();
         }
 

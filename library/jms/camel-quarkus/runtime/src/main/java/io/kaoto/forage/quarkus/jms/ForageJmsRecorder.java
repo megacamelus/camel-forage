@@ -1,9 +1,9 @@
 package io.kaoto.forage.quarkus.jms;
 
+import io.kaoto.forage.jms.ibmmq.IbmMqJms;
 import io.quarkus.runtime.RuntimeValue;
 import io.quarkus.runtime.annotations.Recorder;
 import jakarta.jms.ConnectionFactory;
-import io.kaoto.forage.jms.ibmmq.IbmMqJms;
 import org.jboss.logging.Logger;
 
 /**

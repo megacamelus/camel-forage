@@ -16,6 +16,13 @@
  */
 package io.kaoto.forage.plugin;
 
+import io.kaoto.forage.core.common.ExportCustomizer;
+import io.kaoto.forage.core.common.RuntimeType;
+import io.kaoto.forage.plugin.config.ConfigCommand;
+import io.kaoto.forage.plugin.config.ConfigReadCommand;
+import io.kaoto.forage.plugin.config.ConfigWriteCommand;
+import io.kaoto.forage.plugin.datasource.DataSourceCommand;
+import io.kaoto.forage.plugin.datasource.TestDataSourceCommand;
 import java.nio.file.Path;
 import java.util.Optional;
 import java.util.Set;
@@ -26,13 +33,6 @@ import org.apache.camel.dsl.jbang.core.common.CamelJBangPlugin;
 import org.apache.camel.dsl.jbang.core.common.Plugin;
 import org.apache.camel.dsl.jbang.core.common.PluginExporter;
 import org.apache.camel.dsl.jbang.core.common.Printer;
-import io.kaoto.forage.core.common.ExportCustomizer;
-import io.kaoto.forage.core.common.RuntimeType;
-import io.kaoto.forage.plugin.config.ConfigCommand;
-import io.kaoto.forage.plugin.config.ConfigReadCommand;
-import io.kaoto.forage.plugin.config.ConfigWriteCommand;
-import io.kaoto.forage.plugin.datasource.DataSourceCommand;
-import io.kaoto.forage.plugin.datasource.TestDataSourceCommand;
 import picocli.CommandLine;
 
 @CamelJBangPlugin(name = "camel-jbang-plugin-forage", firstVersion = "4.16.0")

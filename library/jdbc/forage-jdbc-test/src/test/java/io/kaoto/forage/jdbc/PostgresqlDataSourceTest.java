@@ -1,9 +1,9 @@
 package io.kaoto.forage.jdbc;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import io.kaoto.forage.core.jdbc.DataSourceProvider;
 import io.kaoto.forage.jdbc.postgresql.PostgresqlJdbc;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import org.assertj.core.api.Assertions;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.junit.jupiter.Container;

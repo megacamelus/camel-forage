@@ -19,14 +19,14 @@ import static io.kaoto.forage.vectordb.milvus.MilvusConfigEntries.URI;
 import static io.kaoto.forage.vectordb.milvus.MilvusConfigEntries.USERNAME;
 import static io.kaoto.forage.vectordb.milvus.MilvusConfigEntries.VECTOR_FIELD_NAME;
 
-import io.milvus.common.clientenum.ConsistencyLevelEnum;
-import io.milvus.param.IndexType;
-import io.milvus.param.MetricType;
-import java.util.Optional;
 import io.kaoto.forage.core.util.config.Config;
 import io.kaoto.forage.core.util.config.ConfigModule;
 import io.kaoto.forage.core.util.config.ConfigStore;
 import io.kaoto.forage.core.util.config.MissingConfigException;
+import io.milvus.common.clientenum.ConsistencyLevelEnum;
+import io.milvus.param.IndexType;
+import io.milvus.param.MetricType;
+import java.util.Optional;
 
 /**
  * Configuration class for Milvus vector database connections within the Camel Forage framework.

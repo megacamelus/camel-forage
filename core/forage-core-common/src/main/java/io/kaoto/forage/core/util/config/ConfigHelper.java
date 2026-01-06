@@ -1,5 +1,6 @@
 package io.kaoto.forage.core.util.config;
 
+import io.kaoto.forage.core.common.RuntimeType;
 import io.smallrye.config.SmallRyeConfig;
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,7 +10,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
-import io.kaoto.forage.core.common.RuntimeType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

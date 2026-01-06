@@ -1,10 +1,5 @@
 package io.kaoto.forage.jms;
 
-import jakarta.jms.ConnectionFactory;
-import java.util.List;
-import java.util.ServiceLoader;
-import java.util.Set;
-import org.apache.camel.CamelContext;
 import io.kaoto.forage.core.annotations.ConditionalBean;
 import io.kaoto.forage.core.annotations.ConditionalBeanGroup;
 import io.kaoto.forage.core.annotations.FactoryType;
@@ -23,6 +18,11 @@ import io.kaoto.forage.core.util.config.ConfigStore;
 import io.kaoto.forage.jms.common.ConnectionFactoryCommonExportHelper;
 import io.kaoto.forage.jms.common.ConnectionFactoryConfig;
 import io.kaoto.forage.jms.common.ForageConnectionFactory;
+import jakarta.jms.ConnectionFactory;
+import java.util.List;
+import java.util.ServiceLoader;
+import java.util.Set;
+import org.apache.camel.CamelContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

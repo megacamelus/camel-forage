@@ -13,10 +13,10 @@ import static io.kaoto.forage.memory.chat.redis.RedisConfigEntries.POOL_TEST_WHI
 import static io.kaoto.forage.memory.chat.redis.RedisConfigEntries.PORT;
 import static io.kaoto.forage.memory.chat.redis.RedisConfigEntries.TIMEOUT;
 
-import java.util.Optional;
 import io.kaoto.forage.core.util.config.Config;
 import io.kaoto.forage.core.util.config.ConfigModule;
 import io.kaoto.forage.core.util.config.ConfigStore;
+import java.util.Optional;
 
 /**
  * Configuration class for Redis-based chat memory storage in the Forage framework.

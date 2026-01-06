@@ -10,11 +10,11 @@ import static io.kaoto.forage.models.chat.mistralai.MistralAiConfigEntries.TEMPE
 import static io.kaoto.forage.models.chat.mistralai.MistralAiConfigEntries.TIMEOUT;
 import static io.kaoto.forage.models.chat.mistralai.MistralAiConfigEntries.TOP_P;
 
-import java.util.Optional;
 import io.kaoto.forage.core.util.config.Config;
 import io.kaoto.forage.core.util.config.ConfigModule;
 import io.kaoto.forage.core.util.config.ConfigStore;
 import io.kaoto.forage.core.util.config.MissingConfigException;
+import java.util.Optional;
 
 /**
  * Configuration class for MistralAI integration in the Camel Forage framework.

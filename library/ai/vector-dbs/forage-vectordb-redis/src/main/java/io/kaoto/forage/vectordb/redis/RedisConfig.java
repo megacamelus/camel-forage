@@ -10,11 +10,11 @@ import static io.kaoto.forage.vectordb.redis.RedisConfigEntries.PORT;
 import static io.kaoto.forage.vectordb.redis.RedisConfigEntries.PREFIX;
 import static io.kaoto.forage.vectordb.redis.RedisConfigEntries.USER;
 
-import java.util.Optional;
 import io.kaoto.forage.core.util.config.Config;
 import io.kaoto.forage.core.util.config.ConfigModule;
 import io.kaoto.forage.core.util.config.ConfigStore;
 import io.kaoto.forage.core.util.config.MissingConfigException;
+import java.util.Optional;
 
 /**
  * Configuration class for Redis vector database integration in the Forage framework.

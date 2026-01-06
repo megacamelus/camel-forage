@@ -1,8 +1,8 @@
 package io.kaoto.forage.jdbc;
 
+import io.kaoto.forage.core.jdbc.DataSourceProvider;
 import java.sql.ResultSet;
 import javax.sql.DataSource;
-import io.kaoto.forage.core.jdbc.DataSourceProvider;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

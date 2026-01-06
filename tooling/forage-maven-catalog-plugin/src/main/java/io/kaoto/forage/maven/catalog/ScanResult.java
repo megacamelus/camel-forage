@@ -1,10 +1,10 @@
 package io.kaoto.forage.maven.catalog;
 
+import io.kaoto.forage.catalog.model.ConfigEntry;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import io.kaoto.forage.catalog.model.ConfigEntry;
 
 /**
  * Holds all scan results in one structure.

@@ -1,10 +1,5 @@
 package io.kaoto.forage.jdbc;
 
-import java.util.List;
-import java.util.ServiceLoader;
-import java.util.Set;
-import javax.sql.DataSource;
-import org.apache.camel.CamelContext;
 import io.kaoto.forage.core.annotations.ConditionalBean;
 import io.kaoto.forage.core.annotations.ConditionalBeanGroup;
 import io.kaoto.forage.core.annotations.FactoryType;
@@ -26,6 +21,11 @@ import io.kaoto.forage.jdbc.common.ForageDataSource;
 import io.kaoto.forage.jdbc.common.aggregation.ForageAggregationRepository;
 import io.kaoto.forage.jdbc.common.idempotent.ForageIdRepository;
 import io.kaoto.forage.jdbc.common.idempotent.ForageJdbcMessageIdRepository;
+import java.util.List;
+import java.util.ServiceLoader;
+import java.util.Set;
+import javax.sql.DataSource;
+import org.apache.camel.CamelContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

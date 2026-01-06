@@ -104,8 +104,7 @@ class ConfigWriteCommandTest {
                 .isEqualTo("true");
 
         // Verify dependencies are written
-        assertThat(props.getProperty("camel.jbang.dependencies"))
-                .contains("io.kaoto.forage:forage-jdbc-postgresql:");
+        assertThat(props.getProperty("camel.jbang.dependencies")).contains("io.kaoto.forage:forage-jdbc-postgresql:");
         assertThat(props.getProperty("camel.jbang.dependencies.main")).contains("io.kaoto.forage:forage-jdbc:");
         assertThat(props.getProperty("camel.jbang.dependencies.spring-boot"))
                 .contains("io.kaoto.forage:forage-jdbc-starter:");

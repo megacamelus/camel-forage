@@ -1,10 +1,5 @@
 package io.kaoto.forage.springboot.jms;
 
-import jakarta.annotation.PostConstruct;
-import jakarta.jms.ConnectionFactory;
-import java.util.List;
-import java.util.ServiceLoader;
-import java.util.Set;
 import io.kaoto.forage.core.annotations.FactoryType;
 import io.kaoto.forage.core.annotations.FactoryVariant;
 import io.kaoto.forage.core.annotations.ForageFactory;
@@ -21,6 +16,11 @@ import io.kaoto.forage.core.util.config.ConfigStore;
 import io.kaoto.forage.jms.common.ConnectionFactoryCommonExportHelper;
 import io.kaoto.forage.jms.common.ConnectionFactoryConfig;
 import io.kaoto.forage.jms.common.ForageConnectionFactory;
+import jakarta.annotation.PostConstruct;
+import jakarta.jms.ConnectionFactory;
+import java.util.List;
+import java.util.ServiceLoader;
+import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanFactory;

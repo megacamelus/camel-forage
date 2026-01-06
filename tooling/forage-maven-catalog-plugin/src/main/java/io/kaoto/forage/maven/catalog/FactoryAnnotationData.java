@@ -1,8 +1,8 @@
 package io.kaoto.forage.maven.catalog;
 
+import io.kaoto.forage.catalog.model.ConditionalBeanGroup;
 import java.util.ArrayList;
 import java.util.List;
-import io.kaoto.forage.catalog.model.ConditionalBeanGroup;
 
 public class FactoryAnnotationData {
 

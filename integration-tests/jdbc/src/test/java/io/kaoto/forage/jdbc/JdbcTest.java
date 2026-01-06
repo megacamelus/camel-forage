@@ -1,5 +1,8 @@
 package io.kaoto.forage.jdbc;
 
+import io.kaoto.forage.integration.tests.ForageIntegrationTest;
+import io.kaoto.forage.integration.tests.ForageTestCaseRunner;
+import io.kaoto.forage.integration.tests.IntegrationTestSetupExtension;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -8,9 +11,6 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.Collections;
 import java.util.function.Consumer;
-import io.kaoto.forage.integration.tests.ForageIntegrationTest;
-import io.kaoto.forage.integration.tests.ForageTestCaseRunner;
-import io.kaoto.forage.integration.tests.IntegrationTestSetupExtension;
 import org.citrusframework.GherkinTestActionRunner;
 import org.citrusframework.annotations.CitrusResource;
 import org.citrusframework.annotations.CitrusTest;

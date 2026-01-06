@@ -6,11 +6,11 @@ import static io.kaoto.forage.cloud.eventhubs.AzureEventHubsConfigEntries.EVENTH
 import static io.kaoto.forage.cloud.eventhubs.AzureEventHubsConfigEntries.FULLY_QUALIFIED_NAMESPACE;
 import static io.kaoto.forage.cloud.eventhubs.AzureEventHubsConfigEntries.PREFETCH_COUNT;
 
-import java.util.Optional;
 import io.kaoto.forage.core.util.config.Config;
 import io.kaoto.forage.core.util.config.ConfigModule;
 import io.kaoto.forage.core.util.config.ConfigStore;
 import io.kaoto.forage.core.util.config.MissingConfigException;
+import java.util.Optional;
 
 public class AzureEventHubsConfig implements Config {
 

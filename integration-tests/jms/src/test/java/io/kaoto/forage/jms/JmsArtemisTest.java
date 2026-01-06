@@ -1,10 +1,10 @@
 package io.kaoto.forage.jms;
 
-import java.util.Collections;
-import java.util.function.Consumer;
 import io.kaoto.forage.integration.tests.ForageIntegrationTest;
 import io.kaoto.forage.integration.tests.ForageTestCaseRunner;
 import io.kaoto.forage.integration.tests.IntegrationTestSetupExtension;
+import java.util.Collections;
+import java.util.function.Consumer;
 import org.citrusframework.annotations.CitrusTest;
 import org.citrusframework.junit.jupiter.CitrusSupport;
 import org.eclipse.microprofile.config.ConfigProvider;

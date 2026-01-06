@@ -1,12 +1,12 @@
 package io.kaoto.forage.agent.factory;
 
+import io.kaoto.forage.core.util.config.ConfigEntries;
+import io.kaoto.forage.core.util.config.ConfigEntry;
+import io.kaoto.forage.core.util.config.ConfigModule;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
-import io.kaoto.forage.core.util.config.ConfigEntries;
-import io.kaoto.forage.core.util.config.ConfigEntry;
-import io.kaoto.forage.core.util.config.ConfigModule;
 
 /**
  * Configuration entries definition for multi-agent orchestration configurations.

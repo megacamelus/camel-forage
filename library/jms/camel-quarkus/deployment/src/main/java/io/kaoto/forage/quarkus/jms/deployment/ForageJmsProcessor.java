@@ -16,6 +16,13 @@
  */
 package io.kaoto.forage.quarkus.jms.deployment;
 
+import io.kaoto.forage.core.annotations.FactoryType;
+import io.kaoto.forage.core.annotations.FactoryVariant;
+import io.kaoto.forage.core.annotations.ForageFactory;
+import io.kaoto.forage.core.util.config.ConfigHelper;
+import io.kaoto.forage.core.util.config.ConfigStore;
+import io.kaoto.forage.jms.common.ConnectionFactoryConfig;
+import io.kaoto.forage.quarkus.jms.ForageJmsRecorder;
 import io.quarkus.deployment.annotations.BuildProducer;
 import io.quarkus.deployment.annotations.BuildStep;
 import io.quarkus.deployment.annotations.ExecutionTime;
@@ -28,13 +35,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
-import io.kaoto.forage.core.annotations.FactoryType;
-import io.kaoto.forage.core.annotations.FactoryVariant;
-import io.kaoto.forage.core.annotations.ForageFactory;
-import io.kaoto.forage.core.util.config.ConfigHelper;
-import io.kaoto.forage.core.util.config.ConfigStore;
-import io.kaoto.forage.jms.common.ConnectionFactoryConfig;
-import io.kaoto.forage.quarkus.jms.ForageJmsRecorder;
 import org.apache.camel.quarkus.core.deployment.spi.CamelRuntimeBeanBuildItem;
 import org.jboss.logging.Logger;
 

@@ -16,11 +16,11 @@ import static io.kaoto.forage.vectordb.infinispan.InfinispanConfigEntries.REGIST
 import static io.kaoto.forage.vectordb.infinispan.InfinispanConfigEntries.SIMILARITY;
 import static io.kaoto.forage.vectordb.infinispan.InfinispanConfigEntries.USERNAME;
 
-import java.util.Optional;
 import io.kaoto.forage.core.util.config.Config;
 import io.kaoto.forage.core.util.config.ConfigModule;
 import io.kaoto.forage.core.util.config.ConfigStore;
 import io.kaoto.forage.core.util.config.MissingConfigException;
+import java.util.Optional;
 
 /**
  * Configuration class for Infinispan vector database integration in the Camel Forage framework.

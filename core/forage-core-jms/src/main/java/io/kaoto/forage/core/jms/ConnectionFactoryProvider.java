@@ -1,7 +1,7 @@
 package io.kaoto.forage.core.jms;
 
-import jakarta.jms.ConnectionFactory;
 import io.kaoto.forage.core.common.BeanProvider;
+import jakarta.jms.ConnectionFactory;
 
 public interface ConnectionFactoryProvider extends BeanProvider<ConnectionFactory> {
 

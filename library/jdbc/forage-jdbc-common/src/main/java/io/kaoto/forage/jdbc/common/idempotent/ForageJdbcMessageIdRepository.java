@@ -1,7 +1,7 @@
 package io.kaoto.forage.jdbc.common.idempotent;
 
-import javax.sql.DataSource;
 import io.kaoto.forage.jdbc.common.DataSourceFactoryConfig;
+import javax.sql.DataSource;
 import org.apache.camel.processor.idempotent.jdbc.JdbcMessageIdRepository;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.jta.JtaTransactionManager;

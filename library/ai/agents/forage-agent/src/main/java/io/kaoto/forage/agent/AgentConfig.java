@@ -2,13 +2,13 @@ package io.kaoto.forage.agent;
 
 import static io.kaoto.forage.agent.AgentConfigEntries.*;
 
+import io.kaoto.forage.core.util.config.Config;
+import io.kaoto.forage.core.util.config.ConfigModule;
+import io.kaoto.forage.core.util.config.ConfigStore;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import io.kaoto.forage.core.util.config.Config;
-import io.kaoto.forage.core.util.config.ConfigModule;
-import io.kaoto.forage.core.util.config.ConfigStore;
 
 /**
  * Unified configuration class for agent factory.

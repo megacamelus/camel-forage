@@ -8,9 +8,9 @@ import com.arjuna.ats.arjuna.common.RecoveryEnvironmentBean;
 import com.arjuna.ats.jta.common.JTAEnvironmentBean;
 import com.arjuna.common.internal.util.propertyservice.BeanPopulator;
 import io.agroal.narayana.LocalXAResource;
+import io.kaoto.forage.jdbc.common.DataSourceFactoryConfig;
 import java.util.Arrays;
 import java.util.List;
-import io.kaoto.forage.jdbc.common.DataSourceFactoryConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
