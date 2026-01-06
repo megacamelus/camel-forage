@@ -54,12 +54,6 @@
             <groupId>org.apache.camel.forage</groupId>
             <artifactId>camel-jbang-plugin-forage</artifactId>
             <version>${project.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.apache.camel.forage</groupId>
-                    <artifactId>forage-catalog</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
     </dependencies>
 
