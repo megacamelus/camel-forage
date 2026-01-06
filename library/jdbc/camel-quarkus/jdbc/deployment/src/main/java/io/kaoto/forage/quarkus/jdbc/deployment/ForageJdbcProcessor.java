@@ -35,7 +35,7 @@ import org.junit.platform.commons.util.StringUtils;
 public class ForageJdbcProcessor {
 
     private static final Logger LOG = Logger.getLogger(ForageJdbcProcessor.class);
-    private static final String FEATURE = "camel-forage-jdbc";
+    private static final String FEATURE = "forage-jdbc";
 
     @BuildStep
     FeatureBuildItem feature() {

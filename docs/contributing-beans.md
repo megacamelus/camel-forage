@@ -537,7 +537,7 @@ import io.kaoto.forage.core.annotations.ForageFactory;
 Here's how your final module structure should look:
 
 ```
-camel-forage/
+forage/
 ├── core/
 │   └── forage-core-vector-db/           # Core interfaces
 ├── library/

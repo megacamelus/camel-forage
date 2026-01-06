@@ -50,7 +50,7 @@ import java.util.Optional;
  * <ol>
  *   <li>Environment variables (OPENAI_API_KEY, OPENAI_MODEL_NAME, etc.)</li>
  *   <li>System properties (openai.api.key, openai.model.name, etc.)</li>
- *   <li>camel-forage-model-open-ai.properties file in classpath</li>
+ *   <li>forage-model-open-ai.properties file in classpath</li>
  *   <li>Default values if none of the above are provided (only for model name)</li>
  * </ol>
  *
@@ -95,7 +95,7 @@ public class OpenAIConfig implements Config {
      *   <li>Registers the API key configuration to be sourced from OPENAI_API_KEY environment variable</li>
      *   <li>Registers the model name configuration to be sourced from OPENAI_MODEL_NAME environment variable</li>
      *   <li>Registers optional parameters (base URL, temperature, max tokens, etc.) from their respective environment variables</li>
-     *   <li>Attempts to load additional properties from camel-forage-model-open-ai.properties</li>
+     *   <li>Attempts to load additional properties from forage-model-open-ai.properties</li>
      * </ul>
      *
      * <p>Configuration values are resolved when this constructor is called, with default values
@@ -131,12 +131,12 @@ public class OpenAIConfig implements Config {
      *
      * <p>This name corresponds to the module artifact and is used for:
      * <ul>
-     *   <li>Loading configuration files (camel-forage-model-open-ai.properties)</li>
+     *   <li>Loading configuration files (forage-model-open-ai.properties)</li>
      *   <li>Identifying this module in logs and error messages</li>
      *   <li>Distinguishing this configuration from other AI model configurations</li>
      * </ul>
      *
-     * @return the module name "camel-forage-model-open-ai"
+     * @return the module name "forage-model-open-ai"
      */
     @Override
     public String name() {
@@ -154,7 +154,7 @@ public class OpenAIConfig implements Config {
      * <ol>
      *   <li>OPENAI_API_KEY environment variable</li>
      *   <li>openai.api.key system property</li>
-     *   <li>api-key property in camel-forage-model-open-ai.properties</li>
+     *   <li>api-key property in forage-model-open-ai.properties</li>
      * </ol>
      *
      * @return the OpenAI API key
@@ -185,7 +185,7 @@ public class OpenAIConfig implements Config {
      * <ol>
      *   <li>OPENAI_MODEL_NAME environment variable</li>
      *   <li>openai.model.name system property</li>
-     *   <li>model-name property in camel-forage-model-open-ai.properties</li>
+     *   <li>model-name property in forage-model-open-ai.properties</li>
      *   <li>Default value: "gpt-3.5-turbo"</li>
      * </ol>
      *
@@ -205,7 +205,7 @@ public class OpenAIConfig implements Config {
      * <ol>
      *   <li>OPENAI_BASE_URL environment variable</li>
      *   <li>openai.base.url system property</li>
-     *   <li>base-url property in camel-forage-model-open-ai.properties</li>
+     *   <li>base-url property in forage-model-open-ai.properties</li>
      *   <li>No default value (returns null if not configured)</li>
      * </ol>
      *
@@ -226,7 +226,7 @@ public class OpenAIConfig implements Config {
      * <ol>
      *   <li>OPENAI_TEMPERATURE environment variable</li>
      *   <li>openai.temperature system property</li>
-     *   <li>temperature property in camel-forage-model-open-ai.properties</li>
+     *   <li>temperature property in forage-model-open-ai.properties</li>
      *   <li>No default value (returns null if not configured)</li>
      * </ol>
      *
@@ -252,7 +252,7 @@ public class OpenAIConfig implements Config {
      * <ol>
      *   <li>OPENAI_MAX_TOKENS environment variable</li>
      *   <li>openai.max.tokens system property</li>
-     *   <li>max-tokens property in camel-forage-model-open-ai.properties</li>
+     *   <li>max-tokens property in forage-model-open-ai.properties</li>
      *   <li>No default value (returns null if not configured)</li>
      * </ol>
      *
@@ -278,7 +278,7 @@ public class OpenAIConfig implements Config {
      * <ol>
      *   <li>OPENAI_TOP_P environment variable</li>
      *   <li>openai.top.p system property</li>
-     *   <li>top-p property in camel-forage-model-open-ai.properties</li>
+     *   <li>top-p property in forage-model-open-ai.properties</li>
      *   <li>No default value (returns null if not configured)</li>
      * </ol>
      *
@@ -303,7 +303,7 @@ public class OpenAIConfig implements Config {
      * <ol>
      *   <li>OPENAI_FREQUENCY_PENALTY environment variable</li>
      *   <li>openai.frequency.penalty system property</li>
-     *   <li>frequency-penalty property in camel-forage-model-open-ai.properties</li>
+     *   <li>frequency-penalty property in forage-model-open-ai.properties</li>
      *   <li>No default value (returns null if not configured)</li>
      * </ol>
      *
@@ -328,7 +328,7 @@ public class OpenAIConfig implements Config {
      * <ol>
      *   <li>OPENAI_PRESENCE_PENALTY environment variable</li>
      *   <li>openai.presence.penalty system property</li>
-     *   <li>presence-penalty property in camel-forage-model-open-ai.properties</li>
+     *   <li>presence-penalty property in forage-model-open-ai.properties</li>
      *   <li>No default value (returns null if not configured)</li>
      * </ol>
      *
@@ -354,7 +354,7 @@ public class OpenAIConfig implements Config {
      * <ol>
      *   <li>OPENAI_LOG_REQUESTS environment variable</li>
      *   <li>openai.log.requests system property</li>
-     *   <li>log-requests property in camel-forage-model-open-ai.properties</li>
+     *   <li>log-requests property in forage-model-open-ai.properties</li>
      *   <li>No default value (returns null if not configured)</li>
      * </ol>
      *

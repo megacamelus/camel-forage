@@ -25,7 +25,7 @@ Add the desired modules to your project. For example, to use the default agent f
 <!--This component provides support for OpenAI models (GPT-3.5, GPT-4, etc.)-->
 <dependency>
     <groupId>io.kaoto.forage</groupId>
-    <artifactId>camel-forage-model-open-ai</artifactId>
+    <artifactId>forage-model-open-ai</artifactId>
     <version>1.0-SNAPSHOT</version>
 </dependency>
 <!--This component provides support for the message window chat memory -->

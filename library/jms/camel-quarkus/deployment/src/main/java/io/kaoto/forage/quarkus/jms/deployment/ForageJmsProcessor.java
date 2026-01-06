@@ -33,7 +33,7 @@ import org.jboss.logging.Logger;
 public class ForageJmsProcessor {
 
     private static final Logger LOG = Logger.getLogger(ForageJmsProcessor.class);
-    private static final String FEATURE = "camel-forage-jms";
+    private static final String FEATURE = "forage-jms";
 
     @BuildStep
     FeatureBuildItem feature() {

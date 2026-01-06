@@ -7,7 +7,7 @@ CLI Forage command is triggered via [Custom integration action](https://github.c
 
 Suggested approach is to described in this page. 
 General principles could be found in Citrus test framework [guide](https://citrusframework.org/citrus/reference/4.8.2/html/index.html).
-Several simplifications and helper methods are introduced by `org.apache.camel-forage:integration-tests-common` module (part of forage project).
+Several simplifications and helper methods are introduced by `io.kaoto.forage:integration-tests-common` module (part of forage project).
 
 Each integration test needs to comply with the following mandatory requirements:
 
@@ -104,4 +104,4 @@ This fact affects all relative paths used in the routes - they fail by default (
 For such case please manually replace relative paths with absolute paths in the `@BeforeAll` method.
 Follow `io.kaoto.forage.jdbc.JdbcTest` as an example.
 
-* Please use tests from `org.apahe.camel.forage:integration-tests-jdbc`  as examples for further details.
+* Please use tests from `io.kaoto.forage:integration-tests-jdbc`  as examples for further details.
