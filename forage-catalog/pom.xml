@@ -209,6 +209,12 @@
             <groupId>org.apache.camel.forage</groupId>
             <artifactId>forage-quarkus-jdbc-deployment</artifactId>
             <version>${project.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.camel.quarkus</groupId>
+                    <artifactId>camel-quarkus-core-deployment</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -281,6 +287,12 @@
             <groupId>org.apache.camel.forage</groupId>
             <artifactId>forage-quarkus-jms-deployment</artifactId>
             <version>${project.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.camel.quarkus</groupId>
+                    <artifactId>camel-quarkus-core-deployment</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 
