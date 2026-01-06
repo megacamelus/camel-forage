@@ -269,4 +269,4 @@ This module requires:
 
 ## License
 
-This module is part of the Apache Forage project and is licensed under the Apache License 2.0.
+This module is part of the Forage project and is licensed under the Apache License 2.0.
