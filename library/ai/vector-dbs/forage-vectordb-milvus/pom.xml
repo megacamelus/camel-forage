@@ -5,22 +5,22 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.apache.camel.forage</groupId>
+        <groupId>io.kaoto.forage</groupId>
         <artifactId>vectordbs</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>forage-vectordb-milvus</artifactId>
-    <name>Camel Forage :: Library :: AI :: Vector Databases :: Milvus</name>
+    <name>Forage :: Library :: AI :: Vector Databases :: Milvus</name>
 
     <dependencies>
         <dependency>
-            <groupId>org.apache.camel.forage</groupId>
+            <groupId>io.kaoto.forage</groupId>
             <artifactId>forage-core-common</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.camel.forage</groupId>
+            <groupId>io.kaoto.forage</groupId>
             <artifactId>forage-core-vectordb</artifactId>
             <version>${project.version}</version>
         </dependency>

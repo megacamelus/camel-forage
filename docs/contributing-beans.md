@@ -1,10 +1,10 @@
 # Contributing Beans Guide
 
-This guide explains how to prepare an Apache Camel component for usage with the Camel Forage plugin extension and how to create new bean providers and factories.
+This guide explains how to prepare an Apache Camel component for usage with the Forage plugin extension and how to create new bean providers and factories.
 
 ## Overview
 
-Integrating a component with Camel Forage involves two main steps:
+Integrating a component with Forage involves two main steps:
 
 1. **Modify the Apache Camel component** to support a factory-based approach
 2. **Create the corresponding Forage bean factory and provider** that can be configured through properties
@@ -80,7 +80,7 @@ core/forage-vector-db/
 
 **VectorDBFactory.java:**
 ```java
-package org.apache.camel.forage.core.vector.db;
+package io.kaoto.forage.core.vector.db;
 
 import org.apache.camel.CamelContext;
 
@@ -92,9 +92,9 @@ public interface VectorDBFactory {
 
 **VectorDBProvider.java:**
 ```java
-package org.apache.camel.forage.core.vector.db;
+package io.kaoto.forage.core.vector.db;
 
-import org.apache.camel.forage.core.common.BeanProvider;
+import io.kaoto.forage.core.common.BeanProvider;
 
 public interface VectorDBProvider extends BeanProvider<VectorDatabase> {
     // Inherits create() and create(String id) methods from BeanProvider
@@ -116,10 +116,10 @@ library/vector-dbs/forage-default-vector-db-factory/
 
 **DefaultVectorDBFactory.java:**
 ```java
-package org.apache.camel.forage.vector.db;
+package io.kaoto.forage.vector.db;
 
-import org.apache.camel.forage.core.vector.db.VectorDBFactory;
-import org.apache.camel.forage.core.vector.db.VectorDBProvider;
+import io.kaoto.forage.core.vector.db.VectorDBFactory;
+import io.kaoto.forage.core.vector.db.VectorDBProvider;
 import java.util.ServiceLoader;
 
 public class DefaultVectorDBFactory implements VectorDBFactory {
@@ -152,7 +152,7 @@ library/vector-dbs/forage-milvus/
 │   ├── MilvusProvider.java            # Provider implementation
 │   └── MilvusConfig.java              # Configuration class
 ├── src/main/resources/META-INF/services/
-│   └── org.apache.camel.forage.core.vector.db.VectorDBProvider
+│   └── io.kaoto.forage.core.vector.db.VectorDBProvider
 └── pom.xml
 ```
 
@@ -160,10 +160,10 @@ library/vector-dbs/forage-milvus/
 
 **MilvusProvider.java:**
 ```java
-package org.apache.camel.forage.vector.db.milvus;
+package io.kaoto.forage.vector.db.milvus;
 
-import org.apache.camel.forage.core.vector.db.VectorDBProvider;
-import org.apache.camel.forage.core.annotations.ForageBean;
+import io.kaoto.forage.core.vector.db.VectorDBProvider;
+import io.kaoto.forage.core.annotations.ForageBean;
 
 @ForageBean(value = "milvus", component = "camel-langchain4j-embeddings", description = "Milvus vector database provider")
 public class MilvusProvider implements VectorDBProvider {
@@ -184,18 +184,18 @@ public class MilvusProvider implements VectorDBProvider {
 
 #### Configuration Classes
 
-Configuration in Camel Forage uses a two-class pattern supporting named/prefixed configurations:
+Configuration in Forage uses a two-class pattern supporting named/prefixed configurations:
 
 **MilvusConfigEntries.java:**
 ```java
-package org.apache.camel.forage.vector.db.milvus;
+package io.kaoto.forage.vector.db.milvus;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import org.apache.camel.forage.core.util.config.ConfigEntries;
-import org.apache.camel.forage.core.util.config.ConfigEntry;
-import org.apache.camel.forage.core.util.config.ConfigModule;
+import io.kaoto.forage.core.util.config.ConfigEntries;
+import io.kaoto.forage.core.util.config.ConfigEntry;
+import io.kaoto.forage.core.util.config.ConfigModule;
 
 public final class MilvusConfigEntries extends ConfigEntries {
     public static final ConfigModule HOST = ConfigModule.of(MilvusConfig.class, "milvus.host");
@@ -228,16 +228,16 @@ public final class MilvusConfigEntries extends ConfigEntries {
 
 **MilvusConfig.java:**
 ```java
-package org.apache.camel.forage.vector.db.milvus;
+package io.kaoto.forage.vector.db.milvus;
 
-import static org.apache.camel.forage.vector.db.milvus.MilvusConfigEntries.HOST;
-import static org.apache.camel.forage.vector.db.milvus.MilvusConfigEntries.PORT;
-import static org.apache.camel.forage.vector.db.milvus.MilvusConfigEntries.USERNAME;
-import static org.apache.camel.forage.vector.db.milvus.MilvusConfigEntries.PASSWORD;
+import static io.kaoto.forage.vector.db.milvus.MilvusConfigEntries.HOST;
+import static io.kaoto.forage.vector.db.milvus.MilvusConfigEntries.PORT;
+import static io.kaoto.forage.vector.db.milvus.MilvusConfigEntries.USERNAME;
+import static io.kaoto.forage.vector.db.milvus.MilvusConfigEntries.PASSWORD;
 
-import org.apache.camel.forage.core.util.config.Config;
-import org.apache.camel.forage.core.util.config.ConfigModule;
-import org.apache.camel.forage.core.util.config.ConfigStore;
+import io.kaoto.forage.core.util.config.Config;
+import io.kaoto.forage.core.util.config.ConfigModule;
+import io.kaoto.forage.core.util.config.ConfigStore;
 
 /**
  * Configuration class for Milvus vector database integration.
@@ -318,9 +318,9 @@ public class MilvusConfig implements Config {
 
 Create the ServiceLoader registration file:
 
-**src/main/resources/META-INF/services/org.apache.camel.forage.core.vector.db.VectorDBProvider:**
+**src/main/resources/META-INF/services/io.kaoto.forage.core.vector.db.VectorDBProvider:**
 ```
-org.apache.camel.forage.vector.db.milvus.MilvusProvider
+io.kaoto.forage.vector.db.milvus.MilvusProvider
 ```
 
 ### 2.3 Maven Configuration
@@ -334,22 +334,22 @@ org.apache.camel.forage.vector.db.milvus.MilvusProvider
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.apache.camel.forage</groupId>
+        <groupId>io.kaoto.forage</groupId>
         <artifactId>vector-dbs</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>forage-vector-db-milvus</artifactId>
-    <name>Camel Forage :: Library :: Vector DBs :: Milvus</name>
+    <name>Forage :: Library :: Vector DBs :: Milvus</name>
 
     <dependencies>
         <dependency>
-            <groupId>org.apache.camel.forage</groupId>
+            <groupId>io.kaoto.forage</groupId>
             <artifactId>forage-core-vector-db</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.camel.forage</groupId>
+            <groupId>io.kaoto.forage</groupId>
             <artifactId>forage-core-common</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -370,7 +370,7 @@ Reference the factory class in your Camel route:
 
 ```java
 from("direct:vector-search")
-    .to("vector-db:search?connectionFactory=#class:org.apache.camel.forage.vector.db.DefaultVectorDBFactory");
+    .to("vector-db:search?connectionFactory=#class:io.kaoto.forage.vector.db.DefaultVectorDBFactory");
 ```
 
 ### 3.2 Classpath Dependencies
@@ -379,7 +379,7 @@ Make sure to include the specific provider on your classpath:
 
 ```xml
 <dependency>
-    <groupId>org.apache.camel.forage</groupId>
+    <groupId>io.kaoto.forage</groupId>
     <artifactId>forage-vector-db-milvus</artifactId>
     <version>1.0-SNAPSHOT</version>
 </dependency>
@@ -468,7 +468,7 @@ public class YourProvider implements ProviderInterface {
 
 **Required Import:**
 ```java
-import org.apache.camel.forage.core.annotations.ForageBean;
+import io.kaoto.forage.core.annotations.ForageBean;
 ```
 
 ### 2. ForageFactory Annotation Requirements
@@ -494,7 +494,7 @@ The annotation parameters:
 
 **Required Import:**
 ```java
-import org.apache.camel.forage.core.annotations.ForageFactory;
+import io.kaoto.forage.core.annotations.ForageFactory;
 ```
 
 ### 3. Configuration and Provider Guidelines

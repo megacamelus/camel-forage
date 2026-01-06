@@ -1,6 +1,6 @@
 # Dashscope Model Provider
 
-This module provides integration with Alibaba's Dashscope (Qwen) models for the Camel Forage framework.
+This module provides integration with Alibaba's Dashscope (Qwen) models for the Forage framework.
 
 ⚠️ **Note:** This is currently a placeholder implementation. The provider will throw an `UnsupportedOperationException` until LangChain4j adds Dashscope support.
 
@@ -82,7 +82,7 @@ Once functional, it will be automatically discovered via ServiceLoader:
 
 ```java
 from("direct:chat")
-    .to("langchain4j-agent:my-agent?agentFactory=#class:org.apache.camel.forage.agent.factory.MultiAgentFactory")
+    .to("langchain4j-agent:my-agent?agentFactory=#class:io.kaoto.forage.agent.factory.MultiAgentFactory")
     .log("Response: ${body}");
 ```
 

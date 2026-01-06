@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**Camel Forage** is a plugin extension for Apache Camel that provides opinionated bean factories for simplified component configuration. The library eliminates manual Java bean instantiation by providing factory classes configurable through properties files, environment variables, or system properties.
+**Forage** is a plugin extension for Apache Camel that provides opinionated bean factories for simplified component configuration. The library eliminates manual Java bean instantiation by providing factory classes configurable through properties files, environment variables, or system properties.
 
 **Technology Stack:**
 - Java 17+
@@ -50,7 +50,7 @@ mvn install -DskipTests
 ## Project Structure
 
 ```
-camel-forage/
+forage/
 ├── core/                           # Core interfaces and utilities
 │   ├── forage-core-ai/            # AI interfaces (ModelProvider, ChatMemoryFactory)
 │   ├── forage-core-common/        # Config system (ConfigStore, ConfigModule, ConfigEntry)
@@ -83,9 +83,9 @@ camel-forage/
 ### 1. ServiceLoader Discovery
 
 Components are discovered via Java ServiceLoader:
-- `org.apache.camel.forage.core.ai.ModelProvider` - Chat models
-- `org.apache.camel.forage.core.ai.ChatMemoryBeanProvider` - Memory providers
-- `org.apache.camel.forage.core.vectordb.EmbeddingStoreProvider` - Vector databases
+- `io.kaoto.forage.core.ai.ModelProvider` - Chat models
+- `io.kaoto.forage.core.ai.ChatMemoryBeanProvider` - Memory providers
+- `io.kaoto.forage.core.vectordb.EmbeddingStoreProvider` - Vector databases
 
 ### 2. BeanProvider Pattern
 
@@ -169,7 +169,7 @@ Create `META-INF/services/<interface-name>` files listing implementation classes
 ## Naming Conventions
 
 - **Artifacts**: `forage-<category>-<technology>` (e.g., `forage-model-openai`)
-- **Packages**: `org.apache.camel.forage.<category>.<technology>`
+- **Packages**: `io.kaoto.forage.<category>.<technology>`
 - **Config env vars**: `FORAGE_<TECHNOLOGY>_<PROPERTY>` (e.g., `FORAGE_OPENAI_API_KEY`)
 - **Config properties**: `forage.<technology>.<property>` (e.g., `forage.openai.api.key`)
 

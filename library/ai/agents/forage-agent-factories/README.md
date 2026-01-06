@@ -4,7 +4,7 @@ Agent factory implementations for Apache Camel that provide automatic discovery 
 
 ## Overview
 
-The `forage-agent-factories` module provides the `MultiAgentFactory` implementation for AI agent orchestration. This factory serves as the main entry point for creating AI agents in the Camel Forage ecosystem, automatically discovering and wiring together agents, model providers, and chat memory factories using Java's ServiceLoader mechanism. It supports both single-agent and multi-agent configurations.
+The `forage-agent-factories` module provides the `MultiAgentFactory` implementation for AI agent orchestration. This factory serves as the main entry point for creating AI agents in the Forage ecosystem, automatically discovering and wiring together agents, model providers, and chat memory factories using Java's ServiceLoader mechanism. It supports both single-agent and multi-agent configurations.
 
 ## Features
 
@@ -22,7 +22,7 @@ The `forage-agent-factories` module provides the `MultiAgentFactory` implementat
 
 ```xml
 <dependency>
-    <groupId>org.apache.camel.forage</groupId>
+    <groupId>io.kaoto.forage</groupId>
     <artifactId>forage-agent-factories</artifactId>
     <version>1.0-SNAPSHOT</version>
 </dependency>
@@ -32,7 +32,7 @@ The `forage-agent-factories` module provides the `MultiAgentFactory` implementat
 
 ```java
 from("direct:chat")
-    .to("langchain4j-agent:my-agent?agentFactory=#class:org.apache.camel.forage.agent.factory.MultiAgentFactory")
+    .to("langchain4j-agent:my-agent?agentFactory=#class:io.kaoto.forage.agent.factory.MultiAgentFactory")
     .log("Response: ${body}");
 ```
 
@@ -43,28 +43,28 @@ For a working setup, include these dependencies:
 ```xml
 <!-- Agent factories (this module) -->
 <dependency>
-    <groupId>org.apache.camel.forage</groupId>
+    <groupId>io.kaoto.forage</groupId>
     <artifactId>forage-agent-factories</artifactId>
     <version>1.0-SNAPSHOT</version>
 </dependency>
 
 <!-- Agent implementation -->
 <dependency>
-    <groupId>org.apache.camel.forage</groupId>
+    <groupId>io.kaoto.forage</groupId>
     <artifactId>forage-agent</artifactId>
     <version>1.0-SNAPSHOT</version>
 </dependency>
 
 <!-- Model provider -->
 <dependency>
-    <groupId>org.apache.camel.forage</groupId>
+    <groupId>io.kaoto.forage</groupId>
     <artifactId>forage-model-openai</artifactId>
     <version>1.0-SNAPSHOT</version>
 </dependency>
 
 <!-- Memory provider (optional) -->
 <dependency>
-    <groupId>org.apache.camel.forage</groupId>
+    <groupId>io.kaoto.forage</groupId>
     <artifactId>forage-memory-message-window</artifactId>
     <version>1.0-SNAPSHOT</version>
 </dependency>
@@ -76,8 +76,8 @@ The agent factories use ServiceLoader to discover and configure components:
 
 ### 1. Discovery Phase
 - **Agents**: Discovers implementations of `org.apache.camel.component.langchain4j.agent.api.Agent`
-- **Model Providers**: Discovers implementations of `org.apache.camel.forage.core.ai.ModelProvider`
-- **Memory Factories**: Discovers implementations of `org.apache.camel.forage.core.ai.ChatMemoryBeanProvider`
+- **Model Providers**: Discovers implementations of `io.kaoto.forage.core.ai.ModelProvider`
+- **Memory Factories**: Discovers implementations of `io.kaoto.forage.core.ai.ChatMemoryBeanProvider`
 
 ### 2. Configuration Phase
 - Creates a `ModelProvider` instance for chat model functionality
@@ -93,14 +93,14 @@ The agent factories use ServiceLoader to discover and configure components:
 
 ### Main Classes
 
-- **`MultiAgentFactory`** (`org.apache.camel.forage.agent.factory.MultiAgentFactory`)
+- **`MultiAgentFactory`** (`io.kaoto.forage.agent.factory.MultiAgentFactory`)
   - Implements `AgentFactory` from camel-langchain4j-agent-api
   - Supports both single-agent and multi-agent configurations
   - Orchestrates agents for collaborative tasks
   - Supports configurable agent ID sources and coordination
   - Thread-safe implementation with singleton agent instances per configuration
 
-- **`ConfigurationAware`** (`org.apache.camel.forage.agent.factory.ConfigurationAware`)
+- **`ConfigurationAware`** (`io.kaoto.forage.agent.factory.ConfigurationAware`)
   - Interface for agents that accept configuration
   - Allows automatic configuration of discovered agents
 
@@ -114,8 +114,8 @@ The agent factories use ServiceLoader to discover and configure components:
 
 The factory discovers components through standard ServiceLoader files:
 - `META-INF/services/org.apache.camel.component.langchain4j.agent.api.Agent`
-- `META-INF/services/org.apache.camel.forage.core.ai.ModelProvider`
-- `META-INF/services/org.apache.camel.forage.core.ai.ChatMemoryBeanProvider`
+- `META-INF/services/io.kaoto.forage.core.ai.ModelProvider`
+- `META-INF/services/io.kaoto.forage.core.ai.ChatMemoryBeanProvider`
 
 ## Configuration
 
@@ -166,12 +166,12 @@ public class MyAgent implements Agent, ConfigurationAware {
 ### Creating Custom Model Providers
 
 1. Implement the `ModelProvider` interface
-2. Register via ServiceLoader in `META-INF/services/org.apache.camel.forage.core.ai.ModelProvider`
+2. Register via ServiceLoader in `META-INF/services/io.kaoto.forage.core.ai.ModelProvider`
 
 ### Creating Custom Memory Factories
 
 1. Implement the `ChatMemoryFactory` interface
-2. Register via ServiceLoader in `META-INF/services/org.apache.camel.forage.core.ai.ChatMemoryBeanProvider`
+2. Register via ServiceLoader in `META-INF/services/io.kaoto.forage.core.ai.ChatMemoryBeanProvider`
 
 ## Thread Safety
 

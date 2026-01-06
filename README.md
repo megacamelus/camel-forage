@@ -1,10 +1,10 @@
-# Camel Forage
+# Forage
 
 A plugin extension for Apache Camel that provides opinionated bean factories for simplified component configuration across various domains including AI, JDBC, and other bean-based components.
 
 ## Overview
 
-Camel Forage is a plugin extension that simplifies Apache Camel configuration by providing opinionated bean factories. Instead of manually configuring beans, you choose the appropriate factory and configure it through properties files, environment variables, or system properties. The library offers seamless integration with various components including AI models, JDBC data sources, chat memory providers, and agent factories through a factory-based approach that requires no Java code instantiation.
+Forage is a plugin extension that simplifies Apache Camel configuration by providing opinionated bean factories. Instead of manually configuring beans, you choose the appropriate factory and configure it through properties files, environment variables, or system properties. The library offers seamless integration with various components including AI models, JDBC data sources, chat memory providers, and agent factories through a factory-based approach that requires no Java code instantiation.
 
 ## Features
 
@@ -24,25 +24,25 @@ Add the desired modules to your project. For example, to use the default agent f
 ```xml
 <!--This component provides support for OpenAI models (GPT-3.5, GPT-4, etc.)-->
 <dependency>
-    <groupId>org.apache.camel.forage</groupId>
+    <groupId>io.kaoto.forage</groupId>
     <artifactId>camel-forage-model-open-ai</artifactId>
     <version>1.0-SNAPSHOT</version>
 </dependency>
 <!--This component provides support for the message window chat memory -->
 <dependency>
-    <groupId>org.apache.camel.forage</groupId>
+    <groupId>io.kaoto.forage</groupId>
     <artifactId>forage-memory-message-window</artifactId>
     <version>1.0-SNAPSHOT</version>
 </dependency>
 <!--This component adds agent factories for single and multi-agent systems -->
 <dependency>
-    <groupId>org.apache.camel.forage</groupId>
+    <groupId>io.kaoto.forage</groupId>
     <artifactId>forage-agent-factories</artifactId>
     <version>1.0-SNAPSHOT</version>
 </dependency>
 <!--This component adds the composable agent implementation -->
 <dependency>
-    <groupId>org.apache.camel.forage</groupId>
+    <groupId>io.kaoto.forage</groupId>
     <artifactId>forage-agent</artifactId>
     <version>1.0-SNAPSHOT</version>
 </dependency>
@@ -54,10 +54,10 @@ Simply reference the bean class in your Camel route:
 
 ```java
 from("direct:start")
-    .to("langchain4j-agent:test-memory-agent?agentFactory=#class:org.apache.camel.forage.agent.factory.MultiAgentFactory");
+    .to("langchain4j-agent:test-memory-agent?agentFactory=#class:io.kaoto.forage.agent.factory.MultiAgentFactory");
 ```
 
-The `org.apache.camel.forage.agent.factory.MultiAgentFactory` class is a factory that builds AI agents automatically based on the dependencies available on the classpath and configured through properties. It supports both single-agent and multi-agent configurations.
+The `io.kaoto.forage.agent.factory.MultiAgentFactory` class is a factory that builds AI agents automatically based on the dependencies available on the classpath and configured through properties. It supports both single-agent and multi-agent configurations.
 
 ## Available Modules
 
@@ -99,7 +99,7 @@ The `org.apache.camel.forage.agent.factory.MultiAgentFactory` class is a factory
 
 ### JDBC Modules
 
-Camel Forage provides JDBC data source factories that simplify database connectivity with pre-configured, pooled data sources for various database systems.
+Forage provides JDBC data source factories that simplify database connectivity with pre-configured, pooled data sources for various database systems.
 
 #### Available JDBC Modules
 
@@ -148,12 +148,12 @@ camel infra run postgres
 2. **Add dependencies to your project:**
 ```xml
 <dependency>
-    <groupId>org.apache.camel.forage</groupId>
+    <groupId>io.kaoto.forage</groupId>
     <artifactId>forage-jdbc-factories</artifactId>
     <version>1.0-SNAPSHOT</version>
 </dependency>
 <dependency>
-    <groupId>org.apache.camel.forage</groupId>
+    <groupId>io.kaoto.forage</groupId>
     <artifactId>forage-jdbc-postgres</artifactId>
     <version>1.0-SNAPSHOT</version>
 </dependency>
@@ -168,7 +168,7 @@ public class Test extends RouteBuilder {
     @Override
     public void configure() throws Exception {
         from("timer:java?period=1000")
-                .to("sql:select * from acme?dataSourceFactory=#class:org.apache.camel.forage.jdbc.factory.DefaultDataSourceFactory")
+                .to("sql:select * from acme?dataSourceFactory=#class:io.kaoto.forage.jdbc.factory.DefaultDataSourceFactory")
                 .log("${body}");
     }
 }
@@ -177,8 +177,8 @@ public class Test extends RouteBuilder {
 4. **Run with JBang:**
 ```bash
 camel run Test.java \
-  --dep=mvn:org.apache.camel.forage:forage-jdbc-factories:1.0-SNAPSHOT \
-  --dep=mvn:org.apache.camel.forage:forage-jdbc-postgres:1.0-SNAPSHOT
+  --dep=mvn:io.kaoto.forage:forage-jdbc-factories:1.0-SNAPSHOT \
+  --dep=mvn:io.kaoto.forage:forage-jdbc-postgres:1.0-SNAPSHOT
 ```
 
 This provides a fully configured, pooled data source out-of-the-box with sensible defaults.
@@ -211,7 +211,7 @@ jdbc.pool.max.size=50
 
 ## Configuration
 
-Camel Forage uses a flexible configuration system that supports multiple sources with a defined precedence hierarchy:
+Forage uses a flexible configuration system that supports multiple sources with a defined precedence hierarchy:
 
 1. **Environment variables** (highest precedence)
 2. **System properties** 
@@ -250,7 +250,7 @@ export OLLAMA_MODEL_NAME="llama3"                # Optional, this is the default
 
 ## Architecture
 
-Camel Forage uses a ServiceLoader-based discovery mechanism with opinionated bean factories:
+Forage uses a ServiceLoader-based discovery mechanism with opinionated bean factories:
 
 1. **Bean Factories** - Factory classes that create configured beans (DataSourceFactory, AgentFactory, ModelProvider, etc.)
 2. **Configuration System** - Properties-based configuration with environment variable and system property support
@@ -268,7 +268,7 @@ Example for a memory-less agent.
 ```java
 from("timer:ai?period=30000")
     .setBody(constant("Tell me a joke"))
-    .to("langchain4j-agent:joke-agent?agentFactory=#class:org.apache.camel.forage.agent.factory.MultiAgentFactory")
+    .to("langchain4j-agent:joke-agent?agentFactory=#class:io.kaoto.forage.agent.factory.MultiAgentFactory")
     .log("AI Response: ${body}");
 ```
 
@@ -279,7 +279,7 @@ public class MyRoutes extends RouteBuilder {
     @Override
     public void configure() throws Exception {
         from("direct:chat")
-            .to("langchain4j-agent:chat-agent?agentFactory=#class:org.apache.camel.forage.agent.factory.MultiAgentFactory")
+            .to("langchain4j-agent:chat-agent?agentFactory=#class:io.kaoto.forage.agent.factory.MultiAgentFactory")
             .log("Chat response: ${body}");
     }
 }
@@ -301,7 +301,7 @@ mvn clean install
 
 ### Integrating Apache Camel Components
 
-If you're developing Apache Camel components and want to integrate them with the Camel Forage library, or if you want to create new providers for AI models, vector databases, or other services, please refer to our comprehensive [Contributing Beans Guide](docs/contributing-beans.md).
+If you're developing Apache Camel components and want to integrate them with the Forage library, or if you want to create new providers for AI models, vector databases, or other services, please refer to our comprehensive [Contributing Beans Guide](docs/contributing-beans.md).
 
 This guide is essential reading for:
 - **Component developers** who want to add factory-based configuration to their Apache Camel components

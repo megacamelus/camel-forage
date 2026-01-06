@@ -5,14 +5,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.apache.camel.forage</groupId>
+        <groupId>io.kaoto.forage</groupId>
         <artifactId>library</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>common</artifactId>
     <packaging>pom</packaging>
-    <name>Camel Forage :: Library :: Common</name>
+    <name>Forage :: Library :: Common</name>
 
     <modules>
         <module>forage-spring-boot-common</module>

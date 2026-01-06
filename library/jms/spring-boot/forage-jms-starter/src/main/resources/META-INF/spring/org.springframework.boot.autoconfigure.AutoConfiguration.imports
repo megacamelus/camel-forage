@@ -1,2 +1,2 @@
-org.apache.camel.forage.springboot.jms.ForageConnectionFactoryAutoConfiguration
-org.apache.camel.forage.springboot.jms.jta.ForageTransactionManagementAutoConfiguration
+io.kaoto.forage.springboot.jms.ForageConnectionFactoryAutoConfiguration
+io.kaoto.forage.springboot.jms.jta.ForageTransactionManagementAutoConfiguration

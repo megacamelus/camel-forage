@@ -1,6 +1,6 @@
 # IBM Watsonx.ai Model Provider
 
-This module provides integration with IBM Watsonx.ai for the Camel Forage framework, enabling you to use IBM's enterprise AI platform and foundation models in your applications.
+This module provides integration with IBM Watsonx.ai for the Forage framework, enabling you to use IBM's enterprise AI platform and foundation models in your applications.
 
 ## Configuration
 
@@ -104,7 +104,7 @@ The provider is automatically discovered via ServiceLoader. Use it in your Camel
 
 ```java
 from("direct:chat")
-    .to("langchain4j-agent:my-agent?agentFactory=#class:org.apache.camel.forage.agent.factory.MultiAgentFactory")
+    .to("langchain4j-agent:my-agent?agentFactory=#class:io.kaoto.forage.agent.factory.MultiAgentFactory")
     .log("Response: ${body}");
 ```
 
@@ -178,7 +178,7 @@ export WATSONXAI_PROJECT_ID="your-project-id"
 
 ```java
 from("direct:watsonx-chat")
-    .to("langchain4j-agent:watsonx-agent?agentFactory=#class:org.apache.camel.forage.agent.factory.MultiAgentFactory")
+    .to("langchain4j-agent:watsonx-agent?agentFactory=#class:io.kaoto.forage.agent.factory.MultiAgentFactory")
     .log("Watsonx.ai Response: ${body}");
 ```
 

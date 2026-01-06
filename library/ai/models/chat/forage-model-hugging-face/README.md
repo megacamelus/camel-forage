@@ -1,6 +1,6 @@
 # HuggingFace Model Provider
 
-This module provides integration with HuggingFace Inference API for the Camel Forage framework, enabling you to use various open-source models hosted on HuggingFace.
+This module provides integration with HuggingFace Inference API for the Forage framework, enabling you to use various open-source models hosted on HuggingFace.
 
 ## Configuration
 
@@ -60,7 +60,7 @@ The provider is automatically discovered via ServiceLoader. Use it in your Camel
 
 ```java
 from("direct:chat")
-    .to("langchain4j-agent:my-agent?agentFactory=#class:org.apache.camel.forage.agent.factory.MultiAgentFactory")
+    .to("langchain4j-agent:my-agent?agentFactory=#class:io.kaoto.forage.agent.factory.MultiAgentFactory")
     .log("Response: ${body}");
 ```
 

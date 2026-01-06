@@ -11,7 +11,7 @@ Several simplifications and helper methods are introduced by `org.apache.camel-f
 
 Each integration test needs to comply with the following mandatory requirements:
 
-* Each test class has to implement `package org.apache.camel.forage.integration.tests;
+* Each test class has to implement `package io.kaoto.forage.integration.tests;
 .ForageIntegrationTest`, which does not require addition of any new method.
 * Each test class has to be annotated by 
   ```
@@ -59,13 +59,13 @@ This flag prevents Citrus to stop Camel process (running in the background) afte
 ## DifferentRuntimes
 
 We have 3 test suites (defined via JUnit5 API).
-* `org.apache.camel.forage.integration.tests.suites.PlainSuite`
-* `org.apache.camel.forage.integration.tests.suites.QuarkusSuite`
-* `org.apache.camel.forage.integration.tests.suites.SpringBootSuite`
+* `io.kaoto.forage.integration.tests.suites.PlainSuite`
+* `io.kaoto.forage.integration.tests.suites.QuarkusSuite`
+* `io.kaoto.forage.integration.tests.suites.SpringBootSuite`
 
 Every test is executed trice times (for each different runtime).
 You do not need to take care of runtimes when writing an integration tests.
-(Implementation, taking care of runtimes, is located in `org.apache.camel.forage.integration.tests.ForageTestCaseRunner`).
+(Implementation, taking care of runtimes, is located in `io.kaoto.forage.integration.tests.ForageTestCaseRunner`).
 
 When you run the integration test via IDE or via cmd, the test runs `<plain Camel>` runtime.
 To select runtime, export `INTEGRATION_TEST_RUNTIME` property as an environmental property.
@@ -78,9 +78,9 @@ mvn clean verify -f integration-tests/jdbc -Dit.test=JdbcTest
 
 You should see the runtime for each Camel Action in the log, similar to: 
 ```java
-[main] INFO org.apache.camel.forage.integration.tests.ForageTestCaseRunner - --------------------------------------------------------------------------------
-[main] INFO org.apache.camel.forage.integration.tests.ForageTestCaseRunner - ----------------------------------- quarkus ------------------------------------
-[main] INFO org.apache.camel.forage.integration.tests.ForageTestCaseRunner - --------------------------------------------------------------------------------
+[main] INFO io.kaoto.forage.integration.tests.ForageTestCaseRunner - --------------------------------------------------------------------------------
+[main] INFO io.kaoto.forage.integration.tests.ForageTestCaseRunner - ----------------------------------- quarkus ------------------------------------
+[main] INFO io.kaoto.forage.integration.tests.ForageTestCaseRunner - --------------------------------------------------------------------------------
 ```
 
 ## Tips and tricks
@@ -102,6 +102,6 @@ Whole example:
 * Be aware that test for runtimes (`quarkus` or `spring-boot`) runs in a sub-folder with exported application.
 This fact affects all relative paths used in the routes - they fail by default (because none of paths exist).
 For such case please manually replace relative paths with absolute paths in the `@BeforeAll` method.
-Follow `org.apache.camel.forage.jdbc.JdbcTest` as an example.
+Follow `io.kaoto.forage.jdbc.JdbcTest` as an example.
 
 * Please use tests from `org.apahe.camel.forage:integration-tests-jdbc`  as examples for further details.

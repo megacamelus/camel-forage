@@ -5,14 +5,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.apache.camel.forage</groupId>
+        <groupId>io.kaoto.forage</groupId>
         <artifactId>integration-tests</artifactId>
         <version>1.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>integration-tests-common</artifactId>
-    <name>Camel Forage :: Integration Tests :: Common</name>
+    <name>Forage :: Integration Tests :: Common</name>
 
     <dependencies>
         <dependency>
@@ -51,7 +51,7 @@
         </dependency>
         <!-- Required for helper classes, no catalog is required -->
         <dependency>
-            <groupId>org.apache.camel.forage</groupId>
+            <groupId>io.kaoto.forage</groupId>
             <artifactId>camel-jbang-plugin-forage</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -71,7 +71,7 @@
                       Integration tests require a lot of dependencies for forage plugin. Forage-catalog requires almost
                       everything, which moves integration test to the end of the build. -->
                 <dependency>
-                    <groupId>org.apache.camel.forage</groupId>
+                    <groupId>io.kaoto.forage</groupId>
                     <artifactId>forage-catalog</artifactId>
                     <version>${project.version}</version>
                     <type>pom</type>

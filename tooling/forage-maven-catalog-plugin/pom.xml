@@ -5,25 +5,25 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.apache.camel.forage</groupId>
+        <groupId>io.kaoto.forage</groupId>
         <artifactId>tooling</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>forage-maven-catalog-plugin</artifactId>
     <packaging>maven-plugin</packaging>
-    <name>Camel Forage :: Tooling :: Maven Catalog Plugin</name>
-    <description>Maven plugin for generating Camel Forage component catalog</description>
+    <name>Forage :: Tooling :: Maven Catalog Plugin</name>
+    <description>Maven plugin for generating Forage component catalog</description>
 
     <dependencies>
         <dependency>
-            <groupId>org.apache.camel.forage</groupId>
+            <groupId>io.kaoto.forage</groupId>
             <artifactId>forage-catalog-model</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>org.apache.camel.forage</groupId>
+            <groupId>io.kaoto.forage</groupId>
             <artifactId>forage-core-common</artifactId>
             <version>${project.version}</version>
         </dependency>

@@ -21,7 +21,7 @@ The `forage-agent` module provides a complete AI agent implementation (`SimpleAg
 
 ```xml
 <dependency>
-    <groupId>org.apache.camel.forage</groupId>
+    <groupId>io.kaoto.forage</groupId>
     <artifactId>forage-agent</artifactId>
     <version>1.0-SNAPSHOT</version>
 </dependency>
@@ -35,13 +35,13 @@ The composable agent is automatically discovered and used when you include this 
 from("direct:chat")
     .setBody(constant("My name is Alice"))
     .setHeader(Headers.MEMORY_ID, constant(1))
-    .to("langchain4j-agent:memory-agent?agentFactory=#class:org.apache.camel.forage.agent.factory.MultiAgentFactory")
+    .to("langchain4j-agent:memory-agent?agentFactory=#class:io.kaoto.forage.agent.factory.MultiAgentFactory")
     .log("Response: ${body}");
 
 from("timer:check?delay=5000&repeatCount=1")
          .setBody(constant("What is my name?"))
         .setHeader(Headers.MEMORY_ID, constant(1))
-        .to("langchain4j-agent:test-memory-agent?agentFactory=#class:org.apache.camel.forage.agent.factory.MultiAgentFactory")
+        .to("langchain4j-agent:test-memory-agent?agentFactory=#class:io.kaoto.forage.agent.factory.MultiAgentFactory")
         .log("${body}");
 ```
 
@@ -69,7 +69,7 @@ The SimpleAgent is configured automatically by the agent factories using Service
 
 ### Main Class
 
-- **`SimpleAgent`** (`org.apache.camel.forage.agent.simple.SimpleAgent`)
+- **`SimpleAgent`** (`io.kaoto.forage.agent.simple.SimpleAgent`)
   - Implements the `Agent` interface from camel-langchain4j-agent-api
   - Implements `ConfigurationAware` for automatic configuration
   - Delegates to `ForageAgentWithMemory` or `ForageAgentWithoutMemory` based on configuration

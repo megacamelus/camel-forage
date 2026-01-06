@@ -1,2 +1,2 @@
-org.apache.camel.forage.springboot.jdbc.ForageDataSourceAutoConfiguration
-org.apache.camel.forage.springboot.jdbc.jta.ForageTransactionManagementAutoConfiguration
+io.kaoto.forage.springboot.jdbc.ForageDataSourceAutoConfiguration
+io.kaoto.forage.springboot.jdbc.jta.ForageTransactionManagementAutoConfiguration

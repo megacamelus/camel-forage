@@ -1,1 +1,1 @@
-org.apache.camel.forage.quarkus.jms.ForageJmsConfigSource
+io.kaoto.forage.quarkus.jms.ForageJmsConfigSource

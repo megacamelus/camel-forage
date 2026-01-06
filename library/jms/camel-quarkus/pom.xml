@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.apache.camel.forage</groupId>
+        <groupId>io.kaoto.forage</groupId>
         <artifactId>jms</artifactId>
         <version>1.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
@@ -12,7 +12,7 @@
 
     <artifactId>jms-camel-quarkus</artifactId>
     <packaging>pom</packaging>
-    <name>Camel Forage :: Library :: JMS :: Camel Quarkus</name>
+    <name>Forage :: Library :: JMS :: Camel Quarkus</name>
 
     <modules>
         <module>deployment</module>

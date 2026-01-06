@@ -1,10 +1,10 @@
-# Camel Forage Ollama Model
+# Forage Ollama Model
 
-This module provides integration with Ollama AI models for the Camel Forage framework.
+This module provides integration with Ollama AI models for the Forage framework.
 
 ## Overview
 
-The Ollama model integration allows you to use locally hosted Ollama models with Camel Forage. Ollama provides an easy way to run large language models locally, supporting models like Llama 3, Mistral, Code Llama, and many others.
+The Ollama model integration allows you to use locally hosted Ollama models with Forage. Ollama provides an easy way to run large language models locally, supporting models like Llama 3, Mistral, Code Llama, and many others.
 
 ## Dependencies
 
@@ -12,7 +12,7 @@ Add this dependency to your Maven project:
 
 ```xml
 <dependency>
-    <groupId>org.apache.camel.forage</groupId>
+    <groupId>io.kaoto.forage</groupId>
     <artifactId>forage-model-ollama</artifactId>
     <version>1.0-SNAPSHOT</version>
 </dependency>

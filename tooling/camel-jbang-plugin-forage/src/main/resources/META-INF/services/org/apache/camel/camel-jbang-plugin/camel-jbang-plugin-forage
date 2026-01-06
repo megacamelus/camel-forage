@@ -1,1 +1,1 @@
-class=org.apache.camel.forage.plugin.ForagePlugin
+class=io.kaoto.forage.plugin.ForagePlugin

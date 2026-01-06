@@ -5,12 +5,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.apache.camel.forage</groupId>
+        <groupId>io.kaoto.forage</groupId>
         <artifactId>models</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>embeddings</artifactId>
-    <name>Camel Forage :: Library :: AI :: Models :: Embeddings</name>
+    <name>Forage :: Library :: AI :: Models :: Embeddings</name>
 
 </project>

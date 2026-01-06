@@ -1,10 +1,10 @@
-# Camel Forage OpenAI Model
+# Forage OpenAI Model
 
-This module provides integration with OpenAI's GPT models for the Camel Forage framework.
+This module provides integration with OpenAI's GPT models for the Forage framework.
 
 ## Overview
 
-The OpenAI model integration allows you to use OpenAI's powerful language models with Camel Forage. This includes GPT-3.5, GPT-4, and other OpenAI models, providing state-of-the-art natural language processing capabilities.
+The OpenAI model integration allows you to use OpenAI's powerful language models with Forage. This includes GPT-3.5, GPT-4, and other OpenAI models, providing state-of-the-art natural language processing capabilities.
 
 ## Dependencies
 
@@ -12,7 +12,7 @@ Add this dependency to your Maven project:
 
 ```xml
 <dependency>
-    <groupId>org.apache.camel.forage</groupId>
+    <groupId>io.kaoto.forage</groupId>
     <artifactId>camel-forage-model-open-ai</artifactId>
     <version>1.0-SNAPSHOT</version>
 </dependency>
@@ -179,7 +179,7 @@ openai.log.responses=false
 ### Java Code Usage
 
 ```java
-import org.apache.camel.forage.models.chat.openai.OpenAIProvider;
+import io.kaoto.forage.models.chat.openai.OpenAIProvider;
 import dev.langchain4j.model.chat.ChatModel;
 
 // Create provider (configuration is loaded automatically)
@@ -189,7 +189,7 @@ OpenAIProvider provider = new OpenAIProvider();
 ChatModel model = provider.newModel();
 
 // Use the model for chat operations
-// (specific usage depends on your Camel Forage setup)
+// (specific usage depends on your Forage setup)
 ```
 
 ### Custom Base URL (for Proxies/Compatible APIs)

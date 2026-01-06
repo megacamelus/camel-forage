@@ -5,14 +5,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.apache.camel.forage</groupId>
+        <groupId>io.kaoto.forage</groupId>
         <artifactId>chat-memory</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>tests</artifactId>
     <packaging>pom</packaging>
-    <name>Camel Forage :: Library :: AI :: Chat Memory :: Tests</name>
+    <name>Forage :: Library :: AI :: Chat Memory :: Tests</name>
     <modules>
         <module>forage-memory-tests-tck</module>
     </modules>

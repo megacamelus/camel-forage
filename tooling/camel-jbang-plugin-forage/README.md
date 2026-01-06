@@ -1,6 +1,6 @@
-# Camel Forage JBang Plugin
+# Forage JBang Plugin
 
-A JBang plugin for Apache Camel that provides utilities for working with Camel Forage components, including datasource connection testing and configuration validation.
+A JBang plugin for Apache Camel that provides utilities for working with Forage components, including datasource connection testing and configuration validation.
 
 ## Installation
 
@@ -11,9 +11,9 @@ camel plugin add forage \
   --command='forage' \
   --description='Forage Camel JBang Plugin' \
   --artifactId='camel-jbang-plugin-forage' \
-  --groupId='org.apache.camel.forage' \
+  --groupId='io.kaoto.forage' \
   --version='1.0-SNAPSHOT' \
-  --gav='org.apache.camel.forage:camel-jbang-plugin-forage:1.0-SNAPSHOT'
+  --gav='io.kaoto.forage:camel-jbang-plugin-forage:1.0-SNAPSHOT'
 ```
 
 ## Usage
@@ -46,7 +46,7 @@ Remove the plugin entry from `~/.camel-jbang-plugins.json`
 
 ### Datasource Commands
 
-The plugin provides utilities for testing and validating datasource connections configured through Camel Forage.
+The plugin provides utilities for testing and validating datasource connections configured through Forage.
 
 #### `datasource test-connection`
 
@@ -82,7 +82,7 @@ Output:
 ```
 Testing connection for database: postgres
 Loading JDBC dependencies for: postgres
-Downloading dependency: org.apache.camel.forage:forage-jdbc-postgres:1.0-SNAPSHOT
+Downloading dependency: io.kaoto.forage:forage-jdbc-postgres:1.0-SNAPSHOT
 Dependencies loaded successfully
 Establishing database connection...
 Database connection established successfully
@@ -117,7 +117,7 @@ Output:
 Testing connection for database: mysql
 Using configuration: ds2
 Loading JDBC dependencies for: mysql
-Downloading dependency: org.apache.camel.forage:forage-jdbc-mysql:1.0-SNAPSHOT
+Downloading dependency: io.kaoto.forage:forage-jdbc-mysql:1.0-SNAPSHOT
 Dependencies loaded successfully
 Establishing database connection...
 Database connection established successfully

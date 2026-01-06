@@ -1,6 +1,6 @@
 # Azure Event Hubs Provider
 
-This module provides an Azure Event Hubs producer client for Apache Camel Forage.
+This module provides an Azure Event Hubs producer client for Apache Forage.
 
 ## Overview
 
@@ -109,7 +109,7 @@ java -Dazure.eventhubs.eventhub.name=default-hub \
 ### Programmatic Usage
 
 ```java
-import org.apache.camel.forage.core.cloud.EventHubProducerProvider;
+import io.kaoto.forage.core.cloud.EventHubProducerProvider;
 import com.azure.messaging.eventhubs.EventHubProducerAsyncClient;
 
 // Default configuration
@@ -143,7 +143,7 @@ Maven:
 
 ```xml
 <dependency>
-    <groupId>org.apache.camel.forage</groupId>
+    <groupId>io.kaoto.forage</groupId>
     <artifactId>forage-azure-eventhubs</artifactId>
     <version>1.0-SNAPSHOT</version>
 </dependency>

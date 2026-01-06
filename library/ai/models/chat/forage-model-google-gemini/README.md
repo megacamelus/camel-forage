@@ -1,10 +1,10 @@
-# Camel Forage Google Gemini Model
+# Forage Google Gemini Model
 
-This module provides integration with Google's Gemini AI models for the Camel Forage framework.
+This module provides integration with Google's Gemini AI models for the Forage framework.
 
 ## Overview
 
-The Google Gemini model integration allows you to use Google's state-of-the-art AI models with Camel Forage. Gemini models offer advanced capabilities including text generation, code generation, and multimodal understanding.
+The Google Gemini model integration allows you to use Google's state-of-the-art AI models with Forage. Gemini models offer advanced capabilities including text generation, code generation, and multimodal understanding.
 
 ## Dependencies
 
@@ -12,7 +12,7 @@ Add this dependency to your Maven project:
 
 ```xml
 <dependency>
-    <groupId>org.apache.camel.forage</groupId>
+    <groupId>io.kaoto.forage</groupId>
     <artifactId>forage-model-google-gemini</artifactId>
     <version>1.0-SNAPSHOT</version>
 </dependency>
@@ -90,7 +90,7 @@ google.model.name=gemini-pro
 ### Basic Setup
 
 ```java
-import org.apache.camel.forage.models.chat.google.GoogleGeminiProvider;
+import io.kaoto.forage.models.chat.google.GoogleGeminiProvider;
 import dev.langchain4j.model.chat.ChatModel;
 
 // Create provider (configuration is loaded automatically)
@@ -100,7 +100,7 @@ GoogleGeminiProvider provider = new GoogleGeminiProvider();
 ChatModel model = provider.newModel();
 
 // Use the model for chat operations
-// (specific usage depends on your Camel Forage setup)
+// (specific usage depends on your Forage setup)
 ```
 
 ### Environment Configuration Example

@@ -1,6 +1,6 @@
-# Camel Forage Chat Memory TCK
+# Forage Chat Memory TCK
 
-This module provides a Technology Compatibility Kit (TCK) for testing chat memory implementations in the Camel Forage framework.
+This module provides a Technology Compatibility Kit (TCK) for testing chat memory implementations in the Forage framework.
 
 ## Overview
 
@@ -29,7 +29,7 @@ Add the TCK as a test dependency in your memory implementation module:
 
 ```xml
 <dependency>
-    <groupId>org.apache.camel.forage</groupId>
+    <groupId>io.kaoto.forage</groupId>
     <artifactId>forage-memory-tests-tck</artifactId>
     <version>${project.version}</version>
     <scope>test</scope>
@@ -53,7 +53,7 @@ Add the TCK as a test dependency in your memory implementation module:
 
 ## Included Test Implementations
 
-The TCK module includes concrete test implementations for all Camel Forage memory providers:
+The TCK module includes concrete test implementations for all Forage memory providers:
 
 ### MessageWindowChatMemoryTCKTest
 Tests the `MessageWindowChatMemoryFactory` implementation using in-memory persistence.

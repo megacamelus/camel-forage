@@ -1,6 +1,6 @@
 # MistralAI Model Provider
 
-This module provides integration with MistralAI for the Camel Forage framework, enabling you to use MistralAI's powerful language models in your applications.
+This module provides integration with MistralAI for the Forage framework, enabling you to use MistralAI's powerful language models in your applications.
 
 ## Configuration
 
@@ -80,7 +80,7 @@ The provider is automatically discovered via ServiceLoader. Use it in your Camel
 
 ```java
 from("direct:chat")
-    .to("langchain4j-agent:my-agent?agentFactory=#class:org.apache.camel.forage.agent.factory.MultiAgentFactory")
+    .to("langchain4j-agent:my-agent?agentFactory=#class:io.kaoto.forage.agent.factory.MultiAgentFactory")
     .log("Response: ${body}");
 ```
 

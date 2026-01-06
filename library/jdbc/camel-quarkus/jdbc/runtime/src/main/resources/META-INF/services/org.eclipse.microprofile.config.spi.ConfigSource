@@ -1,1 +1,1 @@
-org.apache.camel.forage.quarkus.jdbc.ForageJdbcConfigSource
+io.kaoto.forage.quarkus.jdbc.ForageJdbcConfigSource

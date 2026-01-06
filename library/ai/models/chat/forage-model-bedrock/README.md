@@ -1,10 +1,10 @@
-# Camel Forage - Amazon Bedrock Model Provider
+# Forage - Amazon Bedrock Model Provider
 
-Amazon Bedrock integration for Camel Forage, providing access to foundation models through AWS.
+Amazon Bedrock integration for Forage, providing access to foundation models through AWS.
 
 ## Overview
 
-Amazon Bedrock is a managed service offering access to foundation models from multiple providers through a unified API. This provider enables integration with Bedrock's model catalog within the Camel Forage framework.
+Amazon Bedrock is a managed service offering access to foundation models from multiple providers through a unified API. This provider enables integration with Bedrock's model catalog within the Forage framework.
 
 ## Supported Models
 
@@ -172,7 +172,7 @@ Bedrock models require opt-in before use:
 
 ```java
 from("direct:chat")
-    .to("langchain4j-agent:bedrock?agentFactory=#class:org.apache.camel.forage.agent.factory.MultiAgentFactory")
+    .to("langchain4j-agent:bedrock?agentFactory=#class:io.kaoto.forage.agent.factory.MultiAgentFactory")
     .log("Response: ${body}");
 ```
 
@@ -184,11 +184,11 @@ System.setProperty("advanced.bedrock.model.id", "anthropic.claude-3-5-sonnet-202
 
 from("direct:fast-chat")
     .setHeader("agentId", constant("fast"))
-    .to("langchain4j-agent:fast?agentFactory=#class:org.apache.camel.forage.agent.factory.MultiAgentFactory");
+    .to("langchain4j-agent:fast?agentFactory=#class:io.kaoto.forage.agent.factory.MultiAgentFactory");
 
 from("direct:advanced-chat")
     .setHeader("agentId", constant("advanced"))
-    .to("langchain4j-agent:advanced?agentFactory=#class:org.apache.camel.forage.agent.factory.MultiAgentFactory");
+    .to("langchain4j-agent:advanced?agentFactory=#class:io.kaoto.forage.agent.factory.MultiAgentFactory");
 ```
 
 ### Using BedrockModelId Enum
@@ -269,4 +269,4 @@ This module requires:
 
 ## License
 
-This module is part of the Apache Camel Forage project and is licensed under the Apache License 2.0.
+This module is part of the Apache Forage project and is licensed under the Apache License 2.0.

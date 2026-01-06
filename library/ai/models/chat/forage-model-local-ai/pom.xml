@@ -5,25 +5,25 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.apache.camel.forage</groupId>
+        <groupId>io.kaoto.forage</groupId>
         <artifactId>chat</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>forage-model-local-ai</artifactId>
     <packaging>jar</packaging>
-    <name>Camel Forage :: Library :: AI :: Models :: Chat :: LocalAI</name>
+    <name>Forage :: Library :: AI :: Models :: Chat :: LocalAI</name>
 
     <dependencies>
         <dependency>
-            <groupId>org.apache.camel.forage</groupId>
+            <groupId>io.kaoto.forage</groupId>
             <artifactId>forage-core-common</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
 
         <dependency>
-            <groupId>org.apache.camel.forage</groupId>
+            <groupId>io.kaoto.forage</groupId>
             <artifactId>forage-core-ai</artifactId>
             <version>${project.version}</version>
         </dependency>

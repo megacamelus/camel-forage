@@ -4,13 +4,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.apache.camel.forage</groupId>
+        <groupId>io.kaoto.forage</groupId>
         <artifactId>jdbc</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>forage-jdbc-mssql</artifactId>
-    <name>Camel Forage :: Library :: JDBC :: MSSQL</name>
+    <name>Forage :: Library :: JDBC :: MSSQL</name>
 
     <properties>
         <mssql.version>13.2.1.jre11</mssql.version>
@@ -18,19 +18,19 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.apache.camel.forage</groupId>
+            <groupId>io.kaoto.forage</groupId>
             <artifactId>forage-core-jdbc</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>org.apache.camel.forage</groupId>
+            <groupId>io.kaoto.forage</groupId>
             <artifactId>forage-core-common</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>org.apache.camel.forage</groupId>
+            <groupId>io.kaoto.forage</groupId>
             <artifactId>forage-jdbc-common</artifactId>
             <version>${project.version}</version>
         </dependency>

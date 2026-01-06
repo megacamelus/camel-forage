@@ -1,10 +1,10 @@
-# Camel Forage Agents
+# Forage Agents
 
 AI agent implementations for Apache Camel providing conversational chat functionality with different memory and configuration options.
 
 ## Overview
 
-The agents module provides a complete ecosystem for AI agent functionality in Apache Camel, including agent implementations, factory patterns, and automatic discovery mechanisms. All agents are designed to work seamlessly with the broader Camel Forage library ecosystem.
+The agents module provides a complete ecosystem for AI agent functionality in Apache Camel, including agent implementations, factory patterns, and automatic discovery mechanisms. All agents are designed to work seamlessly with the broader Forage library ecosystem.
 
 ## Available Agents
 
@@ -35,7 +35,7 @@ Flexible agent implementation that can work with or without memory based on conf
 **Composable agent (works with or without memory):**
 ```xml
 <dependency>
-    <groupId>org.apache.camel.forage</groupId>
+    <groupId>io.kaoto.forage</groupId>
     <artifactId>forage-agent</artifactId>
     <version>1.0-SNAPSHOT</version>
 </dependency>
@@ -46,7 +46,7 @@ Flexible agent implementation that can work with or without memory based on conf
 **Agent factories (always required):**
 ```xml
 <dependency>
-    <groupId>org.apache.camel.forage</groupId>
+    <groupId>io.kaoto.forage</groupId>
     <artifactId>forage-agent-factories</artifactId>
     <version>1.0-SNAPSHOT</version>
 </dependency>
@@ -56,21 +56,21 @@ Flexible agent implementation that can work with or without memory based on conf
 ```xml
 <!-- OpenAI -->
 <dependency>
-    <groupId>org.apache.camel.forage</groupId>
+    <groupId>io.kaoto.forage</groupId>
     <artifactId>forage-model-openai</artifactId>
     <version>1.0-SNAPSHOT</version>
 </dependency>
 
 <!-- Google Gemini -->
 <dependency>
-    <groupId>org.apache.camel.forage</groupId>
+    <groupId>io.kaoto.forage</groupId>
     <artifactId>forage-model-google-gemini</artifactId>
     <version>1.0-SNAPSHOT</version>
 </dependency>
 
 <!-- Ollama -->
 <dependency>
-    <groupId>org.apache.camel.forage</groupId>
+    <groupId>io.kaoto.forage</groupId>
     <artifactId>forage-model-ollama</artifactId>
     <version>1.0-SNAPSHOT</version>
 </dependency>
@@ -79,7 +79,7 @@ Flexible agent implementation that can work with or without memory based on conf
 **Memory provider (optional for memory-enabled conversations):**
 ```xml
 <dependency>
-    <groupId>org.apache.camel.forage</groupId>
+    <groupId>io.kaoto.forage</groupId>
     <artifactId>forage-memory-message-window</artifactId>
     <version>1.0-SNAPSHOT</version>
 </dependency>
@@ -219,7 +219,7 @@ public class ChatBotRoutes extends RouteBuilder {
         from("timer:conversation?period=30s")
             .setHeader("CamelLangChain4jAgent.memoryId", constant("user-123"))
             .setBody(constant("How are you today?"))
-            .to("langchain4j-agent:chatbot?agentFactory=#class:org.apache.camel.forage.agent.factory.MultiAgentFactory")
+            .to("langchain4j-agent:chatbot?agentFactory=#class:io.kaoto.forage.agent.factory.MultiAgentFactory")
             .log("Bot: ${body}");
     }
 }
@@ -232,7 +232,7 @@ public class ApiRoutes extends RouteBuilder {
     @Override
     public void configure() throws Exception {
         from("rest:post:/ask")
-            .to("langchain4j-agent:api?agentFactory=#class:org.apache.camel.forage.agent.factory.MultiAgentFactory")
+            .to("langchain4j-agent:api?agentFactory=#class:io.kaoto.forage.agent.factory.MultiAgentFactory")
             .log("API Response: ${body}");
     }
 }
@@ -243,7 +243,7 @@ public class ApiRoutes extends RouteBuilder {
 ```java
 from("file:questions?noop=true")
     .split(body().tokenize("\n"))
-    .to("langchain4j-agent:processor?agentFactory=#class:org.apache.camel.forage.agent.factory.MultiAgentFactory")
+    .to("langchain4j-agent:processor?agentFactory=#class:io.kaoto.forage.agent.factory.MultiAgentFactory")
     .to("file:answers");
 ```
 
@@ -252,8 +252,8 @@ from("file:questions?noop=true")
 All agents and factories use Java's ServiceLoader for automatic discovery:
 
 - **Agents**: Registered in `META-INF/services/org.apache.camel.component.langchain4j.agent.api.Agent`
-- **Model Providers**: Registered in `META-INF/services/org.apache.camel.forage.core.ai.ModelProvider`
-- **Memory Factories**: Registered in `META-INF/services/org.apache.camel.forage.core.ai.ChatMemoryBeanProvider`
+- **Model Providers**: Registered in `META-INF/services/io.kaoto.forage.core.ai.ModelProvider`
+- **Memory Factories**: Registered in `META-INF/services/io.kaoto.forage.core.ai.ChatMemoryBeanProvider`
 
 ## Extending the Agents
 

@@ -5,13 +5,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.apache.camel.forage</groupId>
+        <groupId>io.kaoto.forage</groupId>
         <artifactId>agents</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>forage-agent-factories</artifactId>
-    <name>Camel Forage :: Library :: AI :: Agents :: Default Factory</name>
+    <name>Forage :: Library :: AI :: Agents :: Default Factory</name>
 
     <dependencies>
         <dependency>
@@ -20,13 +20,13 @@
         </dependency>
 
         <dependency>
-            <groupId>org.apache.camel.forage</groupId>
+            <groupId>io.kaoto.forage</groupId>
             <artifactId>forage-core-ai</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>org.apache.camel.forage</groupId>
+            <groupId>io.kaoto.forage</groupId>
             <artifactId>forage-core-common</artifactId>
             <version>${project.version}</version>
         </dependency>
