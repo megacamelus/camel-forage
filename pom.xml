@@ -181,6 +181,11 @@
 
     <repositories>
         <repository>
+            <id>google-maven-central</id>
+            <name>Google Maven Central Mirror</name>
+            <url>https://maven-central.storage.googleapis.com/maven2</url>
+        </repository>
+        <repository>
             <id>apache.snapshots</id>
             <name>Apache Snapshot Repository</name>
             <url>https://repository.apache.org/snapshots</url>
@@ -192,5 +197,13 @@
             </snapshots>
         </repository>
     </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>google-maven-central</id>
+            <name>Google Maven Central Mirror</name>
+            <url>https://maven-central.storage.googleapis.com/maven2</url>
+        </pluginRepository>
+    </pluginRepositories>
 
 </project>
