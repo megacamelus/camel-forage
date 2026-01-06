@@ -35,7 +35,7 @@ import org.apache.camel.forage.plugin.datasource.DataSourceCommand;
 import org.apache.camel.forage.plugin.datasource.TestDataSourceCommand;
 import picocli.CommandLine;
 
-@CamelJBangPlugin(name = "camel-jbang-plugin-forage", firstVersion = "4.15.0")
+@CamelJBangPlugin(name = "camel-jbang-plugin-forage", firstVersion = "4.16.0")
 public class ForagePlugin implements Plugin {
 
     @Override
