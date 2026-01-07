@@ -67,6 +67,23 @@
         <ibmmq.container.image>icr.io/ibm-messaging/mq:9.4.3.0-r1</ibmmq.container.image>
     </properties>
 
+    <developers>
+        <developer>
+            <name>The Kaoto Development Team</name>
+            <email>hellokaoto@gmail.com</email>
+            <url>https://kaoto.io</url>
+            <organization>Kaoto</organization>
+            <organizationUrl>https://kaoto.io</organizationUrl>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:https://github.com/KaotoIO/forage.git</connection>
+        <developerConnection>scm:git:https://github.com/KaotoIO/forage.git</developerConnection>
+        <url>https://github.com/KaotoIO/forage</url>
+        <tag>HEAD</tag>
+    </scm>
+
     <licenses>
         <license>
             <name>Apache-2.0</name>
