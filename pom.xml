@@ -11,7 +11,7 @@
     <name>Forage</name>
 
     <properties>
-        <camel.version>4.16.0</camel.version>
+        <camel.version>4.17.0</camel.version>
         <langchain4j-version>1.8.0</langchain4j-version>
         <langchain4j-beta-version>1.9.0-beta16</langchain4j-beta-version>
         <langchain4j-community-version>1.9.0-beta16</langchain4j-community-version>

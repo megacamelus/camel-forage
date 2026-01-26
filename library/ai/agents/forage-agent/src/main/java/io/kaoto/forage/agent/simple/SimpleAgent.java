@@ -36,7 +36,8 @@ public class SimpleAgent implements Agent, ConfigurationAware {
     }
 
     @Override
-    public String chat(AiAgentBody aiAgentBody, ToolProvider toolProvider) {
+    @SuppressWarnings("unchecked")
+    public String chat(AiAgentBody<?> aiAgentBody, ToolProvider toolProvider) {
         LOG.debug("Chatting using ForageAgent");
 
         if (hasMemory()) {
@@ -52,11 +53,8 @@ public class SimpleAgent implements Agent, ConfigurationAware {
             ForageAgentWithoutMemory agentService = createAiAgentService(toolProvider, ForageAgentWithoutMemory.class);
 
             if (aiAgentBody.getContent() != null) {
-                if (aiAgentBody.getContent() instanceof List contents) {
-                    return agentService.chat(aiAgentBody.getUserMessage(), contents);
-                } else if (aiAgentBody.getContent() instanceof Content content) {
-                    return agentService.chat(aiAgentBody.getUserMessage(), List.of(content));
-                }
+                Content content = aiAgentBody.getContent();
+                return agentService.chat(aiAgentBody.getUserMessage(), List.of(content));
             }
 
             return aiAgentBody.getSystemMessage() != null
