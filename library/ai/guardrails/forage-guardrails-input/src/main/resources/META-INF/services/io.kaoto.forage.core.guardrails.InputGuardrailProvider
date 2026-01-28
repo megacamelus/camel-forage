@@ -1,0 +1,5 @@
+io.kaoto.forage.guardrails.input.InputLengthGuardrailProvider
+io.kaoto.forage.guardrails.input.PiiDetectorGuardrailProvider
+io.kaoto.forage.guardrails.input.PromptInjectionGuardrailProvider
+io.kaoto.forage.guardrails.input.CodeInjectionGuardrailProvider
+io.kaoto.forage.guardrails.input.KeywordFilterGuardrailProvider
